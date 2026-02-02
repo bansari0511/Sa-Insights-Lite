@@ -7,13 +7,13 @@
 
 const appConfig = {
   // Application name - displayed in headers, titles, etc.
-  appName: 'OSINT Analysis',
+  appName: 'SA Insights',
 
   // Short name for compact displays
-  appNameShort: 'OSINT',
+  appNameShort: 'SA Insights',
 
   // Tagline/description
-  tagline: 'Intelligence Analysis Platform',
+  tagline: 'Strategic Analysis & Insights Platform',
 
   // Company/Developer name
   companyName: 'XYZ',
