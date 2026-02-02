@@ -1,0 +1,948 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {
+      "e.label": "Afghanistan",
+      "e.id": "https://data.ntronet.org/location/2qzlm4QYjeDmykoYIlyOZQ"
+    },
+    {
+      "e.label": "Albania",
+      "e.id": "https://data.ntronet.org/location/6aldu3fdVkJ5mJgp3X76FG"
+    },
+    {
+      "e.label": "Algeria",
+      "e.id": "https://data.ntronet.org/location/54a1Ess6lLH0SQGLXQ3R23"
+    },
+    {
+      "e.label": "American Samoa",
+      "e.id": "https://data.ntronet.org/location/6V0kFKI8MnNTCYsLuhJKLi"
+    },
+    {
+      "e.label": "Andorra",
+      "e.id": "https://data.ntronet.org/location/4AIK0H6JRfI8aBeDrG8NI5"
+    },
+    {
+      "e.label": "Angola",
+      "e.id": "https://data.ntronet.org/location/7nZwY0I1TPwiWklssEHkBg"
+    },
+    {
+      "e.label": "Anguilla",
+      "e.id": "https://data.ntronet.org/location/2EOsUKEptOlnPHPx2gpk6S"
+    },
+    {
+      "e.label": "Antarctica",
+      "e.id": "https://data.ntronet.org/location/7LoTSwNodzeG1HoCNDeeHJ"
+    },
+    {
+      "e.label": "Antigua and Barbuda",
+      "e.id": "https://data.ntronet.org/location/40pTm5uCbV2B9tp8hykhUx"
+    },
+    {
+      "e.label": "Argentina",
+      "e.id": "https://data.ntronet.org/location/6iatVepLbdqWB9eiwBkhjL"
+    },
+    {
+      "e.label": "Armenia",
+      "e.id": "https://data.ntronet.org/location/0PrG3iZ7ing5I5lcgTsHl0"
+    },
+    {
+      "e.label": "Aruba",
+      "e.id": "https://data.ntronet.org/location/7h2peP8lg6kq4mEycr8S06"
+    },
+    {
+      "e.label": "Australia",
+      "e.id": "https://data.ntronet.org/location/7i7vSV7M70UWB0QBUKe1NW"
+    },
+    {
+      "e.label": "Austria",
+      "e.id": "https://data.ntronet.org/location/42nNCZhc65iKh8QWKNbrAY"
+    },
+    {
+      "e.label": "Azerbaijan",
+      "e.id": "https://data.ntronet.org/location/7exHaVbUEUa2T7SKDBXLuF"
+    },
+    {
+      "e.label": "Bahamas",
+      "e.id": "https://data.ntronet.org/location/5MY9RvXgoh9ygphV8TUw66"
+    },
+    {
+      "e.label": "Bahrain",
+      "e.id": "https://data.ntronet.org/location/1IMDnK1YM9sll3l3BeIw58"
+    },
+    {
+      "e.label": "Bangladesh",
+      "e.id": "https://data.ntronet.org/location/74TDaE0vkYYRFwGrM14IFK"
+    },
+    {
+      "e.label": "Barbados",
+      "e.id": "https://data.ntronet.org/location/5rKiLHrV2MlPx85QKAlyn9"
+    },
+    {
+      "e.label": "Belarus",
+      "e.id": "https://data.ntronet.org/location/0qOQyIcMzu3Lihflc1knxr"
+    },
+    {
+      "e.label": "Belgium",
+      "e.id": "https://data.ntronet.org/location/0QNUgpdFt9BPPo8ImhvTof"
+    },
+    {
+      "e.label": "Belize",
+      "e.id": "https://data.ntronet.org/location/4KIS6nVgcmtmQVSeymLcuz"
+    },
+    {
+      "e.label": "Benin",
+      "e.id": "https://data.ntronet.org/location/1FcURvW6Pw8mkLn98MgQPh"
+    },
+    {
+      "e.label": "Bermuda",
+      "e.id": "https://data.ntronet.org/location/4PUFXFvNiBnqaZjPgNxVyw"
+    },
+    {
+      "e.label": "Bhutan",
+      "e.id": "https://data.ntronet.org/location/65sUvxLx63HarSX0Hbmi7P"
+    },
+    {
+      "e.label": "Bolivia",
+      "e.id": "https://data.ntronet.org/location/3LLSW0sDPRulSuELFyMnT1"
+    },
+    {
+      "e.label": "Bosnia and Herzegovina",
+      "e.id": "https://data.ntronet.org/location/66qMOn2FyFtO4aGZABRFYE"
+    },
+    {
+      "e.label": "Botswana",
+      "e.id": "https://data.ntronet.org/location/2nUHYXrCBzidYxzq6OaTS8"
+    },
+    {
+      "e.label": "Brazil",
+      "e.id": "https://data.ntronet.org/location/1t1aJzK8mOFNRyElHZFnKr"
+    },
+    {
+      "e.label": "British Indian Ocean Territory",
+      "e.id": "https://data.ntronet.org/location/0rBu8YKHrAjV6o8E8k4ex8"
+    },
+    {
+      "e.label": "Brunei",
+      "e.id": "https://data.ntronet.org/location/5HhU8KKNr2nplOVjzlGeR6"
+    },
+    {
+      "e.label": "Bulgaria",
+      "e.id": "https://data.ntronet.org/location/5U5ChCctss3RmX6OoILo2P"
+    },
+    {
+      "e.label": "Burkina Faso",
+      "e.id": "https://data.ntronet.org/location/5NEPE7pxMKl7vOCd2YItFP"
+    },
+    {
+      "e.label": "Burundi",
+      "e.id": "https://data.ntronet.org/location/3zhiygvx4uGJ496cqxNOaE"
+    },
+    {
+      "e.label": "Cabo Verde",
+      "e.id": "https://data.ntronet.org/location/1hZ79gqNRaBimhCSp6h9dp"
+    },
+    {
+      "e.label": "Cambodia",
+      "e.id": "https://data.ntronet.org/location/4tZpkFw5FRE8LbCKRrmb6V"
+    },
+    {
+      "e.label": "Cameroon",
+      "e.id": "https://data.ntronet.org/location/4U4OU0ldTtRB7ttTVF9w0F"
+    },
+    {
+      "e.label": "Canada",
+      "e.id": "https://data.ntronet.org/location/0ZxQxH02nU8taaUTpQ2Kct"
+    },
+    {
+      "e.label": "Cayman Islands",
+      "e.id": "https://data.ntronet.org/location/70Rd2VpPgo9qv9MMZCwqWy"
+    },
+    {
+      "e.label": "Central African Republic",
+      "e.id": "https://data.ntronet.org/location/0GwRKqBNwWp4jt3GnAZaLZ"
+    },
+    {
+      "e.label": "Chad",
+      "e.id": "https://data.ntronet.org/location/4RgI5xfMVrTRiQw5perfvZ"
+    },
+    {
+      "e.label": "Chile",
+      "e.id": "https://data.ntronet.org/location/4NbQaP4LHmiDPOscZ88q0e"
+    },
+    {
+      "e.label": "China",
+      "e.id": "https://data.ntronet.org/location/4qL3sPlIqVZJQSXRwzVvg2"
+    },
+    {
+      "e.label": "Colombia",
+      "e.id": "https://data.ntronet.org/location/3U4IT001hZmZzUtB4POsZK"
+    },
+    {
+      "e.label": "Comoros",
+      "e.id": "https://data.ntronet.org/location/01JotLIqLoXSQm95My29so"
+    },
+    {
+      "e.label": "Cook Islands",
+      "e.id": "https://data.ntronet.org/location/6EVjH0ayBFjAyey8CcxzB7"
+    },
+    {
+      "e.label": "Costa Rica",
+      "e.id": "https://data.ntronet.org/location/3TmI7H7ks3AcqyBJExlniu"
+    },
+    {
+      "e.label": "Cote d'Ivoire",
+      "e.id": "https://data.ntronet.org/location/0152i1zZVVbQfph1KFx81t"
+    },
+    {
+      "e.label": "Croatia",
+      "e.id": "https://data.ntronet.org/location/5loPoxAfcn8FHRevTknhuo"
+    },
+    {
+      "e.label": "Cuba",
+      "e.id": "https://data.ntronet.org/location/3e1IOVMj2STAIpzWGFxFeL"
+    },
+    {
+      "e.label": "Curaçao",
+      "e.id": "https://data.ntronet.org/location/5NY7r1lVpXCR9ua5fzFsGV"
+    },
+    {
+      "e.label": "Cyprus",
+      "e.id": "https://data.ntronet.org/location/2WB8uv4vjvsAGvq1OsJWcL"
+    },
+    {
+      "e.label": "Czechia",
+      "e.id": "https://data.ntronet.org/location/4wMxB3WRXBzHom2E36mY9G"
+    },
+    {
+      "e.label": "Czechoslovakia",
+      "e.id": "https://data.ntronet.org/location/5Sl0grdaEVKObFaOdTHugR"
+    },
+    {
+      "e.label": "Democratic Republic of the Congo",
+      "e.id": "https://data.ntronet.org/location/0vjpkXx8bUQheAwHRJ2YQV"
+    },
+    {
+      "e.label": "Denmark",
+      "e.id": "https://data.ntronet.org/location/7pWTmcf18vyZ46sDjifl3N"
+    },
+    {
+      "e.label": "Djibouti",
+      "e.id": "https://data.ntronet.org/location/5qxqZ8oUHh3S8MTX4HfDUL"
+    },
+    {
+      "e.label": "Dominica",
+      "e.id": "https://data.ntronet.org/location/4QarnUhDhqMzfDEdXUS40w"
+    },
+    {
+      "e.label": "Dominican Republic",
+      "e.id": "https://data.ntronet.org/location/6OlxwJ02cZD6FcotNulg3Y"
+    },
+    {
+      "e.label": "Ecuador",
+      "e.id": "https://data.ntronet.org/location/5WtjNpkhnjBfLSGp41kOwX"
+    },
+    {
+      "e.label": "Egypt",
+      "e.id": "https://data.ntronet.org/location/762iYn4Exq9XIjm6QZoqA4"
+    },
+    {
+      "e.label": "El Salvador",
+      "e.id": "https://data.ntronet.org/location/4AM1TJNVgZ3Fp124ccyL0Q"
+    },
+    {
+      "e.label": "Equatorial Guinea",
+      "e.id": "https://data.ntronet.org/location/2mA6dJRmKZG2A584QDnvuY"
+    },
+    {
+      "e.label": "Eritrea",
+      "e.id": "https://data.ntronet.org/location/1n0Yzp6orpfsNNJfTb8uWm"
+    },
+    {
+      "e.label": "Estonia",
+      "e.id": "https://data.ntronet.org/location/3FRsU84AOvwtDk0M18N2EO"
+    },
+    {
+      "e.label": "Eswatini",
+      "e.id": "https://data.ntronet.org/location/3YMdqrPl3SfBnyUyOF2QMO"
+    },
+    {
+      "e.label": "Ethiopia",
+      "e.id": "https://data.ntronet.org/location/6UdDerI5pIgixt9nVQ888S"
+    },
+    {
+      "e.label": "Falkland Islands",
+      "e.id": "https://data.ntronet.org/location/0XaSTIZfq3eHlUPP2wpVxB"
+    },
+    {
+      "e.label": "Faroe Islands",
+      "e.id": "https://data.ntronet.org/location/4F0f09p4zEjcySoKxMZXQO"
+    },
+    {
+      "e.label": "Fiji",
+      "e.id": "https://data.ntronet.org/location/1xKV82F1M0FiJ9XAM6QZWG"
+    },
+    {
+      "e.label": "Finland",
+      "e.id": "https://data.ntronet.org/location/4YEqXx4rBFTpHNkEj3ceSj"
+    },
+    {
+      "e.label": "France",
+      "e.id": "https://data.ntronet.org/location/5UtAzn5gHKlQHKut9LRQtv"
+    },
+    {
+      "e.label": "French Guiana",
+      "e.id": "https://data.ntronet.org/location/5NQ0wH7LD0Alvoim934qhy"
+    },
+    {
+      "e.label": "French Polynesia",
+      "e.id": "https://data.ntronet.org/location/6H7yaouOM36fxCURsd9H8y"
+    },
+    {
+      "e.label": "Gabon",
+      "e.id": "https://data.ntronet.org/location/1bgo0PG6k5Xk5fJX13v2rP"
+    },
+    {
+      "e.label": "Gambia",
+      "e.id": "https://data.ntronet.org/location/7qpayI9eMxs2L6k4jLP92q"
+    },
+    {
+      "e.label": "Georgia",
+      "e.id": "https://data.ntronet.org/location/57LYsfsTK566DaEbGlJKoM"
+    },
+    {
+      "e.label": "German Democratic Republic",
+      "e.id": "https://data.ntronet.org/location/7faa1MwhvLlRqcBV6fkU13"
+    },
+    {
+      "e.label": "Germany",
+      "e.id": "https://data.ntronet.org/location/3ML5h83p58CmRqIiv1W0hC"
+    },
+    {
+      "e.label": "Ghana",
+      "e.id": "https://data.ntronet.org/location/0kvPySOddrTU9SplD3wECV"
+    },
+    {
+      "e.label": "Gibraltar",
+      "e.id": "https://data.ntronet.org/location/0VL1hXTp2yNqEjOfKPqFKP"
+    },
+    {
+      "e.label": "Greece",
+      "e.id": "https://data.ntronet.org/location/1JPsGjfnqiaL47mA4SQ8xI"
+    },
+    {
+      "e.label": "Greenland",
+      "e.id": "https://data.ntronet.org/location/1JNDKS5692WCBQQZaPLJzk"
+    },
+    {
+      "e.label": "Grenada",
+      "e.id": "https://data.ntronet.org/location/59pzQqNP8y8iqOqFy3VmMJ"
+    },
+    {
+      "e.label": "Guadeloupe",
+      "e.id": "https://data.ntronet.org/location/3NJ2CsfAoAyrRsFhjHk100"
+    },
+    {
+      "e.label": "Guam",
+      "e.id": "https://data.ntronet.org/location/2GRw2o5H4nexTIkMlsu2T1"
+    },
+    {
+      "e.label": "Guatemala",
+      "e.id": "https://data.ntronet.org/location/4YT032HhFTyIFHqbB7b0O5"
+    },
+    {
+      "e.label": "Guinea",
+      "e.id": "https://data.ntronet.org/location/5pXYch0qJV166egHtw0kN3"
+    },
+    {
+      "e.label": "Guinea-Bissau",
+      "e.id": "https://data.ntronet.org/location/1M4ECNN6jfjEvmNx2h4kcQ"
+    },
+    {
+      "e.label": "Guyana",
+      "e.id": "https://data.ntronet.org/location/17c2wMkun8PDcro6mU37Md"
+    },
+    {
+      "e.label": "Haiti",
+      "e.id": "https://data.ntronet.org/location/1qGNEgUNhh3CfpK7QHcjjQ"
+    },
+    {
+      "e.label": "Holy See (the)",
+      "e.id": "https://data.ntronet.org/location/54UpifDpSdUs2EPX2WJZdo"
+    },
+    {
+      "e.label": "Honduras",
+      "e.id": "https://data.ntronet.org/location/4UM0LXQNYnNi9cDK5v2MRP"
+    },
+    {
+      "e.label": "Hong Kong",
+      "e.id": "https://data.ntronet.org/location/1Nd1c8KOYt1ix5UnfxV11y"
+    },
+    {
+      "e.label": "Hungary",
+      "e.id": "https://data.ntronet.org/location/0RWEIE5ncB1S8Kmrs16ARB"
+    },
+    {
+      "e.label": "Iceland",
+      "e.id": "https://data.ntronet.org/location/3CeUNnhhNRsw52KVszKpvt"
+    },
+    {
+      "e.label": "India",
+      "e.id": "https://data.ntronet.org/location/78Uec8Jei2pYTycBjIhAtS"
+    },
+    {
+      "e.label": "Indonesia",
+      "e.id": "https://data.ntronet.org/location/4ylLnRHPxDh4OHh8YquV3l"
+    },
+    {
+      "e.label": "Iran",
+      "e.id": "https://data.ntronet.org/location/6hdkqJI6ZUCmyMiQwvqI91"
+    },
+    {
+      "e.label": "Iraq",
+      "e.id": "https://data.ntronet.org/location/27Z4vX4EpGi8aR4YUEE8S6"
+    },
+    {
+      "e.label": "Ireland",
+      "e.id": "https://data.ntronet.org/location/2BGC7V3SZJkp3akXyC8SUR"
+    },
+    {
+      "e.label": "Israel",
+      "e.id": "https://data.ntronet.org/location/629bZfVKL3rOTqJb0kSIBP"
+    },
+    {
+      "e.label": "Italy",
+      "e.id": "https://data.ntronet.org/location/00aO3YPx7rQrjSFGJwZPvx"
+    },
+    {
+      "e.label": "Jamaica",
+      "e.id": "https://data.ntronet.org/location/1auHwB3Kh8Y12qLeLjiSEJ"
+    },
+    {
+      "e.label": "Japan",
+      "e.id": "https://data.ntronet.org/location/4kWHsikQxvbG1zHTUOTIuQ"
+    },
+    {
+      "e.label": "Jordan",
+      "e.id": "https://data.ntronet.org/location/4YCJ6YBL8UwM9Ezk5xOB92"
+    },
+    {
+      "e.label": "Kazakhstan",
+      "e.id": "https://data.ntronet.org/location/7yWBYu0n6zvJDCbNXHB85P"
+    },
+    {
+      "e.label": "Kenya",
+      "e.id": "https://data.ntronet.org/location/0Mzab7GwVSfbUPc3JTHeYV"
+    },
+    {
+      "e.label": "Kiribati",
+      "e.id": "https://data.ntronet.org/location/7MPHNyHkNDPG3eBthbBATt"
+    },
+    {
+      "e.label": "Kosovo",
+      "e.id": "https://data.ntronet.org/location/2VdV6CqrUTrEjFMbFCxopH"
+    },
+    {
+      "e.label": "Kuwait",
+      "e.id": "https://data.ntronet.org/location/38Jww8gwK6NYtUuxtV3nPC"
+    },
+    {
+      "e.label": "Kyrgyzstan",
+      "e.id": "https://data.ntronet.org/location/419jpBH2VHjXZD8z24hOdQ"
+    },
+    {
+      "e.label": "Laos",
+      "e.id": "https://data.ntronet.org/location/1jDQlFyq7119PqTwUSOHX9"
+    },
+    {
+      "e.label": "Latvia",
+      "e.id": "https://data.ntronet.org/location/4GpkEGfJDg9OV2BBnRfe3s"
+    },
+    {
+      "e.label": "Lebanon",
+      "e.id": "https://data.ntronet.org/location/0UQdQ93ZwlidlhjYUa2Pcu"
+    },
+    {
+      "e.label": "Lesotho",
+      "e.id": "https://data.ntronet.org/location/5WO8Hb2PdoTHm5D1LyMkpj"
+    },
+    {
+      "e.label": "Liberia",
+      "e.id": "https://data.ntronet.org/location/16YvltAJmQYsJyVTtafiuv"
+    },
+    {
+      "e.label": "Libya",
+      "e.id": "https://data.ntronet.org/location/7L80CpJhMWp4OoeUo1wbI1"
+    },
+    {
+      "e.label": "Liechtenstein",
+      "e.id": "https://data.ntronet.org/location/1UhYQKTHUczB4Mt04O1QRM"
+    },
+    {
+      "e.label": "Lithuania",
+      "e.id": "https://data.ntronet.org/location/5Y2sGgQtaLfyzcyOgl2ycT"
+    },
+    {
+      "e.label": "Luxembourg",
+      "e.id": "https://data.ntronet.org/location/1mHV360brJY5qjGlQ3K3qV"
+    },
+    {
+      "e.label": "Macao",
+      "e.id": "https://data.ntronet.org/location/0cKUjIjHzyoTyJINOrMfSw"
+    },
+    {
+      "e.label": "Madagascar",
+      "e.id": "https://data.ntronet.org/location/3hgXVJhmtfUUscwU8Jzq8e"
+    },
+    {
+      "e.label": "Malawi",
+      "e.id": "https://data.ntronet.org/location/3aW36HJIcGsMFc29OK8mGm"
+    },
+    {
+      "e.label": "Malaysia",
+      "e.id": "https://data.ntronet.org/location/5GY1uSaTA3vlMkZF5T3Va6"
+    },
+    {
+      "e.label": "Maldives",
+      "e.id": "https://data.ntronet.org/location/1p8pc4nORkVz8m6jIs61m7"
+    },
+    {
+      "e.label": "Mali",
+      "e.id": "https://data.ntronet.org/location/12h83oMMcqBZhAaLguqm4T"
+    },
+    {
+      "e.label": "Malta",
+      "e.id": "https://data.ntronet.org/location/0GrygRRoBlll6MlUAlikzz"
+    },
+    {
+      "e.label": "Marshall Islands",
+      "e.id": "https://data.ntronet.org/location/0KxrBPe4F3sKhaABJ8k20x"
+    },
+    {
+      "e.label": "Martinique",
+      "e.id": "https://data.ntronet.org/location/1HgDDtk99DINelzcR3BCYz"
+    },
+    {
+      "e.label": "Mauritania",
+      "e.id": "https://data.ntronet.org/location/7t7LPgifagUz5hvpq5vW8c"
+    },
+    {
+      "e.label": "Mauritius",
+      "e.id": "https://data.ntronet.org/location/4ydArXjaGvvpqJycdaPJDv"
+    },
+    {
+      "e.label": "Mayotte",
+      "e.id": "https://data.ntronet.org/location/167wjBZOTYC2dGYszejC10"
+    },
+    {
+      "e.label": "Mexico",
+      "e.id": "https://data.ntronet.org/location/023H0zQoWeMWRRZZPRZYQF"
+    },
+    {
+      "e.label": "Micronesia",
+      "e.id": "https://data.ntronet.org/location/7wpK1oJ5DjMpVzVKdzP8c6"
+    },
+    {
+      "e.label": "Moldova",
+      "e.id": "https://data.ntronet.org/location/3dNwnP0vlCaegFZ2ZTrT8x"
+    },
+    {
+      "e.label": "Monaco",
+      "e.id": "https://data.ntronet.org/location/5rK76U5d0OoB51cLpUqQy7"
+    },
+    {
+      "e.label": "Mongolia",
+      "e.id": "https://data.ntronet.org/location/4NuaEayzfFxdtWz7OFPBr0"
+    },
+    {
+      "e.label": "Montenegro",
+      "e.id": "https://data.ntronet.org/location/35N6CYF5uJq2RRs51OToRu"
+    },
+    {
+      "e.label": "Montserrat",
+      "e.id": "https://data.ntronet.org/location/4jK2G1K3D4skWRCEgJJ70x"
+    },
+    {
+      "e.label": "Morocco",
+      "e.id": "https://data.ntronet.org/location/5axGTK3lfCwjKO8dndeNSJ"
+    },
+    {
+      "e.label": "Mozambique",
+      "e.id": "https://data.ntronet.org/location/2ky7Y1zBODR79jwh3BZdCc"
+    },
+    {
+      "e.label": "Myanmar",
+      "e.id": "https://data.ntronet.org/location/4Mw6r7nlb7Mve9nZl8ygdO"
+    },
+    {
+      "e.label": "Namibia",
+      "e.id": "https://data.ntronet.org/location/4yOCuxzoYkyZjYzNGn3LpE"
+    },
+    {
+      "e.label": "Nauru",
+      "e.id": "https://data.ntronet.org/location/1gpvH8Na0X0LZQUJ8HAR7q"
+    },
+    {
+      "e.label": "Nepal",
+      "e.id": "https://data.ntronet.org/location/3wFgbYToF7MDZE9d4YcfVY"
+    },
+    {
+      "e.label": "New Caledonia",
+      "e.id": "https://data.ntronet.org/location/7jGwDlqu4A1lr7ktkdhN10"
+    },
+    {
+      "e.label": "New Zealand",
+      "e.id": "https://data.ntronet.org/location/3Bc6pkdsMqZXnPnl5xRJNt"
+    },
+    {
+      "e.label": "Nicaragua",
+      "e.id": "https://data.ntronet.org/location/29Hc5ik5bxU0i0xLaW3cn2"
+    },
+    {
+      "e.label": "Niger",
+      "e.id": "https://data.ntronet.org/location/2ZFPPe4arKEtjReg9hBvpR"
+    },
+    {
+      "e.label": "Nigeria",
+      "e.id": "https://data.ntronet.org/location/68fQm7pQCWAYH7XrJxtasU"
+    },
+    {
+      "e.label": "Niue",
+      "e.id": "https://data.ntronet.org/location/3I2vrOsfJlbI1rQ1CUumoS"
+    },
+    {
+      "e.label": "North Korea",
+      "e.id": "https://data.ntronet.org/location/6o2B6gvesjBb0NSEEbcWaW"
+    },
+    {
+      "e.label": "North Macedonia",
+      "e.id": "https://data.ntronet.org/location/0jW9xnvETcTPcUJCbveHx0"
+    },
+    {
+      "e.label": "Northern Mariana Islands",
+      "e.id": "https://data.ntronet.org/location/7K6tkmNWeFccpGS2vPe0eO"
+    },
+    {
+      "e.label": "Norway",
+      "e.id": "https://data.ntronet.org/location/1MIIXeovCTbfpTfo0nlIUu"
+    },
+    {
+      "e.label": "Oman",
+      "e.id": "https://data.ntronet.org/location/1cE6a6TgbaqRXwzNrGrwq2"
+    },
+    {
+      "e.label": "Pakistan",
+      "e.id": "https://data.ntronet.org/location/6u9gJFKOc6z0jM7XB6YWvK"
+    },
+    {
+      "e.label": "Palau",
+      "e.id": "https://data.ntronet.org/location/2kR2IYLSN2ohXBaj9n4tjY"
+    },
+    {
+      "e.label": "Palestine",
+      "e.id": "https://data.ntronet.org/location/6bMvVi5vMWovhOLprKOzLG"
+    },
+    {
+      "e.label": "Panama",
+      "e.id": "https://data.ntronet.org/location/00b1SJmXojg9e6jxWG3wU2"
+    },
+    {
+      "e.label": "Papua New Guinea",
+      "e.id": "https://data.ntronet.org/location/4uZ6EiEdmXXYCTsCeIXc7w"
+    },
+    {
+      "e.label": "Paraguay",
+      "e.id": "https://data.ntronet.org/location/10ygLrD2dEiktAHketAsFf"
+    },
+    {
+      "e.label": "Peru",
+      "e.id": "https://data.ntronet.org/location/6NQdOdA5PutCIYf1vbrvCz"
+    },
+    {
+      "e.label": "Philippines",
+      "e.id": "https://data.ntronet.org/location/37jiiBqCUn5MbH7ukKtkLU"
+    },
+    {
+      "e.label": "Poland",
+      "e.id": "https://data.ntronet.org/location/3idD5o0Hwp7BdsojJmyBY8"
+    },
+    {
+      "e.label": "Portugal",
+      "e.id": "https://data.ntronet.org/location/5atuI1C9GKg803ItOLzdco"
+    },
+    {
+      "e.label": "Puerto Rico",
+      "e.id": "https://data.ntronet.org/location/1XhxfOg8Hpm2Zj8da09yWH"
+    },
+    {
+      "e.label": "Qatar",
+      "e.id": "https://data.ntronet.org/location/0rGaxhzRVEZFvPAAL7IHmo"
+    },
+    {
+      "e.label": "Republic of Congo",
+      "e.id": "https://data.ntronet.org/location/5jKQO3kMUL6ncFA03M8v0H"
+    },
+    {
+      "e.label": "Romania",
+      "e.id": "https://data.ntronet.org/location/5jWuevMabAhgM7a8zssFaK"
+    },
+    {
+      "e.label": "Russian Federation",
+      "e.id": "https://data.ntronet.org/location/3Q5m7a6C695kc0ReZpyaRx"
+    },
+    {
+      "e.label": "Rwanda",
+      "e.id": "https://data.ntronet.org/location/35oS6Q0bl2SGD91PWQroPL"
+    },
+    {
+      "e.label": "Réunion",
+      "e.id": "https://data.ntronet.org/location/0q2aBgUhzgCxhTH9lBz44o"
+    },
+    {
+      "e.label": "Saint Helena",
+      "e.id": "https://data.ntronet.org/location/19SPMBrNLxpqBHGIgqjbGy"
+    },
+    {
+      "e.label": "Samoa",
+      "e.id": "https://data.ntronet.org/location/2nkzAv1vPefmYPQbOgEYcX"
+    },
+    {
+      "e.label": "San Marino",
+      "e.id": "https://data.ntronet.org/location/1W7li2ZRAgRsjALooGWPuz"
+    },
+    {
+      "e.label": "Saudi Arabia",
+      "e.id": "https://data.ntronet.org/location/0aq2wyjKCMeAUU5FyXut1I"
+    },
+    {
+      "e.label": "Senegal",
+      "e.id": "https://data.ntronet.org/location/3HVjy6WS5lRmFuZbnAyRVd"
+    },
+    {
+      "e.label": "Serbia",
+      "e.id": "https://data.ntronet.org/location/50jhnOC2ToAXABcIKVi7ra"
+    },
+    {
+      "e.label": "Seychelles",
+      "e.id": "https://data.ntronet.org/location/6dn6LvAoyx1NuqkNBhALqG"
+    },
+    {
+      "e.label": "Sierra Leone",
+      "e.id": "https://data.ntronet.org/location/3JEnh1W6ZmeSdC9kmVDit6"
+    },
+    {
+      "e.label": "Singapore",
+      "e.id": "https://data.ntronet.org/location/24y5NO0AHIvItcOorW8nzg"
+    },
+    {
+      "e.label": "Slovakia",
+      "e.id": "https://data.ntronet.org/location/3oLm6uv1Pp7qa6GhUDYnYk"
+    },
+    {
+      "e.label": "Slovenia",
+      "e.id": "https://data.ntronet.org/location/4Q7jDLepGyw6G1y5ffGKum"
+    },
+    {
+      "e.label": "Solomon Islands",
+      "e.id": "https://data.ntronet.org/location/21x3oSsVFAVd3AHtqlfyTO"
+    },
+    {
+      "e.label": "Somalia",
+      "e.id": "https://data.ntronet.org/location/3E06JIPR4erBSsGtC85fOt"
+    },
+    {
+      "e.label": "South Africa",
+      "e.id": "https://data.ntronet.org/location/0dzxNm4I1ZrGtP4DYuyy3M"
+    },
+    {
+      "e.label": "South Korea",
+      "e.id": "https://data.ntronet.org/location/1ZNP9SyVTI5Cllw27fflOw"
+    },
+    {
+      "e.label": "South Sudan",
+      "e.id": "https://data.ntronet.org/location/2z9BG6Hg7dfRpPYgsr9Ify"
+    },
+    {
+      "e.label": "Soviet Union",
+      "e.id": "https://data.ntronet.org/location/6Yym0atOXfjnwgxn358xSf"
+    },
+    {
+      "e.label": "Spain",
+      "e.id": "https://data.ntronet.org/location/2wquffDyeXbhDq8xmRcbhO"
+    },
+    {
+      "e.label": "Sri Lanka",
+      "e.id": "https://data.ntronet.org/location/2IYXtiVNFUbdW0JJ4lMeY6"
+    },
+    {
+      "e.label": "St Kitts and Nevis",
+      "e.id": "https://data.ntronet.org/location/2z1aqFA3wBCAMvtXrTxEyu"
+    },
+    {
+      "e.label": "St Lucia",
+      "e.id": "https://data.ntronet.org/location/5n8EDCjh7riQnR1cpS4lOa"
+    },
+    {
+      "e.label": "St Vincent and The Grenadines",
+      "e.id": "https://data.ntronet.org/location/68xGvtdlOhtfKL24FbMDaa"
+    },
+    {
+      "e.label": "Sudan",
+      "e.id": "https://data.ntronet.org/location/4BUyZZZxsV4H1DQByuCicT"
+    },
+    {
+      "e.label": "Suriname",
+      "e.id": "https://data.ntronet.org/location/6WCP25X5GJZTJ04LXoK86R"
+    },
+    {
+      "e.label": "Sweden",
+      "e.id": "https://data.ntronet.org/location/391hJLizG9PmtTg463bOZT"
+    },
+    {
+      "e.label": "Switzerland",
+      "e.id": "https://data.ntronet.org/location/4rSzpEvSpmNC35XpKAy9Cp"
+    },
+    {
+      "e.label": "Syria",
+      "e.id": "https://data.ntronet.org/location/4VRGjbKRW22yXDyTY0HUd9"
+    },
+    {
+      "e.label": "São Tomé and Príncipe",
+      "e.id": "https://data.ntronet.org/location/7kNZwMxDSZsYHWZUdT2Pgn"
+    },
+    {
+      "e.label": "Taiwan",
+      "e.id": "https://data.ntronet.org/location/6FVostP8dheDAwrkbY6cd4"
+    },
+    {
+      "e.label": "Tajikistan",
+      "e.id": "https://data.ntronet.org/location/5OQBBNXGzX0MRpZvdOhBXq"
+    },
+    {
+      "e.label": "Tanzania",
+      "e.id": "https://data.ntronet.org/location/2YK8obmAuzx8iVLI0AdwDW"
+    },
+    {
+      "e.label": "Thailand",
+      "e.id": "https://data.ntronet.org/location/4L9qbxXownEVLgDuBuIAtp"
+    },
+    {
+      "e.label": "The Netherlands",
+      "e.id": "https://data.ntronet.org/location/5VwHO60S3k00aurIi9HV21"
+    },
+    {
+      "e.label": "Timor-Leste",
+      "e.id": "https://data.ntronet.org/location/08A4RJCtxwG8yU0xaCBF1R"
+    },
+    {
+      "e.label": "Togo",
+      "e.id": "https://data.ntronet.org/location/5c3KmaG7dJ50qs9UrLr1W0"
+    },
+    {
+      "e.label": "Tonga",
+      "e.id": "https://data.ntronet.org/location/06UwiDzAQ6RAQEIWMsYJW5"
+    },
+    {
+      "e.label": "Trinidad and Tobago",
+      "e.id": "https://data.ntronet.org/location/1qcGfBDeY2CdIeIOjJyUbf"
+    },
+    {
+      "e.label": "Tunisia",
+      "e.id": "https://data.ntronet.org/location/2f9KJ0G4XwDweHoMEJTiRT"
+    },
+    {
+      "e.label": "Turkmenistan",
+      "e.id": "https://data.ntronet.org/location/18VnIiBFOUE105Z0YD9JZr"
+    },
+    {
+      "e.label": "Turks And Caicos Islands",
+      "e.id": "https://data.ntronet.org/location/1ANYPuRd2IEsNeFpXTLzTb"
+    },
+    {
+      "e.label": "Tuvalu",
+      "e.id": "https://data.ntronet.org/location/7lmbKdUeElCsNkQlSYSe93"
+    },
+    {
+      "e.label": "Türkiye",
+      "e.id": "https://data.ntronet.org/location/7aycZDmrh5m7wBakwxqiCt"
+    },
+    {
+      "e.label": "Uganda",
+      "e.id": "https://data.ntronet.org/location/5OAzcNWQljpOff4Whv9A3g"
+    },
+    {
+      "e.label": "Ukraine",
+      "e.id": "https://data.ntronet.org/location/1jA4IcZ6EYqI6bQTi24joM"
+    },
+    {
+      "e.label": "United Arab Emirates",
+      "e.id": "https://data.ntronet.org/location/4bxgUCdLUTa8oGEg92KSzx"
+    },
+    {
+      "e.label": "United Kingdom",
+      "e.id": "https://data.ntronet.org/location/03QmsLCMvGVHRX6VBMzAgZ"
+    },
+    {
+      "e.label": "United States",
+      "e.id": "https://data.ntronet.org/location/4SsoRVoKRJsRGI8hb60HqQ"
+    },
+    {
+      "e.label": "Uruguay",
+      "e.id": "https://data.ntronet.org/location/3qHSudw2KSnkH6ayH0kkdx"
+    },
+    {
+      "e.label": "Uzbekistan",
+      "e.id": "https://data.ntronet.org/location/3V7paRNtuC0SS9aD9qC2iW"
+    },
+    {
+      "e.label": "Vanuatu",
+      "e.id": "https://data.ntronet.org/location/0Hz1gLSNvyEdvy3l3J1lil"
+    },
+    {
+      "e.label": "Venezuela",
+      "e.id": "https://data.ntronet.org/location/1UaQuBhQgHfAavVWy5zp5N"
+    },
+    {
+      "e.label": "Vietnam",
+      "e.id": "https://data.ntronet.org/location/2DIPUaaMxqnopcQfAyOANy"
+    },
+    {
+      "e.label": "Virgin Islands (British)",
+      "e.id": "https://data.ntronet.org/location/6cBbiAtyYrJMHgizJo5rWX"
+    },
+    {
+      "e.label": "Virgin Islands (Us)",
+      "e.id": "https://data.ntronet.org/location/45iPh1MCcN02mmZ2DoQJW6"
+    },
+    {
+      "e.label": "Wallis And Futuna",
+      "e.id": "https://data.ntronet.org/location/5hSyLCnfr6EmRs2QC05ql2"
+    },
+    {
+      "e.label": "Western Sahara",
+      "e.id": "https://data.ntronet.org/location/70XORcBFoPkFH6hdQnom6Y"
+    },
+    {
+      "e.label": "Yemen",
+      "e.id": "https://data.ntronet.org/location/1KCppFUiIJW363hBYc8YqG"
+    },
+    {
+      "e.label": "Yugoslavia",
+      "e.id": "https://data.ntronet.org/location/5Hmae25KuMinnDWF9QBxZS"
+    },
+    {
+      "e.label": "Zambia",
+      "e.id": "https://data.ntronet.org/location/4fhYTa35yCtWRsclKy7HR0"
+    },
+    {
+      "e.label": "Zimbabwe",
+      "e.id": "https://data.ntronet.org/location/5xCgZLhhyVgSYflCv8OMLS"
+    },
+    {
+      "e.label": "Åland Islands",
+      "e.id": "https://data.ntronet.org/location/0VqRwJ5fIdsQTK18ol7lBz"
+    }
+  ],
+  "req_id": "string",
+  "total_records": 235
+}
