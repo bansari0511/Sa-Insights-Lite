@@ -2,7 +2,6 @@ import {
   IconArticle,
   IconReportAnalytics,
   IconMapPin,
-  IconChartBubble,
 } from '@tabler/icons-react';
 
 // Native implementation to replace lodash uniqueId - reduces bundle size
@@ -35,12 +34,6 @@ const Menuitems = [
     title: 'Event Timeline',
     icon: IconMapPin,
     href: '/map-and-timeline',
-  },
-  {
-    id: uniqueId(),
-    title: 'Link Analysis',
-    icon: IconChartBubble,
-    href: '/graph-demo',
   },
 ];
 
