@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saaransh - Intelligence Reimagined</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       GLOBAL RESET & BASE STYLES
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+      color: #ffffff;
+      background: #0d0920;
+    }
+
+    /* ========================================
+       VIDEO BACKGROUND CONTAINER
+       Full-screen video with overlay
+       ======================================== */
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Background video element */
+    .bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* Dark overlay for content readability */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        135deg,
+        rgba(13, 9, 32, 0.85) 0%,
+        rgba(20, 14, 53, 0.75) 50%,
+        rgba(13, 9, 32, 0.9) 100%
+      );
+      z-index: 1;
+    }
+
+    /* Decorative gradient overlay */
+    .decorative-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(32, 23, 94, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at bottom right, rgba(93, 75, 168, 0.2) 0%, transparent 50%);
+      z-index: 2;
+    }
+
+    /* ========================================
+       MAIN CONTENT - TOP LEFT CORNER
+       Hero section with heading and CTA
+       ======================================== */
+    .main-content {
+      position: absolute;
+      top: 80px;
+      left: 60px;
+      z-index: 3;
+      max-width: 600px;
+    }
+
+    /* Logo/Brand */
+    .brand {
+      color: #b3a5d8;
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 60px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand::before {
+      content: '';
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, #8b75c3 0%, transparent 100%);
+    }
+
+    /* Main Heading */
+    .main-heading {
+      font-weight: 800;
+      font-size: 4.5rem;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      text-shadow:
+        0 4px 20px rgba(13, 9, 32, 0.6),
+        0 2px 10px rgba(0, 0, 0, 0.8);
+      background: linear-gradient(135deg, #ffffff 0%, #e8e4f3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Subheading */
+    .subheading {
+      color: #d1c9e7;
+      font-weight: 400;
+      font-size: 1.4rem;
+      line-height: 1.6;
+      margin-bottom: 40px;
+      max-width: 500px;
+      text-shadow: 0 2px 8px rgba(13, 9, 32, 0.8);
+    }
+
+    /* Button Container */
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    /* Primary Button */
+    .btn-primary {
+      padding: 18px 32px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: linear-gradient(135deg, #20175e 0%, #5d4ba8 100%);
+      border: 2px solid #8b75c3;
+      box-shadow:
+        0 8px 24px rgba(32, 23, 94, 0.4),
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #5d4ba8 0%, #1a1249 100%);
+      transform: translateY(-3px);
+      box-shadow:
+        0 12px 32px rgba(32, 23, 94, 0.5),
+        0 6px 16px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(-1px);
+    }
+
+    /* Secondary Button */
+    .btn-secondary {
+      padding: 18px 32px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      box-shadow:
+        0 4px 16px rgba(13, 9, 32, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      transform: translateY(-3px);
+      box-shadow:
+        0 8px 24px rgba(13, 9, 32, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:active {
+      transform: translateY(-1px);
+    }
+
+    /* Feature Highlights */
+    .features {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .feature-label {
+      color: #b3a5d8;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .feature-value {
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    /* ========================================
+       CONTACT INFO - BOTTOM RIGHT CORNER
+       Contact details with icons
+       ======================================== */
+    .contact-info {
+      position: absolute;
+      bottom: 60px;
+      right: 60px;
+      z-index: 3;
+      background: rgba(13, 9, 32, 0.6);
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 24px;
+      box-shadow:
+        0 8px 32px rgba(13, 9, 32, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    /* Contact Heading */
+    .contact-heading {
+      color: #d1c9e7;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    /* Contact Items */
+    .contact-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .contact-item:hover {
+      transform: translateX(5px);
+    }
+
+    .contact-item:hover .contact-icon {
+      background: #20175e;
+      transform: scale(1.1);
+    }
+
+    /* Contact Icon */
+    .contact-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(32, 23, 94, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .contact-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: #ffffff;
+    }
+
+    /* Contact Details */
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .contact-label {
+      color: #b3a5d8;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .contact-value {
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* ========================================
+       SCROLL INDICATOR - BOTTOM CENTER
+       Animated scroll indicator
+       ======================================== */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        transform: translateX(-50%) translateY(-10px);
+      }
+    }
+
+    .scroll-text {
+      color: #b3a5d8;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .scroll-line {
+      width: 2px;
+      height: 30px;
+      background: linear-gradient(180deg, #8b75c3 0%, transparent 100%);
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN
+       Mobile and tablet adjustments
+       ======================================== */
+
+    /* Tablet (768px and below) */
+    @media (max-width: 768px) {
+      .main-content {
+        top: 60px;
+        left: 40px;
+        max-width: calc(100% - 80px);
+      }
+
+      .main-heading {
+        font-size: 3.5rem;
+      }
+
+      .subheading {
+        font-size: 1.25rem;
+      }
+
+      .contact-info {
+        bottom: 40px;
+        right: 40px;
+      }
+
+      .scroll-indicator {
+        display: none;
+      }
+    }
+
+    /* Mobile (600px and below) */
+    @media (max-width: 600px) {
+      .main-content {
+        top: 40px;
+        left: 24px;
+        max-width: calc(100% - 48px);
+      }
+
+      .brand {
+        font-size: 0.9rem;
+        margin-bottom: 40px;
+      }
+
+      .main-heading {
+        font-size: 2.5rem;
+      }
+
+      .subheading {
+        font-size: 1rem;
+        margin-bottom: 32px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+      }
+
+      .features {
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 32px;
+      }
+
+      .contact-info {
+        bottom: 30px;
+        right: 24px;
+        left: 24px;
+        padding: 20px;
+      }
+    }
+
+    /* Very small mobile (400px and below) */
+    @media (max-width: 400px) {
+      .main-heading {
+        font-size: 2rem;
+      }
+
+      .contact-info {
+        padding: 16px;
+      }
+
+      .contact-items {
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ========================================
+       VIDEO BACKGROUND CONTAINER
+       ======================================== -->
+  <div class="video-container">
+    <!-- Background Video -->
+    <video class="bg-video" autoplay loop muted playsinline>
+      <source src="/assets/video/your-video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Dark Overlay -->
+    <div class="video-overlay"></div>
+
+    <!-- Decorative Gradient Overlay -->
+    <div class="decorative-overlay"></div>
+
+    <!-- ========================================
+         MAIN CONTENT - TOP LEFT
+         ======================================== -->
+    <div class="main-content">
+      <!-- Brand/Logo -->
+      <div class="brand">SAARANSH</div>
+
+      <!-- Main Heading -->
+      <h1 class="main-heading">
+        Intelligence<br>
+        Reimagined
+      </h1>
+
+      <!-- Subheading -->
+      <p class="subheading">
+        Advanced intelligence analysis platform for defense and security professionals
+      </p>
+
+      <!-- Call-to-Action Buttons -->
+      <div class="cta-buttons">
+        <a href="/dashboard" class="btn-primary">Get Started</a>
+        <a href="/about" class="btn-secondary">Learn More</a>
+      </div>
+
+      <!-- Feature Highlights -->
+      <div class="features">
+        <div class="feature-item">
+          <span class="feature-label">Real-time</span>
+          <span class="feature-value">Intelligence</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-label">Global</span>
+          <span class="feature-value">Coverage</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-label">Secure</span>
+          <span class="feature-value">Platform</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================
+         CONTACT INFO - BOTTOM RIGHT
+         ======================================== -->
+    <div class="contact-info">
+      <!-- Contact Heading -->
+      <div class="contact-heading">Contact Us</div>
+
+      <!-- Contact Items -->
+      <div class="contact-items">
+        <!-- Email -->
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </div>
+          <div class="contact-details">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">info@saaransh.com</span>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+          </div>
+          <div class="contact-details">
+            <span class="contact-label">Phone</span>
+            <span class="contact-value">+1 (555) 123-4567</span>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
+          <div class="contact-details">
+            <span class="contact-label">Location</span>
+            <span class="contact-value">Washington, DC</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================
+         SCROLL INDICATOR - BOTTOM CENTER
+         ======================================== -->
+    <div class="scroll-indicator">
+      <span class="scroll-text">Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       JAVASCRIPT FOR INTERACTIVITY
+       Optional enhancements
+       ======================================== -->
+  <script>
+    // Ensure video plays on all browsers
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.querySelector('.bg-video');
+      if (video) {
+        video.play().catch(error => {
+          console.log('Video autoplay failed:', error);
+        });
+      }
+    });
+
+    // Smooth scroll behavior for links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

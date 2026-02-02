@@ -1,0 +1,111 @@
+{
+  "profile_type": "MilitaryInstallation",
+  "entity_type": "Installation",
+  "installation": {
+    "id": "https://janes.org/installation/dhjghdkfhgkdfhkg",
+    "legacy_jguid": "Installation_63368",
+    "name": "Ramon Air Base",
+    "display_name_label": "RAMON AIR BASE",
+    "label": "Ramon Air Base",
+    "synonyms": [
+      "Kanaf 25",
+      "Ramon AFB",
+      "Nevatim Auxiliary"
+    ],
+    "installation_type": "Air",
+    "installation_sub_type": "Base",
+    "indicated_use": "Military",
+    "status": "Active",
+    "last_modified_date": "2024-12-15T14:30:00Z"
+  },
+  "location": {
+    "confidence": "High",
+    "coordinates": {
+      "latitude": 30.777388,
+      "longitude": 34.665912
+    },
+    "geometry": {
+      "type": "Point",
+      "srid": 4326,
+      "x": 34.665912,
+      "y": 30.777388
+    },
+    "countries": [
+      "Israel",
+      "China",
+      "US"
+    ]
+  },
+  "infrastructure": {
+    "runways": [
+      {
+        "runway_id": "Runway 01/19",
+        "status": "Operational"
+      },
+      {
+        "runway_id": "Runway 09/27",
+        "status": "Operational"
+      },
+      {
+        "runway_id": "Taxiway Alpha",
+        "status": "Maintenance"
+      }
+    ]
+  },
+  "military_affiliation": {
+    "operated_by": [
+      {
+        "id": "MG_001",
+        "name": "Israeli Air Force"
+      },
+      {
+        "id": "MG_004",
+        "name": "Air Defense Division"
+      }
+    ],
+    "units_assigned": [
+      {
+        "id": "MG_002",
+        "name": "119th Squadron"
+      },
+      {
+        "id": "MG_003",
+        "name": "140th Squadron"
+      },
+      {
+        "id": "MG_005",
+        "name": "Training Wing"
+      }
+    ],
+    "related_equipment": [
+      {
+        "id": "EQ_001",
+        "name": "F-35I Adir"
+      },
+      {
+        "id": "EQ_002",
+        "name": "F-16I Sufa"
+      },
+      {
+        "id": "EQ_003",
+        "name": "IAI Heron"
+      },
+      {
+        "id": "EQ_004",
+        "name": "F-15I Ra'am"
+      },
+      {
+        "id": "EQ_005",
+        "name": "IAI Eitan (Heron TP)"
+      },
+      {
+        "id": "EQ_006",
+        "name": "AH-64D Apache"
+      }
+    ]
+  },
+  "references": {
+    "primary_name_uri": "https://janes.org/ontology/installation/dhjghdkfhgkdfhkg",
+    "source": "Janes"
+  }
+}

@@ -1,0 +1,18 @@
+
+.article-content p,
+.article-content ul,
+.article-content li,
+.article-content h1,
+.article-content h2,
+.article-content blockquote {
+  margin-bottom: 1em;
+  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.highlight {
+  background-color: none; 
+  font-weight: bold;
+  padding: 0 4px;
+  color: #0869db;
+}

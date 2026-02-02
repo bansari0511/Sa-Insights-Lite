@@ -1,0 +1,380 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {
+      "description": "A geotagged image shared on social media by a Russian serviceman on 1 December 2025 showed the individual of interest posing in military fatigues with an AK-74N assault rifle in a wooded area in Aleinikovo (Bryansk Oblast, Russian Federation), at co-ordinates 52.326912, 32.674115, approximately 5 km northeast of the Russian Federation-Ukraine international border. An untagged image shared on 1 December 2025 showed the Russian serviceman posing alongside three other servicemen in military fatigues with AK-74 assault rifles, likely in the same vicinity.",
+      "label": "Russian close battlespace: Russian serviceman sighted in Aleinikovo (Bryansk Oblast, Russian Federation)",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-12-09T00:00:00Z"
+    },
+    {
+      "description": "On 21 Feb 2025, the Ministry of Defence (MOD) of the Russian Federation reported that the Admiral Gorshkov-class \"Admiral Kasatonov\" (pennant no. 461), organic to the 43rd Missile Ships Division of the Russian Navy's Northern Fleet, conducted combat training and artillery firing in the Barents Sea near Severomorsk, Russia. According to the source, the vessel conducted live-firing at coastal targets resembling hostile landing forces using the A-192M artillery gun, KPV machine gun, and AK-74 assault rifles, and firing at hostile air forces using the 3M89 Palash anti-aircraft missile system. The vessel also trained in damage control on-board, radiation hazard exercises, and other emergency handling. Janes assesses that \"Admiral Kasatonov\" is stationed at Severomorsk Naval Base. EO satellite imagery from 10 Feb 2025, 09:17 UTC (Maxar ID: cd3c9b7c-edeb-7192-e4a3-a43fa8c3581d) and 19 Feb 2025, 09:54 UTC (Maxar ID: bb683de6-c8b8-85d7-e0be-c61aacf704f8) indicates that a Admiral Gorshkov-class vessel is absent from the base.",
+      "label": "The Admiral Gorshkov-class \"Admiral Kasatonov\" (pennant no. 461) reportedly conducted combat training and live firing in the Barents Sea",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-11-04T00:00:00Z"
+    },
+    {
+      "description": "A geotagged image shared on social media by a Russian serviceman on 7 October 2025 revealed the presence of a Russian camp northwest of Holykove (Luhansk Oblast). In the image, geotagged at co-ordinates 49.174042, 38.210550, the serviceman was posing in a clearing holding two rifles, possibly an AK-47 or AKM and an AK-74, next to an Amperos branded diesel generator. In the same image, camouflage netting and barrels (likely fuel barrels) were visible in the left of the frame. The general vicinity has been a known area for the siting of Russian camps since 2022; radio frequency interference was detected in the area between 2023 and 2024; and high-resolution electro-optical (EO) satellite imagery from 20 August 2024, 01:00 UTC (Maxar VIVID imagery) showed increased development from consistent with vehicles and deliveries of material. Janes assesses that the presence of the generator is consistent with the Russian rear area trend towards more sophisticated and long-term encampments. Based on the size of the generator and area of the geotagging, Janes assesses that this encampment likely services a brigade-level formation. All co-ordinates approximate due geotagging inaccuracies.",
+      "label": "SOCMINT: Russian encampment identified northwest of Holykove (Luhansk Oblast)",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-10-24T00:00:00Z"
+    },
+    {
+      "description": "The Islamic Revolutionary Guard Corps' Fatehin Special Unit of Hazrat Mohammad Rasoolullah (PBUH) Corps conducted training exercise. SOCMINT indicated that this unit received new equipment on 27 September 2025, and the exercises took place in Tehran, Iran. Media releases displayed AN/PVS-7 night vision device along with AK-74, SVD, RPD and PKM family of firearms with upgrades featuring picatinny rails, laser targeting aids, and optics.",
+      "label": "IRGC conducts training exercise in Tehran (Iran)",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-10-07T00:00:00Z"
+    },
+    {
+      "description": "Footage released by the Ministry of Defence (MoD) of the Russian Federation showed Baltic Fleet military engineers, highly likely of the 69th Independent Guards Naval Engineer Regiment (based at Gvardeysk, Kaliningrad Oblast, Russian Federation), participating in combat training as part of Exercise 'Zapad 2025' ('West 2025'), at an undisclosed location. Footage showed Russian personnel engaging an opposition force's (OPFOR's) positions from fortified dugouts with fire from AK-74 assault rifles, PK family and PKM machine guns during a simulated assault. Footage also showed IRM Zhuk and BAT-2 combat engineer vehicles, highly likely of the aforementioned unit, and an MT-55A armoured vehicle-launched bridge and a KAMAZ-63501 KS 55729-7M truck reportedly conducting mine clearance operations and transporting personnel and equipment.",
+      "label": "Exercise 'Zapad 2025': Russian Baltic Fleet military engineers participated in combat training",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-09-30T00:00:00Z"
+    },
+    {
+      "description": "Footage released by the Ministry of Defence (MoD) of the Russian Federation showed personnel and asssets of the Northern Fleet undertaking a counter-amphibious assault exercise as part of Exercise 'Zapad 2025' ('West 2025') on the Sredny Peninsula (Murmansk Oblast, Russian Federation). Footage showed Su-33 fighter jets, almost certainly of the 279th Independent Shipborne Fighter Aviation Fighter Regiment (subordinate to the 7th Mixed Aviation Corps; based at Severomorsk-3, Murmansk Oblast), flying on a southerly course at approximate co-ordinates 69.645043, 31.862844 and delivering likely OFAB-250/FAB-250 series bombs onto opposition force (OPFOR) coastal positions. Additional footage showed a Russian UR-77 Meteorite mine clearance vehicle, highly likely of the 63rd Independent Naval Engineer Regiment (based at Severomorsk), deploying and detonating a mine-clearing line charge; BTR-80 and BTR-82A armoured personnel carriers, likely of the 874th Independent Naval Infantry Battalion (based at Sputnik, Murmansk Oblast) deploying infantry; a dismounted infantry formation, also likely of the 874th Independent Naval Infantry Battalion, firing PK 7.62x54R machine guns, AK-74 and AK-74M assault rifles, and RPG-7 grenade launchers; use of unmanned aerial vehicle (UAV)-dropped grenades and munitions in anti-personnel/vehicle role; and a Mi-8MT helicopter, almost certainly of the 830th Independent Shipborne ASW Helicopter Regiment (based at Severomorsk-1), in an unspecified role.",
+      "label": "Exercise 'Zapad 2025: Russian Northern Fleet formations participated in counter-amphibious assault training on Sredny Peninsula (Murmansk Oblast, Russian Federation) ",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-09-26T00:00:00Z"
+    },
+    {
+      "description": "Social media accounts associated with the Africa Corps (subordinate to the Ministry of Defence of the Russian Federation) circulated a recruitment video on social media channels showing Africa Corps personnel engaged in tactical-level training exercises, including small arms drills, mechanised assaults, and manoeuvre training. An AMN-590951 patrol vehicle, D-30 towed howitzer, 2B11 mortar, and ZALA reconnaissance unmanned aerial vehicle (UAV) were visible in the footage. Personnel in the footage were sighted training with AK-74, AKM and AK-12 assault rifles, and RPG-27 launchers. Local media reports published during the same period also promoted the recruitment campaign. Commentary relesaed with the video appealed for applications from personnel with experience serving in artillery, motor rifle, and UAV operator units; as well as specialists including information technology (IT) engineers, electronic warfare (EW) operators, radio communication experts, and medics, with provisions also made for individuals without prior conscript service.",
+      "label": "Russian Africa Corps circulated recruitment video on social media",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-09-26T00:00:00Z"
+    },
+    {
+      "description": "Footage released by the Ministry of Defence (MoD) of the Russian Federation showed Baltic Fleet vessels and helicopters participating in amphibious assault exercise as part of Exercise 'Zapad 2025' ('West 2025') at Pionersky Seaport (Kaliningrad Oblast, Russian Federation). Footage showed BTR-82A armoured personnel carriers, highly likely of a subordinate unit of the 336th Independent Guards Naval Infantry Brigade (based in Baltiysk, Kaliningrad Oblast) being deployed from Dyugon-class landing craft 'Lieutenant Rimsky-Korsakov' (pennant no. 754) at the port. Additional footage showed a Ka-27PS helicopter, likely of the 396th Independent Shipborne ASW Helicopter Squadron (based at Donskoye Air Base, Kaliningrad Oblast), operating over Pionersky, reportedly deploying a landing force (not featured in the footage). Footage also showed Mi-24P helicopters of an unidentified unit providing air support for assaulting units. The Grachonok-class patrol boat 'Vladimir Nosov' (pennant no. 652) and Raptor-class patrol boat 'Georgiy Potekhin' (pennant no. 415) were also sighted operating in the port, reportedly tasked with suppressing opposition force (OPFOR) positions. Given observed weather conditions and cuts of previously-released footage featured in the clip, Janes assesses that the footage likely featured several spliced segments likely taken between 13 and 16 September 2025.",
+      "label": "Exercise 'Zapad 2025': Baltic Fleet vessels and helicopters undertook amphibious assault training at Pionersky Seaport (Kaliningrad Oblast, Russian Federation)",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-09-19T00:00:00Z"
+    },
+    {
+      "description": "A geotagged image shared on social media by a Russian serviceman on 7 September 2025 revealed the presence of an entrenchment west of Yesaulivka (Luhansk Oblast), immediately south of a known Russian rear-area training ground and rifle range. In the image, geotagged at co-ordinates 48.043312, 38.981904, two Russian soldiers were pictured posing in fatigues and with a tactical radio in an entrenchment covered by a camouflage net. Electro-optical (EO) satellite imagery from 4 June 2022, 05:30 UTC and 3 September 2023, 05:30 UTC confirmed the presence of vehicle tracks and earthworks consistent with entrenchments in proximity to the site. An analysis of the serviceman's social media presence indicates that he almost certainly originates from Sorochinsk (Orenburg Oblast, Russian Federation); as such, Janes assesses that it is a realistic possibility that he is serving in a unit of the 27th Motor Rifle Division (based at Totskoye, Orenburg Oblast). Given the proximity of the site to the training area, it is a realistic possibility that the division is utilising the ground for rear-area training. On 9 September 2025, the individual posted an image of himself in the rear of a likely KAMAZ series logistics truck in Yesaulivka, geotagged at co-ordinates 48.044852, 39.023496 (approximately 3 km east of the geotagged entrenchment site); an untagged image of the same date, likely taken in proximity to the entrenchment, showed the serviceman with an AK-74 assault rifle in a wooden dugout.",
+      "label": "SOCMINT: Russian entrenchment sighted in proximity to known training area west of Yesaulivka (Luhansk Oblast) ",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-09-18T00:00:00Z"
+    },
+    {
+      "description": "Footage released by the Ministry of Defence (MoD) of the Russian Federation showed Russian Baltic Fleet personnel participating in counter-unmanned surface vessel (USV) drills as part of Exercise 'Zapad 2025' ('West 2025') at Baltiysk Naval Base (Kaliningrad Oblast, Russian Federation). Footage showed the Udaloy I-class destroyer 'Vitse Admiral Kulakov' (pennant no. 626), along with other shipborne and coastal-based personnel, firing on an opposition force (OPFOR) unmanned surface vessel (USV), apparently with blank rounds from AK-74 assault rifles, Kord and DShK heavy machine guns, BTR-82A 2A72 automatic cannons; and a 2A42 automatic cannon. According to the statement, over 10 vessels and 500 Russian servicemen of the Baltic Fleet participated in the exercise.",
+      "label": "Exercise 'Zapad 2025': Russian Baltic Fleet undertook counter-unmanned surface vessel (USV) drills at Baltiysk Naval Base (Kaliningrad Oblast, Russian Federation)",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-09-17T00:00:00Z"
+    },
+    {
+      "description": "The Somali National Army's (SNA's) 161st Unit, 16th Battalion, Danab Commandos conducted patrols in the Lower Shabelle region, Somalia. The troops were armed with AK-74 rifle during the patrols. ",
+      "label": "SNA conducts patrol in Lower Shabelle",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-07-14T00:00:00Z"
+    },
+    {
+      "description": "According to a statement by the Ministry of Defence of the Russian Federation, approximately 70 Russian troops from the Baltiysk Naval Base of the Baltic Fleet participated in a small arms firing exercise at the Khmelevka Training Ground (Kaliningrad Oblast, Russian Federation). According to the source, Russian servicemen assigned to Baltic Fleet ships under construction and repair reportedly fired at targets at a distance of 25 m and 100m with Makarov pistols (PM) and AK-74 assault rifles, respectively.",
+      "label": "Baltic Fleet personnel participated in a small arms firing exercise at the Khmelevka Training Ground (Kaliningrad Oblast, Russian Federation)",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-04-23T00:00:00Z"
+    },
+    {
+      "description": "Troops from Bulgarian Land Forces, assigned to Regional Command West of the NATO-led Kosovo Force (KFOR), conducted a live fire exercise with AK-74 rifles at “Voloire” shooting range near Camp Villaggio Italia.",
+      "label": "KFOR conducts live fire exercise",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-04-16T00:00:00Z"
+    },
+    {
+      "description": "According to a statement released by the Ministry of Defence of the Russian Federation, approximately 70 reconnaissance personnel of a motorised rifle unit of Joint Strategic Command - South, possibly elements of the 205th Independent Motor Rifle Brigade (based at Pokoynoye, Stavropol Krai, Russian Federation), conducted ambush training at an undisclosed training ground in Stavropol Krai. Russian troops reportedly deployed aerial reconnaissance using UAVs to detect an Opposition Force (OPFOR) moving in a convoy of vehicles before engaging the OPFOR using AK-74 assault rifles, SVD sniper rifles, and imitation equipment. Instructors with experience of Russian combat operations in Ukraine reportedly directed the exercise.",
+      "label": "Russian motor rifle formation conducted ambush training in Stavropol Krai (Russian Federation)",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2025-04-14T00:00:00Z"
+    },
+    {
+      "description": "Images posted on social media on 29 Jul 2024 showed that Russian instructors continued delivering tactical training to Syrian personnel in SYRIA.\nImages showed one Russian instructor and four Syrian servicemen. The Russian instructor was equipped with an AK-74.\nLocation where the training took place was not specified.",
+      "label": "Russian forces reportedly continued to deliver tactical training to Syrian troops in SYRIA.",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-21T00:00:00Z"
+    },
+    {
+      "description": "201ST MILITARY BASE troops led live firing training for members of the Tajik army using AGS-17 , AK-74, and BTR-80 at the LIAUR TRAINING GROUND.",
+      "label": "201ST MILITARY BASE troops led live firing training for members of the Tajik army using AGS-17 , AK-74, and BTR-80 at the LIAUR TRAINING GROUND",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-21T00:00:00Z"
+    },
+    {
+      "description": "Two geotagged images posted on social media by a Russian serviceman on 09 Jan 2025 revealed the position of a likely Russian encampment north of Svobodne (Donetsk Oblast), at coordinates 47.388309, 38.074010.\n\nIn the images in question, the individual was pictured posing with two other servicemen with AK-74 series assault rifles and in military fatigues in front of a KAMAZ logistics truck. Additional untagged images posted on the account between 18 Dec 2024 and 18 Jan 2025 and possibly taken at the same site showed personnel of an approximately squad-level unit, as well as wooden structures and likely entrenchments.\n\nEO satellite imagery from 18 Dec 2024, 08:36 UTC (the most recent available unobscured imagery) showed clear signs of vehicle tracks in the terrain to the immediate north of Svobodne. Some tracks in this terrain predate the Russian full-scale invasion of Ukraine; however, a comparison of historical satellite imagery showed possible signs of an intensification of activity in the period between 09 Oct 2024 and 03 Nov 2024. Thus, Janes assesses that it is a realistic possibility that the site was occupied by Russian troops in this period.\n\nThe individual had previously uploaded to his account images of the insignia of the RUSSIAN ENGINEER TROOPS, an EOD soldier in a protective suit, a patch bearing the word \"sapper\", and a \"Danger: Mines\" signpost, indicating that he is likely serving in an engineering unit, possibly in an EOD or minelaying role.",
+      "label": "Likely Russian encampment located north of Svobodne (Donetsk Oblast)",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-21T00:00:00Z"
+    },
+    {
+      "description": "An estimated 1,000 troops from the 21ST MOTORISED BRIGADE have conducted exercises at the TOTSKOYE TRAINING GROUND. During the exercises the troops conducted an attack on a village held by a simulated enemy. The exercises involved the use of T-72B3, 2S19, Orlan-10, BTR-82, RPG-7, and AK-74.",
+      "label": "An estimated 1,000 troops from the 21ST MOTORISED BRIGADE have conducted exercises at the TOTSKOYE TRAINING GROUND",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "1,500 troops and 300 pieces of equipment including BMP-2, AGS-17, PK, RPG-7, AK-74, and BTR-82A, from the 2ND MOTORISED DIVISION have begun a control check exercise to mark the end of the summer training period at the ALABINO TRAINING GROUND.",
+      "label": "1,500 troops and 300 pieces of equipment including BMP-2, AGS-17, PK, RPG-7, AK-74, and BTR-82A, from the 2ND MOTORISED DIVISION have begun a control check exercise to mark the end of the summer trai",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "36TH COMBINED ARMS ARMY training exercises involving some 4,000 troops began in BURYATIA.",
+      "label": "36TH COMBINED ARMS ARMY training exercises involving some 4,000 troops began in BURYATIA",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "On 22 Jan 2025, the Ministry of Defence of the Russian Federation reported that elements of some motor rifle formations organic to the 201st Military Base stationed in Tajikistan conducted training at the Sambuli Training Ground (Khatlon Viloyat, Tajikistan). According to the statement, Russian troops practiced sensor-to-shooter coordination employing UAVs and 2B11 mortars. As part of the training AK-12, AK-74, and BMP-2 were also employed. Approximately 100 servicemen allegedly took part in the training.\nJanes assesses that elements of the 191st Independent Motor Rifle Regiment and/or the 149th Guards Motor Rifle Regiment likely took part in the training.",
+      "label": "Elements of the Russian 201st Military Base stationed in Tajikistan reportedly conducted training at the Sambuli Training Ground (Khatlon Viloyat, Tajikistan).",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "74TH MOTORISED BRIGADE troops conducted live fire exercises with small arms and support weapons, including AK-74, RPG-7V, and AGS-17, at the YURGINKSY TRAINING GROUND.",
+      "label": "74TH MOTORISED BRIGADE troops conducted live fire exercises with small arms and support weapons, including AK-74, RPG-7V, and AGS-17, at the YURGINKSY TRAINING GROUND",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "On 06 Feb 2025, the Ministry of Defence of the Russian Federation reported that elements of a motor rifle formation organic to the Joint Strategic Command - Centre, highly likely of the 27th Motor Rifle Division, conducted a counter-terrorism training. Russian troops trained on BTR-82As and employed AK-74 assault rifles, SVD sniper rifles, and RPG-7V grenade launchers.\nAccording to the statement, more than 30 Russian servicemen took part in the training. \nJanes assesses that the training likely took place at Totskoye West Base (Orenburg Oblast, Russian Federation).",
+      "label": "Highly likely elements of the Russian 27th Motor Rifle Division reportedly conducted training in Orenburg Oblast (Russian Federation).",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "200 troops from the 15TH MOTORISED BRIGADE (PEACEKEEPING) and the 91ST C3 BRIGADE have conducted a joint training exercise defending an air base from a simulated enemy attack in the SAMARA REGION.",
+      "label": "200 troops from the 15TH MOTORISED BRIGADE (PEACEKEEPING) and the 91ST C3 BRIGADE have conducted a joint training exercise defending an air base from a simulated enemy attack in the SAMARA REGION",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Elements of the 21ST MOTORISED BRIGADE exercise at TOTSKOYE TRAINING GROUND, near ORENBURG. T-72B3 tanks, BTR-80 armoured personnel carriers, Msta-B 152mm howitzers, and Orlan-10 UAVs were used in the exercise.",
+      "label": "Elements of the 21ST MOTORISED BRIGADE exercise at TOTSKOYE TRAINING GROUND, near ORENBURG",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Some 300 reconnaissance troops, likely from the 150TH MOTORISED DIVISION, 22ND ARMY CORPS, 58TH COMBINED ARMS ARMY, and 42ND MOTORISED DIVISION, have begun training exercises at the DARYAL TRAINING GROUND. The exercises involve mountain warfare training and small arms drills using VSS Vintorez, Pecheneg, and AK-74.",
+      "label": "Some 300 reconnaissance troops, likely from the 150TH MOTORISED DIVISION, 22ND ARMY CORPS, 58TH COMBINED ARMS ARMY, and 42ND MOTORISED DIVISION, have begun training exercises at the DARYAL TRAINING G",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Infantry likely from the 200TH MOTORISED BRIGADE (ARCTIC) have conducted live firing using AGS-17, RPG-7, and SVD at a training ground near PECHENGA.",
+      "label": "Infantry likely from the 200TH MOTORISED BRIGADE (ARCTIC) have conducted live firing using AGS-17, RPG-7, and SVD at a training ground near PECHENGA",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "The 30TH MOTORISED BRIGADE's anti-terror unit conducted a training exercise using BTR-82A and UAZ Patriot. During the exercise some 200 trooops repelled an enemy attack on the unit's equipment storage site.",
+      "label": "The 30TH MOTORISED BRIGADE's anti-terror unit conducted a training exercise using BTR-82A and UAZ Patriot",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Some 2,000 7TH MILITARY BASE TROOPS have begun large-scale exercises using BTR_82AM, T-72B3, 2S3 Akatsiya, AK-74, RPK, and RPG-7 at the GUDAUTA and NAGUALOU TRAINING GROUND.",
+      "label": "Some 2,000 7TH MILITARY BASE TROOPS have begun large-scale exercises using BTR_82AM, T-72B3, 2S3 Akatsiya, AK-74, RPK, and RPG-7 at the GUDAUTA and NAGUALOU TRAINING GROUND",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "On 04 Apr 2024, the Ministry of Defence of the Russian Federation reported that elements of the Russian 201ST MILITARY BASE conducted training in TAJIKISTAN, likely at the DUSHANBE military base. According to the source Russian troops employed the Russian Iris-T three-dimensional visualization system and tested the tactical electronic shooting simulator 9F6022.",
+      "label": "Elements of the Russian 201ST MILITARY BASE tested the new tactical electronic shooting simulator 9F6022 in TAJIKISTAN.",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "BLACK SEA FLEET mortar crews conducted live firing with the support of Orlan-10 UAVs which were used to provide fire correction during an exercise held in the CRIMEA.",
+      "label": "BLACK SEA FLEET mortar crews conducted live firing with the support of Orlan-10 UAVs which were used to provide fire correction during an exercise held in the CRIMEA",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Russian reconnaissance units from a motor rifle formation subordinate to the JOINT STRATEGIC COMMAND - CENTRE reportedly conducted tactical training at the ROSHCHINSKIY training ground in SAMARA OBLAST (RUSSIAN FEDERATION).\nSeveral infantry weapons were employed; BTR-82A provided fire support and Orlan-10 UAV were used to conduct reconnaissance.\nMore than 100 Russian servicemen took part in the exercise.",
+      "label": "Russian reconnaissance units from a motor rifle formation subordinate to the JOINT STRATEGIC COMMAND - CENTRE reportedly conducted tactical training at the ROSHCHINSKIY training ground.",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Members of the 7TH AIR ASSAULT DIVISION (MOUNTAIN) have practiced shooting down small quadcopter UAVs with small arms and MANPADS. The troops were seen using AK-74, Pecheneg, and Igla to engage the UAVs.",
+      "label": "Members of the 7TH AIR ASSAULT DIVISION (MOUNTAIN) have practiced shooting down small quadcopter UAVs with small arms and MANPADS",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Members of the 92ND MISSILE BRIGADE repelled a simulated enemy attack on the unit's base during a training exercise. As part of the exercise the unit was reinforced by BMP-2M likely belonging to the 21ST MOTORISED BRIGADE.",
+      "label": "Members of the 92ND MISSILE BRIGADE repelled a simulated enemy attack on the unit's base during a training exercise",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Some 2,000 7TH MILITARY BASE TROOPS have begun large-scale exercises using BTR_82AM, T-72B3, 2S3 Akatsiya, AK-74, RPK, and RPG-7 at the GUDAUTA and NAGUALOU TRAINING GROUND.",
+      "label": "Some 2,000 7TH MILITARY BASE TROOPS have begun large-scale exercises using BTR_82AM, T-72B3, 2S3 Akatsiya, AK-74, RPK, and RPG-7 at the GUDAUTA and NAGUALOU TRAINING GROUND",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Video footage shows Russian forces have completed construction of fortifications at CHECKPOINT NO. 7. The footage shows the position manned by members of the 15TH MOTORISED BRIGADE (PEACEKEEPING) equipped with AK-74 and BTR-82A. The position includes a fortified watch tower with bar armour likely to prevent attack from small UAVs, hesco style walls, beds, and dining facilities.",
+      "label": "Video footage shows Russian forces have completed construction of fortifications at CHECKPOINT NO",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Some 500 troops from the 74TH MOTORISED BRIGADE repelled an attack on a military base using BMP-2, RPG-7V, AK-74, and SVD during a training exerise held in the KUZBASS.",
+      "label": "Some 500 troops from the 74TH MOTORISED BRIGADE repelled an attack on a military base using BMP-2, RPG-7V, AK-74, and SVD during a training exerise held in the KUZBASS",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "An estimated 400 177TH NAVAL INFNATRY REGIMENT troops began live firing exercises with BTR-82AM at the ADANAK TRAINING GROUND.",
+      "label": "An estimated 400 177TH NAVAL INFNATRY REGIMENT troops began live firing exercises with BTR-82AM at the ADANAK TRAINING GROUND",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Elements of the 92ND MISSILE BRIGADE, reinforced by BMP-2M likely belonging to the 21ST MOTORISED BRIGADE, repelled an attack on the unit's Iskander-M storage facility with BTR-82A and small arms during a training exercise in the ORENBURG REGION.",
+      "label": "Elements of the 92ND MISSILE BRIGADE, reinforced by BMP-2M likely belonging to the 21ST MOTORISED BRIGADE, repelled an attack on the unit's Iskander-M storage facility with BTR-82A and small arms dur",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "EASTERN MILITARY DISTRICT military police conducted security exercises in the TRANSBAIKAL. The exercises involved an estimated 100 troops equipped with AK-74.",
+      "label": "EASTERN MILITARY DISTRICT military police conducted security exercises in the TRANSBAIKAL",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "On 25 Mar 2024, the Ministry of Defence of the Russian Federation reported that elements of a motorised infantry unit of the Russian JOINT STRATEGIC COMMAND - CENTRE conducted tactical training at ROSHCHINSKY training ground (SAMARA OBLAST). According to the source, Russian military personnel employed a variety of equipment including BTR-82As and Orlan-10 UAVs.",
+      "label": "Elements of a motorised infantry unit of the Russian JOINT STRATEGIC COMMAND - CENTRE reportedly conducted tactical training at ROSHCHINSKY training ground (SAMARA OBLAST).",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "A training camp for 49TH COMBINED ARMS ARMY battalion commanders began at the NIKOLO-ALEKSANDROVSKY TRAINING GROUND. The camp will involve live fire and tactical combat drills.",
+      "label": "A training camp for 49TH COMBINED ARMS ARMY battalion commanders began at the NIKOLO-ALEKSANDROVSKY TRAINING GROUND",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "ZAPAD-2021: The 3RD MOTORISED DIVISION has begun large-scale intensive exercises at the POGONOVO and KRINITSA TRAINING GROUNDS in preparation for ZAPAD-2021. Images and video published by the Russian MoD show 752ND MOTORISED REGIMENT BTR-82A, BMP-2, and infantry equipped with RPG-7 and Pecheneg conducting joint exercises  at the POGONOVO TRAINING GROUND",
+      "label": "ZAPAD-2021: The 3RD MOTORISED DIVISION has begun large-scale intensive exercises at the POGONOVO and KRINITSA TRAINING GROUNDS in preparation for ZAPAD-2021",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Some 400 reconnaissance troops from the 7TH MILITARY BASE have begun tactical combat exercises at the TSABAL TRAINING GROUND using BTR-82AM, Kamaz trucks, BPM-97, VSS 9 mm, Pecheneg, and AK-74.",
+      "label": "Some 400 reconnaissance troops from the 7TH MILITARY BASE have begun tactical combat exercises at the TSABAL TRAINING GROUND using BTR-82AM, Kamaz trucks, BPM-97, VSS 9 mm, Pecheneg, and AK-74",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "More than 2,000 troops from the 7TH MILITARY BASE have begun infantry combat exercises at the TSABAL and NAGUALOU TRAINING GROUNDS usiing Makarov PM, AK-74, and SVD,",
+      "label": "More than 2,000 troops from the 7TH MILITARY BASE have begun infantry combat exercises at the TSABAL and NAGUALOU TRAINING GROUNDS usiing Makarov PM, AK-74, and SVD,",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "On 25 Oct 2024, the Ministry of Defence of the Russian Federation reported that highly likely elements of the 201ST MILITARY BASE RECONNAISSANCE BATTALION  of the Russian 201ST MILITARY BASE stationed in TAJIKISTAN conducted training at LYAUR TRAINING GROUD (KHATLON Province, TAJIKISTAN). According to the source, servicemen employed UAVs to conducted ISR missions and practiced weapon handling on assault rifles, sniper rifles and machine guns. BTR-82As, likely from one of the 201ST MILITARY BASE's motor rifle regiment, reportedly covered the servicemen",
+      "label": "Highly likely elements of the Russian 201ST MILITARY BASE RECONNAISSANCE BATTALION reportedly conducted training at LYAUR TRAINING GROUND (KHATLON Province, TAJIKISTAN).",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Elements of the 7TH MILITARY BASE equipped with 2S3 Akatsiya, BTR-82AM, 2B11 Sani, AGS-17, RPG-7, and AK-74 have conducted training exercises at the NAGALOU TRAINING GROUND.",
+      "label": "Elements of the 7TH MILITARY BASE equipped with 2S3 Akatsiya, BTR-82AM, 2B11 Sani, AGS-17, RPG-7, and AK-74 have conducted training exercises at the NAGALOU TRAINING GROUND",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "Elements of the 7TH MILITARY BASE equipped with 2S3 Akatsiya, BTR-82AM, 2B11 Sani, AGS-17, RPG-7, and AK-74 have conducted training exercises at the TSABAL TRAINING GROUND.",
+      "label": "Elements of the 7TH MILITARY BASE equipped with 2S3 Akatsiya, BTR-82AM, 2B11 Sani, AGS-17, RPG-7, and AK-74 have conducted training exercises at the TSABAL TRAINING GROUND",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "1,000 22ND ARMY CORPS troops began live firing exercises using AK-74, RPG-7V, and BTR-82AM on the CRIMEAN PENINSULA.",
+      "label": "1,000 22ND ARMY CORPS troops began live firing exercises using AK-74, RPG-7V, and BTR-82AM on the CRIMEAN PENINSULA",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "More than 2,000 troops from the 7TH MILITARY BASE have begun infantry combat exercises at the TSABAL and NAGUALOU TRAINING GROUNDS usiing Makarov PM, AK-74, and SVD,",
+      "label": "More than 2,000 troops from the 7TH MILITARY BASE have begun infantry combat exercises at the TSABAL and NAGUALOU TRAINING GROUNDS usiing Makarov PM, AK-74, and SVD,",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "An estiamted 5,000 troops conducted live fire drills as part of CENTRAL MILITARY DISTRICT control check exercises in SIBERIA.",
+      "label": "An estiamted 5,000 troops conducted live fire drills as part of CENTRAL MILITARY DISTRICT control check exercises in SIBERIA",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "On 12 Nov 2024, the Ministry of Defence of the Russian Federation reported that elements of a motorised infantry unit subordinate to the 201ST MILITARY BASE stationed in TAJIKISTAN conducted a weapon handling training at LYAUR TRAINING GROUND (KHATLON Province). According to the statement, instructors gained experience in Ukraine.",
+      "label": "Elements of a motorised infantry unit subordinate to the 201ST MILITARY BASE stationed in TAJIKISTAN reportedly conducted a weapon handling training at LYAUR TRAINING GROUND (KHATLON Province).",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "177TH NAVAL INFANTRY REGIMENT troops have conducted live fire exercises with AK-74, AK-12, BTR-82A, and BTR-70M at the ADANAK TRAINING GROUND. Some 200 troops reportedly took part in the exercises.",
+      "label": "177TH NAVAL INFANTRY REGIMENT troops have conducted live fire exercises with AK-74, AK-12, BTR-82A, and BTR-70M at the ADANAK TRAINING GROUND",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "DEFENDER OF FRIENDSHIP-2021: 7TH AIR ASSAULT DIVISION (MOUNTAIN) and Egyptian troops have conducted night time live firing drills with AK-12 and AK-74.",
+      "label": "DEFENDER OF FRIENDSHIP-2021: 7TH AIR ASSAULT DIVISION (MOUNTAIN) and Egyptian troops have conducted night time live firing drills with AK-12 and AK-74",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "1,000 troops from the 74TH MOTORISED BRIGADE conducted tactical infantry training at the YURGINSKY TRAINING GROUND using AK-774, Gp-25, RPG-7V, and PK.",
+      "label": "1,000 troops from the 74TH MOTORISED BRIGADE conducted tactical infantry training at the YURGINSKY TRAINING GROUND using AK-774, Gp-25, RPG-7V, and PK",
+      "entity_type": "ForceMonitoringEvent",
+      "last_modified_date": "2025-02-20T00:00:00Z"
+    },
+    {
+      "description": "The Russian Ministry of Defense announced that reconnaissance units from the Russian Army's 201st military base in Tajikistan conducted a tactical exercise at the Lyaur training ground, focusing on neutralising a simulated enemy. The training featured BTR-82A armored personnel carriers (APCs) and utilised unmanned aerial vehicles (UAVs) for reconnaissance. The servicemen employed weapons, including AK-74 and AK-12 assault rifles, PKM machine guns, and SVD sniper rifles. Fire support was provided by BTR-82A vehicles equipped with 2A42 30-mm automatic cannons and PKT machine guns. Approximately 80 personnel and five units of military equipment participated in the exercise.",
+      "label": "Russian reconnaissance units conduct combat exercise in Tajikistan",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2024-12-11T00:00:00Z"
+    },
+    {
+      "description": "Russian combat engineers, belonging to the Russian Army's Joint Strategic Command - Centre, trained in Bashkiria, Russia. The training exercise involved defending a facility from an attack, and used BTR-82A armored personnel carriers (APCs), AK-74 assault rifles, Pecheneg machine guns, and SVD sniper rifles, along with Orlan-10 UAVs for reconnaissance and DK-4 and DKV-1 degassing kits. The training involved approximately 100 personnel.",
+      "label": "Russian combat engineers train in Bashkiria",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2024-12-11T00:00:00Z"
+    },
+    {
+      "description": "The Armenian Army contingent deployed with the NATO-led Kosovo Force (KFOR) conducted a field training exercise at Slatina Air Base in Pristina. The troops utilised AK-74 and SVD rifles, while a Croatian Air Force and Air Defense Mi-171Sh helicopter was deployed to support the exercise.",
+      "label": "KFOR conducts field training exercise",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2024-12-11T00:00:00Z"
+    },
+    {
+      "description": "The Russian Ministry of Defense stated that Russian motorised infantry troops, belonging to the Russian Army's Joint Strategic Command - Centre, trained in anti-terror drills in Orenburg, Russia. The exercise focused on simulations of terror attacks on base, with the soldiers using BTR-82A armoured personnel carriers (APCs), BMP-2 infantry fighting vehicles (IFVs), and Tigr armoured vehicles for armoured support, and using AK-74 assault rifles, SVD sniper rifles, and Pecheneg machine guns during assault actions. The exercise saw the participation of approximately 100 personnel.",
+      "label": "Russian troops train in anti-terror drills in Orenburg",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2024-12-11T00:00:00Z"
+    },
+    {
+      "description": "The Russian Ministry of Defense announced that motorised rifle units from the Russian Army's 201st military base in Tajikistan conducted a live-fire exercise at the Lyaur training ground, focusing on neutralising a simulated enemy. During the exercise, reconnaissance groups identified enemy positions, while unmanned aerial vehicle (UAV) operators maintained continuous surveillance. Supported by BTR-82A armored personnel carriers (APCs), the motorised riflemen raided the enemy's position using AK-74M and AK-12 assault rifles. BTR-82A vehicles provided fire support with 2A42 30-mm cannons and PKT machine guns.",
+      "label": "Russian Motorised Rifle Unit conduct combat exercise in Tajikistan",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2024-12-11T00:00:00Z"
+    },
+    {
+      "description": "The Russian Ministry of Defense stated that Russian motorised infantry troops, belonging to the Russian Army's Joint Strategic Command - Centre, trained in anti-terror drills in Orenburg, Russia. The exercise focused on simulations of an attacks on base by hostile armed groups, and saw soldiers using BTR-82A armoured personnel carriers (APCs), AK-74 assault rifles, SVD sniper rifles, and Pecheneg machine guns during assault actions. The exercise saw the participation of approximately 100 personnel.",
+      "label": "Russian troops train in anti-terror drills in Orenburg",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2024-12-11T00:00:00Z"
+    },
+    {
+      "description": "The Russian Ministry of Defense stated that Russian motorised infantry troops, belonging to the Russian Army's Joint Strategic Command - Centre, trained at the Rochinsky training ground in Samara, Russia. Reconnaissance units trained by using Orlan-10 UAVs for reconnaissance; troop movement and fire support using the BTR-82A armoured personnel carrier (APC) and its 2A42 cannon and PKT machine guns; and assault and firing using AK-12 and AK-74 assault rifles, PKM machine guns, SVD sniper rifles, and RPG-7V grenade launchers. The exercise saw the participation of approximately 100 personnel.",
+      "label": "Russian motorised infantry trains in Samara",
+      "entity_type": "MilitaryEvent",
+      "last_modified_date": "2024-12-11T00:00:00Z"
+    }
+  ],
+  "req_id": "73cac5e9-daf3-4825-8f93-8c43c0d92f5b",
+  "total_records": 62
+}

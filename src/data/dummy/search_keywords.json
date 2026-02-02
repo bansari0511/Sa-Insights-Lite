@@ -1,0 +1,113 @@
+{
+  "status_code": 200,
+  "status_message": "Search completed successfully",
+  "req_id": "req_keyword_search_001",
+  "totalHits": 156,
+  "nextFetch": "doc_id_next_page_001",
+  "lastDocId": "doc_id_last_001",
+  "records": [
+    {
+      "id": "news-001",
+      "title": "US Navy Deploys New Aircraft Carrier to Indo-Pacific Region",
+      "summary": "The United States Navy has announced the deployment of its newest aircraft carrier to the Indo-Pacific region as part of ongoing efforts to maintain regional stability and strengthen alliance partnerships.",
+      "lastModifiedDate": "2024-01-15",
+      "index": "news",
+      "image": "https://picsum.photos/seed/carrier-deploy/400/250",
+      "imageurl": "https://picsum.photos/seed/carrier-deploy/400/250"
+    },
+    {
+      "id": "news-002",
+      "title": "NATO Conducts Joint Military Exercises in Baltic Sea",
+      "summary": "NATO member states have concluded a series of joint military exercises in the Baltic Sea, demonstrating collective defense capabilities and interoperability among allied forces.",
+      "lastModifiedDate": "2024-01-14",
+      "index": "news",
+      "image": "https://picsum.photos/seed/nato-baltic/400/250",
+      "imageurl": "https://picsum.photos/seed/nato-baltic/400/250"
+    },
+    {
+      "id": "event-001",
+      "title": "International Defense Technology Summit 2024",
+      "summary": "Global defense industry leaders and military officials gather to discuss emerging technologies, cybersecurity challenges, and future warfare capabilities at this premier annual event.",
+      "lastModifiedDate": "2024-02-20",
+      "index": "event",
+      "imageurl": "https://picsum.photos/seed/defense-summit/400/250"
+    },
+    {
+      "id": "event-002",
+      "title": "Asia-Pacific Security Conference",
+      "summary": "Senior defense officials from Asia-Pacific nations convene to address regional security challenges, maritime disputes, and cooperation frameworks for collective security.",
+      "lastModifiedDate": "2024-03-15",
+      "index": "event",
+      "imageurl": "https://picsum.photos/seed/apac-security/400/250"
+    },
+    {
+      "id": "intel-001",
+      "title": "Strategic Assessment: South China Sea Maritime Activities",
+      "summary": "Intelligence analysis reveals increased naval activities in contested waters, with implications for regional stability and freedom of navigation operations.",
+      "lastModifiedDate": "2024-01-12",
+      "index": "intelligence briefings",
+      "image": "https://picsum.photos/seed/scs-intel/400/250",
+      "imageurl": "https://picsum.photos/seed/scs-intel/400/250"
+    },
+    {
+      "id": "equip-001",
+      "title": "F-35 Lightning II Production Update",
+      "summary": "Latest production figures show accelerated delivery schedules for the F-35 program, with multiple international partners receiving their first aircraft batches.",
+      "lastModifiedDate": "2024-01-10",
+      "index": "equipment"
+    }
+  ],
+  "country": [
+    {"label": "United States", "count": 45},
+    {"label": "China", "count": 32},
+    {"label": "Russia", "count": 28},
+    {"label": "United Kingdom", "count": 18},
+    {"label": "Japan", "count": 15},
+    {"label": "India", "count": 12}
+  ],
+  "organization": [
+    {"label": "NATO", "count": 35},
+    {"label": "United Nations", "count": 22},
+    {"label": "ASEAN", "count": 15},
+    {"label": "European Union", "count": 12}
+  ],
+  "nsag": [
+    {"label": "Non-State Actor Group A", "count": 8},
+    {"label": "Non-State Actor Group B", "count": 5}
+  ],
+  "eventcountry": [
+    {"label": "Singapore", "count": 12},
+    {"label": "United States", "count": 10},
+    {"label": "Germany", "count": 8}
+  ],
+  "location": [
+    {"label": "Washington D.C.", "count": 15},
+    {"label": "Singapore", "count": 12},
+    {"label": "Brussels", "count": 10}
+  ],
+  "category": [
+    {"label": "Defense Summit", "count": 20},
+    {"label": "Military Exercise", "count": 18},
+    {"label": "Technology Conference", "count": 15}
+  ],
+  "actorType": [
+    {"label": "Government", "count": 45},
+    {"label": "Military", "count": 38},
+    {"label": "Defense Industry", "count": 25}
+  ],
+  "actorLabel": [
+    {"label": "US Department of Defense", "count": 22},
+    {"label": "NATO Command", "count": 18},
+    {"label": "Ministry of Defense", "count": 15}
+  ],
+  "actorNation": [
+    {"label": "United States", "count": 35},
+    {"label": "United Kingdom", "count": 20},
+    {"label": "France", "count": 15}
+  ],
+  "platforms": [
+    {"label": "Naval", "count": 28},
+    {"label": "Air", "count": 25},
+    {"label": "Ground", "count": 20}
+  ]
+}

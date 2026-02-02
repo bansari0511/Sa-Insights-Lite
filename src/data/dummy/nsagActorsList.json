@@ -1,0 +1,156 @@
+{
+  "total_count": 15,
+  "entity_type": "NonStateGroup",
+  "nsagActors": [
+    {
+      "id": "https://janes.org/nsag/nsag-001-frp-lz",
+      "legacy_jguid": "NSAG_001",
+      "name": "Fuerzas Revolucionarias Populares - Lorenzo Zelaya (FRP-LZ)",
+      "label": "FRP-LZ",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Maoist/Marxist",
+      "entity_status": "Dormant",
+      "countries": ["Honduras"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-002-boko-haram",
+      "legacy_jguid": "NSAG_002",
+      "name": "Boko Haram (Jama'atu Ahlis Sunna Lidda'awati wal-Jihad)",
+      "label": "Boko Haram",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Salafi-Jihadist",
+      "entity_status": "Active",
+      "countries": ["Nigeria", "Cameroon", "Chad", "Niger"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-003-farc",
+      "legacy_jguid": "NSAG_003",
+      "name": "Fuerzas Armadas Revolucionarias de Colombia (FARC)",
+      "label": "FARC",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Marxist-Leninist",
+      "entity_status": "Disbanded",
+      "countries": ["Colombia"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-004-houthi",
+      "legacy_jguid": "NSAG_004",
+      "name": "Ansar Allah (Houthi Movement)",
+      "label": "Houthi Movement",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Zaydi Shia",
+      "entity_status": "Active",
+      "countries": ["Yemen"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-005-ltte",
+      "legacy_jguid": "NSAG_005",
+      "name": "Liberation Tigers of Tamil Eelam (LTTE)",
+      "label": "LTTE",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Tamil Nationalist",
+      "entity_status": "Defunct",
+      "countries": ["Sri Lanka"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-006-hezbollah",
+      "legacy_jguid": "NSAG_006",
+      "name": "Hezbollah (Party of God)",
+      "label": "Hezbollah",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Shia Islamist",
+      "entity_status": "Active",
+      "countries": ["Lebanon", "Syria"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-007-eln",
+      "legacy_jguid": "NSAG_007",
+      "name": "Ejercito de Liberacion Nacional (ELN)",
+      "label": "ELN",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Marxist/Liberation Theology",
+      "entity_status": "Active",
+      "countries": ["Colombia", "Venezuela"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-008-al-shabaab",
+      "legacy_jguid": "NSAG_008",
+      "name": "Harakat al-Shabaab al-Mujahideen",
+      "label": "Al-Shabaab",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Salafi-Jihadist",
+      "entity_status": "Active",
+      "countries": ["Somalia", "Kenya"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-009-pkk",
+      "legacy_jguid": "NSAG_009",
+      "name": "Partiya Karkeren Kurdistane (PKK)",
+      "label": "PKK",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Kurdish Nationalist/Socialist",
+      "entity_status": "Active",
+      "countries": ["Turkey", "Iraq", "Syria"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-010-npa",
+      "legacy_jguid": "NSAG_010",
+      "name": "New People's Army (NPA)",
+      "label": "NPA",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Maoist/Communist",
+      "entity_status": "Active",
+      "countries": ["Philippines"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-011-eta",
+      "legacy_jguid": "NSAG_011",
+      "name": "Euskadi Ta Askatasuna (ETA)",
+      "label": "ETA",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Basque Nationalist/Socialist",
+      "entity_status": "Disbanded",
+      "countries": ["Spain", "France"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-012-wagner",
+      "legacy_jguid": "NSAG_012",
+      "name": "Wagner Group (PMC Wagner)",
+      "label": "Wagner Group",
+      "group_type": "Private Military Company",
+      "group_orientation": "Pro-Russian",
+      "entity_status": "Active",
+      "countries": ["Russia", "Syria", "Libya", "Mali", "Central African Republic"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-013-taliban",
+      "legacy_jguid": "NSAG_013",
+      "name": "Islamic Emirate of Afghanistan (Taliban)",
+      "label": "Taliban",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Deobandi Islamist",
+      "entity_status": "Active",
+      "countries": ["Afghanistan", "Pakistan"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-014-hamas",
+      "legacy_jguid": "NSAG_014",
+      "name": "Harakat al-Muqawama al-Islamiya (Hamas)",
+      "label": "Hamas",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Sunni Islamist",
+      "entity_status": "Active",
+      "countries": ["Palestine", "Gaza Strip"]
+    },
+    {
+      "id": "https://janes.org/nsag/nsag-015-isis",
+      "legacy_jguid": "NSAG_015",
+      "name": "Islamic State of Iraq and the Levant (ISIL/ISIS)",
+      "label": "ISIS/ISIL",
+      "group_type": "Non-state Armed Group",
+      "group_orientation": "Salafi-Jihadist",
+      "entity_status": "Degraded",
+      "countries": ["Iraq", "Syria"]
+    }
+  ]
+}

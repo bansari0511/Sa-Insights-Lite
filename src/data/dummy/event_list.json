@@ -1,0 +1,82 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {
+      "event": {
+        "id": "https://data.janes.com/event/7LVH6lOreApEz42blrN0eZ",
+        "label": "KNDF and PDF militants clash with soldiers and militia members in Myanmar's Shan state",
+        "name": "KNDF and PDF militants clash with soldiers and militia members in Myanmar's Shan state",
+        "event_category": "Terrorism & Insurgency",
+        "event_sub_type": "Assault",
+        "start_date": "2025-07-05",
+        "end_date": "2025-07-05",
+        "type": "https://data.janes.com/ontologies/event/AttackEvent",
+        "event_location_lat": "33.8120979",
+        "event_location_long": "70.7473337"
+      },
+      "primary_country": "Pakistan"
+    },
+    {
+      "event": {
+        "id": "https://data.janes.com/event/8MWI7mPreBqFa53cmSO1fA",
+        "label": "Naval exercise conducted in South China Sea",
+        "name": "Naval exercise conducted in South China Sea",
+        "event_category": "Military",
+        "event_sub_type": "Exercise",
+        "start_date": "2025-06-20",
+        "end_date": "2025-06-25",
+        "type": "https://data.janes.com/ontologies/event/MilitaryEvent",
+        "event_location_lat": "15.5000",
+        "event_location_long": "114.0000"
+      },
+      "primary_country": "China"
+    },
+    {
+      "event": {
+        "id": "https://data.janes.com/event/9NXJ8nQsfCrGb64dnTO2gB",
+        "label": "Protests erupt in Tehran over economic conditions",
+        "name": "Protests erupt in Tehran over economic conditions",
+        "event_category": "Protests & Riots",
+        "event_sub_type": "Protest",
+        "start_date": "2025-06-15",
+        "end_date": "2025-06-15",
+        "type": "https://data.janes.com/ontologies/event/ActionEvent",
+        "event_location_lat": "35.6892",
+        "event_location_long": "51.3890"
+      },
+      "primary_country": "Iran"
+    },
+    {
+      "event": {
+        "id": "https://data.janes.com/event/0OYK9oRtgDsHc75eUPW3hC",
+        "label": "Drug trafficking network dismantled in Colombia",
+        "name": "Drug trafficking network dismantled in Colombia",
+        "event_category": "Serious & Organised Crime",
+        "event_sub_type": "Arrest",
+        "start_date": "2025-06-10",
+        "end_date": "2025-06-10",
+        "type": "https://data.janes.com/ontologies/event/JudicialEvent",
+        "event_location_lat": "4.7110",
+        "event_location_long": "-74.0721"
+      },
+      "primary_country": "Colombia"
+    },
+    {
+      "event": {
+        "id": "https://data.janes.com/event/1PZL0pSuhEtId86fVQX4iD",
+        "label": "Government announces new defense policy",
+        "name": "Government announces new defense policy",
+        "event_category": "Government & Political",
+        "event_sub_type": "Policy",
+        "start_date": "2025-06-01",
+        "end_date": "2025-06-01",
+        "type": "https://data.janes.com/ontologies/event/StatementEvent",
+        "event_location_lat": "38.9072",
+        "event_location_long": "-77.0369"
+      },
+      "primary_country": "United States"
+    }
+  ],
+  "total_records": 5
+}

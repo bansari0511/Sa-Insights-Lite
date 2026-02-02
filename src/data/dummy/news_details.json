@@ -1,0 +1,175 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "article": {
+    "id": "news-headline-001",
+    "title": "US Navy Conducts Freedom of Navigation Operation in South China Sea",
+    "subtitle": "USS John McCain sails within 12 nautical miles of Mischief Reef",
+    "summary": "The United States Navy conducted a freedom of navigation operation near the Spratly Islands in the South China Sea, challenging China's excessive maritime claims.",
+    "content": "<p>The United States Navy conducted a freedom of navigation operation (FONOP) near the Spratly Islands in the South China Sea on Monday,US Navy Seventh Fleet challenging what Washington considers to be China's excessive maritime claims in the strategically vital waterway.</p><p>The USS John McCain, an Arleigh Burke-class guided-missile destroyer, sailed within 12 nautical miles of Mischief Reef, one of several artificial islands China has built in the disputed waters. The operation asserted navigational rights and freedoms in accordance with international law.</p><p>\"U.S. forces operate in the South China Sea on a daily basis, as we have for more than a century,\" said Commander Nicole Schwegman, a spokeswoman for the U.S. Seventh Fleet. \"All operations are designed to be conducted in accordance with international law.\"</p><p>China's foreign ministry condemned the operation as a provocation that undermines regional peace and stability. Spokesman Wang Wenbin said Chinese forces \"tracked and monitored\" the American vessel and lodged \"stern representations\" with Washington.</p><p>This marks the third such operation this year as tensions continue to simmer in the South China Sea, where China claims sovereignty over nearly all of the 1.3 million square mile waterway despite competing claims from several Southeast Asian nations.</p>",
+    "source": "Defense News",
+    "author": "James Mitchell",
+    "classification": "UNCLASSIFIED",
+    "date": "2024-10-30",
+    "lastModifiedDate": "2024-10-30T10:30:00Z",
+    "publishedDate": "2024-10-30T08:00:00Z",
+    "category": "Maritime Security",
+    "region": "Indo-Pacific",
+    "country": [
+      "United States",
+      "China"
+    ],
+    "image": "https://picsum.photos/seed/nav-ops/800/450",
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/nav-ops-1/800/450",
+        "caption": "USS John McCain in the South China Sea"
+      },
+      {
+        "url": "https://picsum.photos/seed/nav-ops-2/800/450",
+        "caption": "Aerial view of Mischief Reef"
+      },
+      {
+        "url": "https://picsum.photos/seed/nav-ops-3/800/450",
+        "caption": "Map of South China Sea disputed areas"
+      }
+    ],
+    "tags": [
+      "South China Sea",
+      "Freedom of Navigation",
+      "US Navy",
+      "FONOP",
+      "Mischief Reef",
+      "Spratly Islands"
+    ],
+    "related_articles": [
+      {
+        "id": "news-headline-004",
+        "title": "Chinese Coast Guard Vessels Surround Philippine Ship in Disputed Waters",
+        "date": "2024-10-27"
+      },
+      {
+        "id": "news-headline-008",
+        "title": "Russia and China Conduct Joint Naval Exercises in Pacific Ocean",
+        "date": "2024-10-22"
+      }
+    ],
+    "entities": [
+      {
+        "MilitaryGroup": [
+          "US Navy Seventh Fleet",
+          "79th Army Aviation Brigade"
+        ]
+      },
+      {
+        "EquipmentFamily": [
+          "F-16B",
+          "Arleigh Burke-class"
+        ]
+      },
+      {
+        "EquipmentVariant": [
+          "F-16C",
+          "Arleigh Burke-class"
+        ]
+      },
+      {
+        "ShipFamily": [
+          "Kolkata-class",
+          "Queen Elizabeth-class"
+        ]
+      },
+      {
+        "ShipInstance": [
+          "USS Arleigh Burke (DDG-51)",
+          "HMS Queen Elizabeth"
+        ]
+      },
+      {
+        "Installation": [
+          "Ramon Air Base",
+          "Hatzerim Air Base"
+        ]
+      },
+      {
+        "Organization": [
+          "US Department of State",
+          "Red Cat Holdings Inc",
+          "Teal Drones Inc"
+        ]
+      },
+      {
+        "Country": [
+          "United States",
+          "China"
+        ]
+      }
+    ],
+    "assets": {
+      "videos": [
+        {
+          "id": "v1",
+          "title": "Naval Operation Footage",
+          "url": "/assets/media/videos/naval_operation.mp4",
+          "extension": "mp4",
+          "duration": "00:10"
+        },
+        {
+          "id": "v2",
+          "title": "USS John McCain Overview",
+          "url": "/assets/media/videos/ship_overview.mp4",
+          "extension": "mp4",
+          "duration": "00:06"
+        }
+      ],
+      "audios": [
+        {
+          "id": "a1",
+          "title": "Press Briefing Audio",
+          "url": "/assets/media/audios/press_briefing.mp3",
+          "extension": "mp3",
+          "duration": "06:12"
+        },
+        {
+          "id": "a2",
+          "title": "Commander Interview",
+          "url": "/assets/media/audios/commander_interview.mp3",
+          "extension": "mp3",
+          "duration": "06:46"
+        }
+      ],
+      "documents": [
+        {
+          "id": "d1",
+          "title": "Official Navy Report",
+          "url": "/assets/media/documents/navy_report.pdf",
+          "extension": "pdf",
+          "size": "13 KB",
+          "pages": 1
+        },
+        {
+          "id": "d2",
+          "title": "Operation Brief Document",
+          "url": "/assets/media/documents/operation_brief.docx",
+          "extension": "docx",
+          "size": "7 KB",
+          "pages": 2
+        },
+        {
+          "id": "d3",
+          "title": "Fleet Statistics Data",
+          "url": "/assets/media/documents/fleet_statistics.xlsx",
+          "extension": "xlsx",
+          "size": "7 KB",
+          "pages": 1
+        }
+      ]
+    },
+    "metadata": {
+      "word_count": 342,
+      "read_time": "2 min",
+      "language": "en",
+      "last_updated": "2024-10-30T10:30:00Z"
+    }
+  }
+}

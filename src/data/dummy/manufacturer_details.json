@@ -1,0 +1,84 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "req_id": "req_manufacturer_001",
+  "result": [
+    {
+      "organization": {
+        "id": "ORG-001",
+        "entity_id": "ORG-001",
+        "label": "Lockheed Martin Corporation",
+        "legal_name": "Lockheed Martin Corporation",
+        "name": "Lockheed Martin",
+        "ownership": "Public",
+        "status": "Active",
+        "organization_type": "Defense Contractor",
+        "organization_sub_type": "Aerospace & Defense",
+        "synonym_label": "LMT, Lockheed, LM Corp",
+        "telephone_numbers": "+1-301-897-6000, +1-800-555-0123",
+        "last_modified_date": "2024-01-15T10:30:00Z",
+        "address_address_line1": "6801 Rockledge Drive",
+        "address_address_line2": "",
+        "address_city": "Bethesda",
+        "address_county": "Montgomery County",
+        "address_postcode": "20817"
+      },
+      "country_of_domicile": "United States",
+      "equipment_types": [
+        {
+          "type_id": "TYPE-001",
+          "type_name": "Fighter Aircraft",
+          "type_label": "Fighter Aircraft",
+          "items": [
+            {"id": "EQ-001", "label": "F-35 Lightning II", "entity_id": "EQ-001"},
+            {"id": "EQ-002", "label": "F-22 Raptor", "entity_id": "EQ-002"},
+            {"id": "EQ-004", "label": "F-16 Fighting Falcon", "entity_id": "EQ-004"}
+          ]
+        },
+        {
+          "type_id": "TYPE-002",
+          "type_name": "Transport Aircraft",
+          "type_label": "Transport Aircraft",
+          "items": [
+            {"id": "EQ-003", "label": "C-130J Super Hercules", "entity_id": "EQ-003"},
+            {"id": "EQ-005", "label": "C-5M Super Galaxy", "entity_id": "EQ-005"}
+          ]
+        },
+        {
+          "type_id": "TYPE-003",
+          "type_name": "Helicopters",
+          "type_label": "Helicopters",
+          "items": [
+            {"id": "EQ-006", "label": "UH-60 Black Hawk", "entity_id": "EQ-006"},
+            {"id": "EQ-007", "label": "CH-53K King Stallion", "entity_id": "EQ-007"}
+          ]
+        },
+        {
+          "type_id": "TYPE-004",
+          "type_name": "Missiles & Munitions",
+          "type_label": "Missiles & Munitions",
+          "items": [
+            {"id": "EQ-008", "label": "AGM-114 Hellfire", "entity_id": "EQ-008"},
+            {"id": "EQ-009", "label": "THAAD", "entity_id": "EQ-009"},
+            {"id": "EQ-010", "label": "PAC-3 Patriot", "entity_id": "EQ-010"}
+          ]
+        }
+      ],
+      "manufactures": [
+        {"id": "EQ-001", "label": "F-35 Lightning II", "entity_id": "EQ-001"},
+        {"id": "EQ-002", "label": "F-22 Raptor", "entity_id": "EQ-002"},
+        {"id": "EQ-003", "label": "C-130J Super Hercules", "entity_id": "EQ-003"},
+        {"id": "EQ-004", "label": "F-16 Fighting Falcon", "entity_id": "EQ-004"}
+      ],
+      "partner_of": [
+        {"id": "ORG-002", "label": "Northrop Grumman"},
+        {"id": "ORG-003", "label": "BAE Systems"},
+        {"id": "ORG-004", "label": "Raytheon Technologies"}
+      ],
+      "head_organization": [
+        {"id": "ORG-HQ", "label": "Lockheed Martin Headquarters"}
+      ],
+      "parent_organization": []
+    }
+  ]
+}

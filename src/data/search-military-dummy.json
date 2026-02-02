@@ -1,0 +1,226 @@
+{
+  "totalHits": 89,
+  "lastDocId": "military-2024-001-15",
+  "records": [
+    {
+      "id": "military-2024-11-001",
+      "title": "Indo-Pacific Maritime Security Summit 2024",
+      "branch": {"label": "Army"},
+      "echelon": {"label": "Brigade"},
+      "indigenousEchelon": "Squadron",
+      "orbat": [{"unitType": "Engineer", "operationalDomainType": "Combat", "operationalDomain": "Engineer Squadron"}],
+      "lastModifiedDate": "2024-11-15",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-001/800/450"
+    },
+    {
+      "id": "military-2024-11-002",
+      "title": "1st Armored Division Headquarters",
+      "branch": {"label": "Army"},
+      "echelon": {"label": "Division"},
+      "indigenousEchelon": "Division HQ",
+      "orbat": [{"unitType": "Armor", "operationalDomainType": "Combat", "operationalDomain": "Armored Division"}],
+      "lastModifiedDate": "2024-11-20",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-002/800/450"
+    },
+    {
+      "id": "military-2024-11-003",
+      "title": "Naval Air Wing Pacific Fleet",
+      "branch": {"label": "Navy"},
+      "echelon": {"label": "Wing"},
+      "indigenousEchelon": "Air Wing",
+      "orbat": [{"unitType": "Aviation", "operationalDomainType": "Combat Support", "operationalDomain": "Naval Aviation"}],
+      "lastModifiedDate": "2024-11-25",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-003/800/450"
+    },
+    {
+      "id": "military-2024-12-001",
+      "title": "82nd Airborne Division",
+      "branch": {"label": "Army"},
+      "echelon": {"label": "Division"},
+      "indigenousEchelon": "Airborne Division",
+      "orbat": [{"unitType": "Infantry", "operationalDomainType": "Combat", "operationalDomain": "Airborne Infantry"}],
+      "lastModifiedDate": "2024-12-05",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-004/800/450"
+    },
+    {
+      "id": "military-2024-12-002",
+      "title": "Marine Expeditionary Force I",
+      "branch": {"label": "Marine Corps"},
+      "echelon": {"label": "Corps"},
+      "indigenousEchelon": "MEF",
+      "orbat": [{"unitType": "Marine", "operationalDomainType": "Combat", "operationalDomain": "Expeditionary Force"}],
+      "lastModifiedDate": "2024-12-10",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-005/800/450"
+    },
+    {
+      "id": "military-2024-12-003",
+      "title": "Air Combat Command",
+      "branch": {"label": "Air Force"},
+      "echelon": {"label": "Command"},
+      "indigenousEchelon": "Major Command",
+      "orbat": [{"unitType": "Fighter", "operationalDomainType": "Combat", "operationalDomain": "Air Combat"}],
+      "lastModifiedDate": "2024-12-15",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-006/800/450"
+    },
+    {
+      "id": "military-2025-01-001",
+      "title": "Special Operations Command Europe",
+      "branch": {"label": "Special Forces"},
+      "echelon": {"label": "Command"},
+      "indigenousEchelon": "Theater Special Operations Command",
+      "orbat": [{"unitType": "Special Operations", "operationalDomainType": "Combat", "operationalDomain": "Special Warfare"}],
+      "lastModifiedDate": "2025-01-10",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-007/800/450"
+    },
+    {
+      "id": "military-2025-01-002",
+      "title": "Submarine Squadron 15",
+      "branch": {"label": "Navy"},
+      "echelon": {"label": "Squadron"},
+      "indigenousEchelon": "Submarine Squadron",
+      "orbat": [{"unitType": "Submarine", "operationalDomainType": "Combat", "operationalDomain": "Undersea Warfare"}],
+      "lastModifiedDate": "2025-01-20",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-008/800/450"
+    },
+    {
+      "id": "military-2025-02-001",
+      "title": "101st Airborne Division (Air Assault)",
+      "branch": {"label": "Army"},
+      "echelon": {"label": "Division"},
+      "indigenousEchelon": "Air Assault Division",
+      "orbat": [{"unitType": "Infantry", "operationalDomainType": "Combat", "operationalDomain": "Air Assault Infantry"}],
+      "lastModifiedDate": "2025-02-05",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-009/800/450"
+    },
+    {
+      "id": "military-2025-02-002",
+      "title": "Carrier Strike Group 11",
+      "branch": {"label": "Navy"},
+      "echelon": {"label": "Strike Group"},
+      "indigenousEchelon": "CSG",
+      "orbat": [{"unitType": "Carrier", "operationalDomainType": "Combat", "operationalDomain": "Naval Strike"}],
+      "lastModifiedDate": "2025-02-15",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-010/800/450"
+    },
+    {
+      "id": "military-2025-03-001",
+      "title": "3rd Infantry Division",
+      "branch": {"label": "Army"},
+      "echelon": {"label": "Division"},
+      "indigenousEchelon": "Mechanized Infantry Division",
+      "orbat": [{"unitType": "Infantry", "operationalDomainType": "Combat", "operationalDomain": "Mechanized Infantry"}],
+      "lastModifiedDate": "2025-03-10",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-011/800/450"
+    },
+    {
+      "id": "military-2025-03-002",
+      "title": "Space Operations Command",
+      "branch": {"label": "Space Force"},
+      "echelon": {"label": "Command"},
+      "indigenousEchelon": "Field Command",
+      "orbat": [{"unitType": "Space", "operationalDomainType": "Support", "operationalDomain": "Space Operations"}],
+      "lastModifiedDate": "2025-03-20",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-012/800/450"
+    },
+    {
+      "id": "military-2025-04-001",
+      "title": "10th Mountain Division",
+      "branch": {"label": "Army"},
+      "echelon": {"label": "Division"},
+      "indigenousEchelon": "Light Infantry Division",
+      "orbat": [{"unitType": "Infantry", "operationalDomainType": "Combat", "operationalDomain": "Mountain Infantry"}],
+      "lastModifiedDate": "2025-04-15",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-013/800/450"
+    },
+    {
+      "id": "military-2025-04-002",
+      "title": "Cyber Command",
+      "branch": {"label": "Cyber"},
+      "echelon": {"label": "Command"},
+      "indigenousEchelon": "Unified Combatant Command",
+      "orbat": [{"unitType": "Cyber", "operationalDomainType": "Support", "operationalDomain": "Cyber Operations"}],
+      "lastModifiedDate": "2025-04-25",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-014/800/450"
+    },
+    {
+      "id": "military-2025-05-001",
+      "title": "2nd Marine Division",
+      "branch": {"label": "Marine Corps"},
+      "echelon": {"label": "Division"},
+      "indigenousEchelon": "Marine Division",
+      "orbat": [{"unitType": "Marine", "operationalDomainType": "Combat", "operationalDomain": "Amphibious Assault"}],
+      "lastModifiedDate": "2025-05-10",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-015/800/450"
+    },
+    {
+      "id": "military-2025-05-002",
+      "title": "4th Fighter Wing",
+      "branch": {"label": "Air Force"},
+      "echelon": {"label": "Wing"},
+      "indigenousEchelon": "Fighter Wing",
+      "orbat": [{"unitType": "Fighter", "operationalDomainType": "Combat", "operationalDomain": "Air Superiority"}],
+      "lastModifiedDate": "2025-05-20",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-016/800/450"
+    },
+    {
+      "id": "military-2025-06-001",
+      "title": "1st Cavalry Division",
+      "branch": {"label": "Army"},
+      "echelon": {"label": "Division"},
+      "indigenousEchelon": "Armored Division",
+      "orbat": [{"unitType": "Cavalry", "operationalDomainType": "Combat", "operationalDomain": "Armored Cavalry"}],
+      "lastModifiedDate": "2025-06-05",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-017/800/450"
+    },
+    {
+      "id": "military-2025-06-002",
+      "title": "Pacific Fleet",
+      "branch": {"label": "Navy"},
+      "echelon": {"label": "Fleet"},
+      "indigenousEchelon": "Numbered Fleet",
+      "orbat": [{"unitType": "Fleet", "operationalDomainType": "Combat", "operationalDomain": "Naval Operations"}],
+      "lastModifiedDate": "2025-06-15",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-018/800/450"
+    },
+    {
+      "id": "military-2025-07-001",
+      "title": "75th Ranger Regiment",
+      "branch": {"label": "Army"},
+      "echelon": {"label": "Regiment"},
+      "indigenousEchelon": "Ranger Regiment",
+      "orbat": [{"unitType": "Ranger", "operationalDomainType": "Combat", "operationalDomain": "Special Operations"}],
+      "lastModifiedDate": "2025-07-10",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-019/800/450"
+    },
+    {
+      "id": "military-2025-07-002",
+      "title": "Strategic Bomber Command",
+      "branch": {"label": "Air Force"},
+      "echelon": {"label": "Command"},
+      "indigenousEchelon": "Major Command",
+      "orbat": [{"unitType": "Bomber", "operationalDomainType": "Combat", "operationalDomain": "Strategic Strike"}],
+      "lastModifiedDate": "2025-07-20",
+      "index": "military-groups",
+      "imageurl": "https://picsum.photos/seed/military-020/800/450"
+    }
+  ]
+}

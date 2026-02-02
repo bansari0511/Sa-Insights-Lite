@@ -1,0 +1,42 @@
+[
+                {
+                    "id": "https://data.janes.com/classification/4TUskBu8Quu9xVZ4w1SgNp",
+                    "count": 20212,
+                    "label": "Sighting"
+                },
+                {
+                    "id": "https://data.janes.com/classification/2gVgSjyMJv3kPsvlPzPiYs",
+                    "count": 19519,
+                    "label": "Combat"
+                },
+                {
+                    "id": "https://data.janes.com/classification/7hqiwFxGfpZHdQnu44TzE1",
+                    "count": 16290,
+                    "label": "Training and exercise"
+                },
+                {
+                    "id": "https://data.janes.com/classification/33BMj3YBhBDCSxZCCD1ZJj",
+                    "count": 4460,
+                    "label": "Administrative activities"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6UyPrlm5wHL6c3jR4k3KTw",
+                    "count": 4452,
+                    "label": "Logistics and support"
+                },
+                {
+                    "id": "https://data.janes.com/classification/24hKHIUaI5hegjw3yajVF4",
+                    "count": 1790,
+                    "label": "Homeland defence and security"
+                },
+                {
+                    "id": "https://data.janes.com/classification/2lQFBL4eFoPowfJPVbdXtz",
+                    "count": 1456,
+                    "label": "Equipment lifecycle"
+                },
+                {
+                    "id": "https://data.janes.com/classification/3fXvMkJRG5Da69cWU9SleT",
+                    "count": 1137,
+                    "label": "Peacekeeping and disaster relief"
+                }
+            ]

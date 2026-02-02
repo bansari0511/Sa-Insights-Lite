@@ -1,0 +1,337 @@
+[
+                {
+                    "id": "https://data.janes.com/classification/6iN2af92iYL8U9mmdy6fvo",
+                    "count": 13955,
+                    "label": "Engagement"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6PouxZ9ATOsMekvjm9ZPPL",
+                    "count": 12347,
+                    "label": "Field training exercise"
+                },
+                {
+                    "id": "https://data.janes.com/classification/21SekW3U43oJFwcBiyIYxT",
+                    "count": 12256,
+                    "label": "Organisation Sighting"
+                },
+                {
+                    "id": "https://data.janes.com/classification/1gNS4NPuXZPgEe6D8xKVLm",
+                    "count": 5970,
+                    "label": "Equipment sighting"
+                },
+                {
+                    "id": "https://data.janes.com/classification/7aNx03HrbyFaOuJpTScSCj",
+                    "count": 2401,
+                    "label": "Combat training"
+                },
+                {
+                    "id": "https://data.janes.com/classification/0qGZxvxUOfay18oHswBRSy",
+                    "count": 2212,
+                    "label": "Deployment"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6KnXjifHc8ZQrU2QKTsRi6",
+                    "count": 1882,
+                    "label": "Air defence"
+                },
+                {
+                    "id": "https://data.janes.com/classification/3dvn9XPbBs8WyHUJhRtCe5",
+                    "count": 1801,
+                    "label": "Strike"
+                },
+                {
+                    "id": "https://data.janes.com/classification/25NZWn7S9MW7Aq8mhSunJk",
+                    "count": 1696,
+                    "label": "Live-fire exercise"
+                },
+                {
+                    "id": "https://data.janes.com/classification/2yyixCx8rULoLpcSjPr3ry",
+                    "count": 1460,
+                    "label": "Port call"
+                },
+                {
+                    "id": "https://data.janes.com/classification/5zxgVkE6rS2YzhM2OkACMQ",
+                    "count": 1209,
+                    "label": "Appointment"
+                },
+                {
+                    "id": "https://data.janes.com/classification/7oAgZbuIRigS0Sruff5Lxj",
+                    "count": 1112,
+                    "label": "Equipment training"
+                },
+                {
+                    "id": "https://data.janes.com/classification/0KvmhdH2X7dJhxDOoJWel5",
+                    "count": 912,
+                    "label": "Patrol"
+                },
+                {
+                    "id": "https://data.janes.com/classification/28pLURq3vutZUMqeQf9po7",
+                    "count": 901,
+                    "label": "Direct action"
+                },
+                {
+                    "id": "https://data.janes.com/classification/5bOBcFI414baBbJJOC66Ed",
+                    "count": 743,
+                    "label": "Operational training"
+                },
+                {
+                    "id": "https://data.janes.com/classification/0XDXt9JjzUaIi6cuDSjdsZ",
+                    "count": 699,
+                    "label": "Troop movement"
+                },
+                {
+                    "id": "https://data.janes.com/classification/794R62HmnBUg9Z8OcqRTY6",
+                    "count": 653,
+                    "label": "Renaming and reallocation unit"
+                },
+                {
+                    "id": "https://data.janes.com/classification/5ljinqau2nHKBCLCzKyXfx",
+                    "count": 620,
+                    "label": "Raid"
+                },
+                {
+                    "id": "https://data.janes.com/classification/1BBrcgZfImYThe8p8Bscc1",
+                    "count": 571,
+                    "label": "Stability and rebuilding"
+                },
+                {
+                    "id": "https://data.janes.com/classification/508nHGRPX7rsiHjTtJjFVl",
+                    "count": 550,
+                    "label": "Civil support"
+                },
+                {
+                    "id": "https://data.janes.com/classification/1kQtDsHkfFQQdQHRFuwcU0",
+                    "count": 525,
+                    "label": "Aircraft scrambling"
+                },
+                {
+                    "id": "https://data.janes.com/classification/2TdDHdOmIGNj9cJFZCC4HB",
+                    "count": 442,
+                    "label": "Interdiction"
+                },
+                {
+                    "id": "https://data.janes.com/classification/3iWGS6ZqO25LhGDe8VQ4fO",
+                    "count": 440,
+                    "label": "Medical support"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6vcyl3D0Qzyw9YJUeq4mVc",
+                    "count": 380,
+                    "label": "Surveillance"
+                },
+                {
+                    "id": "https://data.janes.com/classification/4ckT3usdT7TtLK1ryxPnsy",
+                    "count": 374,
+                    "label": "Test"
+                },
+                {
+                    "id": "https://data.janes.com/classification/1jJNStUGtvSv7bAqRPfei3",
+                    "count": 357,
+                    "label": "Delivery"
+                },
+                {
+                    "id": "https://data.janes.com/classification/0qo2IGdYxuWbfM6lPwvacG",
+                    "count": 340,
+                    "label": "Battle loss"
+                },
+                {
+                    "id": "https://data.janes.com/classification/4SmZ9ZfNRyH3x1FDNwOUGW",
+                    "count": 336,
+                    "label": "Reconnaissance"
+                },
+                {
+                    "id": "https://data.janes.com/classification/2tnNHDZRpSd0Kw6iDdFdhK",
+                    "count": 309,
+                    "label": "Construction"
+                },
+                {
+                    "id": "https://data.janes.com/classification/05QnMbUiYrDZzhXNMfl0lZ",
+                    "count": 283,
+                    "label": "Humanitarian response"
+                },
+                {
+                    "id": "https://data.janes.com/classification/5z5VBoKUbYi4jN9QWM4beR",
+                    "count": 270,
+                    "label": "Search and rescue"
+                },
+                {
+                    "id": "https://data.janes.com/classification/49RLZr56hJ424P4YGXfkao",
+                    "count": 253,
+                    "label": "Explosive ordnance disposal"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6oV0W9hzTkyogbTtVrEduj",
+                    "count": 216,
+                    "label": "Maintenance and repair"
+                },
+                {
+                    "id": "https://data.janes.com/classification/7lwtgeBWGgHJKJdX9etxmZ",
+                    "count": 204,
+                    "label": "Donation"
+                },
+                {
+                    "id": "https://data.janes.com/classification/7aFO9MgS4GwLqfck4WaWVe",
+                    "count": 190,
+                    "label": "Counter narcotics operation"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6T3IQqVQyMEjFzWSYJKeo6",
+                    "count": 183,
+                    "label": "Foreign disaster relief"
+                },
+                {
+                    "id": "https://data.janes.com/classification/4Zf8nzpYacYx2G89Gobm8w",
+                    "count": 151,
+                    "label": "Combat service support"
+                },
+                {
+                    "id": "https://data.janes.com/classification/4DvUOLHuSDBCPWt6nSRVvN",
+                    "count": 149,
+                    "label": "Peace enforcement"
+                },
+                {
+                    "id": "https://data.janes.com/classification/1Hbb5fgasIioVsVSASN4Zt",
+                    "count": 132,
+                    "label": "Resupply"
+                },
+                {
+                    "id": "https://data.janes.com/classification/5m5vpMHxMXVXfXXVyJuoZY",
+                    "count": 122,
+                    "label": "Command post exercise"
+                },
+                {
+                    "id": "https://data.janes.com/classification/2tiOjxxg3O78wN59WV5RhW",
+                    "count": 118,
+                    "label": "New unit"
+                },
+                {
+                    "id": "https://data.janes.com/classification/20nbEP6RiR0nuyM2fvXphj",
+                    "count": 117,
+                    "label": "Induction/commissioning"
+                },
+                {
+                    "id": "https://data.janes.com/classification/4MLdTRmcfggIBlaD0cwbfc",
+                    "count": 115,
+                    "label": "Trial"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6ki1OdKWUrT8y8p8kCk3lK",
+                    "count": 82,
+                    "label": "Counter-terrorism operation"
+                },
+                {
+                    "id": "https://data.janes.com/classification/4CwRxNMBmDESyB2KjwQ3kl",
+                    "count": 72,
+                    "label": "Launch"
+                },
+                {
+                    "id": "https://data.janes.com/classification/47GgRAwehZYi67jyEjPugY",
+                    "count": 49,
+                    "label": "Decommissioning"
+                },
+                {
+                    "id": "https://data.janes.com/classification/56O6hsjs4o8VcBNp3xsyLT",
+                    "count": 47,
+                    "label": "Base realignment and closure"
+                },
+                {
+                    "id": "https://data.janes.com/classification/3paF1NpzqYRGukloXJvQBV",
+                    "count": 45,
+                    "label": "Personnel recovery"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6rDQjVbQt73I1kyRd6Bk6S",
+                    "count": 29,
+                    "label": "Counter-intelligence operation"
+                },
+                {
+                    "id": "https://data.janes.com/classification/4Ihhee0Dtts4pojCwWRzDt",
+                    "count": 23,
+                    "label": "Insfrastructure recovery and repair"
+                },
+                {
+                    "id": "https://data.janes.com/classification/4YboJhTmvdTGKlTz3cAh2J",
+                    "count": 23,
+                    "label": "Close combat"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6h0kASweXirHvDxo40tJUe",
+                    "count": 20,
+                    "label": "Non-combatant evacuation operations"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6SUKzVjYWB9Pc3u0qGBNlj",
+                    "count": 18,
+                    "label": "Equipment recovery"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6KnORUBaoHXzDauUmLghjt",
+                    "count": 14,
+                    "label": "Mobilisation"
+                },
+                {
+                    "id": "https://data.janes.com/classification/64HLPLpOLd1lq5n19eUJrL",
+                    "count": 13,
+                    "label": "Hostage rescue"
+                },
+                {
+                    "id": "https://data.janes.com/classification/0v90uUskC9bumUu99SBzbg",
+                    "count": 12,
+                    "label": "Equipment modification"
+                },
+                {
+                    "id": "https://data.janes.com/classification/51iL45ainTinkb5QIy1heh",
+                    "count": 12,
+                    "label": "Equipment transfer"
+                },
+                {
+                    "id": "https://data.janes.com/classification/3eFAS0h3qTT2CJHJaQSV9w",
+                    "count": 9,
+                    "label": "Initial operational capability"
+                },
+                {
+                    "id": "https://data.janes.com/classification/3yMNr9s6ZFTmrb3vyNiD9g",
+                    "count": 9,
+                    "label": "Combat engineering"
+                },
+                {
+                    "id": "https://data.janes.com/classification/2W8xOibDoSU9tHBYswQGiR",
+                    "count": 7,
+                    "label": "Combat support"
+                },
+                {
+                    "id": "https://data.janes.com/classification/1bhIWnP5zBMzAqlCmdzGM4",
+                    "count": 4,
+                    "label": "Full operational capability"
+                },
+                {
+                    "id": "https://data.janes.com/classification/3Z4KGatgYjHtkY1o3u8Gpg",
+                    "count": 4,
+                    "label": "Electronic counter measure"
+                },
+                {
+                    "id": "https://data.janes.com/classification/54l0jOWXRhTMYk3sS7aE1s",
+                    "count": 4,
+                    "label": "Peacemaking"
+                },
+                {
+                    "id": "https://data.janes.com/classification/4iOk2hmUYcbRZMFduzCMMj",
+                    "count": 3,
+                    "label": "Disarmament, demobilization, and reintegration (DDR)"
+                },
+                {
+                    "id": "https://data.janes.com/classification/0Di1WS6MpkRoEAWAn8qMKk",
+                    "count": 2,
+                    "label": "Minesweeping"
+                },
+                {
+                    "id": "https://data.janes.com/classification/5oStr3PQjkOdREvFmlne88",
+                    "count": 1,
+                    "label": "Electronic attack"
+                },
+                {
+                    "id": "https://data.janes.com/classification/6NHBUVVImnN8clbpW8HYIg",
+                    "count": 1,
+                    "label": "Reconstitution"
+                }
+            ]

@@ -1,0 +1,211 @@
+{
+  "country": [
+    "United States",
+    "United Kingdom",
+    "Singapore",
+    "India",
+    "France",
+    "Germany",
+    "Japan",
+    "Australia",
+    "South Korea",
+    "UAE",
+    "Norway",
+    "Canada"
+  ],
+  "location": [
+    "Washington DC",
+    "London",
+    "Singapore",
+    "New Delhi",
+    "Paris",
+    "Berlin",
+    "Tokyo",
+    "Sydney",
+    "Seoul",
+    "Dubai",
+    "Oslo",
+    "Ottawa",
+    "Brussels",
+    "Geneva",
+    "Vienna"
+  ],
+  "category": [
+    "Conference",
+    "Summit",
+    "Workshop",
+    "Training",
+    "Exhibition",
+    "Symposium",
+    "Forum",
+    "Seminar",
+    "Exercise",
+    "Meeting"
+  ],
+  "actorType": [
+    "Government",
+    "Military",
+    "International Organization",
+    "NGO",
+    "Private Sector",
+    "Academic Institution",
+    "Think Tank",
+    "Industry Association"
+  ],
+  "actorLabel": [
+    "Defense Ministry",
+    "Navy Command",
+    "Coast Guard",
+    "Maritime Agency",
+    "Security Council",
+    "Research Institute",
+    "Industry Leaders",
+    "Policy Makers"
+  ],
+  "actorNation": [
+    "United States",
+    "China",
+    "India",
+    "Russia",
+    "United Kingdom",
+    "France",
+    "Germany",
+    "Japan",
+    "Australia",
+    "South Korea",
+    "NATO Members",
+    "ASEAN Members",
+    "EU Members"
+  ],
+  "platforms": [
+    "Virtual",
+    "In-Person",
+    "Hybrid",
+    "Webinar",
+    "Live Streaming"
+  ],
+  "totalHits": 89,
+  "lastDocId": "event-2024-001-15",
+  "records": [
+    {
+      "id": "event-2024-11-001",
+      "title": "Indo-Pacific Maritime Security Summit 2024",
+      "summary": "Annual gathering of defense ministers, naval commanders, and security experts from 35 nations to discuss maritime security challenges in the Indo-Pacific region. Key topics include freedom of navigation, territorial disputes, anti-piracy operations, and maritime domain awareness. The summit will feature keynote addresses from senior government officials, panel discussions, and bilateral meetings. Expected attendance of over 500 participants from government, military, and private sectors.",
+      "lastModifiedDate": "2024-11-15",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-001/800/450"
+    },
+    {
+      "id": "event-2024-11-002",
+      "title": "NATO Maritime Innovation Workshop",
+      "summary": "Three-day workshop focused on emerging technologies for maritime security, including autonomous systems, artificial intelligence, and cyber defense capabilities. Participants will engage in hands-on demonstrations, technical presentations, and collaborative problem-solving sessions. Industry partners will showcase cutting-edge solutions for naval operations. The workshop aims to accelerate technology adoption across NATO maritime forces.",
+      "lastModifiedDate": "2024-11-20",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-002/800/450"
+    },
+    {
+      "id": "event-2024-11-003",
+      "title": "International Maritime Law Conference",
+      "summary": "Leading maritime law experts, diplomats, and academics will convene to discuss recent developments in international maritime law, including UNCLOS interpretations, arbitration cases, and emerging legal frameworks. Topics include exclusive economic zones, continental shelf boundaries, and marine environmental protection. The conference will feature moot court sessions and publication of proceedings in international law journals.",
+      "lastModifiedDate": "2024-11-25",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-003/800/450"
+    },
+    {
+      "id": "event-2024-12-001",
+      "title": "Asian Maritime Security Forum",
+      "summary": "Regional forum bringing together ASEAN member states, dialogue partners, and international organizations to address maritime security cooperation in Southeast Asia. Discussions will cover South China Sea tensions, Malacca Strait security, illegal fishing, and humanitarian assistance. The forum includes working group sessions on capacity building, information sharing, and joint exercises. Ministers and senior officials from 25 countries expected to attend.",
+      "lastModifiedDate": "2024-12-05",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-004/800/450"
+    },
+    {
+      "id": "event-2024-12-002",
+      "title": "Global Port Security and Resilience Summit",
+      "summary": "International summit addressing critical infrastructure protection, supply chain security, and resilience in global ports. Topics include cybersecurity threats, physical security measures, emergency response planning, and public-private partnerships. Port authorities, shipping companies, and security agencies will share best practices and lessons learned. Trade association leaders and government regulators will deliver keynote addresses.",
+      "lastModifiedDate": "2024-12-10",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-005/800/450"
+    },
+    {
+      "id": "event-2024-12-003",
+      "title": "Arctic Maritime Operations Exercise (AMOX-24)",
+      "summary": "Multinational naval exercise focused on Arctic maritime operations, search and rescue, and environmental response. Participating nations include Arctic Council members and observer states. The exercise will test interoperability, cold weather capabilities, and coordination protocols. Scenarios include oil spill response, medical evacuation, and navigation in ice-covered waters. Over 15 vessels and 2,000 personnel involved.",
+      "lastModifiedDate": "2024-12-15",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-006/800/450"
+    },
+    {
+      "id": "event-2025-01-001",
+      "title": "Maritime Cyber Security Conference 2025",
+      "summary": "Premier conference on cybersecurity for maritime industry, covering threats to shipping, port operations, offshore platforms, and naval systems. Expert speakers will address vulnerability assessments, incident response, regulatory compliance, and emerging attack vectors. The conference includes certification workshops, vendor exhibitions, and networking sessions. Attendance expected from IT professionals, maritime operators, and government cybersecurity agencies.",
+      "lastModifiedDate": "2025-01-10",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-007/800/450"
+    },
+    {
+      "id": "event-2025-01-002",
+      "title": "Indian Ocean Naval Symposium (IONS) Leadership Conclave",
+      "summary": "Biennial gathering of naval chiefs from Indian Ocean region nations to enhance maritime cooperation and build mutual understanding. The conclave will focus on shared security challenges, humanitarian assistance, disaster relief, and capacity building initiatives. Working groups will address maritime domain awareness, counter-piracy, and submarine safety. Cultural events and ship visits will complement formal sessions.",
+      "lastModifiedDate": "2025-01-20",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-008/800/450"
+    },
+    {
+      "id": "event-2025-02-001",
+      "title": "Mediterranean Maritime Security Dialogue",
+      "summary": "High-level dialogue bringing together Mediterranean coastal states, EU institutions, and international partners to address migration, terrorism, organized crime, and environmental challenges. Sessions will examine coordination mechanisms, burden sharing, and sustainable solutions. The dialogue aims to produce actionable recommendations for policymakers. Participation includes interior ministers, coast guard commanders, and international organization representatives.",
+      "lastModifiedDate": "2025-02-05",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-009/800/450"
+    },
+    {
+      "id": "event-2025-02-002",
+      "title": "Pacific Partnership Humanitarian Exercise",
+      "summary": "Annual multilateral humanitarian assistance and disaster relief preparedness mission in the Asia-Pacific region. Host nation engagements include medical civic actions, engineering projects, and community relations events. Military and civilian participants from multiple nations will conduct training, capacity building, and knowledge exchange. The exercise promotes regional cooperation and strengthens disaster response capabilities.",
+      "lastModifiedDate": "2025-02-15",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-010/800/450"
+    },
+    {
+      "id": "event-2025-03-001",
+      "title": "International Submarine Conference",
+      "summary": "Technical conference on submarine design, operations, and emerging technologies. Topics include stealth capabilities, propulsion systems, weapons integration, and crew training. Submarine commanders, naval architects, and defense contractors will present papers and participate in panel discussions. Classification-appropriate sessions will address operational challenges and lessons learned. Major submarine-operating navies represented.",
+      "lastModifiedDate": "2025-03-10",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-011/800/450"
+    },
+    {
+      "id": "event-2025-03-002",
+      "title": "Maritime Domain Awareness Technology Expo",
+      "summary": "Exhibition showcasing the latest technologies for maritime surveillance, tracking, and intelligence. Exhibitors will demonstrate radar systems, satellite imagery, AIS analytics, drone surveillance, and integrated command and control platforms. Live demonstrations, technical seminars, and one-on-one consultations available. Government agencies, coast guards, and maritime security companies are primary attendees.",
+      "lastModifiedDate": "2025-03-20",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-012/800/450"
+    },
+    {
+      "id": "event-2025-04-001",
+      "title": "AUKUS Defense Innovation Symposium",
+      "summary": "Symposium bringing together government, industry, and research institutions from Australia, United Kingdom, and United States to advance defense innovation priorities. Focus areas include advanced capabilities, quantum technologies, artificial intelligence, and cyber capabilities. Trilateral working groups will identify collaboration opportunities and accelerate technology development. Senior defense officials will provide strategic direction.",
+      "lastModifiedDate": "2025-04-15",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-013/800/450"
+    },
+    {
+      "id": "event-2025-04-002",
+      "title": "Women in Maritime Leadership Summit",
+      "summary": "Summit celebrating and advancing women's leadership in maritime professions, including naval service, merchant marine, port operations, and maritime policy. Keynote speakers include senior female naval officers, shipping executives, and government officials. Mentorship programs, professional development workshops, and networking opportunities will support career advancement. The summit aims to promote gender diversity and inclusion in maritime sectors.",
+      "lastModifiedDate": "2025-04-25",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-014/800/450"
+    },
+    {
+      "id": "event-2025-05-001",
+      "title": "Countering Illegal, Unreported, and Unregulated Fishing Workshop",
+      "summary": "International workshop on combating IUU fishing through enhanced monitoring, control, and surveillance. Experts will share best practices in vessel tracking, port state measures, regional cooperation, and enforcement strategies. Case studies will highlight successful prosecutions and deterrence measures. The workshop supports implementation of international agreements on sustainable fisheries management. Fisheries managers, coast guard officials, and conservation organizations participating.",
+      "lastModifiedDate": "2025-05-10",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/event-015/800/450"
+    }
+  ]
+}

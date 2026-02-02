@@ -1,0 +1,21 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "last_updated_date": "2025-12-05",
+  "last_updated_list": [
+    {"country": "India", "last_modified_date": "2025-01-01"},
+    {"country": "USA", "last_modified_date": "2025-02-10"},
+    {"country": "Germany", "last_modified_date": "2025-03-15"},
+    {"country": "China", "last_modified_date": "2025-04-15"},
+    {"country": "Brazil", "last_modified_date": "2025-05-10"},
+    {"country": "Canada", "last_modified_date": "2025-06-12"},
+    {"country": "Australia", "last_modified_date": "2025-07-01"},
+    {"country": "United Kingdom", "last_modified_date": "2025-08-18"},
+    {"country": "France", "last_modified_date": "2025-09-03"},
+    {"country": "Japan", "last_modified_date": "2025-10-22"},
+    {"country": "South Korea", "last_modified_date": "2025-11-11"},
+    {"country": "Italy", "last_modified_date": "2025-03-25"},
+    {"country": "Spain", "last_modified_date": "2025-04-30"},
+    {"country": "South Africa", "last_modified_date": "2025-02-20"}
+  ]
+}

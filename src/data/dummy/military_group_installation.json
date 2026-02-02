@@ -1,0 +1,37 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {
+      "installations": [
+        {
+          "id": "https://data.ntronet.org/installation/309IFhiOZSnxbnMwfIwDYK",
+          "label": "Camp Tirzah",
+          "type": "Base"
+        },
+        {
+          "id": "https://data.ntronet.org/installation/5PFK0XICnlDBy4Qw4E37bN",
+          "label": "Kadum Camp",
+          "type": "Base"
+        },
+        {
+          "id": "https://data.ntronet.org/installation/6ABC1234567890WXYZ",
+          "label": "Liaoyang Air Field",
+          "type": "Air Base"
+        },
+        {
+          "id": "https://data.ntronet.org/installation/7DEF0987654321LMNO",
+          "label": "Shenyang Military Airfield",
+          "type": "Air Base"
+        },
+        {
+          "id": "https://data.ntronet.org/installation/8GHI5678901234PQRS",
+          "label": "Northern Command HQ",
+          "type": "Ground Forces"
+        }
+      ]
+    }
+  ],
+  "req_id": "swagger_test_req_id",
+  "total_records": 1
+}

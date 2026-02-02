@@ -1,0 +1,260 @@
+{
+  "country": [
+    "United States",
+    "China",
+    "India",
+    "United Kingdom",
+    "Japan",
+    "Australia",
+    "France",
+    "Russia",
+    "Germany",
+    "South Korea",
+    "Indonesia",
+    "Singapore",
+    "Philippines",
+    "Vietnam",
+    "Malaysia"
+  ],
+  "eventcountry": [
+    "United States",
+    "United Kingdom",
+    "Singapore",
+    "India",
+    "France",
+    "Germany",
+    "Japan",
+    "Australia",
+    "UAE",
+    "Norway"
+  ],
+  "organization": [
+    "NATO",
+    "United Nations",
+    "ASEAN",
+    "European Union",
+    "International Maritime Organization",
+    "World Trade Organization",
+    "QUAD",
+    "AUKUS"
+  ],
+  "nsag": [
+    "Houthi Rebels",
+    "Somali Pirates",
+    "Abu Sayyaf Group",
+    "Maritime Militia"
+  ],
+  "location": [
+    "Washington DC",
+    "London",
+    "Singapore",
+    "New Delhi",
+    "Paris",
+    "Tokyo",
+    "Sydney",
+    "Dubai",
+    "Oslo"
+  ],
+  "category": [
+    "Conference",
+    "Summit",
+    "Workshop",
+    "Training",
+    "Exhibition",
+    "Exercise"
+  ],
+  "actorType": [
+    "Government",
+    "Military",
+    "International Organization",
+    "Private Sector",
+    "Academic Institution"
+  ],
+  "actorLabel": [
+    "Defense Ministry",
+    "Navy Command",
+    "Coast Guard",
+    "Maritime Agency",
+    "Research Institute"
+  ],
+  "actorNation": [
+    "United States",
+    "China",
+    "India",
+    "United Kingdom",
+    "France",
+    "Japan",
+    "Australia",
+    "NATO Members",
+    "ASEAN Members"
+  ],
+  "platforms": [
+    "Virtual",
+    "In-Person",
+    "Hybrid"
+  ],
+  "totalHits": 425,
+  "lastDocId": "combined-2024-001-20",
+  "records": [
+    {
+      "id": "news-2024-11-001",
+      "title": "US Navy Conducts Freedom of Navigation Operation in South China Sea",
+      "summary": "The United States Navy conducted a freedom of navigation operation near the Spratly Islands in the South China Sea, challenging China's excessive maritime claims. The USS John McCain destroyer sailed within 12 nautical miles of Mischief Reef, asserting international law rights. China's foreign ministry condemned the operation as a provocation that undermines regional peace and stability.",
+      "lastModifiedDate": "2024-10-30",
+      "index": "news",
+      "imageurl": "https://picsum.photos/seed/combo-news-001/800/450"
+    },
+    {
+      "id": "event-2024-11-001",
+      "title": "Indo-Pacific Maritime Security Summit 2024",
+      "summary": "Annual gathering of defense ministers, naval commanders, and security experts from 35 nations to discuss maritime security challenges in the Indo-Pacific region. Key topics include freedom of navigation, territorial disputes, anti-piracy operations, and maritime domain awareness. The summit will feature keynote addresses from senior government officials and panel discussions.",
+      "lastModifiedDate": "2024-11-15",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/combo-event-001/800/450"
+    },
+    {
+      "id": "intel-2024-11-001",
+      "title": "Strategic Assessment: China's Naval Expansion in the South China Sea",
+      "summary": "Comprehensive intelligence analysis examining China's accelerated naval modernization and island militarization in disputed South China Sea territories. The assessment covers newly constructed military facilities, advanced weapons deployments, and increased operational tempo of Chinese naval forces. Analysis indicates strategic intent to establish de facto control over contested waters.",
+      "lastModifiedDate": "2024-10-30",
+      "index": "intelligence briefings",
+      "imageurl": "https://picsum.photos/seed/combo-intel-001/800/450"
+    },
+    {
+      "id": "news-2024-11-002",
+      "title": "India and Japan Sign Historic Maritime Security Cooperation Agreement",
+      "summary": "India and Japan have signed a comprehensive maritime security cooperation agreement aimed at enhancing regional stability in the Indo-Pacific. The agreement includes joint naval exercises, intelligence sharing, and technology transfer provisions. Prime Minister Modi and Prime Minister Kishida emphasized their commitment to a free and open Indo-Pacific.",
+      "lastModifiedDate": "2024-10-29",
+      "index": "news",
+      "imageurl": "https://picsum.photos/seed/combo-news-002/800/450"
+    },
+    {
+      "id": "event-2024-11-002",
+      "title": "NATO Maritime Innovation Workshop",
+      "summary": "Three-day workshop focused on emerging technologies for maritime security, including autonomous systems, artificial intelligence, and cyber defense capabilities. Participants will engage in hands-on demonstrations, technical presentations, and collaborative problem-solving sessions. Industry partners will showcase cutting-edge solutions for naval operations.",
+      "lastModifiedDate": "2024-11-20",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/combo-event-002/800/450"
+    },
+    {
+      "id": "news-2024-11-003",
+      "title": "NATO Expands Maritime Presence in Mediterranean Following Regional Tensions",
+      "summary": "NATO has announced an expansion of its maritime presence in the Mediterranean Sea in response to increasing regional tensions and security concerns. The alliance will deploy additional naval assets and increase surveillance operations. Secretary General emphasized the importance of maintaining freedom of navigation and protecting critical infrastructure.",
+      "lastModifiedDate": "2024-10-28",
+      "index": "news",
+      "imageurl": "https://picsum.photos/seed/combo-news-003/800/450"
+    },
+    {
+      "id": "intel-2024-11-002",
+      "title": "Threat Brief: Iranian Proxy Activities in Maritime Domains",
+      "summary": "Intelligence briefing on Iranian-backed proxy forces conducting asymmetric maritime operations in the Persian Gulf, Red Sea, and Gulf of Oman. Analysis covers attack patterns against commercial shipping, mine-laying activities, and drone strikes on maritime targets. Assessment identifies coordination between IRGC naval forces and Houthi militants.",
+      "lastModifiedDate": "2024-10-28",
+      "index": "intelligence briefings",
+      "imageurl": "https://picsum.photos/seed/combo-intel-002/800/450"
+    },
+    {
+      "id": "event-2024-11-003",
+      "title": "International Maritime Law Conference",
+      "summary": "Leading maritime law experts, diplomats, and academics will convene to discuss recent developments in international maritime law, including UNCLOS interpretations, arbitration cases, and emerging legal frameworks. Topics include exclusive economic zones, continental shelf boundaries, and marine environmental protection.",
+      "lastModifiedDate": "2024-11-25",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/combo-event-003/800/450"
+    },
+    {
+      "id": "news-2024-11-004",
+      "title": "Chinese Coast Guard Vessels Surround Philippine Ship in Disputed Waters",
+      "summary": "Multiple Chinese Coast Guard vessels surrounded a Philippine supply ship near Second Thomas Shoal in the South China Sea, marking the latest escalation in territorial disputes. The Philippines condemned the action as harassment and filed a diplomatic protest. International observers expressed concern about the increasing frequency of such incidents.",
+      "lastModifiedDate": "2024-10-27",
+      "index": "news",
+      "imageurl": "https://picsum.photos/seed/combo-news-004/800/450"
+    },
+    {
+      "id": "news-2024-11-005",
+      "title": "European Union Launches New Maritime Security Strategy for 2024-2030",
+      "summary": "The European Union has unveiled a comprehensive maritime security strategy covering the period 2024-2030, focusing on hybrid threats, climate change impacts, and critical infrastructure protection. The strategy emphasizes multilateral cooperation and technological innovation. EU officials highlighted the importance of securing trade routes.",
+      "lastModifiedDate": "2024-10-26",
+      "index": "news",
+      "imageurl": "https://picsum.photos/seed/combo-news-005/800/450"
+    },
+    {
+      "id": "intel-2024-11-003",
+      "title": "Cyber Threat Analysis: Maritime Infrastructure Vulnerabilities",
+      "summary": "Technical intelligence report examining cyber threat landscape targeting maritime critical infrastructure, including ports, shipping companies, and naval communications systems. The analysis identifies state-sponsored advanced persistent threat groups and their tactics, techniques, and procedures. Report details recent intrusions and malware families.",
+      "lastModifiedDate": "2024-10-26",
+      "index": "intelligence briefings",
+      "imageurl": "https://picsum.photos/seed/combo-intel-003/800/450"
+    },
+    {
+      "id": "event-2024-12-001",
+      "title": "Asian Maritime Security Forum",
+      "summary": "Regional forum bringing together ASEAN member states, dialogue partners, and international organizations to address maritime security cooperation in Southeast Asia. Discussions will cover South China Sea tensions, Malacca Strait security, illegal fishing, and humanitarian assistance. Ministers and senior officials from 25 countries expected to attend.",
+      "lastModifiedDate": "2024-12-05",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/combo-event-004/800/450"
+    },
+    {
+      "id": "news-2024-11-006",
+      "title": "Australia Announces $2 Billion Investment in Naval Capabilities",
+      "summary": "The Australian government announced a $2 billion investment package to enhance naval capabilities and maritime surveillance. The funding will support new patrol vessels, advanced sensors, and cybersecurity systems. Defense Minister emphasized Australia's commitment to regional security and the AUKUS partnership.",
+      "lastModifiedDate": "2024-10-25",
+      "index": "news",
+      "imageurl": "https://picsum.photos/seed/combo-news-006/800/450"
+    },
+    {
+      "id": "event-2024-12-002",
+      "title": "Global Port Security and Resilience Summit",
+      "summary": "International summit addressing critical infrastructure protection, supply chain security, and resilience in global ports. Topics include cybersecurity threats, physical security measures, emergency response planning, and public-private partnerships. Port authorities, shipping companies, and security agencies will share best practices.",
+      "lastModifiedDate": "2024-12-10",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/combo-event-005/800/450"
+    },
+    {
+      "id": "intel-2024-11-004",
+      "title": "Intelligence Update: Russian Naval Activities in Arctic Region",
+      "summary": "Classified-level intelligence update on Russian military buildup and naval activities in the Arctic Ocean. Report covers new submarine deployments, icebreaker fleet expansion, and establishment of forward operating bases. Assessment examines strategic objectives including resource access and sea lane control.",
+      "lastModifiedDate": "2024-10-24",
+      "index": "intelligence briefings",
+      "imageurl": "https://picsum.photos/seed/combo-intel-004/800/450"
+    },
+    {
+      "id": "news-2024-11-007",
+      "title": "International Tribunal Rules on Maritime Boundary Dispute Between Kenya and Somalia",
+      "summary": "The International Court of Justice issued a landmark ruling on the maritime boundary dispute between Kenya and Somalia in the Indian Ocean. The decision splits the contested area, granting both nations access to potentially resource-rich waters. Legal experts described the ruling as balanced and based on international maritime law principles.",
+      "lastModifiedDate": "2024-10-24",
+      "index": "news",
+      "imageurl": "https://picsum.photos/seed/combo-news-007/800/450"
+    },
+    {
+      "id": "news-2024-11-008",
+      "title": "Singapore Hosts ASEAN Maritime Security Conference with Record Attendance",
+      "summary": "Singapore hosted the annual ASEAN Maritime Security Conference with record attendance from 45 countries and international organizations. Discussions focused on piracy prevention, environmental protection, and sustainable fishing practices. Participants emphasized the importance of rules-based order and peaceful dispute resolution.",
+      "lastModifiedDate": "2024-10-23",
+      "index": "news",
+      "imageurl": "https://picsum.photos/seed/combo-news-008/800/450"
+    },
+    {
+      "id": "event-2024-12-003",
+      "title": "Arctic Maritime Operations Exercise (AMOX-24)",
+      "summary": "Multinational naval exercise focused on Arctic maritime operations, search and rescue, and environmental response. Participating nations include Arctic Council members and observer states. The exercise will test interoperability, cold weather capabilities, and coordination protocols. Over 15 vessels and 2,000 personnel involved.",
+      "lastModifiedDate": "2024-12-15",
+      "index": "events",
+      "imageurl": "https://picsum.photos/seed/combo-event-006/800/450"
+    },
+    {
+      "id": "intel-2024-11-005",
+      "title": "Special Report: North Korean Maritime Sanctions Evasion Networks",
+      "summary": "Intelligence investigation into North Korean ship-to-ship transfer operations and sanctions evasion techniques. Report maps illicit maritime networks, shell companies, and complicit flag states facilitating prohibited trade. Analysis includes vessel tracking data, financial flows, and procurement patterns for weapons programs.",
+      "lastModifiedDate": "2024-10-22",
+      "index": "intelligence briefings",
+      "imageurl": "https://picsum.photos/seed/combo-intel-005/800/450"
+    },
+    {
+      "id": "news-2024-11-009",
+      "title": "Russia and China Conduct Joint Naval Exercises in Pacific Ocean",
+      "summary": "Russian and Chinese naval forces conducted joint military exercises in the western Pacific Ocean, the largest such drills to date between the two nations. The exercises included anti-submarine warfare, air defense, and maritime interdiction scenarios. Western analysts view the drills as a demonstration of growing military cooperation.",
+      "lastModifiedDate": "2024-10-22",
+      "index": "news",
+      "imageurl": "https://picsum.photos/seed/combo-news-009/800/450"
+    }
+  ]
+}

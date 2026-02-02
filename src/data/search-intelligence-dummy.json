@@ -1,0 +1,149 @@
+{
+  "country": [
+    "United States",
+    "China",
+    "Russia",
+    "Iran",
+    "North Korea",
+    "United Kingdom",
+    "France",
+    "Israel",
+    "India",
+    "Pakistan",
+    "Saudi Arabia",
+    "Turkey"
+  ],
+  "organization": [
+    "CIA",
+    "NSA",
+    "MI6",
+    "Mossad",
+    "FSB",
+    "MSS",
+    "DGSE",
+    "RAW",
+    "ISI",
+    "GIP",
+    "ASIS",
+    "BND"
+  ],
+  "nsag": [
+    "Al-Qaeda",
+    "ISIS",
+    "Hezbollah",
+    "Taliban",
+    "Hamas",
+    "Houthi Movement",
+    "Boko Haram",
+    "Al-Shabaab"
+  ],
+  "totalHits": 156,
+  "nextFetch": "intel-2024-001-15",
+  "records": [
+    {
+      "id": "intel-2024-11-001",
+      "title": "Strategic Assessment: China's Naval Expansion in the South China Sea",
+      "summary": "Comprehensive intelligence analysis examining China's accelerated naval modernization and island militarization in disputed South China Sea territories. The assessment covers newly constructed military facilities, advanced weapons deployments, and increased operational tempo of Chinese naval forces. Analysis indicates strategic intent to establish de facto control over contested waters and challenge US naval presence. Recommendations include enhanced surveillance, diplomatic pressure, and strengthened regional alliances.",
+      "lastModifiedDate": "2024-10-30",
+      "image": "https://picsum.photos/seed/intel-001/800/450"
+    },
+    {
+      "id": "intel-2024-11-002",
+      "title": "Threat Brief: Iranian Proxy Activities in Maritime Domains",
+      "summary": "Intelligence briefing on Iranian-backed proxy forces conducting asymmetric maritime operations in the Persian Gulf, Red Sea, and Gulf of Oman. Analysis covers attack patterns against commercial shipping, mine-laying activities, and drone strikes on maritime targets. Assessment identifies coordination between IRGC naval forces and Houthi militants. Briefing includes tactical indicators and defensive countermeasures for maritime operators.",
+      "lastModifiedDate": "2024-10-28",
+      "image": "https://picsum.photos/seed/intel-002/800/450"
+    },
+    {
+      "id": "intel-2024-11-003",
+      "title": "Cyber Threat Analysis: Maritime Infrastructure Vulnerabilities",
+      "summary": "Technical intelligence report examining cyber threat landscape targeting maritime critical infrastructure, including ports, shipping companies, and naval communications systems. The analysis identifies state-sponsored advanced persistent threat groups and their tactics, techniques, and procedures. Report details recent intrusions, malware families, and exploitation of maritime-specific systems. Defensive recommendations prioritize network segmentation, monitoring, and incident response capabilities.",
+      "lastModifiedDate": "2024-10-26",
+      "image": "https://picsum.photos/seed/intel-003/800/450"
+    },
+    {
+      "id": "intel-2024-11-004",
+      "title": "Intelligence Update: Russian Naval Activities in Arctic Region",
+      "summary": "Classified-level intelligence update on Russian military buildup and naval activities in the Arctic Ocean. Report covers new submarine deployments, icebreaker fleet expansion, and establishment of forward operating bases. Assessment examines strategic objectives including resource access, sea lane control, and power projection capabilities. Analysis includes implications for NATO northern flank security and recommendations for enhanced domain awareness.",
+      "lastModifiedDate": "2024-10-24",
+      "image": "https://picsum.photos/seed/intel-004/800/450"
+    },
+    {
+      "id": "intel-2024-11-005",
+      "title": "Special Report: North Korean Maritime Sanctions Evasion Networks",
+      "summary": "Intelligence investigation into North Korean ship-to-ship transfer operations and sanctions evasion techniques. Report maps illicit maritime networks, shell companies, and complicit flag states facilitating prohibited trade. Analysis includes vessel tracking data, financial flows, and procurement patterns for weapons programs. Recommendations support enhanced monitoring, coordinated interdictions, and targeted sanctions on enablers.",
+      "lastModifiedDate": "2024-10-22",
+      "image": "https://picsum.photos/seed/intel-005/800/450"
+    },
+    {
+      "id": "intel-2024-11-006",
+      "title": "Maritime Terrorism Assessment: Emerging Threats to Global Shipping",
+      "summary": "Comprehensive threat assessment examining terrorist groups' capabilities and intentions to target maritime infrastructure and commercial vessels. Analysis covers explosive boat attacks, maritime hijackings, and underwater threats. Report identifies vulnerable chokepoints, high-risk trade routes, and terrorist financing through maritime crime. Assessment includes indicators of attack planning and protective security recommendations.",
+      "lastModifiedDate": "2024-10-20",
+      "image": "https://picsum.photos/seed/intel-006/800/450"
+    },
+    {
+      "id": "intel-2024-11-007",
+      "title": "Intelligence Brief: Pakistan Naval Modernization and Strategic Posture",
+      "summary": "Strategic intelligence brief analyzing Pakistan's naval force development, submarine acquisitions, and evolving maritime doctrine. Assessment examines Chinese military assistance, technology transfers, and joint exercises. Report evaluates implications for regional balance of power and India-Pakistan dynamics. Analysis includes naval basing infrastructure, coastal defense systems, and nuclear-capable sea-launched cruise missiles.",
+      "lastModifiedDate": "2024-10-18",
+      "image": "https://picsum.photos/seed/intel-007/800/450"
+    },
+    {
+      "id": "intel-2024-11-008",
+      "title": "Counterintelligence Alert: Foreign Intelligence Targeting of Naval Technologies",
+      "summary": "Counterintelligence advisory warning of foreign intelligence services targeting sensitive naval technologies, submarine designs, and weapons systems. Alert details espionage methods including cyber intrusions, insider recruitment, and supply chain exploitation. Report identifies priority targets, threat actors, and recent case examples. Protective measures emphasize security awareness, classification management, and trusted foundry programs.",
+      "lastModifiedDate": "2024-10-16",
+      "image": "https://picsum.photos/seed/intel-008/800/450"
+    },
+    {
+      "id": "intel-2024-11-009",
+      "title": "Strategic Forecast: Future of Undersea Warfare 2030-2040",
+      "summary": "Long-range intelligence forecast examining technological developments, operational concepts, and strategic implications for undersea warfare. Analysis covers autonomous underwater vehicles, directed energy weapons, quantum sensing, and artificial intelligence applications. Report assesses adversary development timelines and identifies capability gaps requiring investment. Strategic recommendations address force structure, doctrine, and international cooperation priorities.",
+      "lastModifiedDate": "2024-10-14",
+      "image": "https://picsum.photos/seed/intel-009/800/450"
+    },
+    {
+      "id": "intel-2024-11-010",
+      "title": "Intelligence Summary: Turkish Naval Ambitions in Eastern Mediterranean",
+      "summary": "Current intelligence summary on Turkey's expanding naval presence and activities in the Eastern Mediterranean Sea. Report examines drilling operations in disputed waters, naval confrontations with Greece, and military cooperation with Libya. Analysis evaluates Turkish naval capabilities, doctrine, and strategic objectives. Assessment includes implications for NATO cohesion and regional stability.",
+      "lastModifiedDate": "2024-10-12",
+      "image": "https://picsum.photos/seed/intel-010/800/450"
+    },
+    {
+      "id": "intel-2024-11-011",
+      "title": "Warning Assessment: Maritime Flashpoints in Indo-Pacific Region",
+      "summary": "Intelligence warning assessment identifying potential maritime conflict scenarios in the Indo-Pacific region. Analysis examines Taiwan Strait tensions, Senkaku/Diaoyu Islands disputes, and South China Sea confrontations. Report evaluates indicators of military preparations, escalation pathways, and miscalculation risks. Warning intelligence supports crisis prevention, force posturing decisions, and diplomatic engagement strategies.",
+      "lastModifiedDate": "2024-10-10",
+      "image": "https://picsum.photos/seed/intel-011/800/450"
+    },
+    {
+      "id": "intel-2024-11-012",
+      "title": "Technical Analysis: Advanced Submarine Detection Technologies",
+      "summary": "Scientific and technical intelligence analysis of emerging anti-submarine warfare technologies, including quantum magnetometers, distributed acoustic sensors, and machine learning algorithms. Report assesses detection range improvements, operational implications, and countermeasure developments. Analysis includes adversary research programs and technology acquisition efforts. Recommendations address research priorities and capability investments.",
+      "lastModifiedDate": "2024-10-08",
+      "image": "https://picsum.photos/seed/intel-012/800/450"
+    },
+    {
+      "id": "intel-2024-11-013",
+      "title": "Intelligence Report: Piracy and Maritime Crime in West Africa",
+      "summary": "Regional intelligence report on piracy, armed robbery, and maritime kidnapping in the Gulf of Guinea. Analysis maps criminal networks, attack patterns, and ransom payment flows. Report examines links to organized crime, corruption, and weak governance. Assessment includes effectiveness of regional naval patrols and international assistance programs. Recommendations support capacity building and multilateral coordination.",
+      "lastModifiedDate": "2024-10-06",
+      "image": "https://picsum.photos/seed/intel-013/800/450"
+    },
+    {
+      "id": "intel-2024-11-014",
+      "title": "Geospatial Intelligence: Analysis of Submarine Construction Facilities",
+      "summary": "Geospatial intelligence report using satellite imagery analysis to assess submarine construction and maintenance facilities worldwide. Report documents facility expansions, construction timelines, and production capacity estimates. Analysis identifies technological capabilities, quality control processes, and workforce development. Assessment supports force structure projections and strategic planning. Includes detailed facility diagrams and technical annotations.",
+      "lastModifiedDate": "2024-10-04",
+      "image": "https://picsum.photos/seed/intel-014/800/450"
+    },
+    {
+      "id": "intel-2024-11-015",
+      "title": "Intelligence Estimate: Chinese Maritime Militia Operations",
+      "summary": "All-source intelligence estimate examining China's maritime militia forces, their organization, training, and operational employment. Analysis covers gray zone tactics, coordination with coast guard and navy, and harassment of foreign vessels. Report documents specific militia vessels, command structures, and decision-making processes. Assessment includes legal considerations and response options for affected nations.",
+      "lastModifiedDate": "2024-10-02",
+      "image": "https://picsum.photos/seed/intel-015/800/450"
+    }
+  ]
+}

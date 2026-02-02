@@ -1,0 +1,204 @@
+{
+  "country": [
+    "United States",
+    "China",
+    "India",
+    "United Kingdom",
+    "Japan",
+    "Australia",
+    "France",
+    "Germany",
+    "South Korea",
+    "Indonesia",
+    "Singapore",
+    "Philippines",
+    "Vietnam",
+    "Thailand",
+    "Malaysia"
+  ],
+  "organization": [
+    "NATO",
+    "United Nations",
+    "ASEAN",
+    "European Union",
+    "International Maritime Organization",
+    "World Trade Organization",
+    "G7",
+    "G20",
+    "APEC",
+    "QUAD",
+    "AUKUS"
+  ],
+  "nsag": [
+    "Houthi Rebels",
+    "Somali Pirates",
+    "Abu Sayyaf Group",
+    "Maritime Militia",
+    "Separatist Groups",
+    "Insurgent Networks"
+  ],
+  "totalHits": 247,
+  "nextFetch": "news-2024-001-20",
+  "records": [
+    {
+      "id": "news-2024-11-001",
+      "title": "US Navy Conducts Freedom of Navigation Operation in South China Sea",
+      "summary": "The United States Navy conducted a freedom of navigation operation near the Spratly Islands in the South China Sea, challenging China's excessive maritime claims. The USS John McCain destroyer sailed within 12 nautical miles of Mischief Reef, asserting international law rights. China's foreign ministry condemned the operation as a provocation that undermines regional peace and stability. This marks the third such operation this year.",
+      "lastModifiedDate": "2024-10-30",
+      "index": "news",
+      "image": "https://picsum.photos/seed/navy-001/800/450"
+    },
+    {
+      "id": "news-2024-11-002",
+      "title": "India and Japan Sign Historic Maritime Security Cooperation Agreement",
+      "summary": "India and Japan have signed a comprehensive maritime security cooperation agreement aimed at enhancing regional stability in the Indo-Pacific. The agreement includes joint naval exercises, intelligence sharing, and technology transfer provisions. Prime Minister Modi and Prime Minister Kishida emphasized their commitment to a free and open Indo-Pacific. The deal strengthens the QUAD alliance framework.",
+      "lastModifiedDate": "2024-10-29",
+      "index": "news",
+      "image": "https://picsum.photos/seed/india-japan/800/450"
+    },
+    {
+      "id": "news-2024-11-003",
+      "title": "NATO Expands Maritime Presence in Mediterranean Following Regional Tensions",
+      "summary": "NATO has announced an expansion of its maritime presence in the Mediterranean Sea in response to increasing regional tensions and security concerns. The alliance will deploy additional naval assets and increase surveillance operations. Secretary General emphasized the importance of maintaining freedom of navigation and protecting critical infrastructure. The expansion includes enhanced coordination with European Union naval forces.",
+      "lastModifiedDate": "2024-10-28",
+      "index": "news",
+      "image": "https://picsum.photos/seed/nato-med/800/450"
+    },
+    {
+      "id": "news-2024-11-004",
+      "title": "Chinese Coast Guard Vessels Surround Philippine Ship in Disputed Waters",
+      "summary": "Multiple Chinese Coast Guard vessels surrounded a Philippine supply ship near Second Thomas Shoal in the South China Sea, marking the latest escalation in territorial disputes. The Philippines condemned the action as harassment and filed a diplomatic protest. International observers expressed concern about the increasing frequency of such incidents. The United States reaffirmed its defense commitments to the Philippines.",
+      "lastModifiedDate": "2024-10-27",
+      "index": "news",
+      "image": "https://picsum.photos/seed/china-phil/800/450"
+    },
+    {
+      "id": "news-2024-11-005",
+      "title": "European Union Launches New Maritime Security Strategy for 2024-2030",
+      "summary": "The European Union has unveiled a comprehensive maritime security strategy covering the period 2024-2030, focusing on hybrid threats, climate change impacts, and critical infrastructure protection. The strategy emphasizes multilateral cooperation and technological innovation. EU officials highlighted the importance of securing trade routes and protecting undersea cables. Member states committed to increased investment in maritime domain awareness.",
+      "lastModifiedDate": "2024-10-26",
+      "index": "news",
+      "image": "https://picsum.photos/seed/eu-strategy/800/450"
+    },
+    {
+      "id": "news-2024-11-006",
+      "title": "Australia Announces $2 Billion Investment in Naval Capabilities",
+      "summary": "The Australian government announced a $2 billion investment package to enhance naval capabilities and maritime surveillance. The funding will support new patrol vessels, advanced sensors, and cybersecurity systems. Defense Minister emphasized Australia's commitment to regional security and the AUKUS partnership. The investment includes provisions for workforce development and indigenous defense industry support.",
+      "lastModifiedDate": "2024-10-25",
+      "index": "news",
+      "image": "https://picsum.photos/seed/aus-navy/800/450"
+    },
+    {
+      "id": "news-2024-11-007",
+      "title": "International Tribunal Rules on Maritime Boundary Dispute Between Kenya and Somalia",
+      "summary": "The International Court of Justice issued a landmark ruling on the maritime boundary dispute between Kenya and Somalia in the Indian Ocean. The decision splits the contested area, granting both nations access to potentially resource-rich waters. Legal experts described the ruling as balanced and based on international maritime law principles. Both countries expressed commitment to implementing the decision peacefully.",
+      "lastModifiedDate": "2024-10-24",
+      "index": "news",
+      "image": "https://picsum.photos/seed/kenya-somalia/800/450"
+    },
+    {
+      "id": "news-2024-11-008",
+      "title": "Singapore Hosts ASEAN Maritime Security Conference with Record Attendance",
+      "summary": "Singapore hosted the annual ASEAN Maritime Security Conference with record attendance from 45 countries and international organizations. Discussions focused on piracy prevention, environmental protection, and sustainable fishing practices. Participants emphasized the importance of rules-based order and peaceful dispute resolution. New initiatives for maritime domain awareness and capacity building were announced.",
+      "lastModifiedDate": "2024-10-23",
+      "index": "news",
+      "image": "https://picsum.photos/seed/asean-conf/800/450"
+    },
+    {
+      "id": "news-2024-11-009",
+      "title": "Russia and China Conduct Joint Naval Exercises in Pacific Ocean",
+      "summary": "Russian and Chinese naval forces conducted joint military exercises in the western Pacific Ocean, the largest such drills to date between the two nations. The exercises included anti-submarine warfare, air defense, and maritime interdiction scenarios. Western analysts view the drills as a demonstration of growing military cooperation. Both countries emphasized the exercises were defensive in nature.",
+      "lastModifiedDate": "2024-10-22",
+      "index": "news",
+      "image": "https://picsum.photos/seed/rus-china/800/450"
+    },
+    {
+      "id": "news-2024-11-010",
+      "title": "International Maritime Organization Updates Cybersecurity Guidelines for Ships",
+      "summary": "The International Maritime Organization has released updated cybersecurity guidelines for the global shipping industry, addressing emerging threats and technological vulnerabilities. The new standards require enhanced risk assessments, incident response plans, and crew training programs. Industry leaders welcomed the guidance amid increasing cyber attacks on maritime infrastructure. Implementation deadlines are set for 2025.",
+      "lastModifiedDate": "2024-10-21",
+      "index": "news",
+      "image": "https://picsum.photos/seed/imo-cyber/800/450"
+    },
+    {
+      "id": "news-2024-11-011",
+      "title": "Somali Pirates Hijack Commercial Vessel in Gulf of Aden",
+      "summary": "Somali pirates hijacked a commercial cargo vessel in the Gulf of Aden, marking the first successful piracy attack in the region in over two years. International naval forces are coordinating a response to secure the release of 23 crew members. Maritime security experts warn of a potential resurgence in piracy due to regional instability. Shipping companies are reviewing security protocols.",
+      "lastModifiedDate": "2024-10-20",
+      "index": "news",
+      "image": "https://picsum.photos/seed/piracy-001/800/450"
+    },
+    {
+      "id": "news-2024-11-012",
+      "title": "UK and France Strengthen Channel Maritime Cooperation Agreement",
+      "summary": "The United Kingdom and France signed an enhanced maritime cooperation agreement to address irregular migration, smuggling, and search and rescue operations in the English Channel. The agreement includes joint patrols, intelligence sharing, and technology deployment. Both nations committed additional resources to combat people smuggling networks. Human rights organizations called for adequate protections for asylum seekers.",
+      "lastModifiedDate": "2024-10-19",
+      "index": "news",
+      "image": "https://picsum.photos/seed/uk-france/800/450"
+    },
+    {
+      "id": "news-2024-11-013",
+      "title": "South Korea Unveils Next-Generation Submarine Program",
+      "summary": "South Korea unveiled plans for its next-generation submarine program, featuring advanced stealth technology, artificial intelligence systems, and extended operational range. The program represents a $5 billion investment over the next decade. Defense officials emphasized the submarines' role in maintaining regional deterrence. The first vessel is scheduled for delivery in 2028.",
+      "lastModifiedDate": "2024-10-18",
+      "index": "news",
+      "image": "https://picsum.photos/seed/skorea-sub/800/450"
+    },
+    {
+      "id": "news-2024-11-014",
+      "title": "Vietnam Protests Chinese Survey Activities in Exclusive Economic Zone",
+      "summary": "Vietnam lodged a formal diplomatic protest against Chinese survey vessel activities within its exclusive economic zone in the South China Sea. The Vietnamese foreign ministry described the activities as violations of international law and sovereignty rights. China claims the surveys are within its traditional fishing grounds. Regional tensions continue to simmer over overlapping maritime claims.",
+      "lastModifiedDate": "2024-10-17",
+      "index": "news",
+      "image": "https://picsum.photos/seed/vietnam-china/800/450"
+    },
+    {
+      "id": "news-2024-11-015",
+      "title": "Indonesia Commissions New Maritime Patrol Aircraft Fleet",
+      "summary": "Indonesia officially commissioned its new fleet of maritime patrol aircraft, significantly enhancing surveillance capabilities across its vast archipelagic waters. The aircraft feature advanced sensors, long-range capabilities, and maritime domain awareness systems. President emphasized the importance of protecting national sovereignty and combating illegal fishing. The fleet will operate from multiple bases across the archipelago.",
+      "lastModifiedDate": "2024-10-16",
+      "index": "news",
+      "image": "https://picsum.photos/seed/indo-patrol/800/450"
+    },
+    {
+      "id": "news-2024-11-016",
+      "title": "G7 Nations Pledge Support for Pacific Island Maritime Security",
+      "summary": "G7 leaders pledged increased support for Pacific Island nations' maritime security capabilities during their latest summit. The commitment includes funding for patrol vessels, training programs, and surveillance technology. Pacific leaders welcomed the support amid growing concerns about illegal fishing and climate change impacts. The initiative complements existing regional security frameworks.",
+      "lastModifiedDate": "2024-10-15",
+      "index": "news",
+      "image": "https://picsum.photos/seed/g7-pacific/800/450"
+    },
+    {
+      "id": "news-2024-11-017",
+      "title": "Thailand and Malaysia Agree on Joint Maritime Border Patrol Initiative",
+      "summary": "Thailand and Malaysia signed an agreement establishing joint maritime border patrols to combat smuggling, illegal immigration, and maritime crime. The initiative includes coordinated vessel deployments, real-time information sharing, and joint command centers. Officials emphasized the importance of regional cooperation for maritime security. Implementation will begin in early 2025.",
+      "lastModifiedDate": "2024-10-14",
+      "index": "news",
+      "image": "https://picsum.photos/seed/thai-malay/800/450"
+    },
+    {
+      "id": "news-2024-11-018",
+      "title": "Arctic Council Addresses Maritime Security Challenges in Melting Ice Routes",
+      "summary": "The Arctic Council convened to address emerging maritime security challenges as melting ice opens new shipping routes in the Arctic Ocean. Discussions focused on search and rescue capabilities, environmental protection, and territorial sovereignty. Member states committed to peaceful cooperation and adherence to international law. Increased military activities in the region raised concerns among some participants.",
+      "lastModifiedDate": "2024-10-13",
+      "index": "news",
+      "image": "https://picsum.photos/seed/arctic/800/450"
+    },
+    {
+      "id": "news-2024-11-019",
+      "title": "Brazil Launches Amazonian Blue Water Navy Initiative",
+      "summary": "Brazil announced the Amazonian Blue Water Navy initiative to enhance maritime security along its extensive Atlantic coastline and Amazon river network. The program includes new patrol vessels, riverine units, and integrated surveillance systems. Officials emphasized the initiative's role in combating illegal deforestation, drug trafficking, and protecting biodiversity. International partners offered technical support and training.",
+      "lastModifiedDate": "2024-10-12",
+      "index": "news",
+      "image": "https://picsum.photos/seed/brazil-navy/800/450"
+    },
+    {
+      "id": "news-2024-11-020",
+      "title": "New Zealand and Pacific Islands Forum Launch Maritime Surveillance Partnership",
+      "summary": "New Zealand and Pacific Islands Forum member states launched a comprehensive maritime surveillance partnership to monitor exclusive economic zones and combat illegal fishing. The partnership leverages satellite technology, aerial patrols, and vessel monitoring systems. Pacific leaders praised New Zealand's commitment to regional security. The initiative includes capacity building and technology transfer components.",
+      "lastModifiedDate": "2024-10-11",
+      "index": "news",
+      "image": "https://picsum.photos/seed/nz-pacific/800/450"
+    }
+  ]
+}

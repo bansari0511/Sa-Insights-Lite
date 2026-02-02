@@ -1,0 +1,88 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "entity_type": "NonStateGroup",
+  "result": [
+    {
+      "label": "Fuerzas Revolucionarias Populares - Lorenzo Zelaya (FRP-LZ)",
+      "entity_id": "NSAG_001"
+    },
+    {
+      "label": "Boko Haram (Jama'atu Ahlis Sunna Lidda'awati wal-Jihad)",
+      "entity_id": "NSAG_002"
+    },
+    {
+      "label": "Fuerzas Armadas Revolucionarias de Colombia (FARC)",
+      "entity_id": "NSAG_003"
+    },
+    {
+      "label": "Ansar Allah (Houthi Movement)",
+      "entity_id": "NSAG_004"
+    },
+    {
+      "label": "Liberation Tigers of Tamil Eelam (LTTE)",
+      "entity_id": "NSAG_005"
+    },
+    {
+      "label": "Hezbollah",
+      "entity_id": "NSAG_006"
+    },
+    {
+      "label": "Hamas (Harakat al-Muqawama al-Islamiyya)",
+      "entity_id": "NSAG_007"
+    },
+    {
+      "label": "Kurdistan Workers' Party (PKK)",
+      "entity_id": "NSAG_008"
+    },
+    {
+      "label": "Al-Shabaab",
+      "entity_id": "NSAG_009"
+    },
+    {
+      "label": "Taliban (Islamic Emirate of Afghanistan)",
+      "entity_id": "NSAG_010"
+    },
+    {
+      "label": "Islamic State – Khorasan Province (ISKP)",
+      "entity_id": "NSAG_011"
+    },
+    {
+      "label": "Abu Sayyaf Group (ASG)",
+      "entity_id": "NSAG_012"
+    },
+    {
+      "label": "Tehrik-i-Taliban Pakistan (TTP)",
+      "entity_id": "NSAG_013"
+    },
+    {
+      "label": "New People's Army (NPA)",
+      "entity_id": "NSAG_014"
+    },
+    {
+      "label": "Revolutionary Armed Forces of Colombia – Dissidents",
+      "entity_id": "NSAG_015"
+    },
+    {
+      "label": "Jemaah Islamiyah (JI)",
+      "entity_id": "NSAG_016"
+    },
+    {
+      "label": "Popular Front for the Liberation of Palestine (PFLP)",
+      "entity_id": "NSAG_017"
+    },
+    {
+      "label": "Jaish-e-Mohammed (JeM)",
+      "entity_id": "NSAG_018"
+    },
+    {
+      "label": "Al-Qaeda in the Arabian Peninsula (AQAP)",
+      "entity_id": "NSAG_019"
+    },
+    {
+      "label": "Lord's Resistance Army (LRA)",
+      "entity_id": "NSAG_020"
+    }
+  ],
+  "total_count": 20
+}

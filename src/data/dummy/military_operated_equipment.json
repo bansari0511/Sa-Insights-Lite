@@ -1,0 +1,75 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "req_id": "req_military_operated_equipment_001",
+  "entity_id": "MG-001",
+  "military_group": "United States Pacific Fleet",
+  "result": [
+    {
+      "equipment_type": "Aircraft Carrier",
+      "e.equipment_type": "Aircraft Carrier",
+      "count": 5,
+      "subgroups": [
+        {"entity_id": "EQ-CVN-68", "label": "USS Nimitz (CVN-68)", "equipment_name": "Nimitz-class", "status": "Active"},
+        {"entity_id": "EQ-CVN-70", "label": "USS Carl Vinson (CVN-70)", "equipment_name": "Nimitz-class", "status": "Active"},
+        {"entity_id": "EQ-CVN-72", "label": "USS Abraham Lincoln (CVN-72)", "equipment_name": "Nimitz-class", "status": "Active"},
+        {"entity_id": "EQ-CVN-74", "label": "USS John C. Stennis (CVN-74)", "equipment_name": "Nimitz-class", "status": "Active"},
+        {"entity_id": "EQ-CVN-76", "label": "USS Ronald Reagan (CVN-76)", "equipment_name": "Nimitz-class", "status": "Active"}
+      ]
+    },
+    {
+      "equipment_type": "Destroyer",
+      "e.equipment_type": "Destroyer",
+      "count": 35,
+      "subgroups": [
+        {"entity_id": "EQ-DDG-51", "label": "USS Arleigh Burke (DDG-51)", "equipment_name": "Arleigh Burke-class", "status": "Active"},
+        {"entity_id": "EQ-DDG-52", "label": "USS Barry (DDG-52)", "equipment_name": "Arleigh Burke-class", "status": "Active"},
+        {"entity_id": "EQ-DDG-56", "label": "USS John McCain (DDG-56)", "equipment_name": "Arleigh Burke-class", "status": "Active"},
+        {"entity_id": "EQ-DDG-62", "label": "USS Fitzgerald (DDG-62)", "equipment_name": "Arleigh Burke-class", "status": "Active"},
+        {"entity_id": "EQ-DDG-63", "label": "USS Stethem (DDG-63)", "equipment_name": "Arleigh Burke-class", "status": "Active"}
+      ]
+    },
+    {
+      "equipment_type": "Attack Submarine",
+      "e.equipment_type": "Attack Submarine",
+      "count": 20,
+      "subgroups": [
+        {"entity_id": "EQ-SSN-774", "label": "USS Virginia (SSN-774)", "equipment_name": "Virginia-class", "status": "Active"},
+        {"entity_id": "EQ-SSN-775", "label": "USS Texas (SSN-775)", "equipment_name": "Virginia-class", "status": "Active"},
+        {"entity_id": "EQ-SSN-776", "label": "USS Hawaii (SSN-776)", "equipment_name": "Virginia-class", "status": "Active"},
+        {"entity_id": "EQ-SSN-777", "label": "USS North Carolina (SSN-777)", "equipment_name": "Virginia-class", "status": "Active"}
+      ]
+    },
+    {
+      "equipment_type": "Fighter Aircraft",
+      "e.equipment_type": "Fighter Aircraft",
+      "count": 250,
+      "subgroups": [
+        {"entity_id": "EQ-F18-001", "label": "F/A-18E Super Hornet", "equipment_name": "F/A-18E/F Super Hornet", "status": "Active"},
+        {"entity_id": "EQ-F18-002", "label": "F/A-18F Super Hornet", "equipment_name": "F/A-18E/F Super Hornet", "status": "Active"},
+        {"entity_id": "EQ-F35C-001", "label": "F-35C Lightning II", "equipment_name": "F-35C", "status": "Active"}
+      ]
+    },
+    {
+      "equipment_type": "Cruiser",
+      "e.equipment_type": "Cruiser",
+      "count": 11,
+      "subgroups": [
+        {"entity_id": "EQ-CG-52", "label": "USS Bunker Hill (CG-52)", "equipment_name": "Ticonderoga-class", "status": "Active"},
+        {"entity_id": "EQ-CG-53", "label": "USS Mobile Bay (CG-53)", "equipment_name": "Ticonderoga-class", "status": "Active"},
+        {"entity_id": "EQ-CG-54", "label": "USS Antietam (CG-54)", "equipment_name": "Ticonderoga-class", "status": "Active"}
+      ]
+    },
+    {
+      "equipment_type": "Amphibious Assault Ship",
+      "e.equipment_type": "Amphibious Assault Ship",
+      "count": 8,
+      "subgroups": [
+        {"entity_id": "EQ-LHA-6", "label": "USS America (LHA-6)", "equipment_name": "America-class", "status": "Active"},
+        {"entity_id": "EQ-LHD-1", "label": "USS Wasp (LHD-1)", "equipment_name": "Wasp-class", "status": "Active"},
+        {"entity_id": "EQ-LHD-3", "label": "USS Kearsarge (LHD-3)", "equipment_name": "Wasp-class", "status": "Active"}
+      ]
+    }
+  ],
+  "total_equipment_count": 329
+}

@@ -1,0 +1,31 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {
+      "e.label": "Afghanistan",
+      "e.id": "https://data.janes.com/location/2qzlm4QYjeDmykoYIlyOZQ"
+    },
+    {
+      "e.label": "Albania",
+      "e.id": "https://data.janes.com/location/6aldu3fdVkJ5mJgp3X76FG"
+    },
+    {
+      "e.label": "Algeria",
+      "e.id": "https://data.janes.com/location/54a1Ess6lLH0SQGLXQ3R23"
+    },
+    {
+      "e.label": "American Samoa",
+      "e.id": "https://data.janes.com/location/6V0kFKI8MnNTCYsLuhJKLi"
+    },
+    {
+      "e.label": "Andorra",
+      "e.id": "https://data.janes.com/location/4AIK0H6JRfI8aBeDrG8NI5"
+    },
+    {
+      "e.label": "Angola",
+      "e.id": "https://data.janes.com/location/7nZwY0I1TPwiWklssEHkBg"
+    }
+  ],
+  "total_records": 6
+}

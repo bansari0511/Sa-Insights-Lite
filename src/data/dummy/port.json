@@ -1,0 +1,106 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "req_id": "req_port_001",
+  "result": [
+    {
+      "port": {
+        "id": "POR-08496",
+        "place_name": "Mariveles, Luzon",
+        "unlocode": "PHMVS",
+        "area_code": "SEA",
+        "port_authority": "Philippine Ports Authority",
+        "port_authority_address": "Port District Office Of Manila/Northern Luzon, Port Management Office Of Limay, Limay, Philippines",
+        "website": "www.ppa.com.ph",
+        "email_address": "pmolimay@yahoo.com",
+        "principal_facilities": "PQYGBDT",
+        "admiralty_chart": "3559",
+        "last_modified_date": "2021-11-23",
+        "legacy_place_id": "2772",
+        "location": {
+          "srid": 4326,
+          "x": 120.528348,
+          "y": 14.436552
+        }
+      },
+      "flags": [
+        {"id": "Philippines", "country_code": "PHL", "country": "Philippines"},
+        {"id": "Germany", "country_code": "DEU", "country": "Germany"},
+        {"id": "Panama", "country_code": "PAN", "country": "Panama"},
+        {"id": "Liberia", "country_code": "LBR", "country": "Liberia"}
+      ],
+      "terminals": [
+        {
+          "id": "TML-11185",
+          "name": "Petron Bataan Refinery",
+          "terminal_type": "Liquid Bulk",
+          "unlocode": "PHMVS",
+          "last_modified_date": "2022-10-05",
+          "location": {"srid": 4326, "x": 120.619166, "y": 14.529597}
+        },
+        {
+          "id": "TML-13437",
+          "name": "Bataan Bulk Terminal",
+          "terminal_type": "Dry Bulk",
+          "unlocode": "PHMVS",
+          "last_modified_date": "2022-10-05",
+          "location": {"srid": 4326, "x": 120.60865, "y": 14.474834}
+        },
+        {
+          "id": "TML-14528",
+          "name": "Seafront Terminal",
+          "terminal_type": "Multi-Purpose",
+          "unlocode": "PHMVS",
+          "last_modified_date": "2022-10-05",
+          "location": {"srid": 4326, "x": 120.606054, "y": 14.469385}
+        }
+      ],
+      "telnums": [
+        {"id": "63472445747"}
+      ],
+      "anchorage": [
+        {
+          "id": "ANC-01212",
+          "name": "Mariveles Anchorage",
+          "place_name": "Mariveles Anchorage",
+          "time_zone": "UTC+08:00",
+          "last_modified_date": "2025-05-02",
+          "location": {"srid": 4326, "x": 120.508708, "y": 14.418071}
+        }
+      ],
+      "subport": [
+        {
+          "id": "PSP-00432",
+          "name": "Bataan, Mariveles",
+          "place_name": "Bataan, Mariveles",
+          "unlocode": "PHBTN",
+          "last_modified_date": "2021-11-23",
+          "location": {"srid": 4326, "x": 120.617327, "y": 14.515263}
+        },
+        {
+          "id": "PSP-00433",
+          "name": "Lucanin",
+          "place_name": "Lucanin",
+          "unlocode": "PHLUC",
+          "last_modified_date": "2021-11-23",
+          "location": {"srid": 4326, "x": 120.615348, "y": 14.4748}
+        }
+      ]
+    }
+  ],
+  "vessel_type_graph": [
+    {"vessel_type": "Container ship", "month": "2025-01-01", "date": "2025-01-03 13:00:00", "count": 2},
+    {"vessel_type": "Fishing", "month": "2025-03-01", "date": "2025-01-02 13:00:00", "count": 3},
+    {"vessel_type": "Cargo", "month": "2025-04-01", "date": "2025-01-05 13:00:00", "count": 3},
+    {"vessel_type": "Cargo", "month": "2025-05-01", "date": "2025-01-05 13:00:00", "count": 3},
+    {"vessel_type": "Tanker", "month": "2025-06-01", "date": "2025-06-10 13:00:00", "count": 5}
+  ],
+  "vessel_type_trends": [
+    {"vessel_type": "Cargo", "count": 6},
+    {"vessel_type": "Fishing", "count": 3},
+    {"vessel_type": "Container ship", "count": 2},
+    {"vessel_type": "Passenger ship", "count": 8},
+    {"vessel_type": "Tanker", "count": 5}
+  ],
+  "last_vessel_type": "Cargo"
+}

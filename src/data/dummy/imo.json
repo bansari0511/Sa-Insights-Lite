@@ -1,0 +1,100 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "req_id": "req_imo_001",
+  "result": [
+    {
+      "imo": {
+        "id": "9648222",
+        "name": "Ocean Pearl",
+        "vessel_name": "Ocean Pearl",
+        "vessel_type": "Chemical Tanker",
+        "sub_type": "CH",
+        "gen_type": "T",
+        "flag": "PAN",
+        "call_sign": "H9XJ2",
+        "hull_id": "11288911",
+        "year_of_build": "2014",
+        "status": "Live",
+        "status_code": "L",
+        "dwt": "7200",
+        "gross": "5100",
+        "loa": "150",
+        "breadth_extreme": "14",
+        "draft": "3.0",
+        "inmarsat_number": "427305794",
+        "last_modified_date": "2025-06-21",
+        "last_modified_date_adv": "2015-08-12"
+      },
+      "vessel_types": [
+        {
+          "id": "CH",
+          "sub_type": "CH",
+          "vessel_type": "Chemical Tanker",
+          "last_modified_date": "2025-01-15"
+        }
+      ],
+      "vessel_names": [
+        {
+          "id": "Ocean Pearl",
+          "last_modified_date": "2025-06-21"
+        }
+      ],
+      "vessel_class": [
+        {
+          "id": "230468",
+          "class": "DNV"
+        }
+      ],
+      "flags": [
+        {
+          "id": "Panama",
+          "country_code": "PAN",
+          "country": "Panama"
+        }
+      ],
+      "company": [
+        
+      ],
+      "casualties": [
+        {
+          "id": "Engine failure",
+          "date": "2025/01/05 03:22:14"
+        },
+        {
+          "id": "Grounding in shallow waters",
+          "date": "2025/01/12 14:55:39"
+        },
+        {
+          "id": "Electrical malfunction",
+          "date": "2025/02/03 06:41:02"
+        }
+      ],
+      "is_decommissioned": "no"
+    }
+  ],
+  "port_calling_trends": [
+    {"port_name": "Port of Houston", "duration": "Last 12 Month", "count": 5},
+    {"port_name": "Port of Veracruz", "duration": "Last 12 Month", "count": 2},
+    {"port_name": "Port of Singapore", "duration": "Last 12 Month", "count": 8},
+    {"port_name": "Jebel Ali", "duration": "Last 12 Month", "count": 3},
+    {"port_name": "Rotterdam", "duration": "Last 12 Month", "count": 4}
+  ],
+  "port_calling_graph": [
+    {"port_name": "Port of Houston", "month": "2025/04/01", "count": 2},
+    {"port_name": "Port of Veracruz", "month": "2025/04/01", "count": 2},
+    {"port_name": "Port of Houston", "month": "2025/05/01", "count": 3},
+    {"port_name": "Port of Singapore", "month": "2025/06/01", "count": 5},
+    {"port_name": "Jebel Ali", "month": "2025/06/15", "count": 3},
+    {"port_name": "Rotterdam", "month": "2025/05/10", "count": 4},
+    {"port_name": "Port Klang", "month": "2025/03/01", "count": 2},
+    {"port_name": "Suez Canal Anchorage", "month": "2025/02/20", "count": 6},
+    {"port_name": "Antwerp", "month": "2025/03/11", "count": 3},
+    {"port_name": "Busan", "month": "2025/01/30", "count": 4}
+  ],
+  "last_port": "Port of Houston",
+  "last_location": {
+    "lat": "29.7315",
+    "lon": "-95.2650"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {
+      "e": {
+        "properties": {
+          "primary_type": "https://data.janes.com/ontologies/orbat/MilitaryGroup",
+          "indigenous_name_label": "79th Army Aviation Brigade",
+          "last_modified_date": "2025-02-24",
+          "label": "79th Army Aviation Brigade",
+          "type": "https://data.janes.com/ontologies/orbat/MilitaryGroup",
+          "branch": "Army",
+          "translation_label": "79th Army Aviation Brigade",
+          "mil_std2525_d": "10040000181206000900",
+          "legacy_jguid": "MOS_13801",
+          "synonym_label": "LH962",
+          "name": "79th Army Aviation Brigade",
+          "context": "/graph/military-groups/context",
+          "display_name_label": "79th Army Aviation Brigade",
+          "short_name_label": "79th Army Aviation Brigade",
+          "id": "https://data.janes.com/organization/0lBBndNliOlHpllMFduPoJ",
+          "indigenous_echelon": "Air Brigade",
+          "echelon": "Air Brigade",
+          "country_of_sovereignty": "China"
+        },
+        "labels": [
+          "MilitaryGroup"
+        ]
+      },
+      "subGroups": [
+        {
+          "properties": {
+            "legacy_jguid": "Orbat_17107",
+            "operational_domain": "Air",
+            "operational_domain_type": "Rotary Wing",
+            "name": "79th Army Aviation Brigade",
+            "orbat_duty_status": "Active",
+            "label": "79th Army Aviation Brigade",
+            "id": "https://data.janes.com/orbat/4HFJkEpK9Wjf5kA8LfOxja",
+            "unit_type": "Combat, Logistics",
+            "type": "https://data.janes.com/ontologies/orbat/GroupInOrbat"
+          },
+          "labels": [
+            "GroupInOrbat"
+          ]
+        }
+      ],
+      "subGroups2": [
+        {
+          "parent_group": "79th Group Army"
+        }
+      ],
+      "subGroups3": [
+        {
+          "within_orbat": "China Army",
+          "orbat_type": "COCOM"
+        }
+      ],
+      "equipment": [
+        {
+          "id": "https://data.janes.com/equipment/1r2GQ5EZgg5DzSkc1PSZnq",
+          "label": "Z-19"
+        },
+        {
+          "id": "https://data.janes.com/equipment/02r6UMVkeauN3wfGnePxY6",
+          "label": "Z-20"
+        },
+        {
+          "id": "https://data.janes.com/equipment/0qC4e9r8e3PM5MOOnBUiGA",
+          "label": "Z-18"
+        },
+        {
+          "id": "https://data.janes.com/equipment/6cWGbktdQN6LIgTRMKSRjC",
+          "label": "Z-10"
+        },
+        {
+          "id": "https://data.janes.com/equipment/1JVlYavCfqS6u1lh9nnLLE",
+          "label": "Z-9W"
+        },
+        {
+          "id": "https://data.janes.com/equipment/29JLQ7e9wzOJfv8jqxODuv",
+          "label": "Z-9WA"
+        },
+        {
+          "id": "https://data.janes.com/equipment/3ngMEOfTN5NwD1d4OYn6Nr",
+          "label": "Mi-171E"
+        },
+        {
+          "id": "https://data.janes.com/equipment/4Rv5MwIjlapRmHUeo0gQ3x",
+          "label": "Mi-171"
+        }
+      ],
+      "installations": [
+        {
+          "label": "Liaoyang",
+          "long": "123.079014",
+          "lat": "41.278685"
+        },
+        {
+          "label": "Shenyang Air Base",
+          "long": "123.432",
+          "lat": "41.789"
+        }
+      ],
+      "country": {
+        "label": "United Stats"
+      }
+    }
+  ],
+  "total_records": 1
+}

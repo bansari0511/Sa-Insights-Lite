@@ -1,0 +1,90 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {
+      "e": {
+        "properties": {
+          "end_date": "2025-12-06T05:30:00+05:30",
+          "primary_type": "https://data.janes.org/ontologies/event/Event",
+          "actors_actor_role": "Active actor, Passive",
+          "incident_type": "Single Incident",
+          "actors_actor_type": "Ethnic Militia, Joint, Other",
+          "security_services_casualties_killed_precision": "Minimum Estimate",
+          "latitude": 19.8722796,
+          "event_location_geoprecision": "Town",
+          "description": "Near Salong South village, Pekon Township, Karenni Nationalities Defence Force (KNDF) and People's Defence Forces (PDF) militants clashed with soldiers and militia members from the armed wing of the Pa-O National Organisation (PNO), the Pa-O National Army (PNA). In the attack, an unspecified number of soldiers and militants were killed and injured. Militants said that the soldiers conducted airstrikes using unspecified aircraft and unmanned aerial vehicles (UAVs) in response to the attacks. The casualty number could not be verified.",
+          "targets_target_objects": "People",
+          "event_significance": "Common",
+          "last_modified_date": "2026-01-22T05:30:00+05:30",
+          "platforms_platform": "Man-portable",
+          "type": "https://data.janes.org/ontologies/event/AttackEvent",
+          "event_target_environment": "Rural",
+          "total_casualties_wounded": "1",
+          "non_militant_casualties_wounded": "1",
+          "legacy_jguid": "JTIC_300253038",
+          "security_services_casualties_wounded_precision": "Minimum Estimate",
+          "context": "/graph/events/context",
+          "id": "https://data.janes.org/event/6QL8QOl9cBFbEWSwK30Dzy",
+          "timestamp": "2026-01-22T13:09:06",
+          "start_date": "2025-12-06T05:30:00+05:30",
+          "longitude": 96.8350675,
+          "platforms_weapon": "Direct Fire Infantry",
+          "targets_target_sector": "Security Forces",
+          "sources_source_type_source_url_news": "https://www.bnionline.net/en/news/junta-pno-torch-pekon-township-village",
+          "event_sub_type": "Engagement",
+          "creation_date": "2026-01-22T18:39:06+05:30",
+          "label": "KNDF and PDF militants clash with soldiers and militia members in Myanmar's Shan state",
+          "non_militant_casualties_killed": "1",
+          "targets_target_sub_sector": "Domestic Military, Militia",
+          "event_category": "Terrorism & Insurgency",
+          "event_scale": "Micro",
+          "total_casualties_killed": "1",
+          "sources_source_type": "News",
+          "incident_count": "1",
+          "data_source": "Janes",
+          "entity_type": "AttackEvent",
+          "name": "KNDF and PDF militants clash with soldiers and militia members in Myanmar's Shan state",
+          "location": {
+            "srid": 4326,
+            "x": 96.8350675,
+            "y": 19.8722796
+          }
+        },
+        "labels": [
+          "AttackEvent"
+        ]
+      },
+      "c.label": "Pakistan",
+      "subGroups": [
+        {
+          "id": "https://data.janes.com/organization/1XDQjET08uPi9JAlouFju5",
+          "label": "XI Corps"
+        },
+        {
+          "id": "https://data.janes.com/organization/5F4jbv7G1biJUQxHUyel8a",
+          "label": "Ittehad-ul-Mujahideen Pakistan"
+        }
+      ],
+      "subGroups2": [
+        {
+          "id": "https://data.janes.com/equipment/3zIW1ofHpBigHYzRkqyocE",
+          "label": "AN/ALQ-184(V)9"
+        },
+        {
+          "id": "https://data.janes.com/equipment/02wVSdrlChwiRWkkkYnE7P",
+          "label": "F100-PW-220"
+        },
+        {
+          "id": "https://data.janes.com/equipment/7tUPvLyCFjdG8R1ZVgJH9X",
+          "label": "AN/APG-66(V)3"
+        },
+        {
+          "id": "https://data.janes.com/equipment/4d3ZlzuZwjAsHcLMzt9zVV",
+          "label": "AN/APG-66"
+        }
+      ]
+    }
+  ],
+  "total_records": 1
+}

@@ -1,0 +1,28 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "req_id": "req_made_in_country_001",
+  "result": [
+    {"e.label": "United States", "label": "United States", "count": 2500},
+    {"e.label": "Russia", "label": "Russia", "count": 1800},
+    {"e.label": "China", "label": "China", "count": 1500},
+    {"e.label": "France", "label": "France", "count": 950},
+    {"e.label": "United Kingdom", "label": "United Kingdom", "count": 850},
+    {"e.label": "Germany", "label": "Germany", "count": 720},
+    {"e.label": "Israel", "label": "Israel", "count": 580},
+    {"e.label": "Italy", "label": "Italy", "count": 420},
+    {"e.label": "Japan", "label": "Japan", "count": 380},
+    {"e.label": "South Korea", "label": "South Korea", "count": 320},
+    {"e.label": "Sweden", "label": "Sweden", "count": 280},
+    {"e.label": "India", "label": "India", "count": 250},
+    {"e.label": "Turkey", "label": "Turkey", "count": 220},
+    {"e.label": "Brazil", "label": "Brazil", "count": 180},
+    {"e.label": "Spain", "label": "Spain", "count": 150},
+    {"e.label": "Netherlands", "label": "Netherlands", "count": 120},
+    {"e.label": "South Africa", "label": "South Africa", "count": 95},
+    {"e.label": "Australia", "label": "Australia", "count": 85},
+    {"e.label": "Canada", "label": "Canada", "count": 75},
+    {"e.label": "Poland", "label": "Poland", "count": 65}
+  ],
+  "total_count": 20
+}

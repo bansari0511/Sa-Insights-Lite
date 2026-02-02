@@ -1,0 +1,71 @@
+        {
+          "status_code": 200,
+          "status_message": "Query executed successfully",
+          "result": [
+            {
+              "c": {
+                "properties": {
+                  "primary_type": "https://data.janes.com/ontologies/agent/Organization",
+                  "last_modified_date": "2023-12-13",
+                  "label": "China Electronics Information Industry Group Nanjing Kerida Electronic Equipment Co Ltd",
+                  "type": "https://data.janes.com/ontologies/agent/Organization",
+                  "organization_sub_type": "Global Ultimate",
+                  "long": "118.805615",
+                  "address_address_line1": "Six hills way",
+                  "address_postcode": "SG1 2DA",
+                  "address_city": "Nanjing",
+                  "legacy_jguid": "Org_46917",
+                  "telephone_numbers": "(+441438 ) 752000",
+                  "ownership": "Private",
+                  "context": "/graph/organizations/context",
+                  "name": "China Electronics Information Industry Group Nanjing Kerida Electronic Equipment Co Ltd",
+                  "organization_type": "Commercial",
+                  "display_name_label": "China Electronics Information Industry Group Nanjing Kerida Electronic Equipment Co Ltd",
+                  "legal_name": "China Electronics Information Industry Group Nanjing Kerida Electronic Equipment Co Ltd",
+                  "id": "https://data.janes.com/organization/2SrZykudVtHb1JpI2p2zgT",
+                  "legal_name_label": "China Electronics Information Industry Group Nanjing Kerida Electronic Equipment Co Ltd",
+                  "lat": "31.92808",
+                  "status": "Active",
+                  "synonym_label": "JSK vaco concern , AO kohlieph bko ajima3"
+                },
+                "labels": [
+                  "Organization"
+                ]
+              },
+              "m.name": "China",
+              "subGroups": [
+                {
+                  "id": "EQ_001",
+                  "name": "F-35I Adir"
+                },
+                {
+                  "id": "EQ_002",
+                  "name": "F-16I Sufa"
+                },
+                {
+                  "id": "EQ_003",
+                  "name": "IAI Heron"
+                },
+                {
+                  "id": "EQ_004",
+                  "name": "F-15I Ra'am"
+                }
+              ],
+              "subGroups2": [],
+              "subGroups3": [
+                {
+                  "label": "China Electronics Information Industry Group Nanjing Kerida Electronic Equipment Co Ltd"
+                }
+              ],
+              "subGroups4": [
+                {
+                  "label": "China Electronics Information Industry Group Nanjing Kerida Electronic Equipment Co Ltd"
+                },
+                {
+                  "label": "China Electronics Co Ltd"
+                }
+              ]
+            }
+          ],
+          "total_records": 1
+        }

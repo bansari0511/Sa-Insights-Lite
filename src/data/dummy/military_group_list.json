@@ -1,0 +1,16 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    ["United States Pacific Fleet", "MG-001", "United States"],
+    ["United States Atlantic Fleet", "MG-002", "United States"],
+    ["Royal Navy", "MG-003", "United Kingdom"],
+    ["Japan Maritime Self-Defense Force", "MG-004", "Japan"],
+    ["Royal Australian Navy", "MG-005", "Australia"],
+    ["Indian Navy", "MG-006", "India"],
+    ["French Navy", "MG-007", "France"],
+    ["German Navy", "MG-008", "Germany"],
+    ["Republic of Korea Navy", "MG-009", "South Korea"],
+    ["Italian Navy", "MG-010", "Italy"]
+  ]
+}

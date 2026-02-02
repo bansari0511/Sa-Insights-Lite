@@ -1,0 +1,30 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "profile_type": "NSAGActor",
+  "entity_type": "NonStateGroup",
+  "result": {
+    "nsagActor": {
+      "properties": {
+        "id": "https://janes.org/nsag/nsag-001-frp-lz",
+        "entity_type": "NonStateGroup",
+        "name": "Fuerzas Revolucionarias Populares - Lorenzo Zelaya (FRP-LZ)",
+        "display_name_label": "Fuerzas Revolucionarias Populares - Lorenzo Zelaya (FRP-LZ)",
+        "label": "Fuerzas Revolucionarias Populares - Lorenzo Zelaya (FRP-LZ)",
+        "synonym_label": ["FRP LZ", "Fuerzas Revolucionarias Populares", "Lorenzo Zelaya Forces"],
+        "acronym_label": "FRP-LZ",
+        "last_modified_date": "2024-12-15T14:30:00Z",
+        "group_type": "",
+        "group_objective": "",
+        "group_orientation": "Maoist/Marxist",
+        "organization_type": "Insurgent",
+        "entity_category": "NSAG",
+        "entity_status": "Dormant",
+        "transition_label": "Popular Revolutionary Forces - Lorenzo Zelaya",
+        "countries": ["Honduras"],
+        "type": "https://data.janes.com/ontologies/nsag/NonStateGroup"
+      },
+      "labels": ["NonStateGroup"]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {"label": "Ramon Air Base", "entity_id": "Installation_63368"},
+    {"label": "Hatzerim Air Base", "entity_id": "Installation_63369"},
+    {"label": "Nevatim Air Base", "entity_id": "Installation_63370"},
+    {"label": "Tel Nof Air Base", "entity_id": "Installation_63371"},
+    {"label": "Palmachim Air Base", "entity_id": "Installation_63372"},
+    {"label": "Ramat David Air Base", "entity_id": "Installation_63373"},
+    {"label": "Sde Dov Airport", "entity_id": "Installation_63374"},
+    {"label": "Ovda Air Base", "entity_id": "Installation_63375"},
+    {"label": "Hatzor Air Base", "entity_id": "Installation_63376"},
+    {"label": "Ben Gurion Airport", "entity_id": "Installation_63377"},
+    {"label": "Haifa Naval Base", "entity_id": "Installation_63378"},
+    {"label": "Ashdod Port", "entity_id": "Installation_63379"},
+    {"label": "Eilat Naval Base", "entity_id": "Installation_63380"},
+    {"label": "Camp Pendleton", "entity_id": "Installation_63381"},
+    {"label": "Norfolk Naval Station", "entity_id": "Installation_63382"},
+    {"label": "Pearl Harbor", "entity_id": "Installation_63383"}
+  ],
+  "total_count": 16
+}

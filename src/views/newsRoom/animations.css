@@ -1,0 +1,144 @@
+/* News Room Animations - DISABLED */
+
+/* All animations are disabled for performance and accessibility */
+
+@keyframes pulse {
+  0%, 100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: none;
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0 0;
+  }
+}
+
+@keyframes slideInUp {
+  from, to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from, to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from, to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from, to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from, to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes rotateIn {
+  from, to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0%, 100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Utility classes - Animations disabled */
+.animate-pulse {
+  animation: none;
+}
+
+.animate-float {
+  animation: none;
+}
+
+.animate-shimmer {
+  animation: none;
+}
+
+.animate-slide-up {
+  animation: none;
+}
+
+.animate-slide-left {
+  animation: none;
+}
+
+.animate-slide-right {
+  animation: none;
+}
+
+.animate-fade-in {
+  animation: none;
+}
+
+.animate-scale-in {
+  animation: none;
+}
+
+.animate-rotate-in {
+  animation: none;
+}
+
+.animate-bounce-in {
+  animation: none;
+}
+
+/* Hover effects - Disabled */
+.hover-lift {
+  transition: none;
+}
+
+.hover-lift:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.hover-scale {
+  transition: none;
+}
+
+.hover-scale:hover {
+  transform: none;
+}
+
+.hover-glow {
+  transition: none;
+}
+
+.hover-glow:hover {
+  box-shadow: none;
+}
+
+/* Loading animations - Disabled */
+.skeleton {
+  background: #f0f0f0;
+  background-size: 100% 100%;
+  animation: none;
+}

@@ -1,0 +1,27 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {"label": "Singapore", "entity_id": "PORT-001"},
+    {"label": "Rotterdam", "entity_id": "PORT-002"},
+    {"label": "Los Angeles", "entity_id": "PORT-003"},
+    {"label": "New York", "entity_id": "PORT-004"},
+    {"label": "Hamburg", "entity_id": "PORT-005"},
+    {"label": "Shanghai", "entity_id": "PORT-006"},
+    {"label": "Tokyo", "entity_id": "PORT-007"},
+    {"label": "Antwerp", "entity_id": "PORT-008"},
+    {"label": "Dubai", "entity_id": "PORT-009"},
+    {"label": "Busan", "entity_id": "PORT-011"},
+    {"label": "Qingdao", "entity_id": "PORT-012"},
+    {"label": "Santos", "entity_id": "PORT-013"},
+    {"label": "Hong Kong", "entity_id": "PORT-014"},
+    {"label": "Barcelona", "entity_id": "PORT-015"},
+    {"label": "Mumbai", "entity_id": "PORT-026"},
+    {"label": "Vancouver", "entity_id": "PORT-027"},
+    {"label": "Marseille", "entity_id": "PORT-028"},
+    {"label": "Houston", "entity_id": "PORT-075"},
+    {"label": "Cape Town", "entity_id": "PORT-078"},
+    {"label": "Kaohsiung", "entity_id": "PORT-084"}
+  ],
+  "total_count": 20
+}

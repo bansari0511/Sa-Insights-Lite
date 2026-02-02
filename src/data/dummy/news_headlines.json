@@ -1,0 +1,2021 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "total_count": 150,
+  "page_identifier": 0,
+  "page_size": 20,
+  "records": [
+    {
+      "id": "news-headline-001",
+      "title": "US Navy Conducts Freedom of Navigation Operation in South China Sea",
+      "summary": "The United States Navy conducted a freedom of navigation operation near the Spratly Islands in the South China Sea, challenging China's excessive maritime claims.",
+      "source": "Defense News",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-30",
+      "lastModifiedDate": "2024-10-30T10:30:00Z",
+      "category": "Maritime Security",
+      "region": "Indo-Pacific",
+      "country": [
+        "United States",
+        "China"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/nav-ops/800/450",
+      "tags": [
+        "South China Sea",
+        "Freedom of Navigation",
+        "US Navy",
+        "FONOP"
+      ]
+    },
+    {
+      "id": "news-headline-002",
+      "title": "China Deploys Advanced Surveillance Systems in South China Sea",
+      "summary": "China has deployed advanced maritime surveillance systems across multiple artificial islands in the South China Sea, enhancing its monitoring capabilities.",
+      "source": "Reuters",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-29",
+      "lastModifiedDate": "2024-10-29T14:15:00Z",
+      "category": "Military Technology",
+      "region": "Indo-Pacific",
+      "country": [
+        "China"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/china-surveillance/800/450",
+      "tags": [
+        "China",
+        "South China Sea",
+        "Surveillance",
+        "Maritime Security"
+      ]
+    },
+    {
+      "id": "news-headline-003",
+      "title": "Chinese Navy Commissions New Type 055 Destroyer",
+      "summary": "The People's Liberation Army Navy has commissioned its eighth Type 055 guided-missile destroyer, enhancing its blue-water naval capabilities.",
+      "source": "SCMP",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-28",
+      "lastModifiedDate": "2024-10-28T09:00:00Z",
+      "category": "Naval Technology",
+      "region": "East Asia",
+      "country": [
+        "China"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/type055/800/450",
+      "tags": [
+        "China",
+        "Type 055",
+        "Destroyer",
+        "PLAN"
+      ]
+    },
+    {
+      "id": "news-headline-004",
+      "title": "Chinese Coast Guard Vessels Surround Philippine Ship in Disputed Waters",
+      "summary": "Multiple Chinese Coast Guard vessels surrounded a Philippine supply ship near Second Thomas Shoal in the South China Sea.",
+      "source": "Philippine Daily Inquirer",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-27",
+      "lastModifiedDate": "2024-10-27T16:45:00Z",
+      "category": "Territorial Disputes",
+      "region": "Indo-Pacific",
+      "country": [
+        "China",
+        "Philippines"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/china-phil/800/450",
+      "tags": [
+        "South China Sea",
+        "Philippines",
+        "China",
+        "Coast Guard"
+      ]
+    },
+    {
+      "id": "news-headline-005",
+      "title": "China Conducts Live-Fire Exercises Near Taiwan Strait",
+      "summary": "The Chinese military conducted large-scale live-fire exercises near the Taiwan Strait, raising regional tensions.",
+      "source": "Xinhua",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-25",
+      "lastModifiedDate": "2024-10-25T11:20:00Z",
+      "category": "Military Exercises",
+      "region": "East Asia",
+      "country": [
+        "China",
+        "Taiwan"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/taiwan-strait/800/450",
+      "tags": [
+        "China",
+        "Taiwan",
+        "Military Exercises",
+        "Taiwan Strait"
+      ]
+    },
+    {
+      "id": "news-headline-006",
+      "title": "China Expands Naval Base in Djibouti",
+      "summary": "Satellite imagery reveals significant expansion of China's naval support base in Djibouti, Africa's strategic Horn location.",
+      "source": "Jane's Defence",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-24",
+      "lastModifiedDate": "2024-10-24T08:30:00Z",
+      "category": "Military Infrastructure",
+      "region": "Africa",
+      "country": [
+        "China",
+        "Djibouti"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/djibouti/800/450",
+      "tags": [
+        "China",
+        "Djibouti",
+        "Naval Base",
+        "Belt and Road"
+      ]
+    },
+    {
+      "id": "news-headline-007",
+      "title": "China Launches Third Aircraft Carrier Sea Trials",
+      "summary": "China's third aircraft carrier, the Fujian, has begun sea trials, marking a significant milestone in the country's naval modernization.",
+      "source": "Global Times",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-22",
+      "lastModifiedDate": "2024-10-22T13:45:00Z",
+      "category": "Naval Technology",
+      "region": "East Asia",
+      "country": [
+        "China"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/fujian/800/450",
+      "tags": [
+        "China",
+        "Aircraft Carrier",
+        "Fujian",
+        "PLAN"
+      ]
+    },
+    {
+      "id": "news-headline-008",
+      "title": "Russia and China Conduct Joint Naval Exercises in Pacific Ocean",
+      "summary": "Russian and Chinese naval forces conducted joint military exercises in the western Pacific Ocean, the largest such drills to date.",
+      "source": "TASS",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-20",
+      "lastModifiedDate": "2024-10-20T15:00:00Z",
+      "category": "Military Exercises",
+      "region": "Pacific",
+      "country": [
+        "Russia",
+        "China"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/rus-china/800/450",
+      "tags": [
+        "Russia",
+        "China",
+        "Naval Exercises",
+        "Pacific"
+      ]
+    },
+    {
+      "id": "intel-brief-001",
+      "title": "Strategic Assessment: Indo-Pacific Maritime Security Outlook 2025",
+      "summary": "A comprehensive analysis of emerging maritime security challenges in the Indo-Pacific region, including territorial disputes, naval modernization, and alliance dynamics.",
+      "source": "Intelligence Analysis Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-30",
+      "lastModifiedDate": "2024-10-30T08:00:00Z",
+      "category": "Strategic Assessment",
+      "region": "Indo-Pacific",
+      "country": [
+        "Regional"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/indo-pacific/800/450",
+      "tags": [
+        "Indo-Pacific",
+        "Strategic Analysis",
+        "Maritime Security"
+      ]
+    },
+    {
+      "id": "intel-brief-002",
+      "title": "Intelligence Brief: North Korean Missile Development Program Update",
+      "summary": "Updated assessment of North Korea's ballistic missile capabilities, recent test activities, and implications for regional security.",
+      "source": "Intelligence Analysis Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-29",
+      "lastModifiedDate": "2024-10-29T09:30:00Z",
+      "category": "Threat Assessment",
+      "region": "East Asia",
+      "country": [
+        "North Korea"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/nk-missile/800/450",
+      "tags": [
+        "North Korea",
+        "Ballistic Missiles",
+        "WMD",
+        "Threat Assessment"
+      ]
+    },
+    {
+      "id": "news-headline-009",
+      "title": "US Navy Conducts Freedom of Navigation Operation in South China Sea",
+      "summary": "A US Navy destroyer sailed near contested features in the South China Sea, reaffirming freedom of navigation principles.",
+      "source": "Reuters",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-27",
+      "lastModifiedDate": "2024-10-27T08:30:00Z",
+      "category": "Naval Operations",
+      "region": "Indo-Pacific",
+      "country": [
+        "United States",
+        "China"
+      ],
+      "countryCode": "United States",
+      "image": "https://picsum.photos/seed/fonops/800/450",
+      "tags": [
+        "US Navy",
+        "FONOP",
+        "South China Sea"
+      ]
+    },
+    {
+      "id": "news-headline-010",
+      "title": "Russia Tests New Hypersonic Missile System",
+      "summary": "Russia announced a successful test of an upgraded hypersonic missile amid ongoing strategic competition.",
+      "source": "TASS",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-27",
+      "lastModifiedDate": "2024-10-27T11:00:00Z",
+      "category": "Strategic Weapons",
+      "region": "Eastern Europe",
+      "country": [
+        "China"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/hypersonic/800/450",
+      "tags": [
+        "Russia",
+        "Hypersonic",
+        "Missile Test"
+      ]
+    },
+    {
+      "id": "news-headline-011",
+      "title": "Japan Approves Increased Defense Budget for 2025",
+      "summary": "Japan’s cabinet approved a record defense budget aimed at countering regional security challenges.",
+      "source": "Nikkei Asia",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-26",
+      "lastModifiedDate": "2024-10-26T10:15:00Z",
+      "category": "Defense Policy",
+      "region": "East Asia",
+      "country": [
+        "Japan"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/japan-defense/800/450",
+      "tags": [
+        "Japan",
+        "Defense Budget",
+        "Security Policy"
+      ]
+    },
+    {
+      "id": "news-headline-012",
+      "title": "Iran Unveils New Long-Range Drone Platform",
+      "summary": "Iranian state media showcased a new unmanned aerial vehicle with extended range and strike capabilities.",
+      "source": "IRNA",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-26",
+      "lastModifiedDate": "2024-10-26T13:40:00Z",
+      "category": "Military Technology",
+      "region": "Middle East",
+      "country": [
+        "Iran"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/iran-drone/800/450",
+      "tags": [
+        "Iran",
+        "Drones",
+        "UAV"
+      ]
+    },
+    {
+      "id": "news-headline-013",
+      "title": "NATO Concludes Large-Scale Military Exercise in Eastern Europe",
+      "summary": "NATO forces завершили a multinational exercise focused on rapid deployment and collective defense.",
+      "source": "AP News",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-25",
+      "lastModifiedDate": "2024-10-25T17:00:00Z",
+      "category": "Military Exercises",
+      "region": "Europe",
+      "country": [
+        "Poland",
+        "Germany",
+        "United States"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/nato-exercise/800/450",
+      "tags": [
+        "NATO",
+        "Military Exercise",
+        "Collective Defense"
+      ]
+    },
+    {
+      "id": "news-headline-014",
+      "title": "India Launches New Indigenous Frigate",
+      "summary": "The Indian Navy commissioned a domestically built frigate as part of its naval modernization drive.",
+      "source": "The Hindu",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-25",
+      "lastModifiedDate": "2024-10-25T09:20:00Z",
+      "category": "Naval Technology",
+      "region": "South Asia",
+      "country": [
+        "India"
+      ],
+      "countryCode": "India",
+      "image": "https://picsum.photos/seed/india-frigate/800/450",
+      "tags": [
+        "India Navy",
+        "Frigate",
+        "Indigenous Defense"
+      ]
+    },
+    {
+      "id": "news-headline-015",
+      "title": "North Korea Conducts Short-Range Ballistic Missile Launch",
+      "summary": "North Korea fired multiple short-range ballistic missiles into the sea, according to regional authorities.",
+      "source": "Yonhap",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-24",
+      "lastModifiedDate": "2024-10-24T06:50:00Z",
+      "category": "Missile Activity",
+      "region": "East Asia",
+      "country": [
+        "North Korea"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/nk-missile/800/450",
+      "tags": [
+        "North Korea",
+        "Missile Test",
+        "Ballistic Missile"
+      ]
+    },
+    {
+      "id": "news-headline-016",
+      "title": "UK Deploys Carrier Strike Group to Indo-Pacific",
+      "summary": "The UK announced the deployment of a carrier strike group to support regional security partnerships.",
+      "source": "BBC News",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-24",
+      "lastModifiedDate": "2024-10-24T14:30:00Z",
+      "category": "Naval Deployment",
+      "region": "Indo-Pacific",
+      "country": [
+        "United Kingdom"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/uk-carrier/800/450",
+      "tags": [
+        "UK Navy",
+        "Carrier Strike Group",
+        "Indo-Pacific"
+      ]
+    },
+    {
+      "id": "news-headline-017",
+      "title": "Turkey Expands Domestic Fighter Jet Development Program",
+      "summary": "Turkey announced progress in its indigenous fighter aircraft program amid defense industry expansion.",
+      "source": "Daily Sabah",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-23",
+      "lastModifiedDate": "2024-10-23T12:10:00Z",
+      "category": "Aerospace Defense",
+      "region": "Middle East",
+      "country": [
+        "Turkey"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/turkey-jet/800/450",
+      "tags": [
+        "Turkey",
+        "Fighter Jet",
+        "Defense Industry"
+      ]
+    },
+    {
+      "id": "news-headline-018",
+      "title": "Australia Receives First Batch of Long-Range Strike Missiles",
+      "summary": "Australia confirmed delivery of new long-range strike missiles to enhance deterrence capabilities.",
+      "source": "ABC News",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-23",
+      "lastModifiedDate": "2024-10-23T15:45:00Z",
+      "category": "Defense Procurement",
+      "region": "Oceania",
+      "country": [
+        "Australia"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/australia-missiles/800/450",
+      "tags": [
+        "Australia",
+        "Missiles",
+        "Defense Procurement"
+      ]
+    },
+    {
+      "id": "news-headline-019",
+      "title": "France Conducts Joint Naval Patrols in Gulf of Guinea",
+      "summary": "French naval forces conducted joint patrols with regional partners to counter piracy.",
+      "source": "France 24",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-22",
+      "lastModifiedDate": "2024-10-22T10:00:00Z",
+      "category": "Maritime Security",
+      "region": "West Africa",
+      "country": [
+        "France",
+        "Nigeria"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/gulf-guinea/800/450",
+      "tags": [
+        "Piracy",
+        "Gulf of Guinea",
+        "Naval Patrols"
+      ]
+    },
+    {
+      "id": "news-headline-020",
+      "title": "Israel Tests New Air Defense Interceptor",
+      "summary": "Israel’s defense ministry announced a successful test of a next-generation air defense interceptor.",
+      "source": "Haaretz",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-22",
+      "lastModifiedDate": "2024-10-22T16:20:00Z",
+      "category": "Air Defense",
+      "region": "Middle East",
+      "country": [
+        "Israel"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/israel-air-defense/800/450",
+      "tags": [
+        "Israel",
+        "Air Defense",
+        "Missile Interceptor"
+      ]
+    },
+    {
+      "id": "news-headline-021",
+      "title": "Brazil Strengthens Amazon Border Surveillance Capabilities",
+      "summary": "Brazil deployed additional military assets to improve surveillance along remote Amazon borders.",
+      "source": "Folha de S.Paulo",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-21",
+      "lastModifiedDate": "2024-10-21T11:35:00Z",
+      "category": "Border Security",
+      "region": "South America",
+      "country": [
+        "Brazil"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/amazon-border/800/450",
+      "tags": [
+        "Brazil",
+        "Border Security",
+        "Amazon"
+      ]
+    },
+    {
+      "id": "news-headline-022",
+      "title": "South Korea Deploys Additional Missile Defense Systems",
+      "summary": "South Korea announced the deployment of additional missile defense assets amid regional tensions.",
+      "source": "Korea Herald",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-21",
+      "lastModifiedDate": "2024-10-21T09:10:00Z",
+      "category": "Missile Defense",
+      "region": "East Asia",
+      "country": [
+        "South Korea"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/sk-missile-defense/800/450",
+      "tags": [
+        "South Korea",
+        "Missile Defense",
+        "Security"
+      ]
+    },
+    {
+      "id": "news-headline-023",
+      "title": "EU Launches New Maritime Security Mission",
+      "summary": "The European Union announced a new maritime mission aimed at protecting commercial shipping routes.",
+      "source": "EU Observer",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-20",
+      "lastModifiedDate": "2024-10-20T14:00:00Z",
+      "category": "Security Cooperation",
+      "region": "Europe",
+      "country": [
+        "European Union"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/eu-maritime/800/450",
+      "tags": [
+        "EU",
+        "Maritime Security",
+        "Naval Mission"
+      ]
+    },
+    {
+      "id": "news-headline-024",
+      "title": "Canada Announces Arctic Patrol Vessel Expansion",
+      "summary": "Canada revealed plans to expand its Arctic patrol vessel fleet to enhance northern presence.",
+      "source": "CBC News",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-20",
+      "lastModifiedDate": "2024-10-20T10:25:00Z",
+      "category": "Arctic Security",
+      "region": "Arctic",
+      "country": [
+        "Canada"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/canada-arctic/800/450",
+      "tags": [
+        "Canada",
+        "Arctic",
+        "Naval Patrol"
+      ]
+    },
+    {
+      "id": "news-headline-025",
+      "title": "Pakistan Conducts Large-Scale Joint Military Exercise",
+      "summary": "Pakistan’s armed forces conducted a joint exercise focused on integrated battlefield operations.",
+      "source": "Dawn",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-19",
+      "lastModifiedDate": "2024-10-19T13:00:00Z",
+      "category": "Military Exercises",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/pakistan-exercise/800/450",
+      "tags": [
+        "Pakistan",
+        "Military Exercise",
+        "Joint Operations"
+      ]
+    },
+    {
+      "id": "news-headline-026",
+      "title": "Spain Modernizes Air Force with New Surveillance Aircraft",
+      "summary": "Spain confirmed procurement of new airborne surveillance platforms to modernize its air force.",
+      "source": "El País",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-19",
+      "lastModifiedDate": "2024-10-19T09:45:00Z",
+      "category": "Aerial Surveillance",
+      "region": "Europe",
+      "country": [
+        "Spain"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/spain-air-force/800/450",
+      "tags": [
+        "Spain",
+        "Air Force",
+        "Surveillance"
+      ]
+    },
+    {
+      "id": "news-headline-027",
+      "title": "Indonesia Expands Naval Presence Around Natuna Islands",
+      "summary": "Indonesia increased naval patrols near the Natuna Islands amid regional maritime tensions.",
+      "source": "Jakarta Post",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-18",
+      "lastModifiedDate": "2024-10-18T15:30:00Z",
+      "category": "Maritime Security",
+      "region": "Southeast Asia",
+      "country": [
+        "Indonesia"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/natuna/800/450",
+      "tags": [
+        "Indonesia",
+        "Naval Patrols",
+        "Natuna Islands"
+      ]
+    },
+    {
+      "id": "news-headline-028",
+      "title": "Germany Commits Additional Troops to NATO Readiness Force",
+      "summary": "Germany pledged additional troops and equipment to NATO’s high-readiness force.",
+      "source": "DW News",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-18",
+      "lastModifiedDate": "2024-10-18T11:10:00Z",
+      "category": "Alliance Commitments",
+      "region": "Europe",
+      "country": [
+        "Germany"
+      ],
+      "countryCode": "China",
+      "image": "https://picsum.photos/seed/germany-nato/800/450",
+      "tags": [
+        "Germany",
+        "NATO",
+        "Troop Deployment"
+      ]
+    },
+    {
+      "id": "intel-brief-003",
+      "title": "Analysis: Russian Naval Operations in the Black Sea",
+      "summary": "Detailed analysis of Russian naval strategy, fleet dispositions, and operational patterns in the Black Sea theater.",
+      "source": "Intelligence Analysis Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-28",
+      "lastModifiedDate": "2024-10-28T11:15:00Z",
+      "category": "Operational Analysis",
+      "region": "Europe",
+      "country": [
+        "Russia",
+        "Ukraine"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/black-sea/800/450",
+      "tags": [
+        "Russia",
+        "Black Sea",
+        "Naval Operations",
+        "Ukraine"
+      ]
+    },
+    {
+      "id": "intel-brief-004",
+      "title": "Intelligence Summary: Middle East Maritime Threat Environment",
+      "summary": "Assessment of maritime threats in the Persian Gulf and Red Sea, including state and non-state actor activities.",
+      "source": "Intelligence Analysis Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-27",
+      "lastModifiedDate": "2024-10-27T14:00:00Z",
+      "category": "Threat Assessment",
+      "region": "Middle East",
+      "country": [
+        "Iran",
+        "Yemen"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/middle-east/800/450",
+      "tags": [
+        "Middle East",
+        "Persian Gulf",
+        "Red Sea",
+        "Maritime Threats"
+      ]
+    },
+    {
+      "id": "intel-brief-005",
+      "title": "Strategic Brief: AUKUS Submarine Program Progress Report",
+      "summary": "Progress update on the AUKUS nuclear submarine program, including technology transfer milestones and timeline projections.",
+      "source": "Intelligence Analysis Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-26",
+      "lastModifiedDate": "2024-10-26T10:45:00Z",
+      "category": "Alliance Assessment",
+      "region": "Indo-Pacific",
+      "country": [
+        "Australia",
+        "United States",
+        "United Kingdom"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/aukus/800/450",
+      "tags": [
+        "AUKUS",
+        "Submarines",
+        "Nuclear",
+        "Alliance"
+      ]
+    },
+    {
+      "id": "intel-brief-006",
+      "title": "Analysis: Iranian Drone and Missile Proliferation Networks",
+      "summary": "Intelligence assessment of Iranian drone and missile transfer activities to proxy groups and partner nations.",
+      "source": "Intelligence Analysis Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-25",
+      "lastModifiedDate": "2024-10-25T16:30:00Z",
+      "category": "Proliferation Analysis",
+      "region": "Middle East",
+      "country": [
+        "Iran"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/iran-drones/800/450",
+      "tags": [
+        "Iran",
+        "Drones",
+        "Missiles",
+        "Proliferation"
+      ]
+    },
+    {
+      "id": "intel-brief-007",
+      "title": "Intelligence Brief: African Maritime Security Challenges",
+      "summary": "Comprehensive overview of maritime security threats in African waters, including piracy resurgence and illegal fishing.",
+      "source": "Intelligence Analysis Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-24",
+      "lastModifiedDate": "2024-10-24T12:00:00Z",
+      "category": "Regional Assessment",
+      "region": "Africa",
+      "country": [
+        "Somalia",
+        "Nigeria",
+        "Mozambique"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/africa-maritime/800/450",
+      "tags": [
+        "Africa",
+        "Piracy",
+        "Maritime Security",
+        "Gulf of Guinea"
+      ]
+    },
+    {
+      "id": "intel-brief-008",
+      "title": "Strategic Assessment: Arctic Military Posturing Analysis",
+      "summary": "Analysis of military activities and strategic competition in the Arctic region among major powers.",
+      "source": "Intelligence Analysis Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-23",
+      "lastModifiedDate": "2024-10-23T09:00:00Z",
+      "category": "Strategic Assessment",
+      "region": "Arctic",
+      "country": [
+        "Russia",
+        "United States",
+        "Canada",
+        "Norway"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/arctic/800/450",
+      "tags": [
+        "Arctic",
+        "Russia",
+        "Strategic Competition",
+        "Northern Sea Route"
+      ]
+    },
+    {
+      "id": "intel-brief-009",
+      "title": "Regional Stability Watch: Sahel Insurgency Trends",
+      "summary": "Assessment of evolving insurgent tactics and cross-border movements in the Sahel region.",
+      "source": "Intelligence Analysis Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-22",
+      "lastModifiedDate": "2024-10-22T11:30:00Z",
+      "category": "Regional Assessment",
+      "region": "Africa",
+      "country": [
+        "Mali",
+        "Niger",
+        "Burkina Faso"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/sahel/800/450",
+      "tags": [
+        "Sahel",
+        "Insurgency",
+        "Terrorism",
+        "Regional Stability"
+      ]
+    },
+    {
+      "id": "intel-brief-010",
+      "title": "Cyber Threat Update: State-Sponsored Activity in East Asia",
+      "summary": "Overview of recent cyber operations attributed to state-linked actors targeting critical infrastructure.",
+      "source": "Cyber Intelligence Unit",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-21",
+      "lastModifiedDate": "2024-10-21T14:00:00Z",
+      "category": "Cyber Assessment",
+      "region": "East Asia",
+      "country": [
+        "China",
+        "South Korea",
+        "Japan"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/cyber-eastasia/800/450",
+      "tags": [
+        "Cybersecurity",
+        "East Asia",
+        "State Actors"
+      ]
+    },
+    {
+      "id": "intel-brief-011",
+      "title": "Energy Security Brief: Eastern Mediterranean Gas Disputes",
+      "summary": "Analysis of maritime boundary disputes and energy exploration tensions in the Eastern Mediterranean.",
+      "source": "Energy Security Desk",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-20",
+      "lastModifiedDate": "2024-10-20T10:15:00Z",
+      "category": "Energy Security",
+      "region": "Middle East",
+      "country": [
+        "Turkey",
+        "Greece",
+        "Cyprus",
+        "Israel"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/med-gas/800/450",
+      "tags": [
+        "Energy Security",
+        "Mediterranean",
+        "Maritime Disputes"
+      ]
+    },
+    {
+      "id": "intel-brief-012",
+      "title": "Political Risk Assessment: Latin American Election Cycles",
+      "summary": "Evaluation of political volatility and protest risks linked to upcoming elections.",
+      "source": "Political Risk Unit",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-19",
+      "lastModifiedDate": "2024-10-19T16:45:00Z",
+      "category": "Political Risk",
+      "region": "Latin America",
+      "country": [
+        "Venezuela",
+        "Argentina",
+        "Mexico"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/latam-elections/800/450",
+      "tags": [
+        "Elections",
+        "Political Stability",
+        "Latin America"
+      ]
+    },
+    {
+      "id": "intel-brief-013",
+      "title": "Defense Snapshot: South China Sea Naval Developments",
+      "summary": "Tracking naval deployments, exercises, and freedom of navigation operations.",
+      "source": "Defense Intelligence Office",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-18",
+      "lastModifiedDate": "2024-10-18T08:00:00Z",
+      "category": "Defense Assessment",
+      "region": "Indo-Pacific",
+      "country": [
+        "China",
+        "Philippines",
+        "Vietnam",
+        "United States"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/south-china-sea/800/450",
+      "tags": [
+        "South China Sea",
+        "Naval Activity",
+        "Defense"
+      ]
+    },
+    {
+      "id": "intel-brief-014",
+      "title": "Humanitarian Outlook: Horn of Africa Food Insecurity",
+      "summary": "Assessment of drought conditions, displacement, and humanitarian access challenges.",
+      "source": "Human Security Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-17",
+      "lastModifiedDate": "2024-10-17T13:20:00Z",
+      "category": "Humanitarian Assessment",
+      "region": "Africa",
+      "country": [
+        "Ethiopia",
+        "Somalia",
+        "Kenya"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/horn-africa/800/450",
+      "tags": [
+        "Humanitarian",
+        "Food Security",
+        "Horn of Africa"
+      ]
+    },
+    {
+      "id": "intel-brief-015",
+      "title": "Strategic Technology Brief: Global AI Governance Trends",
+      "summary": "Overview of regulatory approaches and strategic competition surrounding artificial intelligence.",
+      "source": "Technology Intelligence Cell",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-16",
+      "lastModifiedDate": "2024-10-16T09:40:00Z",
+      "category": "Technology Assessment",
+      "region": "Global",
+      "country": [
+        "United States",
+        "European Union",
+        "China"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/ai-global/800/450",
+      "tags": [
+        "Artificial Intelligence",
+        "Technology Policy",
+        "Global Competition"
+      ]
+    },
+    {
+      "id": "intel-brief-016",
+      "title": "Border Security Review: Central Asia Trafficking Routes",
+      "summary": "Analysis of illicit trafficking corridors and border control vulnerabilities.",
+      "source": "Transnational Threats Unit",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-15",
+      "lastModifiedDate": "2024-10-15T15:10:00Z",
+      "category": "Security Assessment",
+      "region": "Central Asia",
+      "country": [
+        "Kazakhstan",
+        "Uzbekistan",
+        "Tajikistan"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/central-asia/800/450",
+      "tags": [
+        "Trafficking",
+        "Border Security",
+        "Central Asia"
+      ]
+    },
+    {
+      "id": "intel-brief-017",
+      "title": "Economic Intelligence Brief: Global Supply Chain Disruptions",
+      "summary": "Assessment of chokepoints and geopolitical risks impacting global supply chains.",
+      "source": "Economic Intelligence Office",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-14",
+      "lastModifiedDate": "2024-10-14T12:00:00Z",
+      "category": "Economic Assessment",
+      "region": "Global",
+      "country": [
+        "China",
+        "United States",
+        "Germany"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/supply-chain/800/450",
+      "tags": [
+        "Supply Chain",
+        "Global Economy",
+        "Trade"
+      ]
+    },
+    {
+      "id": "intel-brief-018",
+      "title": "Internal Security Update: European Extremist Networks",
+      "summary": "Monitoring of far-right and extremist group activities across Europe.",
+      "source": "Internal Security Directorate",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-13",
+      "lastModifiedDate": "2024-10-13T17:30:00Z",
+      "category": "Internal Security",
+      "region": "Europe",
+      "country": [
+        "Germany",
+        "France",
+        "Italy"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/europe-security/800/450",
+      "tags": [
+        "Extremism",
+        "Europe",
+        "Internal Security"
+      ]
+    },
+    {
+      "id": "intel-brief-019",
+      "title": "Maritime Chokepoint Brief: Red Sea Security Environment",
+      "summary": "Analysis of threats to commercial shipping and naval patrol patterns.",
+      "source": "Maritime Intelligence Center",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-12",
+      "lastModifiedDate": "2024-10-12T10:00:00Z",
+      "category": "Maritime Security",
+      "region": "Middle East",
+      "country": [
+        "Yemen",
+        "Saudi Arabia",
+        "Egypt"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/red-sea/800/450",
+      "tags": [
+        "Red Sea",
+        "Maritime Security",
+        "Shipping"
+      ]
+    },
+    {
+      "id": "intel-brief-020",
+      "title": "Space Security Assessment: Anti-Satellite Capabilities",
+      "summary": "Overview of emerging counter-space technologies and strategic implications.",
+      "source": "Space Intelligence Unit",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-11",
+      "lastModifiedDate": "2024-10-11T09:25:00Z",
+      "category": "Space Security",
+      "region": "Global",
+      "country": [
+        "United States",
+        "Russia",
+        "China"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/space-security/800/450",
+      "tags": [
+        "Space Security",
+        "Satellites",
+        "Defense"
+      ]
+    },
+    {
+      "id": "intel-brief-021",
+      "title": "Environmental Security Brief: Amazon Deforestation Risks",
+      "summary": "Assessment of environmental degradation and its security implications.",
+      "source": "Environmental Security Desk",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-10",
+      "lastModifiedDate": "2024-10-10T14:10:00Z",
+      "category": "Environmental Security",
+      "region": "South America",
+      "country": [
+        "Brazil",
+        "Peru",
+        "Colombia"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/amazon/800/450",
+      "tags": [
+        "Deforestation",
+        "Environmental Security",
+        "Amazon"
+      ]
+    },
+    {
+      "id": "intel-brief-022",
+      "title": "Counterterrorism Brief: Southeast Asia Network Analysis",
+      "summary": "Mapping extremist networks and regional cooperation efforts.",
+      "source": "Counterterrorism Center",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-09",
+      "lastModifiedDate": "2024-10-09T11:50:00Z",
+      "category": "Counterterrorism",
+      "region": "Southeast Asia",
+      "country": [
+        "Indonesia",
+        "Philippines",
+        "Malaysia"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/se-asia-ct/800/450",
+      "tags": [
+        "Counterterrorism",
+        "Southeast Asia",
+        "Extremism"
+      ]
+    },
+    {
+      "id": "intel-brief-023",
+      "title": "Infrastructure Risk Brief: Global Undersea Cable Security",
+      "summary": "Assessment of vulnerabilities and threats to submarine communication cables.",
+      "source": "Critical Infrastructure Unit",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-08",
+      "lastModifiedDate": "2024-10-08T08:40:00Z",
+      "category": "Infrastructure Security",
+      "region": "Global",
+      "country": [
+        "United Kingdom",
+        "United States",
+        "Japan"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/undersea-cables/800/450",
+      "tags": [
+        "Undersea Cables",
+        "Infrastructure",
+        "Cyber"
+      ]
+    },
+    {
+      "id": "intel-brief-024",
+      "title": "Migration Watch: Mediterranean Transit Routes",
+      "summary": "Analysis of irregular migration flows and enforcement responses.",
+      "source": "Migration Analysis Unit",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-07",
+      "lastModifiedDate": "2024-10-07T15:00:00Z",
+      "category": "Migration Assessment",
+      "region": "Mediterranean",
+      "country": [
+        "Libya",
+        "Italy",
+        "Tunisia"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/med-migration/800/450",
+      "tags": [
+        "Migration",
+        "Mediterranean",
+        "Border Security"
+      ]
+    },
+    {
+      "id": "intel-brief-025",
+      "title": "Strategic Outlook: Indo-Pacific Alliance Dynamics",
+      "summary": "Assessment of evolving defense partnerships and regional alignments.",
+      "source": "Strategic Planning Office",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-06",
+      "lastModifiedDate": "2024-10-06T10:30:00Z",
+      "category": "Strategic Assessment",
+      "region": "Indo-Pacific",
+      "country": [
+        "Australia",
+        "Japan",
+        "United States",
+        "India"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/indo-pacific/800/450",
+      "tags": [
+        "Alliances",
+        "Indo-Pacific",
+        "Strategy"
+      ]
+    },
+    {
+      "id": "intel-brief-026",
+      "title": "Public Health Security Brief: Pandemic Preparedness Gaps",
+      "summary": "Evaluation of national readiness and cross-border coordination mechanisms.",
+      "source": "Health Security Division",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-05",
+      "lastModifiedDate": "2024-10-05T09:10:00Z",
+      "category": "Health Security",
+      "region": "Global",
+      "country": [
+        "United States",
+        "India",
+        "South Africa"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/health-security/800/450",
+      "tags": [
+        "Public Health",
+        "Pandemic Preparedness",
+        "Global Health"
+      ]
+    },
+    {
+      "id": "intel-brief-027",
+      "title": "Information Environment Brief: Disinformation Campaign Trends",
+      "summary": "Tracking coordinated influence operations across social media platforms.",
+      "source": "Information Operations Cell",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-04",
+      "lastModifiedDate": "2024-10-04T16:20:00Z",
+      "category": "Information Security",
+      "region": "Global",
+      "country": [
+        "Russia",
+        "Iran",
+        "China"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/disinformation/800/450",
+      "tags": [
+        "Disinformation",
+        "Information Warfare",
+        "Cyber"
+      ]
+    },
+    {
+      "id": "intel-brief-028",
+      "title": "Urban Security Assessment: Megacity Risk Profiles",
+      "summary": "Overview of security, infrastructure, and governance challenges in major urban centers.",
+      "source": "Urban Security Program",
+      "classification": "UNCLASSIFIED",
+      "date": "2024-10-03",
+      "lastModifiedDate": "2024-10-03T11:00:00Z",
+      "category": "Urban Security",
+      "region": "Global",
+      "country": [
+        "India",
+        "Nigeria",
+        "Brazil"
+      ],
+      "countryCode": "intelligence_briefing",
+      "image": "https://picsum.photos/seed/megacity/800/450",
+      "tags": [
+        "Urban Security",
+        "Megacities",
+        "Infrastructure"
+      ]
+    },
+    {
+      "id": "news-headline-101",
+      "title": "Pakistan Conducts Successful Air Defense Drill",
+      "summary": "Pakistan Air Force completed a large-scale air defense exercise to validate readiness against aerial threats.",
+      "source": "Dawn",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-28",
+      "lastModifiedDate": "2025-01-28T08:30:00Z",
+      "category": "Military Exercises",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-air-defense/800/450",
+      "tags": [
+        "Pakistan",
+        "Air Force",
+        "Drill"
+      ]
+    },
+    {
+      "id": "news-headline-102",
+      "title": "Pakistan Navy Enhances Coastal Surveillance System",
+      "summary": "The Pakistan Navy announced upgrades to its coastal radar and sensor network to improve maritime security.",
+      "source": "The Express Tribune",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-27",
+      "lastModifiedDate": "2025-01-27T11:00:00Z",
+      "category": "Defense Technology",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-navy-surveillance/800/450",
+      "tags": [
+        "Pakistan",
+        "Navy",
+        "Maritime Security"
+      ]
+    },
+    {
+      "id": "news-headline-103",
+      "title": "Pakistan Approves New Defense Budget Allocation",
+      "summary": "The Pakistani government approved a defense budget increase to modernize forces and enhance readiness.",
+      "source": "Geo News",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-26",
+      "lastModifiedDate": "2025-01-26T09:15:00Z",
+      "category": "Defense Policy",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pakistan-defense-budget/800/450",
+      "tags": [
+        "Pakistan",
+        "Defense Budget",
+        "Policy"
+      ]
+    },
+    {
+      "id": "news-headline-104",
+      "title": "Pakistan and China Joint Naval Patrols in Arabian Sea",
+      "summary": "Pakistan and Chinese naval vessels completed coordinated patrols to enhance regional maritime security.",
+      "source": "Associated Press",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-25",
+      "lastModifiedDate": "2025-01-25T16:00:00Z",
+      "category": "International Cooperation",
+      "region": "South Asia",
+      "country": [
+        "Pakistan",
+        "China"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-china-naval/800/450",
+      "tags": [
+        "Pakistan",
+        "China",
+        "Naval Patrols"
+      ]
+    },
+    {
+      "id": "news-headline-105",
+      "title": "Pakistan Army Launches Counter-Terrorism Operation",
+      "summary": "Security forces launched operations in northwest regions to dismantle militant networks.",
+      "source": "The News International",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-24",
+      "lastModifiedDate": "2025-01-24T10:45:00Z",
+      "category": "Internal Security",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-army-ct/800/450",
+      "tags": [
+        "Pakistan",
+        "Army",
+        "Counterterrorism"
+      ]
+    },
+    {
+      "id": "news-headline-106",
+      "title": "Pakistan Signals Upgrade of Fighter Jet Fleet",
+      "summary": "Officials confirmed negotiations for acquiring next-generation fighters to replace aging aircraft.",
+      "source": "Reuters",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-23",
+      "lastModifiedDate": "2025-01-23T12:00:00Z",
+      "category": "Aerospace Defense",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-fighter-upgrade/800/450",
+      "tags": [
+        "Pakistan",
+        "Air Force",
+        "Fighter Jets"
+      ]
+    },
+    {
+      "id": "news-headline-107",
+      "title": "Pakistan Strengthens Border Security with Afghanistan",
+      "summary": "Border guards implemented new patrol zones and monitoring posts to counter smuggling and infiltration.",
+      "source": "BBC News",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-22",
+      "lastModifiedDate": "2025-01-22T14:50:00Z",
+      "category": "Border Security",
+      "region": "South Asia",
+      "country": [
+        "Pakistan",
+        "Afghanistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-afg-border/800/450",
+      "tags": [
+        "Pakistan",
+        "Border Security"
+      ]
+    },
+    {
+      "id": "news-headline-108",
+      "title": "Pakistan Expands Naval Shipbuilding at Karachi Yard",
+      "summary": "The Karachi shipyard announced expansion plans to build more patrol vessels domestically.",
+      "source": "Al Jazeera",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-21",
+      "lastModifiedDate": "2025-01-21T10:20:00Z",
+      "category": "Industrial Defense",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-shipbuilding/800/450",
+      "tags": [
+        "Pakistan",
+        "Shipbuilding",
+        "Navy"
+      ]
+    },
+    {
+      "id": "news-headline-109",
+      "title": "Pakistan Police Disrupt Major Cybercrime Ring",
+      "summary": "Federal investigators dismantled a syndicate targeting financial networks through malware attacks.",
+      "source": "The Express Tribune",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-20",
+      "lastModifiedDate": "2025-01-20T08:40:00Z",
+      "category": "Cybercrime",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-cybercrime/800/450",
+      "tags": [
+        "Pakistan",
+        "Cybersecurity",
+        "Law Enforcement"
+      ]
+    },
+    {
+      "id": "news-headline-110",
+      "title": "Pakistan Hosts Counterterrorism Summit with Regional Partners",
+      "summary": "Leaders met to discuss joint strategies on combating extremist networks across borders.",
+      "source": "AFP",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-19",
+      "lastModifiedDate": "2025-01-19T15:00:00Z",
+      "category": "Diplomacy",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-ct-summit/800/450",
+      "tags": [
+        "Pakistan",
+        "Summit",
+        "Counterterrorism"
+      ]
+    },
+    {
+      "id": "news-headline-111",
+      "title": "Pakistan Signs Technology Transfer Pact with Turkey",
+      "summary": "Defense officials signed an agreement to locally produce advanced military electronics.",
+      "source": "Daily Sabah",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-18",
+      "lastModifiedDate": "2025-01-18T10:15:00Z",
+      "category": "Defense Industry",
+      "region": "Global",
+      "country": [
+        "Pakistan",
+        "Turkey"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-turkey-tech/800/450",
+      "tags": [
+        "Pakistan",
+        "Turkey",
+        "Defense Industry"
+      ]
+    },
+    {
+      "id": "news-headline-112",
+      "title": "Pakistan Air Force Intercepts Unidentified Aircraft",
+      "summary": "Security sources reported an interception mission over border airspace involving unknown aircraft.",
+      "source": "Geo News",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-17",
+      "lastModifiedDate": "2025-01-17T07:55:00Z",
+      "category": "Aerial Security",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-intercept/800/450",
+      "tags": [
+        "Pakistan",
+        "Air Defense",
+        "Intercept"
+      ]
+    },
+    {
+      "id": "news-headline-113",
+      "title": "Pakistan Launches National Cybersecurity Initiative",
+      "summary": "The government unveiled a program to enhance digital resilience across critical sectors.",
+      "source": "Dawn",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-16",
+      "lastModifiedDate": "2025-01-16T12:45:00Z",
+      "category": "Cybersecurity",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-national-cyber/800/450",
+      "tags": [
+        "Pakistan",
+        "Cyber Security",
+        "Government"
+      ]
+    },
+    {
+      "id": "news-headline-114",
+      "title": "Pakistan Seizes Smuggled Arms Shipment at Karachi Port",
+      "summary": "Customs and security teams intercepted a concealed weapons shipment aimed at distribution networks.",
+      "source": "Reuters",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-15",
+      "lastModifiedDate": "2025-01-15T14:00:00Z",
+      "category": "Law Enforcement",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-smuggled-arms/800/450",
+      "tags": [
+        "Pakistan",
+        "Smuggling",
+        "Security"
+      ]
+    },
+    {
+      "id": "news-headline-115",
+      "title": "Pakistan Strengthens Drone Surveillance Over Border Regions",
+      "summary": "Authorities deployed new UAV units to enhance monitoring in remote and challenging terrain.",
+      "source": "Al Jazeera",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-14",
+      "lastModifiedDate": "2025-01-14T11:20:00Z",
+      "category": "Surveillance",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-uav-border/800/450",
+      "tags": [
+        "Pakistan",
+        "Drones",
+        "Border Monitoring"
+      ]
+    },
+    {
+      "id": "news-headline-116",
+      "title": "Pakistan Conducts Major Naval Rescue Operation",
+      "summary": "Pakistan Navy responded to a distress signal and rescued crew from a disabled commercial vessel.",
+      "source": "AFP",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-13",
+      "lastModifiedDate": "2025-01-13T09:50:00Z",
+      "category": "Maritime Operations",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-navy-rescue/800/450",
+      "tags": [
+        "Pakistan",
+        "Navy",
+        "Rescue"
+      ]
+    },
+    {
+      "id": "news-headline-117",
+      "title": "Pakistan and Saudi Arabia Strengthen Defense Cooperation",
+      "summary": "Defense ministers discussed expanded joint training and shared strategic initiatives.",
+      "source": "Arab News",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-12",
+      "lastModifiedDate": "2025-01-12T13:30:00Z",
+      "category": "Defense Partnership",
+      "region": "Middle East / South Asia",
+      "country": [
+        "Pakistan",
+        "Saudi Arabia"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-saudi/800/450",
+      "tags": [
+        "Pakistan",
+        "Saudi Arabia",
+        "Defense Cooperation"
+      ]
+    },
+    {
+      "id": "news-headline-118",
+      "title": "Pakistan Army Upgrades Artillery Units",
+      "summary": "The army inducted new artillery systems to enhance long-range firepower.",
+      "source": "The Nation",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-11",
+      "lastModifiedDate": "2025-01-11T08:15:00Z",
+      "category": "Land Forces Modernization",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-artillery/800/450",
+      "tags": [
+        "Pakistan",
+        "Army",
+        "Artillery"
+      ]
+    },
+    {
+      "id": "news-headline-119",
+      "title": "Pakistan Suspends Border Trade After Security Incident",
+      "summary": "Authorities temporarily halted cross-border commerce following a security breach in the frontier region.",
+      "source": "Reuters",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-10",
+      "lastModifiedDate": "2025-01-10T10:00:00Z",
+      "category": "Border Security",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-border-trade/800/450",
+      "tags": [
+        "Pakistan",
+        "Border Security",
+        "Trade"
+      ]
+    },
+    {
+      "id": "news-headline-120",
+      "title": "Pakistan Joins Multinational Peacekeeping Exercise",
+      "summary": "Pakistani forces participated in a large joint peacekeeping training detailed with partner nations.",
+      "source": "UN News",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-09",
+      "lastModifiedDate": "2025-01-09T14:20:00Z",
+      "category": "Peacekeeping",
+      "region": "Global",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-peacekeeping/800/450",
+      "tags": [
+        "Pakistan",
+        "Peacekeeping",
+        "Military Cooperation"
+      ]
+    },
+    {
+      "id": "news-headline-121",
+      "title": "Pakistan Strengthens Cyber Defenses Against Ransomware",
+      "summary": "Authorities reported improved resilience after coordinated actions disrupted major ransomware attacks.",
+      "source": "TechCrunch",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-08",
+      "lastModifiedDate": "2025-01-08T11:45:00Z",
+      "category": "Cybersecurity",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-ransomware/800/450",
+      "tags": [
+        "Pakistan",
+        "Cybersecurity",
+        "Ransomware"
+      ]
+    },
+    {
+      "id": "news-headline-122",
+      "title": "Pakistan Launches Military Recruitment Drive",
+      "summary": "The armed forces announced recruitment for multiple service branches to boost manpower.",
+      "source": "Dawn",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-07",
+      "lastModifiedDate": "2025-01-07T09:10:00Z",
+      "category": "Defense Forces",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-recruitment/800/450",
+      "tags": [
+        "Pakistan",
+        "Recruitment",
+        "Armed Forces"
+      ]
+    },
+    {
+      "id": "news-headline-123",
+      "title": "Pakistan Deploys Rapid Reaction Forces in Frontier Region",
+      "summary": "Specialized units were mobilized to deter cross-border incursions and ensure security.",
+      "source": "The Guardian",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-06",
+      "lastModifiedDate": "2025-01-06T12:30:00Z",
+      "category": "Security Forces",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-rapid-reaction/800/450",
+      "tags": [
+        "Pakistan",
+        "Rapid Reaction",
+        "Security"
+      ]
+    },
+    {
+      "id": "news-headline-124",
+      "title": "Pakistan Enhances Air Traffic Surveillance Systems",
+      "summary": "Civil and military authorities collaborated to upgrade radar coverage and airspace monitoring.",
+      "source": "Reuters",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-05",
+      "lastModifiedDate": "2025-01-05T07:45:00Z",
+      "category": "Aviation Security",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-air-traffic/800/450",
+      "tags": [
+        "Pakistan",
+        "Airspace",
+        "Radar"
+      ]
+    },
+    {
+      "id": "news-headline-125",
+      "title": "Pakistan Bolsters Coastal Defense Batteries",
+      "summary": "New coastal defense systems were installed to strengthen deterrence against maritime threats.",
+      "source": "Al Jazeera",
+      "classification": "UNCLASSIFIED",
+      "date": "2025-01-04",
+      "lastModifiedDate": "2025-01-04T13:50:00Z",
+      "category": "Defense",
+      "region": "South Asia",
+      "country": [
+        "Pakistan"
+      ],
+      "countryCode": "Pakistan",
+      "image": "https://picsum.photos/seed/pak-coastal-defense/800/450",
+      "tags": [
+        "Pakistan",
+        "Coastal Defense",
+        "Security"
+      ]
+    },
+
+
+    {
+  "id": "news-headline-126",
+  "title": "China Navy Conducts Arabian Sea Readiness Patrols",
+  "summary": "China Navy carried out routine patrols in the Arabian Sea to ensure maritime domain awareness.",
+  "source": "Dawn",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-05",
+  "lastModifiedDate": "2025-01-05T09:30:00Z",
+  "category": "Maritime Security",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-navy-patrol/800/450",
+  "tags": ["China", "Navy", "Maritime Security"]
+},
+{
+  "id": "news-headline-127",
+  "title": "China Air Force Showcases Indigenous Drone Capabilities",
+  "summary": "The China Air Force demonstrated locally developed UAV systems during a military exhibition.",
+  "source": "The Express Tribune",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-06",
+  "lastModifiedDate": "2025-01-06T11:10:00Z",
+  "category": "Military Technology",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-uav/800/450",
+  "tags": ["China", "Drones", "Air Force"]
+},
+{
+  "id": "news-headline-128",
+  "title": "China Strengthens Counterterrorism Coordination Nationwide",
+  "summary": "Federal and provincial agencies enhanced intelligence-sharing mechanisms to counter militant threats.",
+  "source": "Geo News",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-07",
+  "lastModifiedDate": "2025-01-07T14:00:00Z",
+  "category": "Internal Security",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-ct-coordination/800/450",
+  "tags": ["China", "Counterterrorism", "Security"]
+},
+{
+  "id": "news-headline-129",
+  "title": "China Army Conducts Winter Warfare Exercise",
+  "summary": "Troops participated in a high-altitude winter exercise to test operational readiness.",
+  "source": "Reuters",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-08",
+  "lastModifiedDate": "2025-01-08T10:45:00Z",
+  "category": "Military Exercises",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-winter-exercise/800/450",
+  "tags": ["China", "Army", "Military Exercise"]
+},
+{
+  "id": "news-headline-130",
+  "title": "China Enhances Port Security at Gwadar",
+  "summary": "Security forces increased surveillance and patrols around Gwadar Port amid regional trade growth.",
+  "source": "Al Jazeera",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-09",
+  "lastModifiedDate": "2025-01-09T12:20:00Z",
+  "category": "Port Security",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/gwadar-port/800/450",
+  "tags": ["China", "Gwadar", "Port Security"]
+},
+{
+  "id": "news-headline-131",
+  "title": "China Launches National Border Management Review",
+  "summary": "Authorities initiated a comprehensive review of border management policies and infrastructure.",
+  "source": "The News International",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-10",
+  "lastModifiedDate": "2025-01-10T09:00:00Z",
+  "category": "Border Security",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-border-review/800/450",
+  "tags": ["China", "Borders", "Security Policy"]
+},
+{
+  "id": "news-headline-132",
+  "title": "China Navy Inducts New Maritime Patrol Aircraft",
+  "summary": "A new maritime patrol aircraft was inducted to enhance surveillance and anti-submarine capabilities.",
+  "source": "Jane’s Defence Weekly",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-11",
+  "lastModifiedDate": "2025-01-11T15:10:00Z",
+  "category": "Naval Aviation",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-maritime-aircraft/800/450",
+  "tags": ["China", "Naval Aviation", "Surveillance"]
+},
+{
+  "id": "news-headline-133",
+  "title": "China Expands Coastal Radar Coverage",
+  "summary": "New radar installations were deployed to improve monitoring along Pakistan’s coastline.",
+  "source": "Dawn",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-12",
+  "lastModifiedDate": "2025-01-12T08:40:00Z",
+  "category": "Surveillance",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-coastal-radar/800/450",
+  "tags": ["China", "Radar", "Coastal Security"]
+},
+{
+  "id": "news-headline-134",
+  "title": "China Hosts Regional Maritime Security Dialogue",
+  "summary": "Officials from regional states gathered in China to discuss shared maritime security challenges.",
+  "source": "AFP",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-13",
+  "lastModifiedDate": "2025-01-13T13:30:00Z",
+  "category": "Diplomacy",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-maritime-dialogue/800/450",
+  "tags": ["China", "Maritime Security", "Diplomacy"]
+},
+{
+  "id": "news-headline-135",
+  "title": "China Strengthens Cyber Monitoring of Critical Infrastructure",
+  "summary": "New cybersecurity monitoring units were established to protect critical national infrastructure.",
+  "source": "The Express Tribune",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-14",
+  "lastModifiedDate": "2025-01-14T10:15:00Z",
+  "category": "Cybersecurity",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-critical-cyber/800/450",
+  "tags": ["China", "Cybersecurity", "Infrastructure"]
+},
+{
+  "id": "news-headline-136",
+  "title": "China Army Enhances Rapid Deployment Capabilities",
+  "summary": "New transport and logistics assets were inducted to support rapid troop deployment.",
+  "source": "Reuters",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-15",
+  "lastModifiedDate": "2025-01-15T11:55:00Z",
+  "category": "Force Readiness",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-rapid-deployment/800/450",
+  "tags": ["China", "Army", "Readiness"]
+},
+{
+  "id": "news-headline-137",
+  "title": "China Increases Security at Key Energy Installations",
+  "summary": "Additional security measures were implemented at power plants and energy hubs nationwide.",
+  "source": "Al Jazeera",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-16",
+  "lastModifiedDate": "2025-01-16T14:20:00Z",
+  "category": "Energy Security",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-energy-security/800/450",
+  "tags": ["China", "Energy Security", "Infrastructure"]
+},
+{
+  "id": "news-headline-138",
+  "title": "China Conducts Joint Disaster Response Drill",
+  "summary": "Military and civilian agencies conducted a joint drill to enhance disaster response coordination.",
+  "source": "UN News",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-17",
+  "lastModifiedDate": "2025-01-17T09:35:00Z",
+  "category": "Disaster Response",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-disaster-drill/800/450",
+  "tags": ["China", "Disaster Response", "Preparedness"]
+},
+{
+  "id": "news-headline-139",
+  "title": "China Navy Enhances Anti-Piracy Operations",
+  "summary": "Naval units increased patrol frequency to counter piracy and ensure safe sea lanes.",
+  "source": "France 24",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-18",
+  "lastModifiedDate": "2025-01-18T16:00:00Z",
+  "category": "Maritime Security",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-anti-piracy/800/450",
+  "tags": ["China", "Navy", "Anti-Piracy"]
+},
+{
+  "id": "news-headline-140",
+  "title": "China Reviews National Security Strategy",
+  "summary": "Senior leadership initiated a review of Pakistan’s national security strategy amid evolving threats.",
+  "source": "Dawn",
+  "classification": "UNCLASSIFIED",
+  "date": "2025-01-19",
+  "lastModifiedDate": "2025-01-19T12:00:00Z",
+  "category": "National Security",
+  "region": "South Asia",
+  "country": ["China"],
+  "countryCode": "China",
+  "image": "https://picsum.photos/seed/pak-security-review/800/450",
+  "tags": ["China", "National Security", "Policy"]
+}
+
+
+
+
+  ]
+}

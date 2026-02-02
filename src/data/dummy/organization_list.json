@@ -1,0 +1,27 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {"label": "China Electronics Information Industry Group Nanjing Kerida Electronic Equipment Co Ltd", "entity_id": "Org_46917"},
+    {"label": "Raytheon Technologies Corporation", "entity_id": "Org_10001"},
+    {"label": "Lockheed Martin Corporation", "entity_id": "Org_10002"},
+    {"label": "BAE Systems plc", "entity_id": "Org_10003"},
+    {"label": "Northrop Grumman Corporation", "entity_id": "Org_10004"},
+    {"label": "General Dynamics Corporation", "entity_id": "Org_10005"},
+    {"label": "L3Harris Technologies Inc", "entity_id": "Org_10006"},
+    {"label": "Boeing Defense Space & Security", "entity_id": "Org_10007"},
+    {"label": "Thales Group", "entity_id": "Org_10008"},
+    {"label": "Leonardo S.p.A.", "entity_id": "Org_10009"},
+    {"label": "Rheinmetall AG", "entity_id": "Org_10010"},
+    {"label": "MBDA Missile Systems", "entity_id": "Org_10011"},
+    {"label": "Saab AB", "entity_id": "Org_10012"},
+    {"label": "Israel Aerospace Industries", "entity_id": "Org_10013"},
+    {"label": "Elbit Systems Ltd", "entity_id": "Org_10014"},
+    {"label": "Rafael Advanced Defense Systems", "entity_id": "Org_10015"},
+    {"label": "Hanwha Defense", "entity_id": "Org_10016"},
+    {"label": "Mitsubishi Heavy Industries", "entity_id": "Org_10017"},
+    {"label": "Hindustan Aeronautics Limited", "entity_id": "Org_10018"},
+    {"label": "Rostec State Corporation", "entity_id": "Org_10019"}
+  ],
+  "total_count": 20
+}

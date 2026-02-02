@@ -1,0 +1,302 @@
+/**
+ * Common Utility Styles
+ *
+ * Global utility classes and animations for the application.
+ * These utilities complement the theme system for special cases that benefit from CSS classes.
+ *
+ * Note: Most styling should use MUI's sx prop or styled() with theme tokens.
+ * Use these utilities only when CSS classes are more appropriate.
+ */
+
+/* ========================================
+   CSS Variables
+   ======================================== */
+:root {
+  --gradient-primary: linear-gradient(135deg, #6bc3eb 0%, #20175e 100%);
+  --gradient-light: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+  --color-primary: #6bc3eb;
+  --color-primary-dark: rgb(32, 23, 94);
+  --tw-bg-opacity: 1;
+}
+
+/* ========================================
+   Global Resets
+   ======================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ========================================
+   Custom Scrollbar
+   ======================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(240, 249, 255, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, rgba(107, 195, 235, 0.6) 0%, rgba(32, 23, 94, 0.6) 100%);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, rgba(107, 195, 235, 0.8) 0%, rgba(32, 23, 94, 0.8) 100%);
+}
+
+/* ========================================
+   Layout Utilities
+   ======================================== */
+.container {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+/* ========================================
+   Glassmorphism Utilities
+   ======================================== */
+.glass-light {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 249, 255, 0.8) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(107, 195, 235, 0.15);
+  box-shadow: 0 4px 20px rgba(107, 195, 235, 0.1);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(107, 195, 235, 0.2);
+  box-shadow: 0 8px 32px rgba(32, 23, 94, 0.08);
+}
+
+.glass-dark {
+  background: rgba(32, 23, 94, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(107, 195, 235, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+}
+
+/* ========================================
+   Glow Effects
+   ======================================== */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(107, 195, 235, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-cyan:hover {
+  box-shadow: 0 0 40px rgba(107, 195, 235, 0.5);
+}
+
+.glow-primary {
+  box-shadow: 0 0 25px rgba(32, 23, 94, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-primary:hover {
+  box-shadow: 0 0 45px rgba(32, 23, 94, 0.4);
+}
+
+/* ========================================
+   Gradient Text Utilities
+   ======================================== */
+.gradient-text-primary {
+  background: var(--gradient-primary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+.gradient-text-light {
+  background: linear-gradient(135deg, #6bc3eb 0%, #ffffff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ========================================
+   Animation Utilities
+   ======================================== */
+.floating-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.floating-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(107, 195, 235, 0.15), 0 4px 8px rgba(32, 23, 94, 0.1);
+}
+
+.pulse-button {
+  animation: pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(240, 249, 255, 0.8) 25%,
+    rgba(107, 195, 235, 0.2) 50%,
+    rgba(240, 249, 255, 0.8) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ========================================
+   Keyframe Animations
+   ======================================== */
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(107, 195, 235, 0.3);
+  }
+  50% {
+    opacity: 0.9;
+    box-shadow: 0 0 30px rgba(107, 195, 235, 0.5);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ========================================
+   Responsive Grid Utility
+   ======================================== */
+.responsive-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+@media (min-width: 768px) {
+  .responsive-grid {
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    gap: 2.5rem;
+  }
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+@media print {
+  body {
+    background: white !important;
+  }
+
+  .glass-light,
+  .glass-strong,
+  .glass-dark {
+    background: white !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

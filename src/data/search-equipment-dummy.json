@@ -1,0 +1,419 @@
+{
+  "totalHits": 59,
+  "lastDocId": "nsg-2025-001-05",
+  "records": [
+    {
+      "id": "equipment-2024-11-001",
+      "title": "F-35 Lightning II",
+      "summary": "Fifth-generation multirole stealth fighter aircraft developed by Lockheed Martin. Features advanced avionics, stealth capabilities, and sensor fusion technology. Capable of performing air superiority, strike, and electronic warfare missions. Currently in service with multiple NATO and allied nations.",
+      "lastModifiedDate": "2024-11-15",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2024-11-002",
+      "title": "Type 055 Destroyer (Renhai-class)",
+      "summary": "Chinese Navy guided-missile destroyer representing the most advanced surface combatant in the PLAN fleet. Features 112 vertical launch system cells, advanced radar systems, and integrated combat management system. Displacement of approximately 12,000 tons.",
+      "lastModifiedDate": "2024-11-20",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2024-11-003",
+      "title": "S-400 Triumf Air Defense System",
+      "summary": "Russian-made long-range surface-to-air missile system capable of engaging aircraft, cruise missiles, and ballistic missiles. Features multiple radar systems and can engage targets at ranges up to 400km. Exported to several countries including China, India, and Turkey.",
+      "lastModifiedDate": "2024-11-25",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2024-12-001",
+      "title": "M1A2 Abrams SEPv3",
+      "summary": "Third-generation main battle tank operated by the United States Army. Features advanced armor protection, 120mm smoothbore gun, and upgraded electronics and communications systems. Latest variant includes improved power generation and thermal management.",
+      "lastModifiedDate": "2024-12-05",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2024-12-002",
+      "title": "Virginia-class Submarine",
+      "summary": "Nuclear-powered fast attack submarine designed for deep ocean anti-submarine and anti-surface warfare. Features advanced stealth technology, Tomahawk cruise missile capability, and special operations support. Primary submarine class for the U.S. Navy.",
+      "lastModifiedDate": "2024-12-10",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2024-12-003",
+      "title": "CH-47F Chinook",
+      "summary": "Twin-engine, tandem rotor heavy-lift helicopter manufactured by Boeing. Used for troop transport, artillery emplacement, and battlefield resupply. Features advanced avionics, improved cargo handling, and increased reliability. Operated by over 20 countries.",
+      "lastModifiedDate": "2024-12-15",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-01-001",
+      "title": "HIMARS (High Mobility Artillery Rocket System)",
+      "summary": "Light multiple rocket launcher mounted on wheeled chassis for rapid deployment. Capable of firing GPS-guided rockets and ATACMS missiles with precision strike capability. Proven combat effectiveness in various conflicts.",
+      "lastModifiedDate": "2025-01-10",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-01-002",
+      "title": "Rafale Fighter Aircraft",
+      "summary": "French twin-engine multirole fighter aircraft developed by Dassault Aviation. Features advanced avionics, active electronically scanned array radar, and nuclear strike capability. Operated by French Air Force, Navy, and exported to India, Qatar, and Egypt.",
+      "lastModifiedDate": "2025-01-20",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-02-001",
+      "title": "Arleigh Burke-class Destroyer",
+      "summary": "United States Navy guided missile destroyer featuring Aegis Combat System. Primary surface combatant for ballistic missile defense and fleet air defense. Over 70 ships built, making it the largest destroyer class in the world.",
+      "lastModifiedDate": "2025-02-05",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-02-002",
+      "title": "Patriot PAC-3 Missile System",
+      "summary": "Advanced surface-to-air missile system designed for theater ballistic missile defense. Features hit-to-kill technology for improved intercept capability. Widely deployed and combat-proven in multiple theaters of operation.",
+      "lastModifiedDate": "2025-02-15",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-03-001",
+      "title": "AH-64E Apache Guardian",
+      "summary": "Advanced attack helicopter featuring upgraded sensors, weapons, and communications. Capable of manned-unmanned teaming with drones. Primary attack helicopter for the U.S. Army and numerous allied nations.",
+      "lastModifiedDate": "2025-03-10",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-03-002",
+      "title": "Type 99A Main Battle Tank",
+      "summary": "Chinese third-generation main battle tank featuring composite armor, 125mm smoothbore gun, and advanced fire control system. Represents the most advanced tank in PLA ground forces inventory.",
+      "lastModifiedDate": "2025-03-20",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-04-001",
+      "title": "Eurofighter Typhoon",
+      "summary": "Twin-engine, delta wing multirole fighter developed by European consortium. Features advanced avionics, high maneuverability, and multi-nation interoperability. Operated by Germany, UK, Spain, Italy, and export customers.",
+      "lastModifiedDate": "2025-04-15",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-04-002",
+      "title": "THAAD (Terminal High Altitude Area Defense)",
+      "summary": "U.S. Army anti-ballistic missile defense system designed to shoot down short, medium, and intermediate-range ballistic missiles. Features transportable launcher and X-band radar system.",
+      "lastModifiedDate": "2025-04-25",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-05-001",
+      "title": "Leopard 2A7",
+      "summary": "German main battle tank representing the latest evolution of the Leopard 2 family. Features enhanced protection, improved fire control, and urban warfare capabilities. Widely exported and considered among the world's best tanks.",
+      "lastModifiedDate": "2025-05-10",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-05-002",
+      "title": "P-8A Poseidon",
+      "summary": "Maritime patrol aircraft developed by Boeing for anti-submarine warfare, anti-surface warfare, and intelligence missions. Based on 737-800 airframe with advanced sensors and weapons systems.",
+      "lastModifiedDate": "2025-05-20",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-06-001",
+      "title": "K2 Black Panther",
+      "summary": "South Korean main battle tank featuring advanced composite armor, autoloader, and active protection system. One of the most technologically advanced tanks currently in production.",
+      "lastModifiedDate": "2025-06-05",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-06-002",
+      "title": "Su-57 Felon",
+      "summary": "Russian fifth-generation stealth multirole fighter aircraft. Features supercruise capability, advanced avionics, and internal weapons bays. First stealth fighter developed by Russia.",
+      "lastModifiedDate": "2025-06-15",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-07-001",
+      "title": "Gerald R. Ford-class Aircraft Carrier",
+      "summary": "U.S. Navy supercarrier featuring electromagnetic aircraft launch system, advanced arresting gear, and improved reactor design. Most advanced aircraft carrier ever built with reduced manning requirements.",
+      "lastModifiedDate": "2025-07-10",
+      "index": "equipment"
+    },
+    {
+      "id": "equipment-2025-07-002",
+      "title": "Iron Dome Air Defense System",
+      "summary": "Israeli mobile air defense system designed to intercept short-range rockets and artillery shells. Proven combat record with high interception success rate. Co-developed with U.S. support.",
+      "lastModifiedDate": "2025-07-20",
+      "index": "equipment"
+    },
+    {
+      "id": "ship-2024-001",
+      "title": "USS Nimitz (CVN-68)",
+      "summary": "Lead ship of the Nimitz-class nuclear-powered supercarriers operated by the United States Navy. Commissioned in 1975, it has served in numerous operations worldwide. Features a crew of over 5,000 personnel and can carry approximately 90 aircraft.",
+      "lastModifiedDate": "2024-10-15",
+      "index": "ships"
+    },
+    {
+      "id": "ship-2024-002",
+      "title": "HMS Queen Elizabeth (R08)",
+      "summary": "Lead ship of the Queen Elizabeth-class aircraft carriers of the Royal Navy. Largest warship ever built for the Royal Navy at 65,000 tonnes. Features ski-jump ramp and operates F-35B Lightning II aircraft.",
+      "lastModifiedDate": "2024-11-05",
+      "index": "ships"
+    },
+    {
+      "id": "ship-2024-003",
+      "title": "INS Vikrant (IAC-1)",
+      "summary": "India's first indigenous aircraft carrier and the largest warship built in India. Commissioned in 2022, it operates MiG-29K fighters and various helicopters. Displacement of approximately 45,000 tonnes.",
+      "lastModifiedDate": "2024-11-20",
+      "index": "ships"
+    },
+    {
+      "id": "ship-2024-004",
+      "title": "JS Izumo (DDH-183)",
+      "summary": "Lead ship of the Izumo-class helicopter destroyers of the Japan Maritime Self-Defense Force. Modified to operate F-35B fighters. Largest warship operated by Japan since World War II.",
+      "lastModifiedDate": "2024-12-01",
+      "index": "ships"
+    },
+    {
+      "id": "ship-2025-001",
+      "title": "Charles de Gaulle (R91)",
+      "summary": "Nuclear-powered aircraft carrier and flagship of the French Navy. Only nuclear-powered carrier outside the U.S. Navy. Operates Rafale M fighters and E-2C Hawkeye early warning aircraft.",
+      "lastModifiedDate": "2025-01-10",
+      "index": "ships"
+    },
+    {
+      "id": "ship-2025-002",
+      "title": "Admiral Kuznetsov",
+      "summary": "Russia's sole aircraft carrier, classified as an aircraft-carrying cruiser. Features ski-jump ramp for aircraft operations. Currently undergoing extensive refit and modernization.",
+      "lastModifiedDate": "2025-02-15",
+      "index": "ships"
+    },
+    {
+      "id": "ship-2025-003",
+      "title": "Liaoning (CV-16)",
+      "summary": "China's first aircraft carrier, originally built as Soviet Varyag. Commissioned in 2012 and serves primarily as a training vessel. Operates J-15 Flying Shark fighters.",
+      "lastModifiedDate": "2025-03-20",
+      "index": "ships"
+    },
+    {
+      "id": "ship-2025-004",
+      "title": "HMAS Canberra (L02)",
+      "summary": "Lead ship of the Canberra-class landing helicopter dock ships of the Royal Australian Navy. Largest ship ever operated by Australia. Can operate as light aircraft carrier with F-35B if needed.",
+      "lastModifiedDate": "2025-04-10",
+      "index": "ships"
+    },
+    {
+      "id": "ship-2025-005",
+      "title": "Shandong (CV-17)",
+      "summary": "China's first domestically built aircraft carrier and second carrier overall. Improved design over Liaoning with increased aircraft capacity. Represents significant advancement in Chinese naval capabilities.",
+      "lastModifiedDate": "2025-05-05",
+      "index": "ships"
+    },
+    {
+      "id": "ship-2025-006",
+      "title": "USS Zumwalt (DDG-1000)",
+      "summary": "Lead ship of the Zumwalt-class guided-missile destroyers. Features revolutionary tumblehome hull design, advanced stealth characteristics, and integrated power system. Most technologically advanced surface combatant.",
+      "lastModifiedDate": "2025-06-15",
+      "index": "ships"
+    },
+    {
+      "id": "inst-2024-001",
+      "title": "Ramstein Air Base",
+      "summary": "United States Air Force installation in Germany and headquarters for U.S. Air Forces in Europe. Serves as a major NATO hub for operations and logistics in Europe, Middle East, and Africa. One of the largest American military community overseas.",
+      "lastModifiedDate": "2024-09-20",
+      "index": "installations"
+    },
+    {
+      "id": "inst-2024-002",
+      "title": "Diego Garcia Naval Support Facility",
+      "summary": "Strategic military base located on Diego Garcia atoll in the Indian Ocean. Operated jointly by the United States and United Kingdom. Critical logistics hub for operations in the Middle East and Indo-Pacific region.",
+      "lastModifiedDate": "2024-10-10",
+      "index": "installations"
+    },
+    {
+      "id": "inst-2024-003",
+      "title": "Camp Humphreys",
+      "summary": "Largest overseas U.S. military base located in South Korea. Headquarters for United States Forces Korea. Cost over $10 billion to construct and houses approximately 36,000 military personnel and family members.",
+      "lastModifiedDate": "2024-11-01",
+      "index": "installations"
+    },
+    {
+      "id": "inst-2024-004",
+      "title": "RAF Lakenheath",
+      "summary": "Royal Air Force station in Suffolk, England, hosting the U.S. Air Force's 48th Fighter Wing. Primary USAF F-15 base in Europe. Will host F-35A Lightning II aircraft as part of modernization.",
+      "lastModifiedDate": "2024-11-25",
+      "index": "installations"
+    },
+    {
+      "id": "inst-2025-001",
+      "title": "Naval Station Norfolk",
+      "summary": "World's largest naval station, located in Norfolk, Virginia. Home port for aircraft carriers, cruisers, destroyers, and submarines. Headquarters for NATO's Allied Command Transformation.",
+      "lastModifiedDate": "2025-01-05",
+      "index": "installations"
+    },
+    {
+      "id": "inst-2025-002",
+      "title": "Incirlik Air Base",
+      "summary": "Turkish Air Force base with significant U.S. Air Force presence in southern Turkey. Strategic location for operations in Middle East and Eastern Mediterranean. Houses approximately 50 U.S. nuclear weapons.",
+      "lastModifiedDate": "2025-02-10",
+      "index": "installations"
+    },
+    {
+      "id": "inst-2025-003",
+      "title": "Joint Base Pearl Harbor-Hickam",
+      "summary": "Combined U.S. Navy and Air Force installation in Hawaii. Headquarters for U.S. Indo-Pacific Command. Historic site of the 1941 attack and home to the Pacific Fleet.",
+      "lastModifiedDate": "2025-03-15",
+      "index": "installations"
+    },
+    {
+      "id": "inst-2025-004",
+      "title": "Al Udeid Air Base",
+      "summary": "Qatar Air Force base hosting the largest U.S. military facility in the Middle East. Headquarters for U.S. Air Forces Central Command. Critical hub for air operations throughout the region.",
+      "lastModifiedDate": "2025-04-20",
+      "index": "installations"
+    },
+    {
+      "id": "inst-2025-005",
+      "title": "Changi Naval Base",
+      "summary": "Republic of Singapore Navy's main naval installation. Features deep-water berths capable of hosting aircraft carriers. Strategic location for Indo-Pacific maritime operations.",
+      "lastModifiedDate": "2025-05-25",
+      "index": "installations"
+    },
+    {
+      "id": "inst-2025-006",
+      "title": "Yokosuka Naval Base",
+      "summary": "U.S. Navy installation in Japan and the largest U.S. naval facility in the Pacific. Home port for the U.S. Seventh Fleet flagship and aircraft carrier strike group. Over 150 years of naval history.",
+      "lastModifiedDate": "2025-06-30",
+      "index": "installations"
+    },
+    {
+      "id": "org-2024-001",
+      "title": "Lockheed Martin Corporation",
+      "summary": "American aerospace, defense, arms, security, and advanced technologies corporation. World's largest defense contractor by revenue. Manufactures F-35 Lightning II, C-130 Hercules, and various missile systems.",
+      "lastModifiedDate": "2024-08-15",
+      "index": "organisation"
+    },
+    {
+      "id": "org-2024-002",
+      "title": "BAE Systems",
+      "summary": "British multinational defense, security, and aerospace company. Largest defense contractor in Europe. Products include Typhoon fighter, Astute-class submarines, and various armored vehicles.",
+      "lastModifiedDate": "2024-09-10",
+      "index": "organisation"
+    },
+    {
+      "id": "org-2024-003",
+      "title": "Raytheon Technologies",
+      "summary": "American multinational aerospace and defense conglomerate. Major producer of missiles, radar systems, and defense electronics. Products include Patriot missile system and Tomahawk cruise missiles.",
+      "lastModifiedDate": "2024-10-05",
+      "index": "organisation"
+    },
+    {
+      "id": "org-2024-004",
+      "title": "Northrop Grumman",
+      "summary": "American global aerospace and defense technology company. Manufacturer of B-2 Spirit bomber, B-21 Raider, and Global Hawk drone. Major shipbuilder for aircraft carriers and submarines.",
+      "lastModifiedDate": "2024-11-01",
+      "index": "organisation"
+    },
+    {
+      "id": "org-2025-001",
+      "title": "General Dynamics",
+      "summary": "American aerospace and defense corporation. Products include Gulfstream business jets, Abrams tanks, Stryker vehicles, and Virginia-class submarines. Major IT services provider to government.",
+      "lastModifiedDate": "2025-01-15",
+      "index": "organisation"
+    },
+    {
+      "id": "org-2025-002",
+      "title": "Thales Group",
+      "summary": "French multinational company designing and manufacturing electrical systems for aerospace, defense, transportation, and security. Major producer of radar systems, avionics, and military communications.",
+      "lastModifiedDate": "2025-02-20",
+      "index": "organisation"
+    },
+    {
+      "id": "org-2025-003",
+      "title": "Leonardo S.p.A.",
+      "summary": "Italian multinational company specializing in aerospace, defense, and security. Products include AW101 helicopter, M346 trainer, and various naval systems. Major European defense player.",
+      "lastModifiedDate": "2025-03-25",
+      "index": "organisation"
+    },
+    {
+      "id": "org-2025-004",
+      "title": "Rheinmetall AG",
+      "summary": "German automotive and defense company. Major producer of military vehicles, weapon systems, and ammunition. Manufactures Leopard 2 tank components and Boxer armored vehicle.",
+      "lastModifiedDate": "2025-04-30",
+      "index": "organisation"
+    },
+    {
+      "id": "org-2025-005",
+      "title": "Hanwha Aerospace",
+      "summary": "South Korean defense and aerospace company. Major producer of aircraft engines, missiles, and artillery systems. Growing presence in global defense market with K9 howitzer exports.",
+      "lastModifiedDate": "2025-05-15",
+      "index": "organisation"
+    },
+    {
+      "id": "org-2025-006",
+      "title": "Saab AB",
+      "summary": "Swedish aerospace and defense company. Manufacturer of Gripen fighter aircraft, submarines, and radar systems. Known for innovative and cost-effective defense solutions.",
+      "lastModifiedDate": "2025-06-20",
+      "index": "organisation"
+    },
+    {
+      "id": "nsg-2024-001",
+      "title": "Wagner Group",
+      "summary": "Russian paramilitary organization providing mercenary services. Active in multiple conflict zones including Africa, Middle East, and Ukraine. Operates with varying degrees of coordination with Russian government.",
+      "lastModifiedDate": "2024-07-20",
+      "index": "non-state-group"
+    },
+    {
+      "id": "nsg-2024-002",
+      "title": "Hezbollah",
+      "summary": "Lebanese Shia Islamist political party and militant group. Maintains significant military capabilities including rockets and missiles. Designated as terrorist organization by several countries.",
+      "lastModifiedDate": "2024-08-15",
+      "index": "non-state-group"
+    },
+    {
+      "id": "nsg-2024-003",
+      "title": "Hamas",
+      "summary": "Palestinian Sunni Islamist political and military organization. Controls the Gaza Strip. Designated as terrorist organization by numerous countries including US, EU, and Israel.",
+      "lastModifiedDate": "2024-09-10",
+      "index": "non-state-group"
+    },
+    {
+      "id": "nsg-2024-004",
+      "title": "Houthi Movement (Ansar Allah)",
+      "summary": "Yemeni armed movement controlling significant territory in Yemen. Conducts attacks on commercial shipping in Red Sea. Supported by Iran with weapons and training.",
+      "lastModifiedDate": "2024-10-05",
+      "index": "non-state-group"
+    },
+    {
+      "id": "nsg-2025-001",
+      "title": "Taliban",
+      "summary": "Islamist political and military organization ruling Afghanistan since 2021. Emerged from mujahideen resistance against Soviet occupation. Implements strict interpretation of Islamic law.",
+      "lastModifiedDate": "2025-01-10",
+      "index": "non-state-group"
+    },
+    {
+      "id": "nsg-2025-002",
+      "title": "Islamic State (ISIS/ISIL)",
+      "summary": "Salafi jihadist militant group formerly controlling territory in Iraq and Syria. Although territorially defeated, maintains insurgent capabilities and global network of affiliates.",
+      "lastModifiedDate": "2025-02-15",
+      "index": "non-state-group"
+    },
+    {
+      "id": "nsg-2025-003",
+      "title": "Al-Shabaab",
+      "summary": "Somali jihadist fundamentalist group affiliated with Al-Qaeda. Controls portions of southern and central Somalia. Conducts attacks in Somalia and neighboring countries.",
+      "lastModifiedDate": "2025-03-20",
+      "index": "non-state-group"
+    },
+    {
+      "id": "nsg-2025-004",
+      "title": "Kurdistan Workers' Party (PKK)",
+      "summary": "Kurdish militant political organization based in Turkey and Iraq. Designated as terrorist organization by Turkey, US, and EU. Seeks Kurdish autonomy or independence.",
+      "lastModifiedDate": "2025-04-25",
+      "index": "non-state-group"
+    },
+    {
+      "id": "nsg-2025-005",
+      "title": "Boko Haram",
+      "summary": "Nigerian jihadist terrorist organization seeking to establish Islamic state. Conducts attacks primarily in northeastern Nigeria and Lake Chad Basin region. Known for mass kidnappings.",
+      "lastModifiedDate": "2025-05-30",
+      "index": "non-state-group"
+    }
+  ]
+}

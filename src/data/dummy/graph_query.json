@@ -1,0 +1,116 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {
+      "n.name": "US Pacific Fleet",
+      "n.type": "Naval Fleet",
+      "n.country": "United States",
+      "n.id": "MG-001"
+    },
+    {
+      "n.name": "Japan Maritime Self-Defense Force",
+      "n.type": "Navy",
+      "n.country": "Japan",
+      "n.id": "MG-002"
+    },
+    {
+      "n.name": "Royal Australian Navy",
+      "n.type": "Navy",
+      "n.country": "Australia",
+      "n.id": "MG-003"
+    },
+    {
+      "n.name": "Republic of Korea Navy",
+      "n.type": "Navy",
+      "n.country": "South Korea",
+      "n.id": "MG-004"
+    },
+    {
+      "n.name": "Indian Navy",
+      "n.type": "Navy",
+      "n.country": "India",
+      "n.id": "MG-005"
+    },
+    {
+      "n.name": "People's Liberation Army Navy",
+      "n.type": "Navy",
+      "n.country": "China",
+      "n.id": "MG-006"
+    },
+    {
+      "n.name": "Royal Navy",
+      "n.type": "Navy",
+      "n.country": "United Kingdom",
+      "n.id": "MG-007"
+    },
+    {
+      "n.name": "French Navy",
+      "n.type": "Navy",
+      "n.country": "France",
+      "n.id": "MG-008"
+    },
+    {
+      "n.name": "Russian Pacific Fleet",
+      "n.type": "Naval Fleet",
+      "n.country": "Russia",
+      "n.id": "MG-009"
+    },
+    {
+      "n.name": "Philippine Navy",
+      "n.type": "Navy",
+      "n.country": "Philippines",
+      "n.id": "MG-010"
+    }
+  ],
+  "totalCount": 250,
+  "total_count": 250,
+  "page": 0,
+  "size": 10,
+  "nodes": [
+    {
+      "id": "MG-001",
+      "label": "US Pacific Fleet",
+      "type": "MilitaryGroup",
+      "properties": {
+        "name": "US Pacific Fleet",
+        "country": "United States",
+        "branch": "Navy"
+      }
+    },
+    {
+      "id": "MG-002",
+      "label": "Japan Maritime Self-Defense Force",
+      "type": "MilitaryGroup",
+      "properties": {
+        "name": "Japan Maritime Self-Defense Force",
+        "country": "Japan",
+        "branch": "Navy"
+      }
+    },
+    {
+      "id": "EQ-001",
+      "label": "F-35A Lightning II",
+      "type": "Equipment",
+      "properties": {
+        "name": "F-35A Lightning II",
+        "type": "Fighter Aircraft",
+        "manufacturer": "Lockheed Martin"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "MG-001",
+      "target": "MG-002",
+      "type": "ALLIED_WITH",
+      "properties": {"since": "1951"}
+    },
+    {
+      "source": "MG-001",
+      "target": "EQ-001",
+      "type": "OPERATES",
+      "properties": {"quantity": 350}
+    }
+  ]
+}

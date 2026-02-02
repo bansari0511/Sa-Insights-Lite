@@ -1,0 +1,41 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "req_id": "req_inventory_001",
+  "result": [
+    {
+      "e": {
+        "properties": {
+          "russian_index_code_label": "40R6, 40R6E, 40R6Ye, 40R6Ye S-400",
+          "primary_type": "https://data.janes.com/ontologies/inventory/Inventory",
+          "total_delivered_inventory_total": "32",
+          "role": "Air defence",
+          "total_delivered_inventory_status": "Estimated",
+          "year_of_initial_delivery": "2018",
+          "last_modified_date": "2024-09-09",
+          "type": "https://data.janes.com/ontologies/inventory/InServiceInventory",
+          "total_in_service_inventory_status": "Estimated",
+          "total_ordered_inventory_total": "32",
+          "total_in_service_inventory_total": "32",
+          "translation_label": "S-400 Triumf, S-400 Triumph, Triumf",
+          "nato_name_label": "SA-21 Growler",
+          "total_ordered_inventory_status": "Estimated",
+          "legacy_jguid": "Inventory_58046",
+          "year_of_initial_manufacture": "2018",
+          "context": "/graph/inventory/context",
+          "synonym_label": "Sudarshan, С-400 Триумф",
+          "display_name_label": "S-400",
+          "id": "https://data.janes.com/inventory/1xjLkwuNRSHdNEcOyutHgB",
+          "legal_name_label": "S-400"
+        },
+        "labels": [
+          "InServiceInventory"
+        ]
+      },
+      "c.name": "China"
+    }
+  ],
+  "total_count": 1500,
+  "page": 0,
+  "size": 10
+}

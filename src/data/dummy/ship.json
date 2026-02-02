@@ -1,0 +1,937 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    {
+      "e": {
+        "properties": {
+          "primary_type": "Equipment",
+          "mobility": "Sea",
+          "role": "Combat, Patrol",
+          "equipment_type": "Surface Combatant",
+          "label": "INS Kolkata",
+          "type": "ShipVariant",
+          "operational_domain": "Maritime",
+          "designator_ship_designator": "Destroyer, guided missile",
+          "designator_core_type_designator": "Naval Principal Surface Combatants",
+          "pennant_number_label": "D63",
+          "designator_designator_suffix": "Guided Missile",
+          "designator_label": "DDG",
+          "last_modified_date": "2025-06-19",
+          "legacy_jguid": "Ship_001",
+          "association_type": "associated to",
+          "end_user_type": "Government military",
+          "operating_profile_path": "Surface-toSurface",
+          "context": "/graph/equipment/context",
+          "name": "INS Kolkata",
+          "display_name_label": "INS Kolkata",
+          "id": "SHIP-001",
+          "legal_name_label": "INS Kolkata"
+        },
+        "labels": [
+          "ShipVariant"
+        ]
+      },
+ "subGroups": [
+        {
+          "properties": {
+            "quantities_units": "ft, in, m, mm",
+            "quantities_units_value_in": "594",
+            "specification_area": "Measurement",
+            "rendered_output": "15.1 m (49 ft 6 in) (est)",
+            "name": "Length, overall",
+            "quantities_units_value_m": "15.1",
+            "quantities_units_value_ft": "49.5",
+            "label": "Length, overall",
+            "id": "https://data.janes.com/specification/6UQRjxxqjxJjgauQGbPhCU",
+            "quantities_units_value_mm": "15088",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_length_overall"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "ft, in, m, mm",
+            "quantities_units_value_in": "201",
+            "specification_area": "Measurement",
+            "rendered_output": "5.09 m (16 ft 8 1/2 in)",
+            "name": "Height, overall",
+            "quantities_units_value_m": "5.09",
+            "quantities_units_value_ft": "16.7",
+            "label": "Height, overall",
+            "id": "https://data.janes.com/specification/12rbVwWchDh5OLwzCpnYis",
+            "quantities_units_value_mm": "5093",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_height_overall"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "ft, in, m, mm",
+            "quantities_units_value_in": "394",
+            "specification_area": "Measurement",
+            "rendered_output": "10 m (32 ft 10 in) (over missiles)",
+            "name": "Wing span",
+            "quantities_units_value_m": "10",
+            "quantities_units_value_ft": "32.8",
+            "label": "Wing span",
+            "id": "https://data.janes.com/specification/6bDMfFBmDusFw2C0d68yJh",
+            "quantities_units_value_mm": "10008",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_wing_span"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "_blank",
+            "specification_area": "Measurement",
+            "rendered_output": "3.0",
+            "name": "Wing aspect ratio",
+            "quantities_units_value_blank": "3",
+            "label": "Wing aspect ratio",
+            "id": "https://data.janes.com/specification/40qD2xSTt3gl5Jhqef9C6w",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_wing_aspect_ratio"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "ft, in, m, mm",
+            "quantities_units_value_in": "372",
+            "specification_area": "Measurement",
+            "rendered_output": "9.45 m (31 ft) (over missile launchers)",
+            "name": "Wing span",
+            "quantities_units_value_m": "9.45",
+            "quantities_units_value_ft": "31",
+            "label": "Wing span",
+            "id": "https://data.janes.com/specification/5MDXciAd2hyBunKkVYYirs",
+            "quantities_units_value_mm": "9449",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_wing_span"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "ft, in, m, mm",
+            "quantities_units_value_in": "222",
+            "specification_area": "Measurement",
+            "rendered_output": "5.64 m (18 ft 6 in)",
+            "name": "Tailplane span",
+            "quantities_units_value_m": "5.64",
+            "quantities_units_value_ft": "18.5",
+            "label": "Tailplane span",
+            "id": "https://data.janes.com/specification/1PWRYqKGE1qqw2LjF3bvsZ",
+            "quantities_units_value_mm": "5639",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_tailplane_span"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "ft, in, m, mm",
+            "quantities_units_value_in": "93",
+            "specification_area": "Measurement",
+            "rendered_output": "2.36 m (7 ft 9 in)",
+            "name": "Wheel track",
+            "quantities_units_value_m": "2.36",
+            "quantities_units_value_ft": "7.75",
+            "label": "Wheel track",
+            "id": "https://data.janes.com/specification/3O3boBsiobBf6pHS0UiRXG",
+            "quantities_units_value_mm": "2362",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_wheel_track"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "ft, in, m, mm",
+            "quantities_units_value_in": "167",
+            "specification_area": "Measurement",
+            "rendered_output": "4.25 m (13 ft 11 1/4 in)",
+            "name": "Wheelbase",
+            "quantities_units_value_m": "4.25",
+            "quantities_units_value_ft": "13.9",
+            "label": "Wheelbase",
+            "id": "https://data.janes.com/specification/1EXtpOINF7JUPHFXrsE6tI",
+            "quantities_units_value_mm": "4248",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_wheelbase"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "m², sq ft",
+            "quantities_units_value_m2": "27.9",
+            "quantities_units_value_sq_ft": "300",
+            "specification_area": "Measurement",
+            "rendered_output": "27.9 m² (300.0 sq ft)",
+            "name": "Gross wing area",
+            "label": "Gross wing area",
+            "id": "https://data.janes.com/specification/2M0cn8j1zLe6HZupH3Vrdz",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_gross_wing_area"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "m², sq ft",
+            "quantities_units_value_m2": "6.8",
+            "quantities_units_value_sq_ft": "73.42",
+            "specification_area": "Measurement",
+            "rendered_output": "6.8 m² (73.42 sq ft)",
+            "name": "Flaps, leading-edge",
+            "label": "Flaps, leading-edge",
+            "id": "https://data.janes.com/specification/7rIFO1wVANqC49Kbs6uLOU",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_flaps_leading_edge_area"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "m², sq ft",
+            "quantities_units_value_m2": "5.8",
+            "quantities_units_value_sq_ft": "62.64",
+            "specification_area": "Measurement",
+            "rendered_output": "5.8 m² (62.64 sq ft)",
+            "name": "Flaperons",
+            "label": "Flaperons",
+            "id": "https://data.janes.com/specification/0axhGy6NdKTo0I56jsI0md",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_flaperon_area"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "m², sq ft",
+            "quantities_units_value_m2": "5.1",
+            "quantities_units_value_sq_ft": "54.75",
+            "specification_area": "Measurement",
+            "rendered_output": "5.1 m² (54.75 sq ft)",
+            "name": "Vertical Tail Surfaces",
+            "label": "Vertical Tail Surfaces",
+            "id": "https://data.janes.com/specification/4voiwRcla949fMCZJfcFVd",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_vertical_tail_surfaces_area"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "m², sq ft",
+            "quantities_units_value_m2": "1.1",
+            "quantities_units_value_sq_ft": "11.65",
+            "specification_area": "Measurement",
+            "rendered_output": "1.1 m² (11.65 sq ft)",
+            "name": "Rudder",
+            "label": "Rudder",
+            "id": "https://data.janes.com/specification/5PTB0hiEXmUpDTDqribvp9",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_rudder_area"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "m², sq ft",
+            "quantities_units_value_sq_ft": "49",
+            "quantities_units_value_m2": "4.6",
+            "specification_area": "Measurement",
+            "rendered_output": "4.6 m² (49 sq ft) (pre-Block 15 aircraft)",
+            "name": "Horizontal tail surfaces",
+            "label": "Horizontal tail surfaces",
+            "id": "https://data.janes.com/specification/4VJTi51aIWEQVu5XDGbyHn",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_horizontal_tail_surfaces_area"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "m², sq ft",
+            "quantities_units_value_sq_ft": "63.7",
+            "quantities_units_value_m2": "5.9",
+            "specification_area": "Measurement",
+            "rendered_output": "5.9 m² (63.7 sq ft) (Block 15 and subsequent aircraft)",
+            "name": "Horizontal tail surfaces",
+            "label": "Horizontal tail surfaces",
+            "id": "https://data.janes.com/specification/2dKTUmfsP11NoSmdsHkhtk",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_horizontal_tail_surfaces_area"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "kg, lb",
+            "quantities_units_value_lb": "23298",
+            "specification_area": "Measurement",
+            "rendered_output": "10,570 kg (23,298 lb) (air-to-air, no external tanks)",
+            "name": "Max T-O weight",
+            "quantities_units_value_kg": "10570",
+            "label": "Max T-O weight",
+            "id": "https://data.janes.com/specification/1w6NAIl85Dpu4sPhD0rltD",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_max_t_o_weight"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "kg, lb",
+            "quantities_units_value_lb": "35400",
+            "specification_area": "Measurement",
+            "rendered_output": "16,060 kg (35,400 lb) (with external load)",
+            "name": "Max T-O weight",
+            "quantities_units_value_kg": "16060",
+            "label": "Max T-O weight",
+            "id": "https://data.janes.com/specification/6kurH2ZREJ3549DCSfw7dW",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_max_t_o_weight"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "kg, lb",
+            "quantities_units_value_lb": "16258",
+            "specification_area": "Measurement",
+            "rendered_output": "7,374 kg (16,258 lb)",
+            "quantities_units_value_kg": "7374",
+            "name": "Weight empty",
+            "label": "Weight empty",
+            "id": "https://data.janes.com/specification/0wXbGUSGuoFnalYamReOca",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_weight_empty"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "kg, lb",
+            "quantities_units_value_lb": "5785",
+            "specification_area": "Measurement",
+            "rendered_output": "2,624 kg (5,785 lb) (internal)",
+            "name": "Max fuel weight",
+            "quantities_units_value_kg": "2624",
+            "label": "Max fuel weight",
+            "attribute": "Internal",
+            "id": "https://data.janes.com/specification/5zlr4SIZsSeHLxbyBY1e2U",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_max_fuel_weight"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "kg, lb",
+            "quantities_units_value_lb": "11328",
+            "specification_area": "Measurement",
+            "rendered_output": "5,138 kg (11,328 lb)",
+            "quantities_units_value_kg": "5138",
+            "name": "Max payload",
+            "label": "Max payload",
+            "id": "https://data.janes.com/specification/6kzyPukSgWs5p4OYlYR1ti",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_max_payload"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "kg/m², lb/sqft",
+            "quantities_units_value_sqft": "73",
+            "quantities_units_value_m2": "356",
+            "specification_area": "Measurement",
+            "rendered_output": "356 kg/m² (73 lb/sqft) (at 9,979 kg (22,000 lb) AUW)",
+            "name": "Max wing loading",
+            "label": "Max wing loading",
+            "id": "https://data.janes.com/specification/5CTbqQSyEgdbJGuJeFc59y",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_max_wing_loading"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "kg/m², lb/sqft",
+            "quantities_units_value_sqft": "110",
+            "quantities_units_value_m2": "537",
+            "specification_area": "Measurement",
+            "rendered_output": "537 kg/m² (110 lb/sqft) (at 14,968 kg (33,000 lb) AUW)",
+            "name": "Max wing loading",
+            "label": "Max wing loading",
+            "id": "https://data.janes.com/specification/1AydeMXvdTuSxT8sSdYMlu",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_max_wing_loading"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "km/h, kt, mph",
+            "quantities_units_value_mph": "150",
+            "specification_area": "Performance",
+            "quantities_units_value_h": "241",
+            "quantities_units_value_kt": "130.3",
+            "rendered_output": "130.3 kt (241 km/h, 150 mph) (est)",
+            "name": "Stalling speed",
+            "label": "Stalling speed",
+            "id": "https://data.janes.com/specification/5pslPRQmZUg62kMbE1KU1R",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_stalling_speed"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "km/h, kt, mph",
+            "quantities_units_value_mph": "1066",
+            "specification_area": "Performance",
+            "quantities_units_value_h": "1716",
+            "quantities_units_value_kt": "926.3",
+            "rendered_output": "926.3 kt (1,716 km/h, 1,066 mph) (est)",
+            "name": "Max operating speed",
+            "label": "Max operating speed",
+            "id": "https://data.janes.com/specification/5d13VbTHTq3bgu0p3kS4fR",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_max_operating_speed"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "km/h, kt, mph",
+            "quantities_units_value_mph": "536",
+            "specification_area": "Performance",
+            "quantities_units_value_h": "863",
+            "quantities_units_value_kt": "466",
+            "rendered_output": "466 kt (863 km/h, 536 mph) (est)",
+            "name": "Cruising speed",
+            "label": "Cruising speed",
+            "id": "https://data.janes.com/specification/7GtLJ26h3tBGAQ66R4P8Z8",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_cruising_speed"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "ft/min, m/min",
+            "specification_area": "Performance",
+            "rendered_output": "4,465 m/min (14,648 ft/min) (est)",
+            "name": "Rate of climb",
+            "label": "Rate of climb",
+            "id": "https://data.janes.com/specification/3pORuoHWN7vIybPgVw1AP1",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_rate_of_climb",
+            "quantities_units_value_min": "14648, 4465"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "ft, m",
+            "specification_area": "Performance",
+            "rendered_output": "16,760 m (55,000 ft) (est)",
+            "name": "Absolute ceiling",
+            "quantities_units_value_m": "16760",
+            "quantities_units_value_ft": "55000",
+            "label": "Absolute ceiling",
+            "id": "https://data.janes.com/specification/3sWRqgC40lCC9wPZjrw0z9",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_absolute_ceiling"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "km, mi, nm",
+            "specification_area": "Performance",
+            "rendered_output": "3,850 km (2,080 nm, 2,395 mi) (est)",
+            "name": "Range",
+            "quantities_units_value_mi": "2395",
+            "label": "Range",
+            "quantities_units_value_nm": "2080",
+            "id": "https://data.janes.com/specification/2YX0VygVc37mo8SYUmL1d2",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "quantities_units_value_km": "3850",
+            "key": "Aircraft_range"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "g",
+            "quantities_units_value_g": "9",
+            "specification_area": "Performance",
+            "rendered_output": "+ 9 g (est) (symmetrical, with full internal fuel)",
+            "name": "g limits",
+            "quantities_value_modifier": "+",
+            "label": "g limits",
+            "id": "https://data.janes.com/specification/71nRRx5ZYZAfHk5jfRyfIN",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_g_limits"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "m², sq ft",
+            "quantities_units_value_sq_ft": "63.7",
+            "quantities_units_value_m2": "5.9",
+            "specification_area": "Measurement",
+            "rendered_output": "5.9 m² (63.7 sq ft) (Block 15 and subsequent aircraft)",
+            "name": "Tailplanes",
+            "label": "Tailplanes",
+            "id": "https://data.janes.com/specification/6FbeoMSU4FKSNTqshoijK5",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_tailplane_area"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "m², sq ft",
+            "quantities_units_value_sq_ft": "49",
+            "quantities_units_value_m2": "4.6",
+            "specification_area": "Measurement",
+            "rendered_output": "4.6 m² (49 sq ft) (pre-Block 15 aircraft)",
+            "name": "Tailplanes",
+            "label": "Tailplanes",
+            "id": "https://data.janes.com/specification/3G0ck5ACdpxVA29e9WzCRq",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_tailplane_area"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "m², sq ft",
+            "quantities_units_value_sq_ft": "43.1",
+            "quantities_units_value_m2": "4",
+            "specification_area": "Measurement",
+            "rendered_output": "4 m² (43.1 sq ft) (est) (incl dorsal fin)",
+            "name": "Fin",
+            "label": "Fin",
+            "id": "https://data.janes.com/specification/0NQvpDuuwakx3DuGAFNGE4",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_fin_area"
+          },
+          "labels": [
+            "Specification"
+          ]
+        },
+        {
+          "properties": {
+            "quantities_units": "ft, m",
+            "specification_area": "Performance",
+            "rendered_output": "15,240 m (50,000 ft) (est)",
+            "name": "Service ceiling",
+            "quantities_units_value_m": "15240",
+            "quantities_units_value_ft": "50000",
+            "label": "Service ceiling",
+            "id": "https://data.janes.com/specification/547ke1pBdgya7mR4lOL96f",
+            "type": "https://data.janes.com/ontologies/specifications/Specification",
+            "key": "Aircraft_service_ceiling"
+          },
+          "labels": [
+            "Specification"
+          ]
+        }
+      ],
+      "subGroups2": [
+        {
+          "id": "https://data.janes.com/equipment/3zIW1ofHpBigHYzRkqyocE",
+          "label": "AN/ALQ-184(V)9"
+        },
+        {
+          "id": "https://data.janes.com/equipment/02wVSdrlChwiRWkkkYnE7P",
+          "label": "F100-PW-220"
+        },
+        {
+          "id": "https://data.janes.com/equipment/7tUPvLyCFjdG8R1ZVgJH9X",
+          "label": "AN/APG-66(V)3"
+        },
+        {
+          "id": "https://data.janes.com/equipment/4d3ZlzuZwjAsHcLMzt9zVV",
+          "label": "AN/APG-66"
+        },
+        {
+          "id": "https://data.janes.com/equipment/65ibQnb10vu1yyAOZoY1Le",
+          "label": "F100-PW-200"
+        },
+        {
+          "id": "https://data.janes.com/equipment/7I4IcedMw72cgD3xy18bkZ",
+          "label": "AN/APG-68(V)9"
+        },
+        {
+          "id": "https://data.janes.com/equipment/34eqRZBZy6drwqwOTHMQRf",
+          "label": "AN/APG-68(V)X"
+        },
+        {
+          "id": "https://data.janes.com/equipment/2vrioMuUcYzqVFjVXoTL8U",
+          "label": "AN/APG-66(V)2"
+        },
+        {
+          "id": "https://data.janes.com/equipment/4xySZcmpP5PHBJQqMF7pUc",
+          "label": "AN/APG-66 (V)1"
+        },
+        {
+          "id": "https://data.janes.com/equipment/0388fl5WbnIkmKy2IDpes2",
+          "label": "F100-PW-220E"
+        },
+        {
+          "id": "https://data.janes.com/equipment/56FVUBFoaledhuxOC11xKh",
+          "label": "LANTIRN"
+        },
+        {
+          "id": "https://data.janes.com/equipment/4Fz7qKskMIuSTruDsPMc9v",
+          "label": "AN/ALQ-131(V)"
+        },
+        {
+          "id": "https://data.janes.com/equipment/6BoFjxgFrk4TvdTd4CUEZ9",
+          "label": "AN/ALR-56M"
+        },
+        {
+          "id": "https://data.janes.com/equipment/13El323xGKbDm17GWS8v3B",
+          "label": "AN/ALQ-213(V)"
+        },
+        {
+          "id": "https://data.janes.com/equipment/2sN8N4cbNHJSZyozWxeBXL",
+          "label": "AN/AAQ-33"
+        },
+        {
+          "id": "https://data.janes.com/equipment/5pLaC87UobQVC7Mb0wGktp",
+          "label": "LANTIRN ER"
+        },
+        {
+          "id": "https://data.janes.com/equipment/7ePlkk6vNLKxyorbFRReg7",
+          "label": "ASHM"
+        },
+        {
+          "id": "https://data.janes.com/equipment/3sVFbliBfVeNCROv2HS9Jo",
+          "label": "AN/APX-101(V)"
+        },
+        {
+          "id": "https://data.janes.com/equipment/4mqht72WbcglFmvVcemrO4",
+          "label": "Sharpshooter"
+        },
+        {
+          "id": "https://data.janes.com/equipment/05yGNLu2xGSAhrI3Y8LdTp",
+          "label": "CBU‐105"
+        },
+        {
+          "id": "https://data.janes.com/equipment/5Og45gEPNIYynZ1urDsRI0",
+          "label": "Python 4"
+        },
+        {
+          "id": "https://data.janes.com/equipment/52EGGzxZXZaIIBkbrGvfCV",
+          "label": "AN/APG-83"
+        },
+        {
+          "id": "https://data.janes.com/equipment/4AF3r13uZEmNWNLKgMorjo",
+          "label": "ATLIS II"
+        },
+        {
+          "id": "https://data.janes.com/equipment/0Q55eGcSRXZhWw94E8KqqJ",
+          "label": "AN/ALQ-211(V)9"
+        },
+        {
+          "id": "https://data.janes.com/equipment/1dzoTVZU0H06acpmaf40Wt",
+          "label": "Pathfinder"
+        },
+        {
+          "id": "https://data.janes.com/equipment/4B3bw5ODWW4xdDW92nYupx",
+          "label": "Litening III"
+        },
+        {
+          "id": "https://data.janes.com/equipment/7lyHyqbLidXICeRucusyU1",
+          "label": "AN/AAQ-28(V)4"
+        },
+        {
+          "id": "https://data.janes.com/equipment/26OFG9Wzyw3jITW2W4BS8O",
+          "label": "Litening"
+        },
+        {
+          "id": "https://data.janes.com/equipment/46bqWFyREkBsQnZAz6UY66",
+          "label": "AN/ALR-69(V)"
+        }
+      ],
+      "subGroups3": [
+        {
+          "id": "https://data.janes.com/equipment/5D7Hegu5E8ukFFg5kw65zI",
+          "label": "F-16A"
+        }
+      ],
+      "subGroups4": [
+        {
+          "id": "https://data.janes.com/equipment/5D7Hegu5E8ukFFg5kw65zI",
+          "label": "F-16A"
+        }
+      ],
+      "subGroups5": [
+        {
+          "id": "https://data.janes.com/equipment/7qYVGGhkcHNTEfFEfyyMhd",
+          "label": "F-16"
+        }
+      ],
+      "subGroups6": [
+        {
+          "id": "https://data.janes.com/equipment/7qYVGGhkcHNTEfFEfyyMhd",
+          "label": "F-16"
+        }
+      ],
+      "subGroups7": [
+        {
+          "country": "Pakistan",
+          "id": "https://data.janes.com/organization/4ziSL2CBMJDi0fVhCwRAYp",
+          "label": "No 29 Squadron"
+        },
+        {
+          "country": "Pakistan",
+          "id": "https://data.janes.com/organization/0BgjvimvBISpD8RgcAgSPM",
+          "label": "No 41 (Tactical) Wing"
+        },
+        {
+          "country": "Thailand",
+          "id": "https://data.janes.com/organization/17oRA5SNLleAArrmujoXJc",
+          "label": "403 Squadron"
+        },
+        {
+          "country": "Thailand",
+          "id": "https://data.janes.com/organization/1EwCcVNADTtYPr6mmG6zzi",
+          "label": "103 Squadron"
+        },
+        {
+          "country": "Thailand",
+          "id": "https://data.janes.com/organization/51VGsdg6TMMfMNWxhDo6Ga",
+          "label": "102 Squadron"
+        },
+        {
+          "country": "Egypt",
+          "id": "https://data.janes.com/organization/3tg2fZZKmfJOmEe2KuOJnv",
+          "label": "72 Squadron"
+        },
+        {
+          "country": "Egypt",
+          "id": "https://data.janes.com/organization/4z12JVlRoupjMJG8YuLdJ8",
+          "label": "74 Squadron"
+        },
+        {
+          "country": "Egypt",
+          "id": "https://data.janes.com/organization/4ktWd2cFOWBFege0GPYU8f",
+          "label": "232 Air Brigade "
+        },
+        {
+          "country": "Pakistan",
+          "id": "https://data.janes.com/organization/1haYGqHx7JTVlADM4FNga0",
+          "label": "No 19 Squadron (Operational Conversion Unit)"
+        },
+        {
+          "country": "Pakistan",
+          "id": "https://data.janes.com/organization/2lsVYpMKN5vhsA0m6tDG8s",
+          "label": "No 11 Multi-Role Squadron"
+        },
+        {
+          "country": "Pakistan",
+          "id": "https://data.janes.com/organization/41lPloL3ZlVE2qnmaU1GQS",
+          "label": "No 9 Multi - Role Squadron"
+        },
+        {
+          "country": "Pakistan",
+          "id": "https://data.janes.com/organization/20OAmP4Gdu8eclCaLzUIwp",
+          "label": "Combat Commanders School"
+        }
+      ],
+      "subGroups8": [
+        {
+          "country": "United States",
+          "id": "https://data.janes.com/organization/0oIauD2wbMQVG37rnubPXy",
+          "label": "Lockheed Martin Aeronautics Company - Marietta"
+        }
+      ],
+      "integrated_platforms": [
+        {
+          "id": "https://data.janes.com/equipment/02wVSdrlChwiRWkkkYnE7P",
+          "label": "F100-PW-220"
+        },
+        {
+          "id": "https://data.janes.com/equipment/65ibQnb10vu1yyAOZoY1Le",
+          "label": "F100-PW-200"
+        },
+        {
+          "id": "https://data.janes.com/equipment/0388fl5WbnIkmKy2IDpes2",
+          "label": "F100-PW-220E"
+        },
+        {
+          "id": "https://data.janes.com/equipment/4d3ZlzuZwjAsHcLMzt9zVV",
+          "label": "AN/APG-66"
+        },
+        {
+          "id": "https://data.janes.com/equipment/2vrioMuUcYzqVFjVXoTL8U",
+          "label": "AN/APG-66(V)2"
+        },
+        {
+          "id": "https://data.janes.com/equipment/7I4IcedMw72cgD3xy18bkZ",
+          "label": "AN/APG-68(V)9"
+        },
+        {
+          "id": "https://data.janes.com/equipment/52EGGzxZXZaIIBkbrGvfCV",
+          "label": "AN/APG-83"
+        },
+        {
+          "id": "https://data.janes.com/equipment/3zIW1ofHpBigHYzRkqyocE",
+          "label": "AN/ALQ-184(V)9"
+        },
+        {
+          "id": "https://data.janes.com/equipment/4Fz7qKskMIuSTruDsPMc9v",
+          "label": "AN/ALQ-131(V)"
+        },
+        {
+          "id": "https://data.janes.com/equipment/6BoFjxgFrk4TvdTd4CUEZ9",
+          "label": "AN/ALR-56M"
+        },
+        {
+          "id": "https://data.janes.com/equipment/13El323xGKbDm17GWS8v3B",
+          "label": "AN/ALQ-213(V)"
+        },
+        {
+          "id": "https://data.janes.com/equipment/7lyHyqbLidXICeRucusyU1",
+          "label": "AN/AAQ-28(V)4 Litening"
+        },
+        {
+          "id": "https://data.janes.com/equipment/5Og45gEPNIYynZ1urDsRI0",
+          "label": "Python 4"
+        },
+        {
+          "id": "https://data.janes.com/equipment/05yGNLu2xGSAhrI3Y8LdTp",
+          "label": "CBU-105"
+        }
+      ],
+      "installations": [
+        {
+          "id": "https://data.janes.com/organization/0BgjvimvBISpD8RgcAgSPM",
+          "installation_label": "Masroor PAF Base",
+          "label": "No 41 (Tactical) Wing",
+          "branch": "Air Force",
+          "long": "66.93946967",
+          "lat": "24.89844268"
+        },
+        {
+          "id": "https://data.janes.com/organization/1haYGqHx7JTVlADM4FNga0",
+          "installation_label": "PAF Base Bholari",
+          "label": "No 19 Squadron (Operational Conversion Unit)",
+          "branch": "Air Force",
+          "long": "68.03775071",
+          "lat": "25.24260315"
+        },
+        {
+          "id": "https://data.janes.com/organization/20OAmP4Gdu8eclCaLzUIwp",
+          "installation_label": "Mushaf PAF Base",
+          "label": "Combat Commanders School",
+          "branch": "Air Force",
+          "long": "72.66521363",
+          "lat": "32.04871103"
+        },
+        {
+          "id": "https://data.janes.com/organization/2lsVYpMKN5vhsA0m6tDG8s",
+          "installation_label": "Shahbaz PAF Base",
+          "label": "No 11 Multi-Role Squadron",
+          "branch": "Air Force",
+          "long": "68.45032505",
+          "lat": "28.28329194"
+        },
+        {
+          "id": "https://data.janes.com/organization/41lPloL3ZlVE2qnmaU1GQS",
+          "installation_label": "Mushaf PAF Base",
+          "label": "No 9 Multi - Role Squadron",
+          "branch": "Air Force",
+          "long": "72.66521363",
+          "lat": "32.04871103"
+        },
+        {
+          "id": "https://data.janes.com/organization/4ziSL2CBMJDi0fVhCwRAYp",
+          "installation_label": "Mushaf PAF Base",
+          "label": "No 29 Squadron",
+          "branch": "Air Force",
+          "long": "72.66521363",
+          "lat": "32.04871103"
+        }
+      ]
+    }
+  ],
+  "total_records": 1
+}

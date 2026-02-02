@@ -1,0 +1,284 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "req_id": "req_orbat_001",
+  "result": [
+    {
+      "id": "cmc_root",
+      "label": "Central Military Commission",
+      "country": "China",
+      "long": 116.39,
+      "lat": 39.91,
+      "subgroups": [
+        {
+          "id": "pla_main_group",
+          "label": "People's Liberation Army",
+          "long": 116.40,
+          "lat": 39.92
+        }
+      ],
+      "installations": []
+    },
+    {
+      "id": "pla_main_group",
+      "label": "People's Liberation Army",
+      "country": "China",
+      "long": 116.40,
+      "lat": 39.92,
+      "subgroups": [
+        {
+          "id": "pla_logistics_group",
+          "label": "PLA Joint Logistics Support Force",
+          "long": 116.38,
+          "lat": 39.90
+        },
+        {
+          "id": "pla_ground_group",
+          "label": "People's Liberation Army Ground Force",
+          "long": 116.42,
+          "lat": 39.94
+        },
+        {
+          "id": "beijing_garrison_group",
+          "label": "Beijing Garrison",
+          "long": 116.39,
+          "lat": 39.91
+        }
+      ],
+      "installations": []
+    },
+    {
+      "id": "pla_ground_group",
+      "label": "People's Liberation Army Ground Force",
+      "country": "China",
+      "long": 116.42,
+      "lat": 39.94,
+      "subgroups": [
+        {
+          "id": "pla_ground_hq_group",
+          "label": "PLA Ground Force HQ",
+          "long": 116.40,
+          "lat": 39.92
+        },
+        {
+          "id": "northern_theater_ground",
+          "label": "Northern Theater Command Ground Forces",
+          "long": 123.43,
+          "lat": 41.80
+        }
+      ],
+      "installations": []
+    },
+    {
+      "id": "northern_theater_ground",
+      "label": "Northern Theater Command Ground Forces",
+      "country": "China",
+      "long": 123.43,
+      "lat": 41.80,
+      "subgroups": [
+        {
+          "id": "group_79",
+          "label": "79th Group Army",
+          "long": 123.43,
+          "lat": 41.80
+        },
+        {
+          "id": "group_78",
+          "label": "78th Group Army",
+          "long": 122.10,
+          "lat": 40.50
+        }
+      ],
+      "installations": []
+    },
+    {
+      "id": "group_79",
+      "label": "79th Group Army",
+      "country": "China",
+      "long": 123.43,
+      "lat": 41.80,
+      "subgroups": [
+        {
+          "id": "79_aviation_brigade",
+          "label": "79th Army Aviation Brigade",
+          "long": 123.45,
+          "lat": 41.82
+        },
+        {
+          "id": "79_artillery_brigade",
+          "label": "79th Artillery Brigade",
+          "long": 123.42,
+          "lat": 41.79
+        }
+      ],
+      "installations": [
+        {
+          "id": "group_79_hq",
+          "label": "79th Group Army HQ",
+          "long": 123.43,
+          "lat": 41.80
+        }
+      ]
+    },
+    {
+      "id": "79_aviation_brigade",
+      "label": "79th Army Aviation Brigade",
+      "country": "China",
+      "long": 123.45,
+      "lat": 41.82,
+      "subgroups": [],
+      "installations": [
+        {
+          "id": "79_aviation_hq",
+          "label": "79th Aviation Brigade HQ",
+          "long": 123.45,
+          "lat": 41.82
+        }
+      ]
+    },
+    {
+      "id": "pla_logistics_group",
+      "label": "PLA Joint Logistics Support Force",
+      "country": "China",
+      "long": 116.38,
+      "lat": 39.90,
+      "subgroups": [],
+      "installations": [
+        {
+          "id": "pla_logistics_inst",
+          "label": "PLA Logistics HQ",
+          "long": 116.38,
+          "lat": 39.90
+        }
+      ]
+    },
+    {
+      "id": "pla_ground_hq_group",
+      "label": "PLA Ground Force HQ",
+      "country": "China",
+      "long": 116.40,
+      "lat": 39.92,
+      "subgroups": [],
+      "installations": [
+        {
+          "id": "pla_ground_hq_inst",
+          "label": "Ground Force HQ Installation",
+          "long": 116.40,
+          "lat": 39.92
+        }
+      ]
+    },
+    {
+      "id": "beijing_garrison_group",
+      "label": "Beijing Garrison",
+      "country": "China",
+      "long": 116.39,
+      "lat": 39.91,
+      "subgroups": [
+        {
+          "id": "guard_17_group",
+          "label": "17th Guard Regiment",
+          "long": 116.41,
+          "lat": 39.93
+        },
+        {
+          "id": "guard_3_group",
+          "label": "3rd Guards Division",
+          "long": 116.39,
+          "lat": 39.91
+        },
+        {
+          "id": "reserve_aaa_group",
+          "label": "Reserve anti-aircraft artillery division",
+          "long": 116.37,
+          "lat": 39.89
+        },
+        {
+          "id": "reserve_cdr_group",
+          "label": "Reserve Chemical Defence Regiment",
+          "long": 116.43,
+          "lat": 39.94
+        },
+        {
+          "id": "guard_1_group",
+          "label": "1st Guard Division"
+        }
+      ],
+      "installations": []
+    },
+    {
+      "id": "guard_17_group",
+      "label": "17th Guard Regiment",
+      "country": "China",
+      "long": 116.41,
+      "lat": 39.93,
+      "subgroups": [],
+      "installations": [
+        {
+          "id": "guard_17_inst",
+          "label": "17th Guard HQ",
+          "long": 116.41,
+          "lat": 39.93
+        }
+      ]
+    },
+    {
+      "id": "guard_3_group",
+      "label": "3rd Guards Division",
+      "country": "China",
+      "long": 116.39,
+      "lat": 39.91,
+      "subgroups": [],
+      "installations": [
+        {
+          "id": "guard_3_inst",
+          "label": "3rd Guards HQ",
+          "long": 116.39,
+          "lat": 39.91
+        }
+      ]
+    },
+    {
+      "id": "reserve_aaa_group",
+      "label": "Reserve anti-aircraft artillery division",
+      "country": "China",
+      "long": 116.37,
+      "lat": 39.89,
+      "subgroups": [],
+      "installations": [
+        {
+          "id": "reserve_aaa_inst",
+          "label": "Anti-Air HQ",
+          "long": 116.37,
+          "lat": 39.89
+        }
+      ]
+    },
+    {
+      "id": "reserve_cdr_group",
+      "label": "Reserve Chemical Defence Regiment",
+      "country": "China",
+      "long": 116.43,
+      "lat": 39.94,
+      "subgroups": [],
+      "installations": [
+        {
+          "id": "reserve_cdr_inst",
+          "label": "Chemical Defence HQ",
+          "long": 116.43,
+          "lat": 39.94
+        }
+      ]
+    },
+    {
+      "id": "guard_1_group",
+      "label": "1st Guard Division",
+      "country": "China",
+      "subgroups": [],
+      "installations": []
+    }
+  ],
+  "total_count": 14,
+  "page": 0,
+  "size": 50
+}

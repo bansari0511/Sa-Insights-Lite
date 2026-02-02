@@ -1,0 +1,804 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "req_id": "entity_search_001",
+  "data": {
+    "port": [
+      {
+        "label": "Singapore",
+        "entity_id": "PORT-001",
+        "entity_type": "Port",
+        "country": "Singapore"
+      },
+      {
+        "label": "Rotterdam",
+        "entity_id": "PORT-002",
+        "entity_type": "Port",
+        "country": "Netherlands"
+      },
+      {
+        "label": "Los Angeles",
+        "entity_id": "PORT-003",
+        "entity_type": "Port",
+        "country": "United States"
+      },
+      {
+        "label": "New York",
+        "entity_id": "PORT-004",
+        "entity_type": "Port",
+        "country": "United States"
+      },
+      {
+        "label": "Hamburg",
+        "entity_id": "PORT-005",
+        "entity_type": "Port",
+        "country": "Germany"
+      },
+      {
+        "label": "Shanghai",
+        "entity_id": "PORT-006",
+        "entity_type": "Port",
+        "country": "China"
+      },
+      {
+        "label": "Tokyo",
+        "entity_id": "PORT-007",
+        "entity_type": "Port",
+        "country": "Japan"
+      },
+      {
+        "label": "Antwerp",
+        "entity_id": "PORT-008",
+        "entity_type": "Port",
+        "country": "Belgium"
+      },
+      {
+        "label": "Dubai",
+        "entity_id": "PORT-009",
+        "entity_type": "Port",
+        "country": "UAE"
+      },
+      {
+        "label": "Busan",
+        "entity_id": "PORT-011",
+        "entity_type": "Port",
+        "country": "South Korea"
+      },
+      {
+        "label": "Qingdao",
+        "entity_id": "PORT-012",
+        "entity_type": "Port",
+        "country": "China"
+      },
+      {
+        "label": "Santos",
+        "entity_id": "PORT-013",
+        "entity_type": "Port",
+        "country": "Brazil"
+      },
+      {
+        "label": "Hong Kong",
+        "entity_id": "PORT-014",
+        "entity_type": "Port",
+        "country": "Hong Kong"
+      },
+      {
+        "label": "Barcelona",
+        "entity_id": "PORT-015",
+        "entity_type": "Port",
+        "country": "Spain"
+      },
+      {
+        "label": "Mumbai",
+        "entity_id": "PORT-026",
+        "entity_type": "Port",
+        "country": "India"
+      },
+      {
+        "label": "Vancouver",
+        "entity_id": "PORT-027",
+        "entity_type": "Port",
+        "country": "Canada"
+      },
+      {
+        "label": "Marseille",
+        "entity_id": "PORT-028",
+        "entity_type": "Port",
+        "country": "France"
+      },
+      {
+        "label": "Houston",
+        "entity_id": "PORT-075",
+        "entity_type": "Port",
+        "country": "United States"
+      },
+      {
+        "label": "Cape Town",
+        "entity_id": "PORT-078",
+        "entity_type": "Port",
+        "country": "South Africa"
+      },
+      {
+        "label": "Kaohsiung",
+        "entity_id": "PORT-084",
+        "entity_type": "Port",
+        "country": "Taiwan"
+      }
+    ],
+    "imo": [
+      {
+        "label": "9648222 - Ocean Pearl",
+        "entity_id": "9648222",
+        "entity_type": "Imo",
+        "vessel_type": "Chemical Tanker"
+      },
+      {
+        "label": "9700001 - Maritime Star",
+        "entity_id": "9700001",
+        "entity_type": "Imo",
+        "vessel_type": "Container Ship"
+      },
+      {
+        "label": "9700002 - Pacific Voyager",
+        "entity_id": "9700002",
+        "entity_type": "Imo",
+        "vessel_type": "Bulk Carrier"
+      },
+      {
+        "label": "9700003 - Atlantic Spirit",
+        "entity_id": "9700003",
+        "entity_type": "Imo",
+        "vessel_type": "Oil Tanker"
+      },
+      {
+        "label": "9700004 - Global Explorer",
+        "entity_id": "9700004",
+        "entity_type": "Imo",
+        "vessel_type": "LNG Carrier"
+      },
+      {
+        "label": "9700005 - Sea Dragon",
+        "entity_id": "9700005",
+        "entity_type": "Imo",
+        "vessel_type": "Container Ship"
+      },
+      {
+        "label": "9700006 - Northern Light",
+        "entity_id": "9700006",
+        "entity_type": "Imo",
+        "vessel_type": "Bulk Carrier"
+      },
+      {
+        "label": "9700007 - Southern Cross",
+        "entity_id": "9700007",
+        "entity_type": "Imo",
+        "vessel_type": "Chemical Tanker"
+      },
+      {
+        "label": "9700008 - Eastern Wind",
+        "entity_id": "9700008",
+        "entity_type": "Imo",
+        "vessel_type": "Container Ship"
+      },
+      {
+        "label": "9700009 - Western Sun",
+        "entity_id": "9700009",
+        "entity_type": "Imo",
+        "vessel_type": "Oil Tanker"
+      },
+      {
+        "label": "9700010 - Ocean Guardian",
+        "entity_id": "9700010",
+        "entity_type": "Imo",
+        "vessel_type": "Bulk Carrier"
+      },
+      {
+        "label": "9800001 - Neptune's Pride",
+        "entity_id": "9800001",
+        "entity_type": "Imo",
+        "vessel_type": "Container Ship"
+      },
+      {
+        "label": "9800002 - Poseidon's Call",
+        "entity_id": "9800002",
+        "entity_type": "Imo",
+        "vessel_type": "LNG Carrier"
+      },
+      {
+        "label": "9800003 - Triton Majesty",
+        "entity_id": "9800003",
+        "entity_type": "Imo",
+        "vessel_type": "Oil Tanker"
+      },
+      {
+        "label": "9800004 - Aegean Dream",
+        "entity_id": "9800004",
+        "entity_type": "Imo",
+        "vessel_type": "Bulk Carrier"
+      },
+      {
+        "label": "9800005 - Mediterranean Glory",
+        "entity_id": "9800005",
+        "entity_type": "Imo",
+        "vessel_type": "Container Ship"
+      }
+    ],
+    "equipment": [
+      {
+        "label": "F-35A Lightning II",
+        "entity_id": "EQ-001",
+        "entity_type": "Equipment",
+        "equipment_type": "Fighter/Aircraft"
+      },
+      {
+        "label": "F-22 Raptor",
+        "entity_id": "EQ-002",
+        "entity_type": "Equipment",
+        "equipment_type": "Fighter/Aircraft"
+      },
+      {
+        "label": "AH-64E Apache Guardian",
+        "entity_id": "EQ-003",
+        "entity_type": "Equipment",
+        "equipment_type": "Attack/Helicopter"
+      },
+      {
+        "label": "Arleigh Burke-class Flight IIA",
+        "entity_id": "EQ-004",
+        "entity_type": "Equipment",
+        "equipment_type": "Ship/Variant"
+      },
+      {
+        "label": "Arleigh Burke-class Destroyer",
+        "entity_id": "EQ-005",
+        "entity_type": "Equipment",
+        "equipment_type": "Ship/Family"
+      },
+      {
+        "label": "M1A2 Abrams",
+        "entity_id": "EQ-004",
+        "entity_type": "Equipment",
+        "equipment_type": "Main Battle/Tank"
+      },
+      {
+        "label": "Nimitz-class",
+        "entity_id": "EQ-005",
+        "entity_type": "Equipment",
+        "equipment_type": "Aircraft/Carrier"
+      },
+      {
+        "label": "Arleigh Burke-class",
+        "entity_id": "EQ-006",
+        "entity_type": "Equipment",
+        "equipment_type": "Guided Missile/Destroyer"
+      },
+      {
+        "label": "Virginia-class",
+        "entity_id": "EQ-007",
+        "entity_type": "Equipment",
+        "equipment_type": "Attack/Submarine"
+      },
+      {
+        "label": "Patriot PAC-3",
+        "entity_id": "EQ-008",
+        "entity_type": "Equipment",
+        "equipment_type": "Surface-to-Air/Missile"
+      },
+      {
+        "label": "HIMARS",
+        "entity_id": "EQ-009",
+        "entity_type": "Equipment",
+        "equipment_type": "Multiple Launch/Rocket System"
+      },
+      {
+        "label": "B-2 Spirit",
+        "entity_id": "EQ-010",
+        "entity_type": "Equipment",
+        "equipment_type": "Strategic/Bomber"
+      },
+      {
+        "label": "F-16B",
+        "entity_id": "https://data.janes.com/equipment/56pHVeLT83UW3Txm0zOwcc",
+        "entity_type": "EquipmentVariant",
+        "equipment_type": "Fighter/Aircraft"
+      },
+      {
+        "label": "F-16",
+        "entity_id": "https://data.janes.com/equipment/7qYVGGhkcHNTEfFEfyyMhd",
+        "entity_type": "EquipmentFamily",
+        "equipment_type": "Fighter/Aircraft"
+      },
+      {
+        "label": "F-16A",
+        "entity_id": "https://data.janes.com/equipment/5D7Hegu5E8ukFFg5kw65zI",
+        "entity_type": "EquipmentVariant",
+        "equipment_type": "Fighter/Aircraft"
+      },
+      {
+        "label": "AN/APG-66",
+        "entity_id": "https://data.janes.com/equipment/4d3ZlzuZwjAsHcLMzt9zVV",
+        "entity_type": "Equipment",
+        "equipment_type": "Radar"
+      },
+      {
+        "label": "LANTIRN",
+        "entity_id": "https://data.janes.com/equipment/56FVUBFoaledhuxOC11xKh",
+        "entity_type": "Equipment",
+        "equipment_type": "Targeting Pod"
+      },
+      {
+        "label": "Python 4",
+        "entity_id": "https://data.janes.com/equipment/5Og45gEPNIYynZ1urDsRI0",
+        "entity_type": "Equipment",
+        "equipment_type": "Air-to-Air Missile"
+      },
+      {
+        "label": "INS Kolkata",
+        "entity_id": "SHIP-001",
+        "entity_type": "ShipVariant",
+        "equipment_type": "Surface Combatant"
+      },
+      {
+        "label": "Changzhou",
+        "entity_id": "SHIP-002",
+        "entity_type": "ShipVariant",
+        "equipment_type": "Frigate"
+      },
+      {
+        "label": "Kolkata-class",
+        "entity_id": "SHIP-003",
+        "entity_type": "ShipFamily",
+        "equipment_type": "Guided Missile Destroyer"
+      },
+      {
+        "label": "Type 054A",
+        "entity_id": "SHIP-004",
+        "entity_type": "ShipFamily",
+        "equipment_type": "Frigate"
+      },
+      {
+        "label": "USS Arleigh Burke (DDG-51)",
+        "entity_id": "SHIP-005",
+        "entity_type": "ShipInstance",
+        "equipment_type": "Guided Missile Destroyer"
+      },
+      {
+        "label": "HMS Queen Elizabeth",
+        "entity_id": "SHIP-006",
+        "entity_type": "ShipInstance",
+        "equipment_type": "Aircraft Carrier"
+      },
+      {
+        "label": "Queen Elizabeth-class",
+        "entity_id": "SHIP-007",
+        "entity_type": "ShipFamily",
+        "equipment_type": "Aircraft Carrier"
+      },
+      {
+        "label": "INS Vikrant",
+        "entity_id": "SHIP-008",
+        "entity_type": "ShipInstance",
+        "equipment_type": "Aircraft Carrier"
+      }
+    ],
+    "military_group": [
+      {
+        "label": "79th Army Aviation Brigade",
+        "entity_id": "https://data.janes.com/organization/0lBBndNliOlHpllMFduPoJ",
+        "entity_type": "MilitaryGroup",
+        "country": "China"
+      },
+      {
+        "label": "United States Pacific Fleet",
+        "entity_id": "MG-001",
+        "entity_type": "MilitaryGroup",
+        "country": "United States"
+      },
+      {
+        "label": "United States Atlantic Fleet",
+        "entity_id": "MG-002",
+        "entity_type": "MilitaryGroup",
+        "country": "United States"
+      },
+      {
+        "label": "Royal Navy",
+        "entity_id": "MG-003",
+        "entity_type": "MilitaryGroup",
+        "country": "United Kingdom"
+      },
+      {
+        "label": "Japan Maritime Self-Defense Force",
+        "entity_id": "MG-004",
+        "entity_type": "MilitaryGroup",
+        "country": "Japan"
+      },
+      {
+        "label": "Royal Australian Navy",
+        "entity_id": "MG-005",
+        "entity_type": "MilitaryGroup",
+        "country": "Australia"
+      },
+      {
+        "label": "Indian Navy",
+        "entity_id": "MG-006",
+        "entity_type": "MilitaryGroup",
+        "country": "India"
+      },
+      {
+        "label": "French Navy",
+        "entity_id": "MG-007",
+        "entity_type": "MilitaryGroup",
+        "country": "France"
+      },
+      {
+        "label": "German Navy",
+        "entity_id": "MG-008",
+        "entity_type": "MilitaryGroup",
+        "country": "Germany"
+      },
+      {
+        "label": "Republic of Korea Navy",
+        "entity_id": "MG-009",
+        "entity_type": "MilitaryGroup",
+        "country": "South Korea"
+      },
+      {
+        "label": "Italian Navy",
+        "entity_id": "MG-010",
+        "entity_type": "MilitaryGroup",
+        "country": "Italy"
+      },
+      {
+        "label": "79th Group Army",
+        "entity_id": "MG-011",
+        "entity_type": "MilitaryGroup",
+        "country": "China"
+      },
+      {
+        "label": "China Army",
+        "entity_id": "MG-012",
+        "entity_type": "MilitaryGroup",
+        "country": "China"
+      }
+    ],
+    "event": [
+      {
+        "label": "Russian close battlespace: Russian serviceman sighted in Aleinikovo",
+        "entity_id": "https://data.janes.com/event/7LVH6lOreApEz42blrN0eZ",
+        "entity_type": "Event",
+        "event_category": "Military"
+      },
+      {
+        "label": "Naval exercise conducted in South China Sea",
+        "entity_id": "https://data.janes.com/event/8MWI7mPreBqFa53cmSO1fA",
+        "entity_type": "Event",
+        "event_category": "Military"
+      },
+      {
+        "label": "Protests erupt in Tehran over economic conditions",
+        "entity_id": "https://data.janes.com/event/9NXJ8nQsfCrGb64dnTO2gB",
+        "entity_type": "Event",
+        "event_category": "Protests & Riots"
+      },
+      {
+        "label": "Drug trafficking network dismantled in Colombia",
+        "entity_id": "https://data.janes.com/event/0OYK9oRtgDsHc75eUPW3hC",
+        "entity_type": "Event",
+        "event_category": "Serious & Organised Crime"
+      },
+      {
+        "label": "Government announces new defense policy",
+        "entity_id": "https://data.janes.com/event/1PZL0pSuhEtId86fVQX4iD",
+        "entity_type": "Event",
+        "event_category": "Government & Political"
+      },
+      {
+        "label": "OSINT Forces Monitoring: Syrian Army Deployment",
+        "entity_id": "https://data.janes.com/event/OSINT-001",
+        "entity_type": "Event",
+        "event_category": "OSINT Forces Monitoring"
+      },
+      {
+        "label": "IMP militants attack military post in Pakistan",
+        "entity_id": "https://data.janes.com/event/TERROR-001",
+        "entity_type": "Event",
+        "event_category": "Terrorism & Insurgency"
+      },
+      {
+        "label": "Air strike reported in Syria",
+        "entity_id": "EVT-006",
+        "entity_type": "Event",
+        "event_category": "Military"
+      },
+      {
+        "label": "Maritime piracy incident in Gulf of Guinea",
+        "entity_id": "EVT-007",
+        "entity_type": "Event",
+        "event_category": "Serious & Organised Crime"
+      },
+      {
+        "label": "Anti-government protests in Myanmar",
+        "entity_id": "EVT-008",
+        "entity_type": "Event",
+        "event_category": "Protests & Riots"
+      },
+      {
+        "label": "Cyber attack on government infrastructure",
+        "entity_id": "EVT-009",
+        "entity_type": "Event",
+        "event_category": "Terrorism & Insurgency"
+      },
+      {
+        "label": "Joint military exercise in Baltic Sea",
+        "entity_id": "EVT-010",
+        "entity_type": "Event",
+        "event_category": "Military"
+      }
+    ],
+    "installation": [
+      {
+        "label": "Ramon Air Base",
+        "entity_id": "https://janes.org/installation/dhjghdkfhgkdfhkg",
+        "entity_type": "Installation",
+        "installation_type": "Air",
+        "country": "Israel"
+      },
+      {
+        "label": "Nevatim Air Base",
+        "entity_id": "INST-002",
+        "entity_type": "Installation",
+        "installation_type": "Air",
+        "country": "Israel"
+      },
+      {
+        "label": "Camp Humphreys",
+        "entity_id": "INST-003",
+        "entity_type": "Installation",
+        "installation_type": "Ground Forces",
+        "country": "South Korea"
+      },
+      {
+        "label": "Naval Station Norfolk",
+        "entity_id": "INST-004",
+        "entity_type": "Installation",
+        "installation_type": "Naval",
+        "country": "United States"
+      },
+      {
+        "label": "RAF Lakenheath",
+        "entity_id": "INST-005",
+        "entity_type": "Installation",
+        "installation_type": "Air",
+        "country": "United Kingdom"
+      },
+      {
+        "label": "Kadena Air Base",
+        "entity_id": "INST-006",
+        "entity_type": "Installation",
+        "installation_type": "Air",
+        "country": "Japan"
+      },
+      {
+        "label": "Al Udeid Air Base",
+        "entity_id": "INST-007",
+        "entity_type": "Installation",
+        "installation_type": "Air",
+        "country": "Qatar"
+      },
+      {
+        "label": "Diego Garcia Naval Support Facility",
+        "entity_id": "INST-008",
+        "entity_type": "Installation",
+        "installation_type": "Naval",
+        "country": "British Indian Ocean Territory"
+      },
+      {
+        "label": "Ramstein Air Base",
+        "entity_id": "INST-009",
+        "entity_type": "Installation",
+        "installation_type": "Air",
+        "country": "Germany"
+      },
+      {
+        "label": "Pearl Harbor Naval Base",
+        "entity_id": "INST-010",
+        "entity_type": "Installation",
+        "installation_type": "Naval",
+        "country": "United States"
+      },
+      {
+        "label": "Yokosuka Naval Base",
+        "entity_id": "INST-011",
+        "entity_type": "Installation",
+        "installation_type": "Naval",
+        "country": "Japan"
+      },
+      {
+        "label": "Incirlik Air Base",
+        "entity_id": "INST-012",
+        "entity_type": "Installation",
+        "installation_type": "Air",
+        "country": "Turkey"
+      },
+      {
+        "label": "Changi Naval Base",
+        "entity_id": "INST-013",
+        "entity_type": "Installation",
+        "installation_type": "Naval",
+        "country": "Singapore"
+      },
+      {
+        "label": "Aviano Air Base",
+        "entity_id": "INST-014",
+        "entity_type": "Installation",
+        "installation_type": "Air",
+        "country": "Italy"
+      },
+      {
+        "label": "Fort Bragg",
+        "entity_id": "INST-015",
+        "entity_type": "Installation",
+        "installation_type": "Ground Forces",
+        "country": "United States"
+      }
+    ],
+    "organization": [
+      {
+        "label": "China Electronics Information Industry Group Nanjing Kerida Electronic Equipment Co Ltd",
+        "entity_id": "https://data.janes.com/organization/2SrZykudVtHb1JpI2p2zgT",
+        "entity_type": "Organization",
+        "organization_type": "Commercial",
+        "country": "China"
+      },
+      {
+        "label": "China Electronics Co Ltd",
+        "entity_id": "ORG-CHINA-001",
+        "entity_type": "Organization",
+        "organization_type": "Commercial",
+        "country": "China"
+      },
+      {
+        "label": "Lockheed Martin Corporation",
+        "entity_id": "ORG-001",
+        "entity_type": "Organization",
+        "organization_type": "Defense Contractor",
+        "country": "United States"
+      },
+      {
+        "label": "Boeing Defense, Space & Security",
+        "entity_id": "ORG-002",
+        "entity_type": "Organization",
+        "organization_type": "Defense Contractor",
+        "country": "United States"
+      },
+      {
+        "label": "Northrop Grumman Corporation",
+        "entity_id": "ORG-003",
+        "entity_type": "Organization",
+        "organization_type": "Defense Contractor",
+        "country": "United States"
+      },
+      {
+        "label": "Raytheon Technologies",
+        "entity_id": "ORG-004",
+        "entity_type": "Organization",
+        "organization_type": "Defense Contractor",
+        "country": "United States"
+      },
+      {
+        "label": "BAE Systems",
+        "entity_id": "ORG-005",
+        "entity_type": "Organization",
+        "organization_type": "Defense Contractor",
+        "country": "United Kingdom"
+      },
+      {
+        "label": "General Dynamics Corporation",
+        "entity_id": "ORG-006",
+        "entity_type": "Organization",
+        "organization_type": "Defense Contractor",
+        "country": "United States"
+      },
+      {
+        "label": "Airbus Defence and Space",
+        "entity_id": "ORG-007",
+        "entity_type": "Organization",
+        "organization_type": "Aerospace",
+        "country": "France"
+      },
+      {
+        "label": "Leonardo S.p.A.",
+        "entity_id": "ORG-008",
+        "entity_type": "Organization",
+        "organization_type": "Defense Contractor",
+        "country": "Italy"
+      },
+      {
+        "label": "Thales Group",
+        "entity_id": "ORG-009",
+        "entity_type": "Organization",
+        "organization_type": "Electronics",
+        "country": "France"
+      },
+      {
+        "label": "L3Harris Technologies",
+        "entity_id": "ORG-010",
+        "entity_type": "Organization",
+        "organization_type": "Defense Contractor",
+        "country": "United States"
+      },
+      {
+        "label": "Rheinmetall AG",
+        "entity_id": "ORG-011",
+        "entity_type": "Organization",
+        "organization_type": "Defense Contractor",
+        "country": "Germany"
+      },
+      {
+        "label": "Saab AB",
+        "entity_id": "ORG-012",
+        "entity_type": "Organization",
+        "organization_type": "Aerospace",
+        "country": "Sweden"
+      },
+      {
+        "label": "Israel Aerospace Industries",
+        "entity_id": "ORG-013",
+        "entity_type": "Organization",
+        "organization_type": "Aerospace",
+        "country": "Israel"
+      },
+      {
+        "label": "Huntington Ingalls Industries",
+        "entity_id": "ORG-014",
+        "entity_type": "Organization",
+        "organization_type": "Shipbuilding",
+        "country": "United States"
+      },
+      {
+        "label": "Elbit Systems",
+        "entity_id": "ORG-015",
+        "entity_type": "Organization",
+        "organization_type": "Electronics",
+        "country": "Israel"
+      }
+    ]
+  },
+  "entity_types": [
+    {
+      "type": "Port",
+      "count": 8500,
+      "label": "Ports"
+    },
+    {
+      "type": "Imo",
+      "count": 95000,
+      "label": "Vessels (IMO)"
+    },
+    {
+      "type": "Equipment",
+      "count": 1500,
+      "label": "Equipment"
+    },
+    {
+      "type": "MilitaryGroup",
+      "count": 250,
+      "label": "Military Groups"
+    },
+    {
+      "type": "Event",
+      "count": 50000,
+      "label": "Events"
+    },
+    {
+      "type": "Installation",
+      "count": 3500,
+      "label": "Installations"
+    },
+    {
+      "type": "Organization",
+      "count": 1200,
+      "label": "Organizations"
+    }
+  ]
+}

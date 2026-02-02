@@ -1,0 +1,96 @@
+{
+  "status_code": 200,
+  "status_message": "Query executed successfully",
+  "result": [
+    [
+      "EQ-001",
+      "F-35A Lightning II",
+      "Fighter/Aircraft"
+    ],
+    [
+      "EQ-002",
+      "F-22 Raptor",
+      "Fighter/Aircraft"
+    ],
+    [
+      "EQ-003",
+      "AH-64E Apache Guardian",
+      "Attack/Helicopter"
+    ],
+    [
+      "EQ-004",
+      "M1A2 Abrams",
+      "Main Battle/Tank"
+    ],
+    [
+      "EQ-005",
+      "Nimitz-class",
+      "Aircraft/Carrier"
+    ],
+    [
+      "EQ-006",
+      "Arleigh Burke-class",
+      "Guided Missile/Destroyer"
+    ],
+    [
+      "EQ-007",
+      "Virginia-class",
+      "Attack/Submarine"
+    ],
+    [
+      "EQ-008",
+      "Patriot PAC-3",
+      "Surface-to-Air/Missile"
+    ],
+    [
+      "EQ-009",
+      "HIMARS",
+      "Multiple Launch/Rocket System"
+    ],
+    [
+      "EQ-010",
+      "B-2 Spirit",
+      "Strategic/Bomber"
+    ],
+    [
+      "SHIP-001",
+      "INS Kolkata",
+      "ShipVariant"
+    ],
+    [
+      "SHIP-002",
+      "Changzhou",
+      "ShipVariant"
+    ],
+    [
+      "SHIP-003",
+      "Kolkata-class",
+      "ShipFamily"
+    ],
+    [
+      "SHIP-004",
+      "Type 054A",
+      "ShipFamily"
+    ],
+    [
+      "SHIP-005",
+      "USS Arleigh Burke (DDG-51)",
+      "ShipInstance"
+    ],
+    [
+      "SHIP-006",
+      "HMS Queen Elizabeth",
+      "ShipInstance"
+    ],
+    [
+      "SHIP-007",
+      "Queen Elizabeth-class",
+      "ShipFamily"
+    ],
+    [
+      "SHIP-008",
+      "INS Vikrant",
+      "ShipInstance"
+    ]
+  ]
+}
