@@ -20,6 +20,7 @@ const IntelligenceBriefings = Loadable(lazy(() => import("../views/newsRoom/Inte
 
 // Timeline and Networks - Event Timeline with Map
 const EventTimeline = Loadable(lazy(() => import('../views/icons/mapandevent')))
+const GraphDemo = Loadable(lazy(() => import('../views/graph/GraphDemo')))
 
 const Router = [
   // Landing page - public, no auth required
@@ -50,6 +51,7 @@ const Router = [
 
       // Timeline and Networks Section
       { path: '/map-and-timeline', element: <EventTimeline /> },
+      { path: '/graph-demo', element: <GraphDemo /> },
     ],
   },
   // Catch-all for 404
