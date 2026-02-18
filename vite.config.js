@@ -2,8 +2,46 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import fs from 'fs/promises';
+import http from 'http';
 import svgr from '@svgr/rollup';
 import { visualizer } from 'rollup-plugin-visualizer';
+
+// Vite plugin: CORS proxy for fetching cross-origin files (xlsx, docx from assets server)
+// Usage: fetch('/sa-insights/cors-proxy?url=' + encodeURIComponent('http://172.18.111.11/file.xlsx'))
+function corsProxyPlugin() {
+  return {
+    name: 'cors-proxy',
+    configureServer(server) {
+      const handler = (req, res) => {
+        // Parse target URL from query parameter: /cors-proxy?url=<encoded-url>
+        const parsed = new URL(req.url, 'http://localhost');
+        const targetUrl = parsed.searchParams.get('url');
+        if (!targetUrl || !targetUrl.startsWith('http')) {
+          res.statusCode = 400;
+          return res.end('Invalid URL');
+        }
+        http.get(targetUrl, (proxyRes) => {
+          res.writeHead(proxyRes.statusCode, {
+            'content-type': proxyRes.headers['content-type'] || 'application/octet-stream',
+            'access-control-allow-origin': '*',
+          });
+          proxyRes.pipe(res);
+        }).on('error', (err) => {
+          console.error('[CORS Proxy] Error fetching:', targetUrl, err.message);
+          res.statusCode = 502;
+          res.end('Proxy error');
+        });
+      };
+      // Register at root path (direct access)
+      server.middlewares.use('/cors-proxy', handler);
+      // Also register under base path (for reverse proxy setups on LAN)
+      const base = server.config.base;
+      if (base && base !== '/') {
+        server.middlewares.use(`${base}cors-proxy`, handler);
+      }
+    },
+  };
+}
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -14,7 +52,8 @@ envPrefix: ['REACT_APP_', 'VITE_'],
     alias: {
       src: resolve(__dirname, 'src'),
       '@babel/runtime':resolve(__dirname,'node_modules/@babel/runtime'),
-      '@babel/runtime/helpers/esm/createSuper':resolve(__dirname,'node_modules/@babel/runtime/helpers/esm/createSuper.js')
+      '@babel/runtime/helpers/esm/createSuper':resolve(__dirname,'node_modules/@babel/runtime/helpers/esm/createSuper.js'),
+      'dingbat-to-unicode': resolve(__dirname, 'node_modules/dingbat-to-unicode/dist/index.js'),
     },
   },
   esbuild: {
@@ -39,13 +78,13 @@ envPrefix: ['REACT_APP_', 'VITE_'],
       if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
         return 'react-vendor';
       }
+      // MUI icons - separate as they can be large (must check before general @mui)
+      if (id.includes('@mui/icons-material')) {
+        return 'mui-icons';
+      }
       // MUI packages - separate chunk for better caching
       if (id.includes('node_modules/@mui')) {
         return 'mui';
-      }
-      // MUI icons - separate as they can be large
-      if (id.includes('@mui/icons-material')) {
-        return 'mui-icons';
       }
       // Emotion (CSS-in-JS for MUI)
       if (id.includes('node_modules/@emotion')) {
@@ -104,7 +143,8 @@ envPrefix: ['REACT_APP_', 'VITE_'],
       '@mui/material/Button',
       'apexcharts',
       'react-apexcharts',
-      'axios'
+      'mammoth',
+      'dingbat-to-unicode'
     ],
     esbuildOptions: {
       target: 'es2020',
@@ -128,6 +168,7 @@ envPrefix: ['REACT_APP_', 'VITE_'],
     },
   },
   plugins: [
+    corsProxyPlugin(),
     svgr(),
     react(),
     // Bundle analyzer - generates stats.html after build

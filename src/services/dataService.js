@@ -651,7 +651,7 @@ export const manufacturerService = {
 
   async getDetails(manufacturerId) {
     if (USE_DUMMY_DATA) return loadManufacturerDetailsFull(manufacturerId);
-    return fetchPost(`${urlsMap.profilerService}/manufacturer_details`, {
+    return fetchPost(`${urlsMap.profilerService}/manufacturer`, {
       user_id: 'user_id', req_id: 'req_id', entity_id: manufacturerId,
     });
   },

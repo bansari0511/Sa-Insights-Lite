@@ -9,16 +9,33 @@ import PageContainer from 'src/components/container/PageContainer';
 function NewsRoomPage() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { userId, reqId, docId, title, returnToTab, selectedCountry, returnToPage, returnUrl, last_updated } = location.state || {};
+    const { userId, reqId, docId, title, returnToTab, selectedCountry, returnToPage, returnPageIdentifier, last_updated } = location.state || {};
     const isViewingArticle = userId && reqId && docId && title && last_updated;
 
     const handleBackToNews = () => {
-        // Use returnUrl if available (contains the proper URL with query params)
-        // Otherwise, use browser back or navigate to base NewsRoom
-        if (returnUrl) {
-            navigate(returnUrl);
+        // Navigate back with preserved state for pagination
+        if (selectedCountry === 'intelligence_briefing') {
+            navigate('/NewsRoom', {
+                state: {
+                    selectedCountry: 'intelligence_briefing',
+                    returnToPage: returnToPage,
+                    returnPageIdentifier: returnPageIdentifier
+                },
+                replace: true
+            });
+        } else if (selectedCountry) {
+            // Navigate back to EnhancedNewsTabs with preserved state
+            navigate('/NewsRoom', {
+                state: {
+                    selectedCountry: selectedCountry,
+                    returnTab: location.state?.returnTab,
+                    returnToPage: returnToPage,
+                    returnPageIdentifier: returnPageIdentifier
+                },
+                replace: true
+            });
         } else {
-            // Fallback: use browser back if there's history, otherwise go to NewsRoom
+            // Fallback: use browser back
             navigate(-1);
         }
     };

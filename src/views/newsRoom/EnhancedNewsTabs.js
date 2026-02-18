@@ -17,16 +17,17 @@ import {
     AccessTime as AccessTimeIcon,
 } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import regionsData from '../../../countries.json';
 import { newsService } from 'src/services/dataService';
 import { Popover } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { API_ENDPOINTS } from 'src/config/apiEndpoints';
+import { SHOW_INSIGHTS_SIDEBAR } from 'src/config/appMode';
 
 function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const location = useLocation();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -59,11 +60,11 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     // Initialize tab countries state
     const [tabCountries, setTabCountries] = useState(getInitialTabCountries);
 
-    // Read initial state from URL params (or use defaults)
+    // Read initial state from location.state (or use defaults)
     const getInitialTab = () => {
-        const urlTab = searchParams.get('tab');
-        if (urlTab !== null) {
-            const tabIndex = parseInt(urlTab, 10);
+        const stateTab = location.state?.returnTab;
+        if (stateTab !== undefined && stateTab !== null) {
+            const tabIndex = parseInt(stateTab, 10);
             if (!isNaN(tabIndex) && tabIndex >= 0 && tabIndex < tabCountries.length) {
                 return tabIndex;
             }
@@ -72,9 +73,9 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     };
 
     const getInitialPage = () => {
-        const urlPage = searchParams.get('page');
-        if (urlPage !== null) {
-            const pageNum = parseInt(urlPage, 10);
+        const statePage = location.state?.returnToPage;
+        if (statePage !== undefined && statePage !== null) {
+            const pageNum = parseInt(statePage, 10);
             if (!isNaN(pageNum) && pageNum >= 1) {
                 return pageNum;
             }
@@ -83,9 +84,9 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     };
 
     const getInitialPageIdentifier = () => {
-        const urlPageId = searchParams.get('pageId');
-        if (urlPageId !== null) {
-            const pageId = parseInt(urlPageId, 10);
+        const statePageId = location.state?.returnPageIdentifier;
+        if (statePageId !== undefined && statePageId !== null) {
+            const pageId = parseInt(statePageId, 10);
             if (!isNaN(pageId) && pageId >= 0) {
                 return pageId;
             }
@@ -110,7 +111,6 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     const [countrySearchQuery, setCountrySearchQuery] = useState('');
     const itemsPerPage = 10;
 
-
     const parseImageUrl = (image_url) => {
         // Use base assets URL from API endpoints config
         const assetsBaseUrl = API_ENDPOINTS.ASSETS.BASE || '';
@@ -130,16 +130,18 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     const initialLoadDoneRef = useRef(false);
     const lastLoadedCountryRef = useRef(null);
 
-    // Update URL when tab, page, or pageIdentifier changes (without triggering navigation)
-    const updateUrlParams = useCallback((newTab, newPage, newPageId) => {
-        const params = new URLSearchParams();
-        if (newTab !== 0) params.set('tab', String(newTab));
-        if (newPage !== 1) params.set('page', String(newPage));
-        if (newPageId !== 0) params.set('pageId', String(newPageId));
-
-        // Use replace to avoid polluting browser history on every pagination click
-        setSearchParams(params, { replace: true });
-    }, [setSearchParams]);
+    // Update state when tab, page, or pageIdentifier changes (without showing in URL)
+    const updateStateParams = useCallback((newTab, newPage, newPageId) => {
+        // Use replace to update state without adding history entry
+        navigate('/NewsRoom', {
+            state: {
+                returnTab: newTab,
+                returnToPage: newPage,
+                returnPageIdentifier: newPageId,
+            },
+            replace: true
+        });
+    }, [navigate]);
 
     // Main effect for loading news - handles both initial load and restoration from URL
     useEffect(() => {
@@ -230,13 +232,13 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
         // Reset lastLoadedCountryRef to trigger reload for new country
         lastLoadedCountryRef.current = null;
         // Update URL with new tab, reset page to 1
-        updateUrlParams(newIndex, 1, 0);
+        updateStateParams(newIndex, 1, 0);
     };
 
     const handlePageChange = (_, newPage) => {
         setPage(newPage);
         // Update URL with current tab and new page
-        updateUrlParams(selectedTab, newPage, pageIdentifier);
+        updateStateParams(selectedTab, newPage, pageIdentifier);
     };
 
     const handleLoadMore = async () => {
@@ -263,7 +265,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                 // Update page identifier for next load
                 setPageIdentifier(nextPageIdentifier);
                 // Update URL with new pageIdentifier
-                updateUrlParams(selectedTab, page, nextPageIdentifier);
+                updateStateParams(selectedTab, page, nextPageIdentifier);
             }
         } catch (error) {
             console.error('Error loading more news:', error);
@@ -278,13 +280,6 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
         const key = `${userId}-${reqId}-${docId}`;
         setViewCounts(prev => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
 
-        // Build the return URL with current state in query params
-        const returnParams = new URLSearchParams();
-        if (selectedTab !== 0) returnParams.set('tab', String(selectedTab));
-        if (page !== 1) returnParams.set('page', String(page));
-        if (pageIdentifier !== 0) returnParams.set('pageId', String(pageIdentifier));
-        const returnUrl = `/NewsRoom${returnParams.toString() ? '?' + returnParams.toString() : ''}`;
-
         const navigationState = {
             userId,
             reqId,
@@ -292,13 +287,13 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
             title,
             selectedCountry: currentCountry,
             selectedTab: selectedTab,
+            returnTab: selectedTab,
             returnToPage: page,
             returnPageIdentifier: pageIdentifier,
-            returnUrl, // Include the return URL for the back button
             last_updated
         };
 
-        // Navigate to article detail - use state for article data, URL will handle return state
+        // Navigate to article detail - use state for article data and return state
         navigate('/NewsRoom', { state: navigationState });
     };
 
@@ -319,7 +314,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
             setPage(1);
             setPageIdentifier(0);
             lastLoadedCountryRef.current = null;
-            updateUrlParams(newSelectedTab, 1, 0);
+            updateStateParams(newSelectedTab, 1, 0);
         } else {
             const updatedTabs = [...tabCountries];
             let newSelectedTab = selectedTab;
@@ -338,7 +333,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
             setPage(1);
             setPageIdentifier(0);
             lastLoadedCountryRef.current = null;
-            updateUrlParams(newSelectedTab, 1, 0);
+            updateStateParams(newSelectedTab, 1, 0);
         }
     };
 
@@ -1112,8 +1107,8 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                 gap: 2,
                 background: 'transparent',
             }}>
-                {/* Enhanced Sidebar */}
-                <Paper
+                {/* Enhanced Sidebar - Conditionally rendered based on SHOW_INSIGHTS_SIDEBAR flag */}
+                {SHOW_INSIGHTS_SIDEBAR && <Paper
                     elevation={0}
                     sx={{
                         width: 260,
@@ -1402,7 +1397,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                             );
                         })}
                     </Box>
-                </Paper>
+                </Paper>}
 
                 {/* Enhanced Main Content */}
                 <Paper

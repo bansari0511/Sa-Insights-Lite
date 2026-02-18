@@ -21,6 +21,7 @@ import MapTemplate from './mapTemplate';
 import { fetchEventsData } from './EventTimeLineApi';
 import countryData from "../../country.json";
 import { mapTheme, eventCategories } from '../../theme';
+import { SHOW_INSIGHTS_SIDEBAR } from '../../config/appMode';
 
 const ACCENT = mapTheme.colors.accentOrange;
 const TIMELINE_WIDTH = mapTheme.sizing.timeline.width;
@@ -408,7 +409,7 @@ export default function MapEventsPage() {
               options={countries}
               value={selectedCountries}
               onChange={(e, v) => setSelectedCountries(v)}
-              renderTags={(value, getTagProps) => value.map((option, index) => <Chip key={option} label={option} {...getTagProps({ index })} />)}
+              renderTags={(value, getTagProps) => value.map((option, index) => { const { key, ...tagProps } = getTagProps({ index }); return <Chip key={key} label={option} {...tagProps} />; })}
               sx={{ minWidth: 240 }}
               renderInput={(params) => <TextField {...params} label="Country" />}
             />
@@ -420,11 +421,12 @@ export default function MapEventsPage() {
               onChange={(e, v) => setSelectedCategories(v)}
               renderTags={(value, getTagProps) => value.map((option, index) => {
                 const config = getCategoryConfig(option);
+                const { key, ...tagProps } = getTagProps({ index });
                 return (
                   <Chip
-                    key={option}
+                    key={key}
                     label={`${config.icon} ${config.name}`}
-                    {...getTagProps({ index })}
+                    {...tagProps}
                     sx={{
                       bgcolor: `${config.color}15`,
                       color: config.color,
@@ -436,10 +438,10 @@ export default function MapEventsPage() {
               })}
               sx={{ minWidth: 300 }}
               renderInput={(params) => <TextField {...params} label="Event Category" />}
-              renderOption={(props, option) => {
+              renderOption={({ key, ...optionProps }, option) => {
                 const config = getCategoryConfig(option);
                 return (
-                  <Box component="li" {...props} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                  <Box component="li" key={key} {...optionProps} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                     <span style={{ fontSize: 20 }}>{config.icon}</span>
                     <Typography sx={{ color: config.color, fontWeight: 600 }}>
                       {config.name}
@@ -496,15 +498,15 @@ export default function MapEventsPage() {
         </Paper>
       </Grid>
 
-      {/* Map */}
-      <Grid item xs={12} md={7} sx={{ height: 'calc(100% - 120px)' }}>
+      {/* Map - Full width when sidebar is hidden */}
+      <Grid item xs={12} md={SHOW_INSIGHTS_SIDEBAR ? 7 : 12} sx={{ height: 'calc(100% - 120px)' }}>
         <Paper sx={{ height: '100%', p: 1 }} elevation={1}>
           <MapTemplate onMapReady={handleMapReady} />
         </Paper>
       </Grid>
 
-      {/* Timeline */}
-      <Grid item xs={12} md={5} sx={{ height: 'calc(100% - 120px)' }}>
+      {/* Timeline - Conditionally rendered based on SHOW_INSIGHTS_SIDEBAR flag */}
+      {SHOW_INSIGHTS_SIDEBAR && <Grid item xs={12} md={5} sx={{ height: 'calc(100% - 120px)' }}>
         <Paper sx={{ height: '100%', overflow: 'hidden', p: 2 }} elevation={1}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
             <Typography variant="h6" sx={{ color: '#000', fontWeight: 600 }}>
@@ -1092,7 +1094,7 @@ export default function MapEventsPage() {
             )}
           </Box>
         </Paper>
-      </Grid>
+      </Grid>}
     </Grid>
   );
 }

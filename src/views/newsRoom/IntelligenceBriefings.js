@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { withOpacity } from '../../theme/palette';
 import {
     Box, Typography, LinearProgress, Card, Chip, Pagination,
@@ -15,6 +15,8 @@ import {
     Security as SecurityIcon,
 } from '@mui/icons-material';
 import { newsService } from 'src/services/dataService';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { SHOW_INSIGHTS_SIDEBAR } from 'src/config/appMode';
 
 const currentCountry = "intelligence_briefing";
 // Fetch news from API or dummy data (uses unified dataService)
@@ -30,62 +32,139 @@ const fetchNews = async (countryCode, pageIdentifier = 0, pageSize = 20) => {
         return { result: [] };
     }
 };
-import { useNavigate, useLocation } from 'react-router-dom';
-
-
-
-const fetchNewsDetails = async (pageIdentifier, pageSize) => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const mockArticles = Array.from({ length: pageSize }, (_, i) => ({
-        doc_id: `article-${pageIdentifier}-${i}`,
-        title: `${pageIdentifier * pageSize + i + 1}`,
-        classifications: ['Politics', 'Breaking', 'International'].slice(0, Math.floor(Math.random() * 3) + 1),
-    }));
-
-    return { result: mockArticles, req_id: 'req-123' };
-};
 
 function IntelligenceBriefings({ initialTab }) {
     const theme = useTheme();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Read initial state from location.state
+    const getInitialPage = () => {
+        const statePage = location.state?.returnToPage;
+        if (statePage !== undefined && statePage !== null) {
+            const pageNum = parseInt(statePage, 10);
+            if (!isNaN(pageNum) && pageNum >= 1) {
+                return pageNum;
+            }
+        }
+        return initialTab || 1;
+    };
+
+    const getInitialPageIdentifier = () => {
+        const statePageId = location.state?.returnPageIdentifier;
+        if (statePageId !== undefined && statePageId !== null) {
+            const pageId = parseInt(statePageId, 10);
+            if (!isNaN(pageId) && pageId >= 0) {
+                return pageId;
+            }
+        }
+        return 0;
+    };
 
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState(initialTab || 1);
-    const [pageIdentifier, setPageIdentifier] = useState(0);
+    const [page, setPage] = useState(getInitialPage);
+    const [pageIdentifier, setPageIdentifier] = useState(getInitialPageIdentifier);
     const [newsresponse, setNewsResponse] = useState({});
     const [hasMoreData, setHasMoreData] = useState(true);
     const [pageSize] = useState(20);
     const [expandedSummaries, setExpandedSummaries] = useState({});
     const [loadingMore, setLoadingMore] = useState(false);
     const itemsPerPage = 10;
-    const navigate = useNavigate();
-    const location = useLocation();
+    const initialLoadDoneRef = useRef(false);
 
+    // Update state when page or pageIdentifier changes (without showing in URL)
+    const updateStateParams = useCallback((newPage, newPageId) => {
+        // Use replace to update state without adding history entry
+        navigate('/NewsRoom', {
+            state: {
+                selectedCountry: 'intelligence_briefing',
+                returnToPage: newPage,
+                returnPageIdentifier: newPageId,
+            },
+            replace: true
+        });
+    }, [navigate]);
+
+    // Load data on mount based on URL params
     useEffect(() => {
-        loadInitialNews();
+        if (initialLoadDoneRef.current) return;
+        initialLoadDoneRef.current = true;
+
+        const urlPage = getInitialPage();
+        const urlPageId = getInitialPageIdentifier();
+
+        if (urlPage > 1 || urlPageId > 0) {
+            // Returning from article - load enough data for the target page
+            loadDataForPage(urlPage, urlPageId);
+        } else {
+            // Fresh load - load only initial data (pages 1-2)
+            loadInitialNews();
+        }
     }, []);
 
-    useEffect(() => {
-        // Restore page from location state if available
-        if (location.state?.returnToPage) {
-            setPage(location.state.returnToPage);
-        }
-    }, [location.state]);
-
+    // Load initial news data (pages 1-2 only) - used for fresh load and reset
     const loadInitialNews = async () => {
         setLoading(true);
         try {
-            const nextPageIdentifier = pageIdentifier + pageSize;
-            const newsData = await fetchNews(currentCountry, nextPageIdentifier, pageSize);
-            console.log("newsData", newsData)
-            fetchNewsDetails(0, pageSize)
+            const newsData = await fetchNews(currentCountry, 0, pageSize);
             setArticles(newsData.result || []);
             setPage(1);
             setPageIdentifier(0);
             setHasMoreData(true);
             setNewsResponse(newsData);
+            // Update URL to reflect initial state
+            updateStateParams(1, 0);
         } catch (error) {
             console.error('Error loading news:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Load enough data to support a specific page (used when returning from article)
+    const loadDataForPage = async (targetPage, targetPageId = 0) => {
+        setLoading(true);
+        try {
+            // Calculate how many API pages we need to fetch
+            const itemsNeeded = targetPage * itemsPerPage;
+            const apiPagesFromPageId = targetPageId + 1;
+            const apiPagesFromItems = Math.ceil(itemsNeeded / pageSize);
+            const apiPagesNeeded = Math.max(apiPagesFromPageId, apiPagesFromItems);
+
+            // Fetch all needed pages
+            let allArticles = [];
+            let lastPageIdentifier = 0;
+            let lastResponse = {};
+
+            for (let i = 0; i < apiPagesNeeded; i++) {
+                const newsData = await fetchNews(currentCountry, i, pageSize);
+
+                if (newsData.result && newsData.result.length > 0) {
+                    allArticles = [...allArticles, ...newsData.result];
+                    lastPageIdentifier = i;
+                    lastResponse = newsData;
+                } else {
+                    break;
+                }
+            }
+
+            setArticles(allArticles);
+            setPageIdentifier(lastPageIdentifier);
+            setNewsResponse(lastResponse);
+            setHasMoreData(allArticles.length >= itemsNeeded);
+
+            // Set the page to return to (or max available if not enough data)
+            const maxAvailablePage = Math.ceil(allArticles.length / itemsPerPage);
+            const finalPage = Math.min(targetPage, Math.max(1, maxAvailablePage));
+            setPage(finalPage);
+
+            // Update URL to reflect restored state
+            updateStateParams(finalPage, lastPageIdentifier);
+        } catch (error) {
+            console.error('Error loading news:', error);
+            setPage(1);
+            updateStateParams(1, 0);
         } finally {
             setLoading(false);
         }
@@ -99,8 +178,8 @@ function IntelligenceBriefings({ initialTab }) {
                 docId,
                 title,
                 selectedCountry: 'intelligence_briefing',
-                selectedTab: '',
                 returnToPage: page,
+                returnPageIdentifier: pageIdentifier,
                 last_updated
             },
         });
@@ -115,6 +194,8 @@ function IntelligenceBriefings({ initialTab }) {
                 setArticles(prev => [...prev, ...newsData.result]);
                 setPageIdentifier(nextPageIdentifier);
                 setNewsResponse(newsData);
+                // Update URL with new pageIdentifier
+                updateStateParams(page, nextPageIdentifier);
             } else {
                 setHasMoreData(false);
             }
@@ -158,8 +239,15 @@ function IntelligenceBriefings({ initialTab }) {
     const priorityArticles = currentArticles.filter(article => getPriorityLevel(article) === 'high');
     const normalArticles = currentArticles.filter(article => getPriorityLevel(article) === 'normal');
 
-    const handlePageChange = (_event, value) => {
-        setPage(value);
+    const handlePageChange = async (_event, value) => {
+        // If navigating to page 1, reset to initial state (only show first 2 pages)
+        if (value === 1 && page !== 1) {
+            await loadInitialNews();
+        } else {
+            setPage(value);
+            // Update URL with new page
+            updateStateParams(value, pageIdentifier);
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 

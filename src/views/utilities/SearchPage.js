@@ -1099,12 +1099,11 @@ function ResultsPanel({ query, initialMode }) {
           setAllRecords(records);
           setItems(records);
           setLastDocId(response.lastdocid || "");
-          setHasNextPage(response.hasnextpage || false);
+          setHasNextPage(response.hasMore || false);
           setTotalRecords(response.total || records.length);
 
-          if (response.filters) {
-            setOptions(prev => ({ ...prev, ...response.filters }));
-          }
+          // Set filter options from response top-level fields
+          setOptions(response);
         }
       } catch (error) {
         console.error('Error fetching search data:', error);
@@ -1188,7 +1187,7 @@ function ResultsPanel({ query, initialMode }) {
         setAllRecords(prev => [...prev, ...newRecords]);
         setItems(prev => [...prev, ...newRecords]);
         setLastDocId(response.lastdocid || "");
-        setHasNextPage(response.hasnextpage || false);
+        setHasNextPage(response.hasMore || false);
       }
     } catch (error) {
       console.error('Error loading more data:', error);

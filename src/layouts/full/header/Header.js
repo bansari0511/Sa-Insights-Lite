@@ -415,7 +415,7 @@ const Header = () => {
                       <Typography sx={{
                         color: theme.palette.primary[900],
                         fontWeight: 600,
-                        fontSize: '0.85rem',
+                        fontSize: '0.70rem',
                       }}>
                         Loading suggestions...
                       </Typography>
@@ -449,14 +449,14 @@ const Header = () => {
                         <Typography sx={{
                           color: theme.palette.primary[900],
                           fontWeight: 600,
-                          fontSize: '0.9rem',
+                          fontSize: '0.75rem',
                           mb: 0.75,
                         }}>
                           No results found
                         </Typography>
                         <Typography sx={{
                           color: theme.palette.primary[700],
-                          fontSize: '0.75rem',
+                          fontSize: '0.62rem',
                         }}>
                           Try a different search term
                         </Typography>
@@ -536,21 +536,21 @@ const Header = () => {
                         <Box sx={{ position: 'relative' }}>
                           {/* Compact Section Header */}
                           <Box sx={{
-                            px: 2,
-                            py: 1.5,
+                            px: 1.5,
+                            py: 1,
                             background: theme.palette.primary[600],
                             display: 'flex',
                             alignItems: 'center',
-                            gap: 1.5,
+                            gap: 1,
                             borderBottom: `2px solid ${theme.palette.primary[200]}`,
                             borderTopLeftRadius: '16px',
                             borderTopRightRadius: '16px',
                           }}>
                             {/* Compact Icon Badge */}
                             <Box sx={{
-                              width: 28,
-                              height: 28,
-                              borderRadius: '8px',
+                              width: 22,
+                              height: 22,
+                              borderRadius: '6px',
                               background: theme.palette.primary[600],
                               display: 'flex',
                               alignItems: 'center',
@@ -559,7 +559,7 @@ const Header = () => {
                             }}>
                               <NewspaperIcon sx={{
                                 color: 'white',
-                                fontSize: 14,
+                                fontSize: 12,
                               }} />
                             </Box>
                             {/* Compact Section Title */}
@@ -567,9 +567,9 @@ const Header = () => {
                               sx={{
                                 color: theme.palette.primary[900],
                                 fontWeight: 700,
-                                fontSize: '0.85rem',
+                                fontSize: '0.50rem',
                                 textTransform: 'uppercase',
-                                letterSpacing: '1px',
+                                letterSpacing: '0.5px',
                                 fontFamily: "'Inter', 'Segoe UI', sans-serif",
                               }}
                             >
@@ -578,15 +578,15 @@ const Header = () => {
                             {/* Compact Count Badge */}
                             <Box sx={{
                               ml: 'auto',
-                              px: 1.2,
-                              py: 0.4,
-                              borderRadius: '10px',
+                              px: 1,
+                              py: 0.3,
+                              borderRadius: '8px',
                               background: theme.palette.primary[600],
                               boxShadow: `0 2px 4px ${withOpacity(theme.palette.primary[600], 0.2)}`,
                             }}>
                               <Typography sx={{
                                 color: 'white',
-                                fontSize: '0.75rem',
+                                fontSize: '0.45rem',
                                 fontWeight: 700,
                                 fontFamily: "'Inter', 'Segoe UI', sans-serif",
                               }}>
@@ -596,14 +596,15 @@ const Header = () => {
                           </Box>
 
                           {/* Compact News Items List */}
-                          <List sx={{ py: 1.5, px: 1.5 }}>
+                          <List sx={{ py: 1, px: 1.5 }}>
                             {suggestions.title.map((title, index) => (
                               <ListItemButton
                                 key={`title-${index}`}
                                 onClick={() => handleSuggestionSelect(title)}
                                 sx={{
-                                  mb: 0.8,
-                                  borderRadius: '12px',
+                                  mb: 0.5,
+                                  py: 0.8,
+                                  borderRadius: '10px',
                                   transition: 'all 0.2s ease',
                                   background: theme.palette.primary[400],
                                   border: `1.5px solid ${theme.palette.primary[400]}`,
@@ -653,9 +654,9 @@ const Header = () => {
                                     <Typography
                                       sx={{
                                         color: theme.palette.primary[900],
-                                        fontWeight: 600,
-                                        fontSize: '0.8rem',
-                                        lineHeight: 1.1,
+                                        fontWeight: 500,
+                                        fontSize: '0.44rem',
+                                        lineHeight: 1.2,
                                         letterSpacing: '0.01em',
                                         fontFamily: "'Inter', 'Segoe UI', sans-serif",
                                         overflow: 'hidden',
@@ -705,19 +706,19 @@ const Header = () => {
 
                           {/* Compact Section Header */}
                           <Box sx={{
-                            px: 2,
-                            py: 1.5,
+                            px: 1.5,
+                            py: 1,
                             background: theme.palette.primary[600],
                             display: 'flex',
                             alignItems: 'center',
-                            gap: 1.5,
+                            gap: 1,
                             borderBottom: `2px solid ${theme.palette.primary[200]}`,
                           }}>
                             {/* Compact Icon Badge */}
                             <Box sx={{
-                              width: 28,
-                              height: 28,
-                              borderRadius: '8px',
+                              width: 22,
+                              height: 22,
+                              borderRadius: '6px',
                               background: theme.palette.primary[600],
                               display: 'flex',
                               alignItems: 'center',
@@ -726,7 +727,7 @@ const Header = () => {
                             }}>
                               <EventAvailableIcon sx={{
                                 color: 'white',
-                                fontSize: 15,
+                                fontSize: 12,
                               }} />
                             </Box>
                             {/* Compact Section Title */}
@@ -734,9 +735,9 @@ const Header = () => {
                               sx={{
                                 color: theme.palette.primary[900],
                                 fontWeight: 700,
-                                fontSize: '0.85rem',
+                                fontSize: '0.50rem',
                                 textTransform: 'uppercase',
-                                letterSpacing: '1px',
+                                letterSpacing: '0.5px',
                                 fontFamily: "'Inter', 'Segoe UI', sans-serif",
                               }}
                             >
@@ -745,15 +746,15 @@ const Header = () => {
                             {/* Compact Count Badge */}
                             <Box sx={{
                               ml: 'auto',
-                              px: 1.2,
-                              py: 0.4,
-                              borderRadius: '10px',
+                              px: 1,
+                              py: 0.3,
+                              borderRadius: '8px',
                               background: theme.palette.primary[600],
                               boxShadow: `0 2px 4px ${withOpacity(theme.palette.primary[600], 0.2)}`,
                             }}>
                               <Typography sx={{
                                 color: 'white',
-                                fontSize: '0.75rem',
+                                fontSize: '0.45rem',
                                 fontWeight: 700,
                                 fontFamily: "'Inter', 'Segoe UI', sans-serif",
                               }}>
@@ -763,14 +764,15 @@ const Header = () => {
                           </Box>
 
                           {/* Compact Entity Names List */}
-                          <List sx={{ py: 1.5, px: 1.5 }}>
+                          <List sx={{ py: 1, px: 1.5 }}>
                             {suggestions.entity_name.map((entity, index) => (
                               <ListItemButton
                                 key={`entity-${index}`}
                                 onClick={() => handleSuggestionSelect(entity)}
                                 sx={{
-                                  mb: 0.8,                                  
-                                  borderRadius: '12px',
+                                  mb: 0.5,
+                                  py: 0.8,
+                                  borderRadius: '10px',
                                   transition: 'all 0.2s ease',
                                   background: theme.palette.primary[400],
                                   border: `1.5px solid ${theme.palette.primary[200]}`,
@@ -820,9 +822,9 @@ const Header = () => {
                                     <Typography
                                       sx={{
                                         color: theme.palette.primary[900],
-                                        fontWeight: 600,
-                                        fontSize: '0.8rem',
-                                        lineHeight: 1.1,
+                                        fontWeight: 500,
+                                        fontSize: '0.44rem',
+                                        lineHeight: 1.2,
                                         letterSpacing: '0.01em',
                                         fontFamily: "'Inter', 'Segoe UI', sans-serif",
                                         overflow: 'hidden',

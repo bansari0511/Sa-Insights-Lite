@@ -6,7 +6,7 @@
     "title": "US Navy Conducts Freedom of Navigation Operation in South China Sea",
     "subtitle": "USS John McCain sails within 12 nautical miles of Mischief Reef",
     "summary": "The United States Navy conducted a freedom of navigation operation near the Spratly Islands in the South China Sea, challenging China's excessive maritime claims.",
-    "content": "<p>The United States Navy conducted a freedom of navigation operation (FONOP) near the Spratly Islands in the South China Sea on Monday,US Navy Seventh Fleet challenging what Washington considers to be China's excessive maritime claims in the strategically vital waterway.</p><p>The USS John McCain, an Arleigh Burke-class guided-missile destroyer, sailed within 12 nautical miles of Mischief Reef, one of several artificial islands China has built in the disputed waters. The operation asserted navigational rights and freedoms in accordance with international law.</p><p>\"U.S. forces operate in the South China Sea on a daily basis, as we have for more than a century,\" said Commander Nicole Schwegman, a spokeswoman for the U.S. Seventh Fleet. \"All operations are designed to be conducted in accordance with international law.\"</p><p>China's foreign ministry condemned the operation as a provocation that undermines regional peace and stability. Spokesman Wang Wenbin said Chinese forces \"tracked and monitored\" the American vessel and lodged \"stern representations\" with Washington.</p><p>This marks the third such operation this year as tensions continue to simmer in the South China Sea, where China claims sovereignty over nearly all of the 1.3 million square mile waterway despite competing claims from several Southeast Asian nations.</p>",
+    "content": "<p>The United States Navy conducted a freedom of navigation operation (FONOP) near the Spratly Islands in the South China Sea on Monday,US Navy Seventh Fleet challenging what Washington considers to be China's excessive maritime claims in the strategically vital waterway for this F-16Bs.</p><p>The USS John McCain, an Arleigh Burke-class guided-missile destroyer, sailed within 12 nautical miles of Mischief Reef, one of several artificial islands China has built in the disputed waters. The operation asserted navigational rights and freedoms in accordance with international law.</p><p>\"U.S. forces operate in the South China Sea on a daily basis, as we have for more than a century,\" said Commander Nicole Schwegman, a spokeswoman for the U.S. Seventh Fleet. \"All operations are designed to be conducted in accordance with international law.\"</p><p>China's foreign ministry condemned the operation as a provocation that undermines regional peace and stability. Spokesman Wang Wenbin said Chinese forces \"tracked and monitored\" the American vessel and lodged \"stern representations\" with Washington.</p><p>This marks the third such operation this year as tensions continue to simmer in the South China Sea, where China claims sovereignty over nearly all of the 1.3 million square mile waterway despite competing claims from several Southeast Asian nations.</p>",
     "source": "Defense News",
     "author": "James Mitchell",
     "classification": "UNCLASSIFIED",
@@ -141,27 +141,66 @@
       "documents": [
         {
           "id": "d1",
-          "title": "Official Navy Report",
+          "title": "Official Navy Report - FONOP 2024",
           "url": "/assets/media/documents/navy_report.pdf",
           "extension": "pdf",
-          "size": "13 KB",
-          "pages": 1
+          "size": "8 KB",
+          "pages": 3
         },
         {
           "id": "d2",
-          "title": "Operation Brief Document",
-          "url": "/assets/media/documents/operation_brief.docx",
-          "extension": "docx",
-          "size": "7 KB",
-          "pages": 2
+          "title": "South China Sea Strategic Assessment",
+          "url": "/assets/media/documents/strategic_assessment_scs.pdf",
+          "extension": "pdf",
+          "size": "9 KB",
+          "pages": 4
         },
         {
           "id": "d3",
-          "title": "Fleet Statistics Data",
+          "title": "Fleet Deployment Brief - Seventh Fleet",
+          "url": "/assets/media/documents/fleet_deployment_brief.pdf",
+          "extension": "pdf",
+          "size": "5 KB",
+          "pages": 2
+        },
+        {
+          "id": "d4",
+          "title": "FONOP Operation Brief - SCS",
+          "url": "/assets/media/documents/operation_brief.docx",
+          "extension": "docx",
+          "size": "4 KB",
+          "pages": 2
+        },
+        {
+          "id": "d5",
+          "title": "Fleet Statistics & Readiness Data",
           "url": "/assets/media/documents/fleet_statistics.xlsx",
           "extension": "xlsx",
-          "size": "7 KB",
+          "size": "5 KB",
+          "pages": 3
+        },
+        {
+          "id": "d6",
+          "title": "DOCX Format Demo - Calibre Reference",
+          "url": "/assets/media/documents/demo.docx",
+          "extension": "docx",
+          "size": "1.3 MB",
+          "pages": 4
+        },
+        {
+          "id": "d7",
+          "title": "World Bank PFM eServices Dataset",
+          "url": "/assets/media/documents/wb_pfm_eservices_dataset_1.xlsx",
+          "extension": "xlsx",
+          "size": "50 KB",
           "pages": 1
+        },
+        {
+          "id": "d8",
+          "title": "Geographic Data - Example KMZ",
+          "url": "/assets/media/documents/example.kmz",
+          "extension": "kmz",
+          "size": "12 KB"
         }
       ]
     },

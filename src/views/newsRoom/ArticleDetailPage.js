@@ -1,61 +1,34 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { withOpacity } from '../../theme/palette';
 import {
-  Box, Typography, Paper, CircularProgress, IconButton, Card, Avatar, Divider, useTheme, Modal, Tabs, Tab
+  Box, Typography, CircularProgress, IconButton, Card, Divider, useTheme, Modal, Tabs, Tab
 } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InfoIcon from '@mui/icons-material/Info';
 import PreviewIcon from '@mui/icons-material/Preview';
-import EventIcon from '@mui/icons-material/Event';
-import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
-import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
-import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
-import GroupsIcon from '@mui/icons-material/Groups';
-import PublicIcon from '@mui/icons-material/Public';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 import DescriptionIcon from '@mui/icons-material/Description';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import DownloadIcon from '@mui/icons-material/Download';
 import CloseIcon from '@mui/icons-material/Close';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import TableChartIcon from '@mui/icons-material/TableChart';
 import MapIcon from '@mui/icons-material/Map';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import AttachmentIcon from '@mui/icons-material/Attachment';
+import * as XLSX from 'xlsx';
+import mammoth from 'mammoth';
 import WikipediaTooltip, { WikipediaPopperTooltip } from './WikipediaTooltip';
 import { dataService } from '../../services/dataService';
 import urlsMap from '../../services/urlsMap';
-
-// Get icon for entity type
-const getEntityIcon = (entityType) => {
-  const type = entityType?.toLowerCase() || '';
-  if (type.includes('event') || type.includes('attack') || type.includes('action')) {
-    return <EventIcon sx={{ fontSize: '0.72rem' }} />;
-  }
-  // Ship types get a boat icon
-  if (type.includes('ship')) {
-    return <DirectionsBoatIcon sx={{ fontSize: '0.72rem' }} />;
-  }
-  // Equipment types get manufacturing icon
-  if (type.includes('equipment') || type.includes('variant') || type.includes('family')) {
-    return <PrecisionManufacturingIcon sx={{ fontSize: '0.72rem' }} />;
-  }
-  if (type.includes('military') || type.includes('group') || type.includes('organization')) {
-    return <MilitaryTechIcon sx={{ fontSize: '0.72rem' }} />;
-  }
-  if (type.includes('country') || type.includes('location')) {
-    return <PublicIcon sx={{ fontSize: '0.72rem' }} />;
-  }
-  return <GroupsIcon sx={{ fontSize: '0.72rem' }} />;
-};
+import PageContainer from 'src/components/container/PageContainer';
+import 'src/assets/css/ArticleDetailPage.css';
 
 // Fetch news details using unified dataService
-const mockNewsDetails = async (userId, reqId, docId, title) => {
+const fetchNewsDetails = async (userId, reqId, docId) => {
   try {
     return await dataService.news.getDetails(userId, reqId, docId);
   } catch (error) {
@@ -63,9 +36,6 @@ const mockNewsDetails = async (userId, reqId, docId, title) => {
     return null;
   }
 };
-import PageContainer from 'src/components/container/PageContainer';
-import { useNavigate, useLocation } from 'react-router-dom';
-import 'src/assets/css/ArticleDetailPage.css';
 
 // Function to extract <data> tag image URLs and replace them with <img> tags
 const renderImagesInContent = (htmlString) => {
@@ -78,7 +48,7 @@ const renderImagesInContent = (htmlString) => {
 
   return htmlString.replace(
     /<data\s+value="([^"]+)"[^>]*data-caption="([^"]+)"[^>]*>/g,
-    (match, imgUrl, caption) => `
+    (_, imgUrl, caption) => `
       <figure style="display: flex; flex-direction: column; align-items: center; margin: 16px 0;">
         <img src="${imgUrl}"  width="60%" height="50%"/>
         <figcaption style="font-size: 14px; color: #666; margin-top: 8px; text-align: center;">
@@ -154,7 +124,6 @@ const renderHighlightedContent = (htmlString, highlights = [], entities = []) =>
 
     // Sort by term length (longest first) to prevent partial matches
     allTerms.sort((a, b) => b.term.length - a.term.length);
-
     // Use placeholder approach to prevent replacing inside already-replaced content
     const placeholders = [];
 
@@ -175,7 +144,13 @@ const renderHighlightedContent = (htmlString, highlights = [], entities = []) =>
       placeholders.push({ placeholder, spanHtml });
 
       // Only replace in text content (not inside HTML tags)
-      const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      // Match the entity term even when followed by extra characters (e.g., "F-16B" matches "F-16Bs", "Russia" matches "Russian")
+      // Escape special regex characters (but NOT hyphen - it's literal outside character class)
+      const escapedTermForRegex = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+      // Pattern: match entity term + optional additional characters (word chars, apostrophe-s)
+      // This will match: "F-16B", "F-16Bs", "Russia", "Russian", "Russia's", etc.
+      const regex = new RegExp(`(${escapedTermForRegex}(?:'s|'s)?\\w*)`, 'gi');
 
       // Split content by HTML tags and only replace in text parts
       const parts = content.split(/(<[^>]*>)/g);
@@ -199,18 +174,19 @@ const renderHighlightedContent = (htmlString, highlights = [], entities = []) =>
     // Fallback: highlight terms with primary color
     highlights.forEach((term, index) => {
       const colorClass = highlightColors[index % highlightColors.length];
-      const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      // Escape special regex characters (but NOT hyphen - it's literal outside character class)
+      const escapedTermForRegex = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // Pattern: match term + optional additional characters (word chars, apostrophe-s)
+      const regex = new RegExp(`(${escapedTermForRegex}(?:'s|'s)?\\w*)`, 'gi');
       content = content.replace(regex, (match) => `<span class="${colorClass}">${match}</span>`);
     });
-  } else {
-    content = renderImagesInContent(htmlString);
   }
+
   return content;
 };
 
 function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
   const theme = useTheme();
-  const navigate = useNavigate();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showRelatedInfo, setShowRelatedInfo] = useState(true);
@@ -218,6 +194,11 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
   // State for media modal
   const [mediaModalOpen, setMediaModalOpen] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState(null);
+  const [docType, setDocType] = useState(null); // 'pdf' | 'excel' | 'word' | null
+  const [docBlobUrl, setDocBlobUrl] = useState(null);
+  const [excelData, setExcelData] = useState(null);
+  const [activeSheet, setActiveSheet] = useState(0);
+  const [docHtml, setDocHtml] = useState(null);
   const [mediaTab, setMediaTab] = useState(0);
 
   // State for content entity hover preview
@@ -230,10 +211,9 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
     const loadArticle = async () => {
       try {
         setLoading(true);
-        const articleDetails = await mockNewsDetails(userId, reqId, docId, title,);
+        const articleDetails = await fetchNewsDetails(userId, reqId, docId);
         // Extract article from response (handles both { article: {...} } and direct article object)
         setArticle(articleDetails?.article || articleDetails);
-        console.log(articleDetails)
       } catch (error) {
         console.error('Error fetching article:', error);
         setArticle(null);
@@ -243,7 +223,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
     };
 
     loadArticle();
-  }, [userId, reqId, docId, title]);
+  }, [userId, reqId, docId]);
 
   // Event delegation for content entity hover preview
   useEffect(() => {
@@ -315,7 +295,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
   }, []);
 
   // Media handling functions
-  const getFileIcon = (extension) => {
+  const getFileIcon = (extension, size = 22) => {
     const ext = extension?.toLowerCase();
     // Video icons
     if (['mp4', 'webm', 'mov', 'avi', 'mkv'].includes(ext)) {
@@ -325,10 +305,28 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
     if (['mp3', 'wav', 'ogg', 'aac', 'm4a'].includes(ext)) {
       return <AudiotrackIcon sx={{ fontSize: '1.5rem' }} />;
     }
-    // Document icons
-    if (ext === 'pdf') return <PictureAsPdfIcon sx={{ fontSize: '1.5rem' }} />;
-    if (ext === 'xlsx' || ext === 'xls') return <TableChartIcon sx={{ fontSize: '1.5rem' }} />;
-    if (ext === 'docx' || ext === 'doc') return <DescriptionIcon sx={{ fontSize: '1.5rem' }} />;
+    // Professional document icons
+    if (ext === 'pdf') return (
+      <svg width={size} height={size} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 2h14l8 8v20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#E53935"/>
+        <path d="M20 2l8 8h-6a2 2 0 0 1-2-2V2z" fill="#FFCDD2"/>
+        <text x="16" y="24" textAnchor="middle" fill="#fff" fontSize="8" fontWeight="700" fontFamily="Arial,sans-serif">PDF</text>
+      </svg>
+    );
+    if (ext === 'xlsx' || ext === 'xls') return (
+      <svg width={size} height={size} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 2h14l8 8v20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#1B5E20"/>
+        <path d="M20 2l8 8h-6a2 2 0 0 1-2-2V2z" fill="#A5D6A7"/>
+        <text x="16" y="24" textAnchor="middle" fill="#fff" fontSize="7" fontWeight="700" fontFamily="Arial,sans-serif">XLS</text>
+      </svg>
+    );
+    if (ext === 'docx' || ext === 'doc') return (
+      <svg width={size} height={size} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 2h14l8 8v20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#1565C0"/>
+        <path d="M20 2l8 8h-6a2 2 0 0 1-2-2V2z" fill="#90CAF9"/>
+        <text x="16" y="24" textAnchor="middle" fill="#fff" fontSize="7" fontWeight="700" fontFamily="Arial,sans-serif">DOC</text>
+      </svg>
+    );
     if (ext === 'twbx') return <BarChartIcon sx={{ fontSize: '1.5rem' }} />;
     if (ext === 'kmz') return <MapIcon sx={{ fontSize: '1.5rem' }} />;
     return <InsertDriveFileIcon sx={{ fontSize: '1.5rem' }} />;
@@ -343,57 +341,150 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
     }
   };
 
-  // Helper to construct full URL with base path for local assets
+  // MIME type lookup for video/audio extensions
+  const getMimeType = (type, ext) => {
+    const mimeMap = {
+      video: { mp4: 'video/mp4', webm: 'video/webm', ogg: 'video/ogg', mov: 'video/quicktime', avi: 'video/x-msvideo', mkv: 'video/x-matroska', m4v: 'video/mp4', '3gp': 'video/3gpp' },
+      audio: { mp3: 'audio/mpeg', wav: 'audio/wav', ogg: 'audio/ogg', aac: 'audio/aac', m4a: 'audio/mp4', flac: 'audio/flac', weba: 'audio/webm', opus: 'audio/opus' },
+    };
+    return mimeMap[type]?.[ext] || '';
+  };
+
+  // Build full URL for assets (images, videos, audio, documents)
+  // Uses assetsService from urlsMap when configured (LAN), otherwise Vite base URL (local dev)
   const getAssetUrl = (url) => {
     if (!url) return '';
-    // If URL is external (starts with http/https), return as-is
+    const assetsBaseUrl = urlsMap.assetsService || '';
+    // Replace legacy asset path prefix with configured assets service URL
+    if (assetsBaseUrl && url.includes('/Intara_Image_Asset_new')) {
+      return url.replace('/Intara_Image_Asset_new', assetsBaseUrl);
+    }
+    // For absolute URLs on LAN: replace the origin with the local assets server
     if (url.startsWith('http://') || url.startsWith('https://')) {
+      if (assetsBaseUrl) {
+        try {
+          const parsed = new URL(url);
+          const localOrigin = new URL(assetsBaseUrl);
+          // If the URL points to a different server than our assets server, rewrite it
+          if (parsed.origin !== localOrigin.origin && parsed.origin !== window.location.origin) {
+            return `${assetsBaseUrl}${parsed.pathname}${parsed.search}${parsed.hash}`;
+          }
+        } catch { /* invalid URL, fall through */ }
+      }
       return url;
     }
-    // For local assets, prepend the base URL (handles /saaransh/ prefix)
+    // Relative URL: use assets service if configured, otherwise Vite base URL
+    if (assetsBaseUrl) {
+      return `${assetsBaseUrl}${url.startsWith('/') ? url : '/' + url}`;
+    }
     const baseUrl = import.meta.env.BASE_URL || '/';
-    // Remove leading slash from url if base already ends with /
-    const cleanUrl = url.startsWith('/') ? url.slice(1) : url;
-    return `${baseUrl}${cleanUrl}`;
+    return `${baseUrl}${url.startsWith('/') ? url.slice(1) : url}`;
   };
 
-  const handleMediaClick = (media, type) => {
-    if (type === 'document') {
-      const ext = media.extension?.toLowerCase();
-      // For xlsx and docx files, trigger download instead of opening
-      if (['xlsx', 'xls', 'docx', 'doc'].includes(ext)) {
-        handleDownloadFile(media);
-      } else {
-        // Open other documents (like PDF) in new tab with correct base URL
-        window.open(getAssetUrl(media.url), '_blank');
-      }
-    } else {
-      // Open video/audio in modal with correct URL
-      setSelectedMedia({ ...media, type, resolvedUrl: getAssetUrl(media.url) });
-      setMediaModalOpen(true);
+  // Extract file extension from URL path: "http://x.com/path/file.xlsx?q=1" → "xlsx"
+  const getExtFromUrl = (url) => {
+    try {
+      const pathname = new URL(url, window.location.origin).pathname;
+      const lastDot = pathname.lastIndexOf('.');
+      return lastDot > -1 ? pathname.substring(lastDot + 1).toLowerCase() : '';
+    } catch {
+      return '';
     }
   };
 
-  // Download handler for xlsx and docx files (works on LAN)
-  const handleDownloadFile = (file) => {
-    const fileUrl = getAssetUrl(file.url);
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = file.title || `download.${file.extension}`;
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  // Fetch that routes cross-origin requests through /cors-proxy (Vite plugin) to avoid CORS
+  const fetchWithProxy = (url) => {
+    if (url.startsWith('http') && !url.startsWith(window.location.origin)) {
+      const base = import.meta.env.BASE_URL || '/';
+      return fetch(`${base}cors-proxy?url=${encodeURIComponent(url)}`);
+    }
+    return fetch(url);
+  };
+
+  // Extensions that can be previewed in the modal
+  const VIEWABLE_EXTENSIONS = ['pdf', 'xlsx', 'xls', 'docx', 'doc'];
+
+  const isViewableDoc = (ext) => VIEWABLE_EXTENSIONS.includes(ext?.toLowerCase());
+
+  const handleMediaClick = async (media, type) => {
+    const resolvedUrl = getAssetUrl(media.url);
+    const ext = (media.extension || getExtFromUrl(resolvedUrl)).toLowerCase().replace(/^\./, '').trim();
+
+    // Non-viewable document types → download directly, no modal
+    if (type === 'document' && !isViewableDoc(ext)) {
+      window.open(resolvedUrl, '_blank');
+      return;
+    }
+
+    // Determine document type once - used by both handler and rendering
+    let detectedDocType = null;
+    if (ext === 'pdf') detectedDocType = 'pdf';
+    else if (['xlsx', 'xls'].includes(ext)) detectedDocType = 'excel';
+    else if (['docx', 'doc'].includes(ext)) detectedDocType = 'word';
+
+    setSelectedMedia({ ...media, type, resolvedUrl, extension: ext });
+    setDocType(detectedDocType);
+
+    // For PDF, set URL directly
+    if (detectedDocType === 'pdf') {
+      setDocBlobUrl(resolvedUrl);
+    }
+
+    // Open modal immediately (shows loading spinner for excel/word)
+    setMediaModalOpen(true);
+
+    // Fetch excel/word data asynchronously after modal is open
+    if (detectedDocType === 'excel') {
+      try {
+        const response = await fetchWithProxy(resolvedUrl);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = new Uint8Array(await response.arrayBuffer());
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheets = {};
+        workbook.SheetNames.forEach((name) => {
+          sheets[name] = XLSX.utils.sheet_to_json(workbook.Sheets[name], { header: 1 });
+        });
+        setExcelData({ sheetNames: workbook.SheetNames, sheets });
+        setActiveSheet(0);
+      } catch (err) {
+        console.error('Excel load error:', err);
+        setExcelData('error');
+      }
+    } else if (detectedDocType === 'word') {
+      try {
+        const response = await fetchWithProxy(resolvedUrl);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const result = await mammoth.convertToHtml({ arrayBuffer: await response.arrayBuffer() });
+        setDocHtml(result.value);
+      } catch (err) {
+        console.error('Document load error:', err);
+        setDocHtml('error');
+      }
+    }
   };
 
   const handleCloseModal = () => {
     setMediaModalOpen(false);
     setSelectedMedia(null);
+    setDocType(null);
+    setDocBlobUrl(null);
+    setExcelData(null);
+    setActiveSheet(0);
+    setDocHtml(null);
   };
 
-  const handleMediaTabChange = (event, newValue) => {
-    setMediaTab(newValue);
-  };
+  // Block Ctrl+S, Ctrl+P, Ctrl+Shift+S when document modal is open
+  useEffect(() => {
+    if (!mediaModalOpen || selectedMedia?.type !== 'document') return;
+    const blockKeys = (e) => {
+      if ((e.ctrlKey || e.metaKey) && ['s', 'p', 'S', 'P'].includes(e.key)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+    window.addEventListener('keydown', blockKeys, true);
+    return () => window.removeEventListener('keydown', blockKeys, true);
+  }, [mediaModalOpen, selectedMedia?.type]);
 
   // Check if assets exist
   const hasAssets = article?.assets && (
@@ -401,8 +492,6 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
     (article.assets.audios && article.assets.audios.length > 0) ||
     (article.assets.documents && article.assets.documents.length > 0)
   );
-
-  console.log("title", title)
 
   if (loading) {
     return (
@@ -805,460 +894,97 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                   </Box>
                 )}
 
-                {/* Media Content - Only show when assets exist */}
+                {/* Media Content with Tabs */}
                 {hasAssets && (
                   <>
-                    {/* Media Tabs */}
-
-                  {/* Media Tabs */}
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
                     <Tabs
                       value={mediaTab}
-                      onChange={handleMediaTabChange}
+                      onChange={(_, v) => setMediaTab(v)}
                       sx={{
-                        minHeight: 42,
-                        '& .MuiTab-root': {
-                          minHeight: 42,
-                          textTransform: 'none',
-                          fontWeight: 600,
-                          fontSize: '0.85rem',
-                          fontFamily: "'Inter', sans-serif",
-                        },
-                        '& .Mui-selected': {
-                          color: '#4f46e5',
-                        },
-                        '& .MuiTabs-indicator': {
-                          backgroundColor: '#4f46e5',
-                          height: 3,
-                          borderRadius: '3px 3px 0 0',
-                        },
+                        minHeight: 36,
+                        mb: 1.5,
+                        '& .MuiTab-root': { minHeight: 36, textTransform: 'none', fontWeight: 600, fontSize: '0.8rem', py: 0.5, fontFamily: "'Inter', sans-serif" },
+                        '& .Mui-selected': { color: '#4f46e5' },
+                        '& .MuiTabs-indicator': { backgroundColor: '#4f46e5', height: 2.5, borderRadius: '2px 2px 0 0' },
                       }}
                     >
-                      <Tab
-                        icon={<VideoLibraryIcon sx={{ fontSize: '1.1rem' }} />}
-                        iconPosition="start"
-                        label={`Videos (${article.assets.videos?.length || 0})`}
-                        disabled={!article.assets.videos?.length}
-                      />
-                      <Tab
-                        icon={<AudiotrackIcon sx={{ fontSize: '1.1rem' }} />}
-                        iconPosition="start"
-                        label={`Audio (${article.assets.audios?.length || 0})`}
-                        disabled={!article.assets.audios?.length}
-                      />
-                      <Tab
-                        icon={<DescriptionIcon sx={{ fontSize: '1.1rem' }} />}
-                        iconPosition="start"
-                        label={`Documents (${article.assets.documents?.length || 0})`}
-                        disabled={!article.assets.documents?.length}
-                      />
+                      <Tab icon={<VideoLibraryIcon sx={{ fontSize: '0.95rem' }} />} iconPosition="start" label={`Videos (${article.assets.videos?.length || 0})`} disabled={!article.assets.videos?.length} />
+                      <Tab icon={<AudiotrackIcon sx={{ fontSize: '0.95rem' }} />} iconPosition="start" label={`Audio (${article.assets.audios?.length || 0})`} disabled={!article.assets.audios?.length} />
+                      <Tab icon={<DescriptionIcon sx={{ fontSize: '0.95rem' }} />} iconPosition="start" label={`Docs (${article.assets.documents?.length || 0})`} disabled={!article.assets.documents?.length} />
                     </Tabs>
-                  </Box>
 
-                  {/* Videos Tab */}
-                  {mediaTab === 0 && article.assets.videos?.length > 0 && (
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        gap: 2,
-                        overflowX: 'auto',
-                        pb: 1.5,
-                        scrollBehavior: 'smooth',
-                        '&::-webkit-scrollbar': {
-                          height: 6,
-                        },
-                        '&::-webkit-scrollbar-track': {
-                          backgroundColor: '#f1f5f9',
-                          borderRadius: 3,
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                          backgroundColor: '#cbd5e1',
-                          borderRadius: 3,
-                          '&:hover': {
-                            backgroundColor: '#94a3b8',
-                          },
-                        },
-                      }}
-                    >
-                      {article.assets.videos.map((video) => {
-                        const colors = getMediaTypeColor('video');
-                        return (
-                          <Card
-                            key={video.id}
-                            onClick={() => handleMediaClick(video, 'video')}
-                            sx={{
-                              p: 2,
-                              cursor: 'pointer',
-                              border: `1px solid ${colors.light}`,
-                              borderLeft: `4px solid ${colors.primary}`,
-                              borderRadius: '12px',
-                              background: `linear-gradient(135deg, #ffffff 0%, ${colors.light} 100%)`,
-                              transition: 'all 0.25s ease',
-                              minWidth: 280,
-                              maxWidth: 320,
-                              flexShrink: 0,
-                              '&:hover': {
-                                transform: 'translateY(-4px)',
-                                boxShadow: `0 8px 25px ${withOpacity(colors.primary, 0.2)}`,
-                                borderColor: colors.primary,
-                              },
-                            }}
-                          >
-                            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-                              <Box
-                                sx={{
-                                  width: 48,
-                                  height: 48,
-                                  borderRadius: '10px',
-                                  backgroundColor: colors.light,
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  color: colors.primary,
-                                  flexShrink: 0,
-                                }}
-                              >
-                                {getFileIcon(video.extension)}
+                    {/* Videos Tab */}
+                    {mediaTab === 0 && article.assets.videos?.length > 0 && (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
+                        {article.assets.videos.map((item) => {
+                          const colors = getMediaTypeColor('video');
+                          return (
+                            <Box key={item.id} onClick={() => handleMediaClick(item, 'video')}
+                              sx={{ display: 'flex', alignItems: 'center', gap: 1.2, p: 1, flex: '1 1 calc(25% - 6px)', minWidth: 'calc(25% - 6px)', maxWidth: 'calc(33.33% - 6px)', cursor: 'pointer', borderRadius: '10px', border: `1px solid ${withOpacity(colors.primary, 0.25)}`, backgroundColor: '#fff', transition: 'all 0.2s ease', '&:hover': { backgroundColor: colors.light, boxShadow: `0 4px 14px ${withOpacity(colors.primary, 0.15)}`, transform: 'translateY(-1px)' } }}
+                            >
+                              <Box sx={{ width: 34, height: 34, borderRadius: '8px', background: `linear-gradient(135deg, ${colors.primary}, ${colors.dark})`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                <VideoLibraryIcon sx={{ color: '#fff', fontSize: '1rem' }} />
                               </Box>
                               <Box sx={{ flex: 1, minWidth: 0 }}>
-                                <Typography
-                                  sx={{
-                                    fontWeight: 600,
-                                    fontSize: '0.85rem',
-                                    color: '#1e293b',
-                                    mb: 0.5,
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                  }}
-                                >
-                                  {video.title}
-                                </Typography>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                  <Box
-                                    sx={{
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      gap: 0.5,
-                                      backgroundColor: colors.light,
-                                      px: 1,
-                                      py: 0.25,
-                                      borderRadius: '6px',
-                                    }}
-                                  >
-                                    <AccessTimeIcon sx={{ fontSize: '0.75rem', color: colors.primary }} />
-                                    <Typography sx={{ fontSize: '0.7rem', color: colors.dark, fontWeight: 500 }}>
-                                      {video.duration}
-                                    </Typography>
-                                  </Box>
-                                  <Typography
-                                    sx={{
-                                      fontSize: '0.65rem',
-                                      color: '#94a3b8',
-                                      textTransform: 'uppercase',
-                                      fontWeight: 600,
-                                    }}
-                                  >
-                                    {video.extension}
-                                  </Typography>
-                                </Box>
+                                <Typography sx={{ fontWeight: 600, fontSize: '0.75rem', color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography>
+                                <Typography sx={{ fontSize: '0.6rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600 }}>{item.extension}</Typography>
                               </Box>
-                              <IconButton
-                                size="small"
-                                sx={{
-                                  backgroundColor: colors.primary,
-                                  color: '#fff',
-                                  width: 32,
-                                  height: 32,
-                                  '&:hover': {
-                                    backgroundColor: colors.dark,
-                                  },
-                                }}
-                              >
-                                <PlayArrowIcon sx={{ fontSize: '1.1rem' }} />
-                              </IconButton>
+                              <PlayArrowIcon sx={{ fontSize: '1rem', color: colors.primary, flexShrink: 0 }} />
                             </Box>
-                          </Card>
-                        );
-                      })}
-                    </Box>
-                  )}
+                          );
+                        })}
+                      </Box>
+                    )}
 
-                  {/* Audio Tab */}
-                  {mediaTab === 1 && article.assets.audios?.length > 0 && (
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        gap: 2,
-                        overflowX: 'auto',
-                        pb: 1.5,
-                        scrollBehavior: 'smooth',
-                        '&::-webkit-scrollbar': {
-                          height: 6,
-                        },
-                        '&::-webkit-scrollbar-track': {
-                          backgroundColor: '#f1f5f9',
-                          borderRadius: 3,
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                          backgroundColor: '#cbd5e1',
-                          borderRadius: 3,
-                          '&:hover': {
-                            backgroundColor: '#94a3b8',
-                          },
-                        },
-                      }}
-                    >
-                      {article.assets.audios.map((audio) => {
-                        const colors = getMediaTypeColor('audio');
-                        return (
-                          <Card
-                            key={audio.id}
-                            onClick={() => handleMediaClick(audio, 'audio')}
-                            sx={{
-                              p: 2,
-                              cursor: 'pointer',
-                              border: `1px solid ${colors.light}`,
-                              borderLeft: `4px solid ${colors.primary}`,
-                              borderRadius: '12px',
-                              background: `linear-gradient(135deg, #ffffff 0%, ${colors.light} 100%)`,
-                              transition: 'all 0.25s ease',
-                              minWidth: 280,
-                              maxWidth: 320,
-                              flexShrink: 0,
-                              '&:hover': {
-                                transform: 'translateY(-4px)',
-                                boxShadow: `0 8px 25px ${withOpacity(colors.primary, 0.2)}`,
-                                borderColor: colors.primary,
-                              },
-                            }}
-                          >
-                            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-                              <Box
-                                sx={{
-                                  width: 48,
-                                  height: 48,
-                                  borderRadius: '10px',
-                                  backgroundColor: colors.light,
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  color: colors.primary,
-                                  flexShrink: 0,
-                                }}
-                              >
-                                {getFileIcon(audio.extension)}
+                    {/* Audio Tab */}
+                    {mediaTab === 1 && article.assets.audios?.length > 0 && (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
+                        {article.assets.audios.map((item) => {
+                          const colors = getMediaTypeColor('audio');
+                          return (
+                            <Box key={item.id} onClick={() => handleMediaClick(item, 'audio')}
+                              sx={{ display: 'flex', alignItems: 'center', gap: 1.2, p: 1, flex: '1 1 calc(25% - 6px)', minWidth: 'calc(25% - 6px)', maxWidth: 'calc(33.33% - 6px)', cursor: 'pointer', borderRadius: '10px', border: `1px solid ${withOpacity(colors.primary, 0.25)}`, backgroundColor: '#fff', transition: 'all 0.2s ease', '&:hover': { backgroundColor: colors.light, boxShadow: `0 4px 14px ${withOpacity(colors.primary, 0.15)}`, transform: 'translateY(-1px)' } }}
+                            >
+                              <Box sx={{ width: 34, height: 34, borderRadius: '8px', background: `linear-gradient(135deg, ${colors.primary}, ${colors.dark})`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                <AudiotrackIcon sx={{ color: '#fff', fontSize: '1rem' }} />
                               </Box>
                               <Box sx={{ flex: 1, minWidth: 0 }}>
-                                <Typography
-                                  sx={{
-                                    fontWeight: 600,
-                                    fontSize: '0.85rem',
-                                    color: '#1e293b',
-                                    mb: 0.5,
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                  }}
-                                >
-                                  {audio.title}
-                                </Typography>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                  <Box
-                                    sx={{
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      gap: 0.5,
-                                      backgroundColor: colors.light,
-                                      px: 1,
-                                      py: 0.25,
-                                      borderRadius: '6px',
-                                    }}
-                                  >
-                                    <AccessTimeIcon sx={{ fontSize: '0.75rem', color: colors.primary }} />
-                                    <Typography sx={{ fontSize: '0.7rem', color: colors.dark, fontWeight: 500 }}>
-                                      {audio.duration}
-                                    </Typography>
-                                  </Box>
-                                  <Typography
-                                    sx={{
-                                      fontSize: '0.65rem',
-                                      color: '#94a3b8',
-                                      textTransform: 'uppercase',
-                                      fontWeight: 600,
-                                    }}
-                                  >
-                                    {audio.extension}
-                                  </Typography>
-                                </Box>
+                                <Typography sx={{ fontWeight: 600, fontSize: '0.75rem', color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography>
+                                <Typography sx={{ fontSize: '0.6rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600 }}>{item.extension}</Typography>
                               </Box>
-                              <IconButton
-                                size="small"
-                                sx={{
-                                  backgroundColor: colors.primary,
-                                  color: '#fff',
-                                  width: 32,
-                                  height: 32,
-                                  '&:hover': {
-                                    backgroundColor: colors.dark,
-                                  },
-                                }}
-                              >
-                                <PlayArrowIcon sx={{ fontSize: '1.1rem' }} />
-                              </IconButton>
+                              <PlayArrowIcon sx={{ fontSize: '1rem', color: colors.primary, flexShrink: 0 }} />
                             </Box>
-                          </Card>
-                        );
-                      })}
-                    </Box>
-                  )}
+                          );
+                        })}
+                      </Box>
+                    )}
 
-                  {/* Documents Tab */}
-                  {mediaTab === 2 && article.assets.documents?.length > 0 && (
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        gap: 2,
-                        overflowX: 'auto',
-                        pb: 1.5,
-                        scrollBehavior: 'smooth',
-                        '&::-webkit-scrollbar': {
-                          height: 6,
-                        },
-                        '&::-webkit-scrollbar-track': {
-                          backgroundColor: '#f1f5f9',
-                          borderRadius: 3,
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                          backgroundColor: '#cbd5e1',
-                          borderRadius: 3,
-                          '&:hover': {
-                            backgroundColor: '#94a3b8',
-                          },
-                        },
-                      }}
-                    >
-                      {article.assets.documents.map((doc) => {
-                        const colors = getMediaTypeColor('document');
-                        const ext = doc.extension?.toLowerCase();
-                        const isDownloadable = ['xlsx', 'xls', 'docx', 'doc'].includes(ext);
-
-                        return (
-                          <Card
-                            key={doc.id}
-                            onClick={() => handleMediaClick(doc, 'document')}
-                            sx={{
-                              p: 2,
-                              cursor: 'pointer',
-                              border: `1px solid ${colors.light}`,
-                              borderLeft: `4px solid ${isDownloadable ? theme.palette.brand.cyan : colors.primary}`,
-                              borderRadius: '12px',
-                              background: `linear-gradient(135deg, #ffffff 0%, ${colors.light} 100%)`,
-                              transition: 'all 0.25s ease',
-                              minWidth: 280,
-                              maxWidth: 320,
-                              flexShrink: 0,
-                              '&:hover': {
-                                transform: 'translateY(-4px)',
-                                boxShadow: `0 8px 25px ${withOpacity(isDownloadable ? theme.palette.brand.cyan : colors.primary, 0.2)}`,
-                                borderColor: isDownloadable ? theme.palette.brand.cyan : colors.primary,
-                              },
-                            }}
-                          >
-                            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-                              <Box
-                                sx={{
-                                  width: 48,
-                                  height: 48,
-                                  borderRadius: '10px',
-                                  backgroundColor: isDownloadable ? withOpacity(theme.palette.brand.cyan, 0.1) : colors.light,
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  color: isDownloadable ? theme.palette.brand.cyan : colors.primary,
-                                  flexShrink: 0,
-                                }}
-                              >
-                                {getFileIcon(doc.extension)}
+                    {/* Documents Tab */}
+                    {mediaTab === 2 && article.assets.documents?.length > 0 && (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
+                        {article.assets.documents.map((item) => {
+                          const colors = getMediaTypeColor('document');
+                          const viewable = isViewableDoc(item.extension);
+                          return (
+                            <Box key={item.id} onClick={() => handleMediaClick(item, 'document')}
+                              sx={{ display: 'flex', alignItems: 'center', gap: 1.2, p: 1, width: 'calc(33.33% - 6px)', minWidth: 160, cursor: 'pointer', borderRadius: '10px', border: `1px solid ${withOpacity(colors.primary, 0.25)}`, backgroundColor: '#fff', transition: 'all 0.2s ease', '&:hover': { backgroundColor: colors.light, boxShadow: `0 4px 14px ${withOpacity(colors.primary, 0.15)}`, transform: 'translateY(-1px)' } }}
+                            >
+                              <Box sx={{ width: 34, height: 34, borderRadius: '8px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                {getFileIcon(item.extension, 24)}
                               </Box>
                               <Box sx={{ flex: 1, minWidth: 0 }}>
-                                <Typography
-                                  sx={{
-                                    fontWeight: 600,
-                                    fontSize: '0.85rem',
-                                    color: '#1e293b',
-                                    mb: 0.5,
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                  }}
-                                >
-                                  {doc.title}
-                                </Typography>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                  <Typography
-                                    sx={{
-                                      fontSize: '0.7rem',
-                                      color: isDownloadable ? theme.palette.brand.deepPurple : colors.dark,
-                                      fontWeight: 500,
-                                      backgroundColor: isDownloadable ? withOpacity(theme.palette.brand.cyan, 0.1) : colors.light,
-                                      px: 1,
-                                      py: 0.25,
-                                      borderRadius: '6px',
-                                    }}
-                                  >
-                                    {doc.size}
-                                  </Typography>
-                                  {doc.pages && (
-                                    <Typography sx={{ fontSize: '0.7rem', color: '#64748b' }}>
-                                      {doc.pages} pages
-                                    </Typography>
-                                  )}
-                                  <Typography
-                                    sx={{
-                                      fontSize: '0.65rem',
-                                      color: '#94a3b8',
-                                      textTransform: 'uppercase',
-                                      fontWeight: 600,
-                                    }}
-                                  >
-                                    {doc.extension}
-                                  </Typography>
-                                </Box>
+                                <Typography sx={{ fontWeight: 600, fontSize: '0.75rem', color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography>
+                                <Typography sx={{ fontSize: '0.6rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600, mt: 0.2 }}>{item.extension}</Typography>
                               </Box>
-                              <IconButton
-                                size="small"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (isDownloadable) {
-                                    handleDownloadFile(doc);
-                                  } else {
-                                    window.open(getAssetUrl(doc.url), '_blank');
-                                  }
-                                }}
-                                sx={{
-                                  backgroundColor: isDownloadable ? theme.palette.brand.cyan : colors.primary,
-                                  color: '#fff',
-                                  width: 32,
-                                  height: 32,
-                                  '&:hover': {
-                                    backgroundColor: isDownloadable ? theme.palette.brand.deepPurple : colors.dark,
-                                  },
-                                }}
-                                title={isDownloadable ? 'Download File' : 'Open in New Tab'}
-                              >
-                                {isDownloadable ? (
-                                  <DownloadIcon sx={{ fontSize: '1rem' }} />
-                                ) : (
-                                  <OpenInNewIcon sx={{ fontSize: '1rem' }} />
-                                )}
-                              </IconButton>
+                              {viewable
+                                ? <VisibilityIcon sx={{ fontSize: '0.95rem', color: colors.primary, flexShrink: 0 }} />
+                                : <DownloadIcon sx={{ fontSize: '0.95rem', color: colors.primary, flexShrink: 0 }} />
+                              }
                             </Box>
-                          </Card>
-                        );
-                      })}
-                    </Box>
-                  )}
+                          );
+                        })}
+                      </Box>
+                    )}
                   </>
                 )}
               </Box>
@@ -1301,7 +1027,6 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                 py: 1.25,
                 background: 'linear-gradient(135deg, #4f46e5 0%, #3b82f6 50%, #0891b2 100%)',
                 flexShrink: 0,
-                // mt: '3px',
                 position: 'relative',
                 overflow: 'hidden',
                 boxShadow: '0 2px 8px rgba(79, 70, 229, 0.15)',
@@ -1389,19 +1114,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                   const [key, values] = entries[0];
                   const valueArray = Array.isArray(values) ? values : (values ? [values] : []);
 
-                  // Check if this entity type supports hover preview
-                  const keyLower = key;
-                  const hasHoverPreview = keyLower.includes('EquipmentVariant') ||
-                    keyLower.includes('EquipmentFamily') ||
-                    keyLower.includes('ShipVariant') ||
-                    keyLower.includes('ShipFamily') ||
-                    keyLower.includes('ShipInstance') ||
-                    keyLower.includes('MilitaryGroup') ||
-                    keyLower.includes('Organization') ||
-                    keyLower.includes('Event') ||
-                    keyLower.includes('Attack') ||
-                    keyLower.includes('Action') ||
-                    keyLower.includes('Installation');
+                  const hasHoverPreview = hasEntityHoverPreview(key);
 
                   // Use shared color palette for consistency between sidebar and content tooltips
                   const c = entityColorPalette[index % entityColorPalette.length];
@@ -1542,21 +1255,6 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                           borderBottom: '1px solid #e2e8f0',
                         }}
                       >
-                        {/* <Box
-                          sx={{
-                            width: 20,
-                            height: 20,
-                            borderRadius: '5px',
-                            background: `linear-gradient(135deg, ${c.primary} 0%, ${c.dark} 100%)`,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: 'white',
-                            boxShadow: `0 2px 4px ${withOpacity(c.primary, 0.25)}`,
-                          }}
-                        >
-                          {getEntityIcon(key)}
-                        </Box> */}
                         <Typography
                           sx={{
                             fontSize: '0.7rem',
@@ -1641,7 +1339,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
         onMouseLeave={handleTooltipMouseLeave}
       />
 
-      {/* Media Player Modal */}
+      {/* Media & Document Viewer Modal */}
       <Modal
         open={mediaModalOpen}
         onClose={handleCloseModal}
@@ -1652,16 +1350,19 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
         }}
       >
         <Box
+          onContextMenu={selectedMedia?.type === 'document' ? (e) => e.preventDefault() : undefined}
           sx={{
             position: 'relative',
-            width: selectedMedia?.type === 'video' ? '80%' : '500px',
-            maxWidth: '900px',
+            width: selectedMedia?.type === 'document' ? '85%' : selectedMedia?.type === 'video' ? '80%' : '500px',
+            maxWidth: selectedMedia?.type === 'document' ? '1100px' : '900px',
             maxHeight: '90vh',
             backgroundColor: '#0f172a',
             borderRadius: '16px',
             overflow: 'hidden',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
             outline: 'none',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           {/* Modal Header */}
@@ -1673,6 +1374,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
               p: 2,
               borderBottom: '1px solid rgba(255,255,255,0.1)',
               background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+              flexShrink: 0,
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
@@ -1681,16 +1383,19 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                   width: 36,
                   height: 36,
                   borderRadius: '10px',
-                  backgroundColor: selectedMedia?.type === 'video' ? '#3b82f6' : '#06b6d4',
+                  backgroundColor: selectedMedia?.type === 'document' ? '#f1f5f9' : selectedMedia?.type === 'video' ? '#3b82f6' : '#06b6d4',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  color: selectedMedia?.type === 'document' ? 'inherit' : '#fff',
                 }}
               >
                 {selectedMedia?.type === 'video' ? (
-                  <VideoLibraryIcon sx={{ color: '#fff', fontSize: '1.2rem' }} />
+                  <VideoLibraryIcon sx={{ fontSize: '1.2rem' }} />
+                ) : selectedMedia?.type === 'audio' ? (
+                  <AudiotrackIcon sx={{ fontSize: '1.2rem' }} />
                 ) : (
-                  <AudiotrackIcon sx={{ color: '#fff', fontSize: '1.2rem' }} />
+                  getFileIcon(selectedMedia?.extension, 22)
                 )}
               </Box>
               <Box>
@@ -1705,9 +1410,16 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                   {selectedMedia?.title}
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Typography sx={{ color: '#94a3b8', fontSize: '0.75rem' }}>
-                    {selectedMedia?.duration}
-                  </Typography>
+                  {selectedMedia?.duration && (
+                    <Typography sx={{ color: '#94a3b8', fontSize: '0.75rem' }}>
+                      {selectedMedia.duration}
+                    </Typography>
+                  )}
+                  {selectedMedia?.size && (
+                    <Typography sx={{ color: '#94a3b8', fontSize: '0.75rem' }}>
+                      {selectedMedia.size}
+                    </Typography>
+                  )}
                   <Typography
                     sx={{
                       color: '#64748b',
@@ -1736,22 +1448,24 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
             </IconButton>
           </Box>
 
-          {/* Media Content */}
-          <Box sx={{ p: 2 }}>
+          {/* Media / Document Content */}
+          <Box sx={{ flex: 1, overflow: 'hidden', minHeight: 0 }}>
             {selectedMedia?.type === 'video' ? (
-              <video
-                controls
-                autoPlay
-                style={{
-                  width: '100%',
-                  maxHeight: '70vh',
-                  borderRadius: '8px',
-                  backgroundColor: '#000',
-                }}
-              >
-                <source src={selectedMedia.resolvedUrl} type={`video/${selectedMedia.extension}`} />
-                Your browser does not support the video tag.
-              </video>
+              <Box sx={{ p: 2 }}>
+                <video
+                  controls
+                  autoPlay
+                  style={{
+                    width: '100%',
+                    maxHeight: '70vh',
+                    borderRadius: '8px',
+                    backgroundColor: '#000',
+                  }}
+                >
+                  <source src={selectedMedia.resolvedUrl} {...(getMimeType('video', selectedMedia.extension) ? { type: getMimeType('video', selectedMedia.extension) } : {})} />
+                  Your browser does not support the video tag.
+                </video>
+              </Box>
             ) : selectedMedia?.type === 'audio' ? (
               <Box
                 sx={{
@@ -1759,6 +1473,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                   flexDirection: 'column',
                   alignItems: 'center',
                   py: 4,
+                  px: 2,
                 }}
               >
                 <Box
@@ -1784,54 +1499,194 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                     maxWidth: '450px',
                   }}
                 >
-                  <source src={selectedMedia.resolvedUrl} type={`audio/${selectedMedia.extension}`} />
+                  <source src={selectedMedia.resolvedUrl} {...(getMimeType('audio', selectedMedia.extension) ? { type: getMimeType('audio', selectedMedia.extension) } : {})} />
                   Your browser does not support the audio tag.
                 </audio>
               </Box>
+            ) : selectedMedia?.type === 'document' ? (
+              // Document viewer - uses docType state set in handleMediaClick
+              docType === 'pdf' ? (
+                <Box sx={{ position: 'relative', width: '100%', height: 'calc(90vh - 120px)' }}>
+                  <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: '40px', zIndex: 10, backgroundColor: '#525659', cursor: 'default' }} />
+                  <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '28px', zIndex: 10, backgroundColor: '#525659', cursor: 'default' }} />
+                  {docBlobUrl ? (
+                    <iframe
+                      src={`${docBlobUrl}#toolbar=0&navpanes=0&scrollbar=1`}
+                      title={selectedMedia.title}
+                      style={{ width: '100%', height: '100%', border: 'none', backgroundColor: '#525659' }}
+                    />
+                  ) : (
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: '#fff' }}>
+                      <CircularProgress size={40} />
+                    </Box>
+                  )}
+                </Box>
+              ) : docType === 'excel' && !excelData ? (
+                // Loading state - fetch is in progress
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: 'calc(90vh - 120px)', backgroundColor: '#1e293b' }}>
+                  <CircularProgress size={40} sx={{ color: '#6366f1', mb: 2 }} />
+                  <Typography sx={{ color: '#94a3b8', fontSize: '0.85rem' }}>Loading spreadsheet...</Typography>
+                </Box>
+              ) : docType === 'excel' && excelData && excelData !== 'error' ? (
+                <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(90vh - 120px)', backgroundColor: '#1e293b' }}>
+                  {excelData.sheetNames.length > 1 && (
+                    <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '8px 8px 0' }}>
+                      {excelData.sheetNames.map((name, idx) => (
+                        <div key={name} onClick={() => setActiveSheet(idx)}
+                          style={{
+                            padding: '8px 16px', cursor: 'pointer', fontSize: '0.8rem',
+                            fontWeight: activeSheet === idx ? 600 : 400,
+                            color: activeSheet === idx ? '#fff' : '#94a3b8',
+                            backgroundColor: activeSheet === idx ? 'rgba(99, 102, 241, 0.3)' : 'transparent',
+                            borderRadius: '8px 8px 0 0',
+                            borderBottom: activeSheet === idx ? '2px solid #6366f1' : '2px solid transparent',
+                          }}
+                        >{name}</div>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{ flex: 1, overflow: 'auto', padding: 16 }}>
+                    {(() => {
+                      const sheetName = excelData.sheetNames[activeSheet];
+                      const rows = excelData.sheets[sheetName] || [];
+                      if (rows.length === 0) return <Typography sx={{ color: '#94a3b8' }}>No data in this sheet.</Typography>;
+                      // Find max columns across all rows (handles sparse/jagged arrays)
+                      const maxCols = rows.reduce((max, row) => Math.max(max, row.length), 0);
+                      const headerRow = rows[0];
+                      return (
+                        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+                          <thead>
+                            <tr>
+                              {Array.from({ length: maxCols }, (_, ci) => (
+                                <th key={ci} style={{
+                                  position: 'sticky', top: 0, backgroundColor: '#334155', color: '#e2e8f0',
+                                  fontWeight: 600, padding: '8px 12px', textAlign: 'left', whiteSpace: 'nowrap',
+                                  borderBottom: '2px solid #6366f1', zIndex: 1,
+                                }}>
+                                  {headerRow[ci] != null ? String(headerRow[ci]) : ''}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rows.slice(1).map((row, ri) => (
+                              <tr key={ri}>
+                                {Array.from({ length: maxCols }, (_, ci) => (
+                                  <td key={ci} style={{
+                                    padding: '6px 12px', color: '#cbd5e1',
+                                    borderBottom: '1px solid rgba(255,255,255,0.08)', whiteSpace: 'nowrap',
+                                  }}>
+                                    {row[ci] != null ? String(row[ci]) : ''}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      );
+                    })()}
+                  </div>
+                </div>
+              ) : docType === 'word' && !docHtml ? (
+                // Loading state - fetch is in progress
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: 'calc(90vh - 120px)', backgroundColor: '#fff' }}>
+                  <CircularProgress size={40} sx={{ color: '#6366f1', mb: 2 }} />
+                  <Typography sx={{ color: '#64748b', fontSize: '0.85rem' }}>Loading document...</Typography>
+                </Box>
+              ) : docType === 'word' && docHtml && docHtml !== 'error' ? (
+                <Box
+                  sx={{
+                    height: 'calc(90vh - 120px)', overflow: 'auto', backgroundColor: '#fff', px: 5, py: 4,
+                    '& img': { maxWidth: '100%', height: 'auto', borderRadius: '4px', my: 1 },
+                    '& table': { borderCollapse: 'collapse', width: '100%', my: 2 },
+                    '& th, & td': { border: '1px solid #e2e8f0', px: 1.5, py: 1, fontSize: '0.85rem' },
+                    '& th': { backgroundColor: '#f1f5f9', fontWeight: 600 },
+                    '& p': { fontSize: '0.9rem', lineHeight: 1.7, color: '#334155', mb: 1 },
+                    '& h1': { fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', mt: 3, mb: 1 },
+                    '& h2': { fontSize: '1.25rem', fontWeight: 600, color: '#334155', mt: 2.5, mb: 1 },
+                    '& ul, & ol': { pl: 3, mb: 1 },
+                    '& li': { fontSize: '0.9rem', lineHeight: 1.6, color: '#334155', mb: 0.5 },
+                    '& a': { color: '#6366f1', textDecoration: 'none' },
+                  }}
+                  dangerouslySetInnerHTML={{ __html: docHtml }}
+                />
+              ) : (excelData === 'error' || docHtml === 'error') ? (
+                // CORS or parse error - show "Open in New Tab" fallback
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 8, px: 4 }}>
+                  <Box sx={{ width: 80, height: 80, borderRadius: '50%', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                    {getFileIcon(selectedMedia?.extension, 40)}
+                  </Box>
+                  <Typography sx={{ color: '#fff', fontWeight: 600, fontSize: '1rem', mb: 1 }}>{selectedMedia?.title}</Typography>
+                  <Typography sx={{ color: '#94a3b8', fontSize: '0.85rem', textAlign: 'center', mb: 3 }}>
+                    Unable to preview this file. Click below to open it directly.
+                  </Typography>
+                  <IconButton
+                    onClick={() => window.open(selectedMedia?.resolvedUrl, '_blank')}
+                    sx={{ backgroundColor: 'rgba(99, 102, 241, 0.2)', color: '#a5b4fc', px: 3, py: 1, borderRadius: '8px', '&:hover': { backgroundColor: 'rgba(99, 102, 241, 0.3)' } }}
+                  >
+                    <OpenInNewIcon sx={{ mr: 1, fontSize: '1.1rem' }} />
+                    <Typography sx={{ fontSize: '0.85rem', fontWeight: 600 }}>Open in New Tab</Typography>
+                  </IconButton>
+                </Box>
+              ) : (
+                // Fallback - unsupported format
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 8, px: 4 }}>
+                  <Box sx={{ width: 80, height: 80, borderRadius: '50%', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                    {getFileIcon(selectedMedia?.extension, 40)}
+                  </Box>
+                  <Typography sx={{ color: '#fff', fontWeight: 600, fontSize: '1rem', mb: 1 }}>{selectedMedia?.title}</Typography>
+                  <Typography sx={{ color: '#94a3b8', fontSize: '0.85rem', textAlign: 'center' }}>
+                    Preview is not available for this file type.
+                  </Typography>
+                </Box>
+              )
             ) : null}
           </Box>
 
-          {/* Modal Footer */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: 1,
-              p: 2,
-              borderTop: '1px solid rgba(255,255,255,0.1)',
-              background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-            }}
-          >
-            <IconButton
-              onClick={() => window.open(selectedMedia?.resolvedUrl, '_blank')}
+          {/* Modal Footer - hidden for documents to prevent download */}
+          {selectedMedia?.type !== 'document' && (
+            <Box
               sx={{
-                color: '#fff',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.2)',
-                },
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                gap: 1,
+                p: 2,
+                borderTop: '1px solid rgba(255,255,255,0.1)',
+                background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+                flexShrink: 0,
               }}
-              title="Open in new tab"
             >
-              <OpenInNewIcon sx={{ fontSize: '1.1rem' }} />
-            </IconButton>
-            <IconButton
-              component="a"
-              href={selectedMedia?.resolvedUrl}
-              download
-              sx={{
-                color: '#fff',
-                backgroundColor: selectedMedia?.type === 'video' ? '#3b82f6' : '#06b6d4',
-                '&:hover': {
-                  backgroundColor: selectedMedia?.type === 'video' ? '#2563eb' : '#0891b2',
-                },
-              }}
-              title="Download"
-            >
-              <DownloadIcon sx={{ fontSize: '1.1rem' }} />
-            </IconButton>
-          </Box>
+              <IconButton
+                onClick={() => window.open(selectedMedia?.resolvedUrl, '_blank')}
+                sx={{
+                  color: '#fff',
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                  '&:hover': {
+                    backgroundColor: 'rgba(255,255,255,0.2)',
+                  },
+                }}
+                title="Open in new tab"
+              >
+                <OpenInNewIcon sx={{ fontSize: '1.1rem' }} />
+              </IconButton>
+              <IconButton
+                component="a"
+                href={selectedMedia?.resolvedUrl}
+                download
+                sx={{
+                  color: '#fff',
+                  backgroundColor: selectedMedia?.type === 'video' ? '#3b82f6' : '#06b6d4',
+                  '&:hover': {
+                    backgroundColor: selectedMedia?.type === 'video' ? '#2563eb' : '#0891b2',
+                  },
+                }}
+                title="Download"
+              >
+                <DownloadIcon sx={{ fontSize: '1.1rem' }} />
+              </IconButton>
+            </Box>
+          )}
         </Box>
       </Modal>
     </PageContainer>

@@ -44,6 +44,19 @@ export const SHOW_PORT_PROFILE =
     import.meta.env?.VITE_SHOW_PORT_PROFILE === 'true' ||
     import.meta.env?.VITE_SHOW_PORT_PROFILE === true;
 
+/**
+ * Feature flag to show/hide Insights Sidebar across pages
+ * Affects: EnhancedNewsTabs (country sidebar), IntelligenceBriefings, MapEventsPage (timeline sidebar)
+ *
+ * true  = Show sidebar panels (default)
+ * false = Hide sidebar panels (full-width content)
+ */
+export const SHOW_INSIGHTS_SIDEBAR =
+    import.meta.env?.VITE_SHOW_INSIGHTS_SIDEBAR === 'false' ||
+    import.meta.env?.VITE_SHOW_INSIGHTS_SIDEBAR === false
+        ? false
+        : true; // Default to true (show sidebar)
+
 // Log in development only
 if (import.meta.env.DEV) {
   console.log('[appMode] Raw VITE_SHOW_IMO_PROFILE:', import.meta.env.VITE_SHOW_IMO_PROFILE);
@@ -52,6 +65,8 @@ if (import.meta.env.DEV) {
   console.log('[appMode] USE_DUMMY_DATA:', USE_DUMMY_DATA);
   console.log('[appMode] SHOW_IMO_PROFILE:', SHOW_IMO_PROFILE);
   console.log('[appMode] SHOW_PORT_PROFILE:', SHOW_PORT_PROFILE);
+  console.log('[appMode] Raw VITE_SHOW_INSIGHTS_SIDEBAR:', import.meta.env.VITE_SHOW_INSIGHTS_SIDEBAR);
+  console.log('[appMode] SHOW_INSIGHTS_SIDEBAR:', SHOW_INSIGHTS_SIDEBAR);
 }
 
-export default { USE_DUMMY_DATA, SHOW_IMO_PROFILE, SHOW_PORT_PROFILE };
+export default { USE_DUMMY_DATA, SHOW_IMO_PROFILE, SHOW_PORT_PROFILE, SHOW_INSIGHTS_SIDEBAR };
