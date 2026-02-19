@@ -5,10 +5,8 @@ import Router from './routes/Router';
 import { RequestContext } from "./context/RequestContext";
 import { getTheme } from "./theme/theme";
 import { ThemeContextProvider, useThemeContext } from "./theme/ThemeContext";
-import { useContext, useEffect, useMemo, useCallback } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { queryAPI } from './utils/QueryGraph';
-import urls from "./services/urlsMap";
-const AutoCompleteUrl = urls.profilerService;
 
 // Memoized helper function outside component to prevent recreation
 const getMonthName = (monthNumber) => {
@@ -19,54 +17,10 @@ const getMonthName = (monthNumber) => {
 
 function App() {
   const {
-    // Equipment, Event, and MilitaryGroup variables moved to their respective contexts
-    // setEquipmentList, equipmentTypeFilterValue, equipmentRoleFilterValue, equipmentOperatorFilterValue,
-    // setMilitaryGroupList, militaryGroupBranchFilterValue, militaryGroupEchelonFilterValue, militaryGroupCountryFilterValue,
-    // setEventsList, eventCategoryFilterValue, eventTypeFilterValue, eventSubTypeFilterValue, setMainEventsList,
-    neo4jUrl, neo4jToken, setCountryList,
-    setSelectedEventsList, setItems, selectedEventsList, setSelectedTimelineEvent, baseApiUrl
-    , setImoList, setPortList
+    setCountryList, setItems, selectedEventsList, setSelectedTimelineEvent, baseApiUrl,
   } = useContext(RequestContext);
 
   const routing = useRoutes(Router);
-
-  // Military group API call moved to MilitaryGroupContext
-  // useEffect(() => {
-  //   // Prevent API call if baseApiUrl is not available
-  //   if (!baseApiUrl) {
-  //     return;
-  //   }
-
-  //   const filters = {}
-
-  //   if (militaryGroupBranchFilterValue.length > 0) {
-  //     filters["branch"] = militaryGroupBranchFilterValue;
-  //   }
-
-  //   if (militaryGroupEchelonFilterValue.length > 0) {
-  //     filters["echelon"] = militaryGroupEchelonFilterValue;
-  //   }
-
-  //   if (militaryGroupCountryFilterValue.length > 0) {
-  //     filters["country_of_sovereignty"] = militaryGroupCountryFilterValue;
-  //   }
-
-  //   queryAPI("militarygroup", null, filters || null, baseApiUrl)
-  //     .then((res) => {
-  //       if (res && res.resultRows) {
-  //         const list = res.resultRows.map(a => ({ label: `${a[0]} (${a[2]})`, id: a[1] }))
-  //         setMilitaryGroupList(list)
-  //       } else {
-  //         console.warn("No military group data received")
-  //         setMilitaryGroupList([])
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       // console.error("Error loading military group list:", error);
-  //       setMilitaryGroupList([])
-  //     })
-
-  // }, [militaryGroupBranchFilterValue, militaryGroupEchelonFilterValue, militaryGroupCountryFilterValue, baseApiUrl, setMilitaryGroupList])
 
   // Memoize timeline items transformation to avoid recalculation
   const timelineItems = useMemo(() => {
@@ -100,52 +54,6 @@ function App() {
     }
   }, [timelineItems, setItems, setSelectedTimelineEvent]);
 
-  // Event API call moved to EventContext
-  // useEffect(() => {
-  //   // Prevent API call if baseApiUrl is not available
-  //   if (!baseApiUrl) {
-  //     return;
-  //   }
-
-  //   let query = `MATCH (e)-[:primary_country]->(c) where (e:AttackEvent OR e:ActionEvent OR e:JudicialEvent OR e:StatementEvent OR e:MilitaryEvent OR e:ForceMonitoringEvent or e:OperationEvent) AND e.primary_type IS NOT NULL`
-  //   const filters = {}
-
-  //   if (eventCategoryFilterValue.length > 0) {
-  //     filters["event_category"] = eventCategoryFilterValue;
-  //   }
-
-  //   if (eventTypeFilterValue.length > 0) {
-  //     filters["pmesii_pmesii_type"] = eventTypeFilterValue;
-  //   }
-
-  //   if (eventSubTypeFilterValue.length > 0) {
-  //     filters["pmesii_pmesii_sub_type"] = eventSubTypeFilterValue;
-  //   }
-
-  //   queryAPI("event", null, filters || null, baseApiUrl)
-  //     .then((res) => {
-  //       if (res && res.resultRows) {
-  //         const list = res.resultRows.map((a) => ({ ...a[0].properties, primary_country: a[1] }))
-  //         setMainEventsList(list)
-  //         setSelectedEventsList(list)
-
-  //         const dropDownList = res.resultRows.map(a => ({ label: `${a[0].properties.end_date}: ${a[0].properties.type.split("/").pop()}, ${a[1]} - ${a[0].properties.label}`, id: a[0].properties.id }))
-  //         setEventsList(dropDownList)
-  //       } else {
-  //         console.warn("No event data received")
-  //         setMainEventsList([])
-  //         setSelectedEventsList([])
-  //         setEventsList([])
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error loading events list:", error);
-  //       setMainEventsList([])
-  //       setSelectedEventsList([])
-  //       setEventsList([])
-  //     })
-  // }, [eventCategoryFilterValue, eventTypeFilterValue, eventSubTypeFilterValue, baseApiUrl, setMainEventsList, setSelectedEventsList, setEventsList])
-
   useEffect(() => {
     // Prevent API call if baseApiUrl is not available
     if (!baseApiUrl) {
@@ -159,8 +67,6 @@ function App() {
           const list = res.resultRows.map(a => ({ label: a[0], id: a[1] }))
           setCountryList(list)
         } else {
-          // console.error("Invalid countries API response structure:", res)
-          // Set a fallback with some sample countries for development
           const fallbackCountries = [
             { label: "United States", id: "US" },
             { label: "United Kingdom", id: "UK" },
@@ -178,7 +84,6 @@ function App() {
       })
       .catch((error) => {
         console.error("Error loading countries:", error)
-        // Set a fallback with some sample countries for development
         const fallbackCountries = [
           { label: "United States", id: "US" },
           { label: "United Kingdom", id: "UK" },
@@ -195,45 +100,6 @@ function App() {
       })
 
   }, [baseApiUrl, setCountryList])
-
-  // Equipment API call moved to EquipmentContext
-  // useEffect(() => {
-  //   // Prevent API call if baseApiUrl is not available
-  //   if (!baseApiUrl) {
-  //     return;
-  //   }
-
-  //   const filters = {}
-
-  //   if (equipmentTypeFilterValue.length > 0) {
-  //     filters["equipment_type"] = equipmentTypeFilterValue;
-  //   }
-
-  //   if (equipmentRoleFilterValue.length > 0) {
-  //     filters["role"] = equipmentRoleFilterValue;
-  //   }
-
-  //   if (equipmentOperatorFilterValue.length > 0) {
-  //     filters["country_of_sovereignty"] = equipmentOperatorFilterValue;
-  //   }
-
-  //   queryAPI("equipment", null, filters || null, baseApiUrl)
-  //     .then((res) => {
-  //       if (res && res.resultRows) {
-  //         const list = res.resultRows.map(a => ({ label: `${a[1]} (${a[2].split("/").pop()})`, id: a[0] }))
-  //         setEquipmentList(list)
-  //       } else {
-  //         console.warn("No equipment data received")
-  //         setEquipmentList([])
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error loading equipment list:", error);
-  //       setEquipmentList([])
-  //     })
-
-  // }, [equipmentTypeFilterValue, equipmentRoleFilterValue, equipmentOperatorFilterValue, baseApiUrl, setEquipmentList])
-
 
   return (
     <ThemeContextProvider>
