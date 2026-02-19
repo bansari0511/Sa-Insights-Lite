@@ -6,9 +6,7 @@ import {
   Box,
   Button,
   TextField,
-  Autocomplete,
   Chip,
-  MenuItem,
   Typography,
   Divider,
   CircularProgress,
@@ -17,6 +15,7 @@ import {
   Collapse,
 } from '@mui/material';
 import { Settings as SettingsIcon } from '@mui/icons-material';
+import EventFilterBar from '../../components/shared/EventFilterBar';
 import MapTemplate from './mapTemplate';
 import { fetchEventsData } from './EventTimeLineApi';
 import countryData from "../../country.json";
@@ -401,101 +400,26 @@ export default function MapEventsPage() {
     <Grid container spacing={2} sx={{ height: '100%', bgcolor: '#ffffff', color: '#000000' }}>
       {/* Filters */}
       <Grid item xs={12}>
-        <Paper sx={{ p: 2, bgcolor: '#fff' }} elevation={1}>
-          <Typography variant="h6" sx={{ color: '#000' }}>Filters</Typography>
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mt: 1, flexWrap: 'wrap' }}>
-            <Autocomplete
-              multiple
-              options={countries}
-              value={selectedCountries}
-              onChange={(e, v) => setSelectedCountries(v)}
-              renderTags={(value, getTagProps) => value.map((option, index) => { const { key, ...tagProps } = getTagProps({ index }); return <Chip key={key} label={option} {...tagProps} />; })}
-              sx={{ minWidth: 240 }}
-              renderInput={(params) => <TextField {...params} label="Country" />}
-            />
-
-            <Autocomplete
-              multiple
-              options={categories}
-              value={selectedCategories}
-              onChange={(e, v) => setSelectedCategories(v)}
-              renderTags={(value, getTagProps) => value.map((option, index) => {
-                const config = getCategoryConfig(option);
-                const { key, ...tagProps } = getTagProps({ index });
-                return (
-                  <Chip
-                    key={key}
-                    label={`${config.icon} ${config.name}`}
-                    {...tagProps}
-                    sx={{
-                      bgcolor: `${config.color}15`,
-                      color: config.color,
-                      fontWeight: 600,
-                      border: `1px solid ${config.color}40`
-                    }}
-                  />
-                );
-              })}
-              sx={{ minWidth: 300 }}
-              renderInput={(params) => <TextField {...params} label="Event Category" />}
-              renderOption={({ key, ...optionProps }, option) => {
-                const config = getCategoryConfig(option);
-                return (
-                  <Box component="li" key={key} {...optionProps} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                    <span style={{ fontSize: 20 }}>{config.icon}</span>
-                    <Typography sx={{ color: config.color, fontWeight: 600 }}>
-                      {config.name}
-                    </Typography>
-                  </Box>
-                );
-              }}
-            />
-
-            <TextField
-              label="Keyword"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              placeholder="Enter keyword..."
-              sx={{ minWidth: 200 }}
-              size="small"
-            />
-
-            <TextField select label="Date Filter" value={dateFilter}  sx={{ minWidth:140 }} onChange={(e) => setDateFilter(e.target.value)}>
-                          <MenuItem value="today">Today</MenuItem>
-                          <MenuItem value="2days">2 Days</MenuItem>
-                          <MenuItem value="3days">3 Days</MenuItem>
-                          <MenuItem value="7days">7 Days</MenuItem>
-                          <MenuItem value="30days">30 Days</MenuItem>
-                          <MenuItem value="90days">90 Days</MenuItem>
-                          <MenuItem value="custom">Custom</MenuItem>
-                        </TextField>
-
-                        {dateFilter === 'custom' && (
-                          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                            <TextField label="From" type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} InputLabelProps={{ shrink: true }} />
-                            <TextField label="To" type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} InputLabelProps={{ shrink: true }} />
-                          </Box>
-                        )}
-            <Button
-              variant="contained"
-              onClick={handleSubmit}
-              disabled={isLoading}
-              sx={{
-                bgcolor: ACCENT,
-                '&:hover': {
-                  bgcolor: '#e67e00',
-                },
-                '&:disabled': {
-                  bgcolor: '#ccc',
-                  color: '#999',
-                }
-              }}
-              startIcon={isLoading && events.length === 0 ? <CircularProgress size={20} color="inherit" /> : null}
-            >
-              {isLoading && events.length === 0 ? 'Searching...' : 'Search'}
-            </Button>
-          </Box>
-        </Paper>
+        <EventFilterBar
+          countries={countries}
+          selectedCountries={selectedCountries}
+          setSelectedCountries={setSelectedCountries}
+          categories={categories}
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
+          getCategoryConfig={getCategoryConfig}
+          keyword={keyword}
+          setKeyword={setKeyword}
+          dateFilter={dateFilter}
+          setDateFilter={setDateFilter}
+          customFrom={customFrom}
+          setCustomFrom={setCustomFrom}
+          customTo={customTo}
+          setCustomTo={setCustomTo}
+          onSubmit={handleSubmit}
+          isLoading={isLoading}
+          hasResults={events.length > 0}
+        />
       </Grid>
 
       {/* Map - Full width when sidebar is hidden */}

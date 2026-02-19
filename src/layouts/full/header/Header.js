@@ -1,108 +1,56 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Box, AppBar, Toolbar, styled, Stack,
   TextField, InputAdornment, Paper, List, ListItemButton,
-  Typography, ClickAwayListener, Fade, useTheme
+  Typography, ClickAwayListener, Grow, useTheme, Chip, Popper
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { Search as SearchIcon, Newspaper as NewspaperIcon, EventAvailable as EventAvailableIcon } from '@mui/icons-material';
+import {
+  Search as SearchIcon,
+  Newspaper as NewspaperIcon,
+  EventAvailable as EventAvailableIcon,
+  ArrowForwardIos as ArrowIcon,
+} from '@mui/icons-material';
 
 // components
 import Profile from './Profile';
 import { fetchSearchSuggestions } from '../../../services/searchApi';
 import { withOpacity } from '../../../theme/palette';
 
-// Define styled components outside to prevent re-creation on each render
+/* ── Color tokens (indigo / blue / cyan / slate) ── */
+const C = {
+  indigo: { 50: '#EEF2FF', 100: '#E0E7FF', 200: '#C7D2FE', 300: '#A5B4FC', 400: '#818CF8', 500: '#6366F1', 600: '#4F46E5', 700: '#4338CA', 800: '#3730A3', 900: '#312E81' },
+  blue:   { 50: '#EFF6FF', 100: '#DBEAFE', 200: '#BFDBFE', 300: '#93C5FD', 400: '#60A5FA', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8', 800: '#1E40AF', 900: '#1E3A8A' },
+  cyan:   { 50: '#ECFEFF', 100: '#CFFAFE', 200: '#A5F3FC', 300: '#67E8F9', 400: '#22D3EE', 500: '#06B6D4', 600: '#0891B2', 700: '#0E7490', 800: '#155E75', 900: '#164E63' },
+  slate:  { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 700: '#334155', 800: '#1E293B', 900: '#0F172A' },
+};
+
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
-  boxShadow: `
-      0 4px 24px ${withOpacity(theme.palette.primary[600], 0.15)},
-      0 2px 8px ${withOpacity(theme.palette.primary[900], 0.08)}
-    `,
-  background: `linear-gradient(135deg,
-      ${withOpacity(theme.palette.primary[50], 0.95)} 0%,
-      ${withOpacity(theme.palette.primary[100], 0.92)} 30%,
-      ${withOpacity(theme.palette.primary[50], 0.94)} 70%,
-      ${withOpacity(theme.palette.common.white, 0.96)} 100%
-    )`,
+  boxShadow: `0 1px 3px ${C.indigo[500]}0A, 0 4px 14px ${C.blue[500]}08`,
+  background: `linear-gradient(135deg, ${C.indigo[50]}F0 0%, #ffffffF5 50%, ${C.blue[50]}EE 100%)`,
   justifyContent: 'center',
-  backdropFilter: 'blur(24px) saturate(180%)',
+  backdropFilter: 'blur(16px)',
   width: '100%',
   position: 'relative',
   zIndex: theme.zIndex.drawer + 1,
-  overflow: 'visible',  // Changed from 'hidden' to 'visible' to allow dropdown to show
-  borderBottom: `1px solid ${withOpacity(theme.palette.primary[200], 0.4)}`,
-  [theme.breakpoints.up('lg')]: {
-    minHeight: '76px',
-  },
-
-  // Animated gradient overlay - DISABLED
-  // '&::before': {
-  //   content: '""',
-  //   position: 'absolute',
-  //   top: 0,
-  //   left: '-100%',
-  //   width: '200%',
-  //   height: '100%',
-  //   background: `linear-gradient(90deg,
-  //       transparent,
-  //       ${withOpacity(theme.palette.primary[200], 0.3)},
-  //       transparent
-  //     )`,
-  //   animation: 'shimmer 10s infinite ease-in-out',
-  //   pointerEvents: 'none',
-  // },
-
-  // Decorative pattern overlay - DISABLED
-  // '&::after': {
-  //   content: '""',
-  //   position: 'absolute',
-  //   top: 0,
-  //   left: 0,
-  //   right: 0,
-  //   bottom: 0,
-  //   background: `
-  //       radial-gradient(circle at 10% 20%, ${withOpacity(theme.palette.primary[300], 0.08)} 0%, transparent 40%),
-  //       radial-gradient(circle at 90% 80%, ${withOpacity(theme.palette.primary[400], 0.06)} 0%, transparent 40%)
-  //     `,
-  //   pointerEvents: 'none',
-  // },
-
-  // Bottom accent line with gradient - DISABLED
-  // '& .header-accent': {
-  //   position: 'absolute',
-  //   bottom: 0,
-  //   left: 0,
-  //   right: 0,
-  //   height: '3px',
-  //   background: `linear-gradient(90deg,
-  //       transparent 0%,
-  //       ${theme.palette.primary[400]} 15%,
-  //       ${theme.palette.primary[600]} 50%,
-  //       ${theme.palette.primary[400]} 85%,
-  //       transparent 100%
-  //     )`,
-  //   boxShadow: `0 0 12px ${withOpacity(theme.palette.primary[500], 0.4)}`,
-  // },
-
-  // '@keyframes shimmer': {
-  //   '0%': { transform: 'translateX(0)' },
-  //   '50%': { transform: 'translateX(50%)' },
-  //   '100%': { transform: 'translateX(0%)' },
-  // },
+  overflow: 'visible',
+  borderBottom: `1px solid ${C.indigo[200]}40`,
+  minHeight: '68px',
 }));
 
-const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
+const ToolbarStyled = styled(Toolbar)(() => ({
   width: '100%',
-  color: theme.palette.primary[700],
+  color: C.slate[700],
   padding: '0 24px',
-  minHeight: '76px',
+  minHeight: '68px',
   position: 'relative',
-  zIndex: 2,
+  overflow: 'visible',
 }));
 
 const Header = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const searchRef = useRef(null);
 
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
@@ -110,38 +58,30 @@ const Header = () => {
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
-  // Search functionality
+  // Determine if dropdown should show
+  const showDropdown = searchQuery.length >= 3 && (
+    isLoadingSuggestions ||
+    suggestionsOpen ||
+    (suggestions.title?.length === 0 && suggestions.entity_name?.length === 0 && !isLoadingSuggestions && suggestionsOpen)
+  );
+
   useEffect(() => {
     let timeout;
     let cancelled = false;
 
     if (searchQuery && searchQuery.length >= 3) {
-      console.log('Search query length >= 3, will fetch suggestions for:', searchQuery);
       setIsLoadingSuggestions(true);
       timeout = setTimeout(() => {
-        console.log('Fetching suggestions for:', searchQuery);
         fetchSearchSuggestions(searchQuery)
           .then(data => {
-            console.log('Received suggestions data:', data);
             if (!cancelled) {
-              // Map API response (titles, events) to component state (title, entity_name)
               const mappedData = {
                 title: data.titles || [],
                 entity_name: data.events || []
               };
-              console.log('Mapped data:', mappedData);
-              console.log('Total titles:', mappedData.title.length);
-              console.log('Total entities:', mappedData.entity_name.length);
               setSuggestions(mappedData);
               setIsLoadingSuggestions(false);
-              // Open suggestions if there's data
-              if (mappedData.title.length > 0 || mappedData.entity_name.length > 0) {
-                setSuggestionsOpen(true);
-                console.log('Suggestions set and dropdown opened');
-              } else {
-                setSuggestionsOpen(false);
-                console.log('No suggestions found');
-              }
+              setSuggestionsOpen(mappedData.title.length > 0 || mappedData.entity_name.length > 0);
             }
           })
           .catch(error => {
@@ -154,7 +94,6 @@ const Header = () => {
           });
       }, 300);
     } else {
-      console.log('Search query too short, closing suggestions');
       setSuggestions({ title: [], entity_name: [] });
       setIsLoadingSuggestions(false);
       setSuggestionsOpen(false);
@@ -170,7 +109,6 @@ const Header = () => {
     if (query && query.trim()) {
       setSuggestionsOpen(false);
       setSearchQuery('');
-      // Add refresh=true to force fresh data load on every search
       navigate(`/search?q=${encodeURIComponent(query.trim())}&refresh=true`);
     }
   };
@@ -192,674 +130,339 @@ const Header = () => {
     }
   };
 
+  const hasSuggestions = suggestions.title?.length > 0 || suggestions.entity_name?.length > 0;
+  const noResults = !isLoadingSuggestions && suggestionsOpen && !hasSuggestions;
+
   return (
     <AppBarStyled position="static" color="default">
       <ToolbarStyled>
-        {/* Enhanced Search Section - Left Side with Attractive Design */}
-        <Box sx={{
-          position: 'relative',
-          width: { xs: '100%', sm: 380, md: 450, lg: 520 },
-          maxWidth: 520,
-          mr: { xs: 1, md: 3 },
-        }}>
-          <ClickAwayListener onClickAway={() => {
-            setSuggestionsOpen(false);
+        {/* ─── Search Section ─── */}
+        <ClickAwayListener onClickAway={() => setSuggestionsOpen(false)}>
+          <Box sx={{
+            position: 'relative',
+            width: { xs: '100%', sm: 380, md: 450, lg: 520 },
+            maxWidth: 520,
+            mr: { xs: 1, md: 3 },
           }}>
-            <Box sx={{ position: 'relative' }}>
-              <TextField
-                size="small"
-                placeholder="Search news, events, and more..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={handleSearchKeyDown}
-                autoComplete="off"
-                name="search-query"
-                inputProps={{
-                  autoComplete: 'off',
-                  'aria-autocomplete': 'list',
-                  'aria-controls': 'search-suggestions',
-                }}
-                InputProps={{
-                  autoComplete: 'off',
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: 38,
-                          height: 38,
-                          borderRadius: '11px',
-                          background: `linear-gradient(135deg,
-                              ${withOpacity(theme.palette.primary[200], 0.95)} 0%,
-                              ${withOpacity(theme.palette.primary[300], 0.85)} 50%,
-                              ${withOpacity(theme.palette.primary[400], 0.9)} 100%
-                            )`,
-                          border: `2px solid ${withOpacity(theme.palette.primary[400], 0.4)}`,
-                          boxShadow: `
-                              0 3px 12px ${withOpacity(theme.palette.primary[400], 0.35)},
-                              0 2px 6px ${withOpacity(theme.palette.primary[500], 0.25)},
-                              inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.6)}
-                            `,
-                          transition: 'none',
-                        }}
-                      >
-                        <SearchIcon sx={{
-                          color: theme.palette.primary[900],
-                          fontSize: 22,
-                          filter: 'drop-shadow(0 1px 2px rgba(255, 255, 255, 0.4))',
-                          fontWeight: 600,
-                        }} />
-                      </Box>
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{
-                  width: '100%',
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: '14px',
-                    height: '52px',
-                    fontSize: '0.95rem',
-                    background: `linear-gradient(135deg,
-                        ${theme.palette.common.white} 0%,
-                        ${withOpacity(theme.palette.primary[50], 0.5)} 100%
-                      )`,
-                    color: theme.palette.primary[900],
-                    position: 'relative',
-                    transition: 'none',
-                    boxShadow: `
-                        0 3px 12px ${withOpacity(theme.palette.primary[600], 0.2)},
-                        0 2px 6px ${withOpacity(theme.palette.primary[700], 0.15)},
-                        0 1px 3px rgba(0, 0, 0, 0.1),
-                        inset 0 1px 0 rgba(255, 255, 255, 1)
-                      `,
-                    backdropFilter: 'blur(12px) saturate(160%)',
-                    WebkitBackdropFilter: 'blur(12px) saturate(160%)',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: '3px',
-                      borderRadius: '16px 16px 0 0',
-                      background: `linear-gradient(90deg,
-                          ${theme.palette.primary[300]} 0%,
-                          ${theme.palette.primary[500]} 25%,
-                          ${theme.palette.primary.main} 50%,
-                          ${theme.palette.primary[500]} 75%,
-                          ${theme.palette.primary[300]} 100%
-                        )`,
-                      opacity: 0.5,
-                      boxShadow: `0 0 8px ${withOpacity(theme.palette.primary[500], 0.3)}`,
-                    },
-                    '& fieldset': {
-                      borderColor: theme.palette.primary[300],
-                      borderWidth: '2.5px',
-                      transition: 'none',
-                    },
-                    '&:hover': {
-                      transform: 'none',
-                      background: `linear-gradient(135deg,
-                          ${theme.palette.common.white} 0%,
-                          ${withOpacity(theme.palette.primary[100], 0.6)} 100%
-                        )`,
-                      boxShadow: `
-                          0 5px 20px ${withOpacity(theme.palette.primary[600], 0.28)},
-                          0 3px 10px ${withOpacity(theme.palette.primary[600], 0.2)},
-                          0 2px 6px rgba(0, 0, 0, 0.12),
-                          inset 0 1px 0 rgba(255, 255, 255, 1)
-                        `,
-                      '&::before': {
-                        opacity: 0.9,
-                        height: '4px',
-                      },
-                    },
-                    '&:hover fieldset': {
-                      borderColor: theme.palette.primary[400],
-                      borderWidth: '3px',
-                    },
-                    '&.Mui-focused': {
-                      transform: 'none',
-                      background: theme.palette.common.white,
-                      boxShadow: `
-                          0 0 0 4px ${withOpacity(theme.palette.primary[300], 0.35)},
-                          0 6px 28px ${withOpacity(theme.palette.primary[600], 0.35)},
-                          0 4px 14px ${withOpacity(theme.palette.primary[600], 0.25)},
-                          0 2px 8px rgba(0, 0, 0, 0.15),
-                          inset 0 2px 0 rgba(255, 255, 255, 1),
-                          0 0 20px ${withOpacity(theme.palette.primary[500], 0.2)}
-                        `,
-                      '&::before': {
-                        opacity: 1,
-                        height: '4px',
-                        background: `linear-gradient(90deg,
-                            ${theme.palette.primary[500]} 0%,
-                            ${theme.palette.primary[600]} 25%,
-                            ${theme.palette.primary[700]} 50%,
-                            ${theme.palette.primary[600]} 75%,
-                            ${theme.palette.primary[500]} 100%
-                          )`,
-                        boxShadow: `0 0 14px ${withOpacity(theme.palette.primary[600], 0.5)}`,
-                      },
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: theme.palette.primary[600],
-                      borderWidth: '3px',
-                    },
+            {/* Search Input */}
+            <TextField
+              ref={searchRef}
+              size="small"
+              placeholder="Search news, events, and more..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
+              autoComplete="off"
+              name="search-query"
+              inputProps={{ autoComplete: 'off' }}
+              InputProps={{
+                autoComplete: 'off',
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Box sx={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      width: 34, height: 34, borderRadius: '9px',
+                      background: `linear-gradient(135deg, ${C.indigo[500]}, ${C.blue[500]})`,
+                      boxShadow: `0 2px 8px ${C.indigo[500]}30`,
+                    }}>
+                      <SearchIcon sx={{ color: '#fff', fontSize: 18 }} />
+                    </Box>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                width: '100%',
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '12px',
+                  height: '46px',
+                  fontSize: '0.88rem',
+                  bgcolor: '#fff',
+                  transition: 'all 0.2s ease',
+                  boxShadow: `0 1px 4px ${C.indigo[500]}10, 0 2px 12px ${C.blue[500]}08`,
+                  '& fieldset': { borderColor: `${C.indigo[200]}90`, borderWidth: 1.5 },
+                  '&:hover': {
+                    bgcolor: C.indigo[50],
+                    boxShadow: `0 2px 8px ${C.indigo[500]}18, 0 4px 16px ${C.blue[500]}10`,
+                    '& fieldset': { borderColor: C.indigo[300] },
                   },
-                  '& .MuiInputBase-input': {
-                    padding: '15px 18px',
-                    color: theme.palette.primary[900],
-                    fontWeight: 600,
-                    fontSize: '0.95rem',
-                    letterSpacing: '0.2px',
-                    '&::placeholder': {
-                      color: theme.palette.primary[600],
-                      opacity: 0.7,
-                      fontWeight: 500,
-                    },
+                  '&.Mui-focused': {
+                    bgcolor: '#fff',
+                    boxShadow: `0 0 0 3px ${C.indigo[500]}18, 0 4px 16px ${C.indigo[500]}12`,
+                    '& fieldset': { borderColor: C.indigo[500], borderWidth: 1.5 },
                   },
-                }}
-              />
+                },
+                '& .MuiInputBase-input': {
+                  padding: '12px 14px',
+                  color: C.slate[800],
+                  fontWeight: 500,
+                  fontSize: '0.88rem',
+                  '&::placeholder': { color: C.slate[400], opacity: 1, fontWeight: 400 },
+                },
+              }}
+            />
 
-              {/* Search Suggestions - Professional Dark Theme */}
-              <Box
-                id="search-suggestions"
-                role="listbox"
-                sx={{
-                  position: 'absolute',
-                  top: '100%',
-                  left: 0,
-                  right: 0,
-                  zIndex: 1300,
-                  mt: 1.5,
-                }}
-              >
-                {/* Loading Indicator */}
-                {isLoadingSuggestions && searchQuery.length >= 3 && (
-                  <Fade in={true} timeout={200}>
-                    <Paper
-                      elevation={0}
-                      sx={{
-                        borderRadius: '14px',
-                        background: `linear-gradient(145deg,
-                            ${theme.palette.common.white} 0%,
-                            ${withOpacity(theme.palette.primary[50], 0.95)} 100%
-                          )`,
-                        border: `2px solid ${withOpacity(theme.palette.primary[300], 0.5)}`,
-                        boxShadow: `
-                            0 16px 48px ${withOpacity(theme.palette.primary[400], 0.25)},
-                            0 8px 24px ${withOpacity(theme.palette.primary[300], 0.2)}
-                          `,
-                        backdropFilter: 'blur(30px)',
-                        py: 2,
-                        px: 3,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: 1.5,
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: 20,
-                          height: 20,
-                          border: `2.5px solid ${theme.palette.primary[500]}`,
+            {/* ─── Suggestions Dropdown (Portal-based Popper) ─── */}
+            <Popper
+              open={showDropdown || noResults}
+              anchorEl={searchRef.current}
+              placement="bottom-start"
+              transition
+              style={{ zIndex: 9999, width: searchRef.current?.offsetWidth || 'auto' }}
+              modifiers={[{ name: 'offset', options: { offset: [0, 6] } }]}
+            >
+              {({ TransitionProps }) => (
+                <Grow {...TransitionProps} timeout={200}>
+                  <Paper
+                    elevation={16}
+                    sx={{
+                      borderRadius: '12px',
+                      bgcolor: '#fff',
+                      border: `1.5px solid ${C.indigo[200]}`,
+                      overflow: 'hidden',
+                      maxHeight: 440,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      // Left accent bar
+                      position: 'relative',
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0, left: 0, bottom: 0,
+                        width: '3px',
+                        background: `linear-gradient(180deg, ${C.indigo[400]}, ${C.blue[400]}, ${C.cyan[400]})`,
+                        borderRadius: '12px 0 0 12px',
+                        zIndex: 2,
+                      },
+                    }}
+                  >
+                    {/* Loading State */}
+                    {isLoadingSuggestions && (
+                      <Box sx={{ py: 2, px: 2.5, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
+                        <Box sx={{
+                          width: 18, height: 18,
+                          border: `2.5px solid ${C.indigo[500]}`,
                           borderTopColor: 'transparent',
                           borderRadius: '50%',
-                          animation: 'none',
-                        }}
-                      />
-                      <Typography sx={{
-                        color: theme.palette.primary[900],
-                        fontWeight: 600,
-                        fontSize: '0.70rem',
-                      }}>
-                        Loading suggestions...
-                      </Typography>
-                    </Paper>
-                  </Fade>
-                )}
+                          animation: 'spin 0.8s linear infinite',
+                          '@keyframes spin': {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' },
+                          },
+                        }} />
+                        <Typography sx={{ color: C.slate[600], fontWeight: 500, fontSize: '0.82rem' }}>
+                          Searching...
+                        </Typography>
+                      </Box>
+                    )}
 
-                {/* No Results Message */}
-                {!isLoadingSuggestions && searchQuery.length >= 3 && suggestionsOpen &&
-                  suggestions.title?.length === 0 && suggestions.entity_name?.length === 0 && (
-                    <Fade in={true} timeout={300}>
-                      <Paper
-                        elevation={0}
-                        sx={{
-                          borderRadius: '14px',
-                          background: `linear-gradient(145deg,
-                            ${theme.palette.common.white} 0%,
-                            ${withOpacity(theme.palette.primary[50], 0.95)} 100%
-                          )`,
-                          border: `2px solid ${withOpacity(theme.palette.primary[300], 0.5)}`,
-                          boxShadow: `
-                            0 16px 48px ${withOpacity(theme.palette.primary[400], 0.25)},
-                            0 8px 24px ${withOpacity(theme.palette.primary[300], 0.2)}
-                          `,
-                          backdropFilter: 'blur(30px)',
-                          py: 3,
-                          px: 3,
-                          textAlign: 'center',
-                        }}
-                      >
-                        <Typography sx={{
-                          color: theme.palette.primary[900],
-                          fontWeight: 600,
-                          fontSize: '0.75rem',
-                          mb: 0.75,
-                        }}>
+                    {/* No Results */}
+                    {noResults && (
+                      <Box sx={{ py: 3, px: 2.5, textAlign: 'center' }}>
+                        <Typography sx={{ color: C.slate[700], fontWeight: 600, fontSize: '0.85rem', mb: 0.5 }}>
                           No results found
                         </Typography>
-                        <Typography sx={{
-                          color: theme.palette.primary[700],
-                          fontSize: '0.62rem',
-                        }}>
+                        <Typography sx={{ color: C.slate[400], fontSize: '0.75rem' }}>
                           Try a different search term
                         </Typography>
-                      </Paper>
-                    </Fade>
-                  )}
+                      </Box>
+                    )}
 
-                {/* Suggestions List */}
-                {!isLoadingSuggestions && suggestionsOpen && (suggestions.title?.length > 0 || suggestions.entity_name?.length > 0) && (
-                  <Fade in={true} timeout={350}>
-                    <Paper
-                      elevation={0}
-                      sx={{
-                        maxHeight: 420,
+                    {/* Results */}
+                    {!isLoadingSuggestions && hasSuggestions && (
+                      <Box sx={{
                         overflow: 'auto',
-                        borderRadius: '16px',
-                        // Better contrast background for visibility
-                        background: theme.palette.common.white,
-                        border: `2px solid ${theme.palette.primary[300]}`,
-                        boxShadow: `
-                            0 18px 56px ${withOpacity(theme.palette.primary[400], 0.25)},
-                            0 10px 28px ${withOpacity(theme.palette.primary[300], 0.2)},
-                            0 3px 12px ${withOpacity(theme.palette.primary[200], 0.15)},
-                            inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.95)},
-                            inset 0 -1px 0 ${withOpacity(theme.palette.primary[200], 0.3)}
-                          `,
-                        backdropFilter: 'blur(32px) saturate(180%)',
-                        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-                        position: 'relative',
-
-                        // Subtle gradient overlay
-                        '&::before': {
-                          content: '""',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          borderRadius: '16px',
-                          background: `radial-gradient(circle at 20% 10%,
-                            ${withOpacity(theme.palette.primary[200], 0.08)} 0%,
-                            transparent 60%
-                          )`,
-                          pointerEvents: 'none',
-                        },
-
-                        // Compact scrollbar
-                        '&::-webkit-scrollbar': {
-                          width: '8px',
-                        },
-                        '&::-webkit-scrollbar-track': {
-                          background: withOpacity(theme.palette.primary[100], 0.5),
-                          borderRadius: '8px',
-                          margin: '8px',
-                        },
+                        maxHeight: 440,
+                        '&::-webkit-scrollbar': { width: '5px' },
+                        '&::-webkit-scrollbar-track': { background: C.slate[50] },
                         '&::-webkit-scrollbar-thumb': {
-                          background: `linear-gradient(145deg,
-                              ${theme.palette.primary[400]} 0%,
-                              ${theme.palette.primary[500]} 50%,
-                              ${theme.palette.primary[600]} 100%
-                            )`,
-                          borderRadius: '8px',
-                          border: `2px solid ${withOpacity(theme.palette.primary[100], 0.5)}`,
-                          boxShadow: `0 2px 6px ${withOpacity(theme.palette.primary[500], 0.25)}`,
-                          '&:hover': {
-                            background: `linear-gradient(145deg,
-                                ${theme.palette.primary[300]} 0%,
-                                ${theme.palette.primary[400]} 50%,
-                                ${theme.palette.primary[500]} 100%
-                              )`,
-                          }
+                          background: C.indigo[200], borderRadius: '5px',
+                          '&:hover': { background: C.indigo[300] },
                         },
-                      }}
-                    >
-                      {/* News Titles Section */}
-                      {suggestions.title && suggestions.title.length > 0 && (
-                        <Box sx={{ position: 'relative' }}>
-                          {/* Compact Section Header */}
-                          <Box sx={{
-                            px: 1.5,
-                            py: 1,
-                            background: theme.palette.primary[600],
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1,
-                            borderBottom: `2px solid ${theme.palette.primary[200]}`,
-                            borderTopLeftRadius: '16px',
-                            borderTopRightRadius: '16px',
-                          }}>
-                            {/* Compact Icon Badge */}
+                      }}>
+                        {/* ── News Articles ── */}
+                        {suggestions.title?.length > 0 && (
+                          <Box>
+                            {/* Section Header */}
                             <Box sx={{
-                              width: 22,
-                              height: 22,
-                              borderRadius: '6px',
-                              background: theme.palette.primary[600],
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              boxShadow: `0 2px 6px ${withOpacity(theme.palette.primary[600], 0.25)}`,
+                              px: 2, py: 1,
+                              background: `linear-gradient(135deg, ${C.indigo[50]} 0%, ${C.blue[50]} 100%)`,
+                              borderBottom: `1px solid ${C.indigo[100]}`,
+                              display: 'flex', alignItems: 'center', gap: 1,
+                              position: 'sticky', top: 0, zIndex: 1,
                             }}>
-                              <NewspaperIcon sx={{
-                                color: 'white',
-                                fontSize: 12,
-                              }} />
-                            </Box>
-                            {/* Compact Section Title */}
-                            <Typography
-                              sx={{
-                                color: theme.palette.primary[900],
-                                fontWeight: 700,
-                                fontSize: '0.50rem',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.5px',
-                                fontFamily: "'Inter', 'Segoe UI', sans-serif",
-                              }}
-                            >
-                              News Articles
-                            </Typography>
-                            {/* Compact Count Badge */}
-                            <Box sx={{
-                              ml: 'auto',
-                              px: 1,
-                              py: 0.3,
-                              borderRadius: '8px',
-                              background: theme.palette.primary[600],
-                              boxShadow: `0 2px 4px ${withOpacity(theme.palette.primary[600], 0.2)}`,
-                            }}>
-                              <Typography sx={{
-                                color: 'white',
-                                fontSize: '0.45rem',
-                                fontWeight: 700,
-                                fontFamily: "'Inter', 'Segoe UI', sans-serif",
+                              <Box sx={{
+                                width: 26, height: 26, borderRadius: '7px',
+                                background: `linear-gradient(135deg, ${C.indigo[500]}, ${C.blue[500]})`,
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                boxShadow: `0 2px 6px ${C.indigo[500]}30`,
                               }}>
-                                {suggestions.title.length}
+                                <NewspaperIcon sx={{ color: '#fff', fontSize: 14 }} />
+                              </Box>
+                              <Typography sx={{
+                                color: C.indigo[800], fontWeight: 700, fontSize: '0.72rem',
+                                textTransform: 'uppercase', letterSpacing: '0.05em',
+                              }}>
+                                News Articles
                               </Typography>
-                            </Box>
-                          </Box>
-
-                          {/* Compact News Items List */}
-                          <List sx={{ py: 1, px: 1.5 }}>
-                            {suggestions.title.map((title, index) => (
-                              <ListItemButton
-                                key={`title-${index}`}
-                                onClick={() => handleSuggestionSelect(title)}
+                              <Chip
+                                label={suggestions.title.length}
+                                size="small"
                                 sx={{
-                                  mb: 0.5,
-                                  py: 0.8,
-                                  borderRadius: '10px',
-                                  transition: 'all 0.2s ease',
-                                  background: theme.palette.primary[400],
-                                  border: `1.5px solid ${theme.palette.primary[400]}`,
-                                  boxShadow: `0 2px 6px ${withOpacity(theme.palette.primary[300], 0.1)}`,
-                                  position: 'relative',
-                                  overflow: 'hidden',
-
-                                  // Animated left accent
-                                  '&::before': {
-                                    content: '""',
-                                    position: 'absolute',
-                                    left: 0,
-                                    top: 0,
-                                    bottom: 0,
-                                    width: '4px',
-                                    background: theme.palette.primary[600],
-                                    opacity: 0.4,
-                                    transition: 'all 0.2s ease',
-                                  },
-
-                                  // Hover effects
-                                  '&:hover': {
-                                    background: theme.palette.primary[50],
-                                    transform: 'translateX(4px)',
-                                    border: `1.5px solid ${theme.palette.primary[400]}`,
-                                    boxShadow: `0 4px 10px ${withOpacity(theme.palette.primary[400], 0.15)}`,
-                                    '&::before': {
-                                      opacity: 1,
-                                      width: '5px',
-                                    },
-                                  },
-
-                                  '&:active': {
-                                    transform: 'translateX(2px)',
-                                  }
+                                  ml: 'auto', height: 22, minWidth: 22,
+                                  bgcolor: C.indigo[100], color: C.indigo[700],
+                                  fontWeight: 700, fontSize: '0.65rem',
+                                  border: `1px solid ${C.indigo[200]}`,
+                                  '& .MuiChip-label': { px: 0.75 },
                                 }}
-                              >
-                                <Box sx={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  width: '100%',
-                                  gap: 1,
-                                }}>
+                              />
+                            </Box>
 
-                                  {/* Compact Text Content */}
-                                  <Box sx={{ flex: 1, minWidth: 0 }}>
-                                    <Typography
-                                      sx={{
-                                        color: theme.palette.primary[900],
-                                        fontWeight: 500,
-                                        fontSize: '0.44rem',
-                                        lineHeight: 1.2,
-                                        letterSpacing: '0.01em',
-                                        fontFamily: "'Inter', 'Segoe UI', sans-serif",
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 2,
-                                        WebkitBoxOrient: 'vertical',
-                                      }}
-                                    >
+                            {/* News Items */}
+                            <List sx={{ py: 0.5, px: 0.75 }}>
+                              {suggestions.title.map((title, index) => (
+                                <ListItemButton
+                                  key={`title-${index}`}
+                                  onClick={() => handleSuggestionSelect(title)}
+                                  sx={{
+                                    py: 0.85, px: 1.5, mb: 0.3,
+                                    borderRadius: '8px',
+                                    transition: 'all 0.15s ease',
+                                    bgcolor: 'transparent',
+                                    borderLeft: `3px solid transparent`,
+                                    '&:hover': {
+                                      bgcolor: C.indigo[50],
+                                      borderLeft: `3px solid ${C.indigo[400]}`,
+                                      '& .item-arrow': { opacity: 1, transform: 'translateX(0)' },
+                                    },
+                                    '&:active': { bgcolor: C.indigo[100] },
+                                  }}
+                                >
+                                  <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: 1 }}>
+                                    <Box sx={{
+                                      width: 7, height: 7, borderRadius: '50%',
+                                      bgcolor: C.indigo[400], flexShrink: 0,
+                                    }} />
+                                    <Typography sx={{
+                                      color: C.slate[800], fontWeight: 500,
+                                      fontSize: '0.8rem', lineHeight: 1.45,
+                                      flex: 1, minWidth: 0,
+                                      overflow: 'hidden', textOverflow: 'ellipsis',
+                                      display: '-webkit-box',
+                                      WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+                                    }}>
                                       {title}
                                     </Typography>
+                                    <ArrowIcon className="item-arrow" sx={{
+                                      fontSize: 11, color: C.indigo[400],
+                                      opacity: 0, transform: 'translateX(-4px)',
+                                      transition: 'all 0.15s ease', flexShrink: 0,
+                                    }} />
                                   </Box>
-                                </Box>
-                              </ListItemButton>
-                            ))}
-                          </List>
-                        </Box>
-                      )}
-
-                      {/* Entity Names Section */}
-                      {suggestions.entity_name && suggestions.entity_name.length > 0 && (
-                        <Box sx={{ position: 'relative' }}>
-                          {/* Compact Separator if both sections exist */}
-                          {suggestions.title && suggestions.title.length > 0 && (
-                            <Box sx={{                            
-                              height: '1.5px',
-                              background: `linear-gradient(90deg,
-                                transparent 0%,
-                                ${withOpacity(theme.palette.primary[500], 0.4)} 20%,
-                                ${withOpacity(theme.palette.primary[400], 0.5)} 50%,
-                                ${withOpacity(theme.palette.primary[500], 0.4)} 80%,
-                                transparent 100%
-                              )`,
-                              position: 'relative',
-                              '&::after': {
-                                content: '""',
-                                position: 'absolute',
-                                top: -0.75,
-                                left: '45%',
-                                width: '10%',
-                                height: '3px',
-                                background: theme.palette.primary[300],
-                                filter: 'blur(3px)',
-                              }
-                            }} />
-                          )}
-
-                          {/* Compact Section Header */}
-                          <Box sx={{
-                            px: 1.5,
-                            py: 1,
-                            background: theme.palette.primary[600],
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1,
-                            borderBottom: `2px solid ${theme.palette.primary[200]}`,
-                          }}>
-                            {/* Compact Icon Badge */}
-                            <Box sx={{
-                              width: 22,
-                              height: 22,
-                              borderRadius: '6px',
-                              background: theme.palette.primary[600],
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              boxShadow: `0 2px 6px ${withOpacity(theme.palette.primary[600], 0.25)}`,
-                            }}>
-                              <EventAvailableIcon sx={{
-                                color: 'white',
-                                fontSize: 12,
-                              }} />
-                            </Box>
-                            {/* Compact Section Title */}
-                            <Typography
-                              sx={{
-                                color: theme.palette.primary[900],
-                                fontWeight: 700,
-                                fontSize: '0.50rem',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.5px',
-                                fontFamily: "'Inter', 'Segoe UI', sans-serif",
-                              }}
-                            >
-                              Events & Entities
-                            </Typography>
-                            {/* Compact Count Badge */}
-                            <Box sx={{
-                              ml: 'auto',
-                              px: 1,
-                              py: 0.3,
-                              borderRadius: '8px',
-                              background: theme.palette.primary[600],
-                              boxShadow: `0 2px 4px ${withOpacity(theme.palette.primary[600], 0.2)}`,
-                            }}>
-                              <Typography sx={{
-                                color: 'white',
-                                fontSize: '0.45rem',
-                                fontWeight: 700,
-                                fontFamily: "'Inter', 'Segoe UI', sans-serif",
-                              }}>
-                                {suggestions.entity_name.length}
-                              </Typography>
-                            </Box>
+                                </ListItemButton>
+                              ))}
+                            </List>
                           </Box>
+                        )}
 
-                          {/* Compact Entity Names List */}
-                          <List sx={{ py: 1, px: 1.5 }}>
-                            {suggestions.entity_name.map((entity, index) => (
-                              <ListItemButton
-                                key={`entity-${index}`}
-                                onClick={() => handleSuggestionSelect(entity)}
+                        {/* ── Events & Entities ── */}
+                        {suggestions.entity_name?.length > 0 && (
+                          <Box>
+                            {/* Section Header */}
+                            <Box sx={{
+                              px: 2, py: 1,
+                              background: `linear-gradient(135deg, ${C.cyan[50]} 0%, ${C.blue[50]} 100%)`,
+                              borderTop: suggestions.title?.length > 0 ? `1px solid ${C.slate[200]}` : 'none',
+                              borderBottom: `1px solid ${C.cyan[100]}`,
+                              display: 'flex', alignItems: 'center', gap: 1,
+                              position: 'sticky', top: 0, zIndex: 1,
+                            }}>
+                              <Box sx={{
+                                width: 26, height: 26, borderRadius: '7px',
+                                background: `linear-gradient(135deg, ${C.cyan[500]}, ${C.blue[500]})`,
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                boxShadow: `0 2px 6px ${C.cyan[500]}30`,
+                              }}>
+                                <EventAvailableIcon sx={{ color: '#fff', fontSize: 14 }} />
+                              </Box>
+                              <Typography sx={{
+                                color: C.cyan[800], fontWeight: 700, fontSize: '0.72rem',
+                                textTransform: 'uppercase', letterSpacing: '0.05em',
+                              }}>
+                                Events & Entities
+                              </Typography>
+                              <Chip
+                                label={suggestions.entity_name.length}
+                                size="small"
                                 sx={{
-                                  mb: 0.5,
-                                  py: 0.8,
-                                  borderRadius: '10px',
-                                  transition: 'all 0.2s ease',
-                                  background: theme.palette.primary[400],
-                                  border: `1.5px solid ${theme.palette.primary[200]}`,
-                                  boxShadow: `0 2px 6px ${withOpacity(theme.palette.primary[300], 0.1)}`,
-                                  position: 'relative',
-                                  overflow: 'hidden',
-
-                                  // Animated left accent
-                                  '&::before': {
-                                    content: '""',
-                                    position: 'absolute',
-                                    left: 0,
-                                    top: 0,
-                                    bottom: 0,
-                                    width: '4px',
-                                    background: theme.palette.primary[600],
-                                    opacity: 0.4,
-                                    transition: 'all 0.2s ease',
-                                  },
-
-                                  // Hover effects
-                                  '&:hover': {
-                                    background: theme.palette.primary[50],
-                                    transform: 'translateX(4px)',
-                                    border: `1.5px solid ${theme.palette.primary[400]}`,
-                                    boxShadow: `0 4px 10px ${withOpacity(theme.palette.primary[400], 0.15)}`,
-                                    '&::before': {
-                                      opacity: 1,
-                                      width: '5px',
-                                    },
-                                  },
-
-                                  '&:active': {
-                                    transform: 'translateX(2px)',
-                                  }
+                                  ml: 'auto', height: 22, minWidth: 22,
+                                  bgcolor: C.cyan[100], color: C.cyan[700],
+                                  fontWeight: 700, fontSize: '0.65rem',
+                                  border: `1px solid ${C.cyan[200]}`,
+                                  '& .MuiChip-label': { px: 0.75 },
                                 }}
-                              >
-                                <Box sx={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  width: '100%',
-                                  gap: 1,
-                                }}>
+                              />
+                            </Box>
 
-                                  {/* Compact Text Content */}
-                                  <Box sx={{ flex: 1, minWidth: 0 }}>
-                                    <Typography
-                                      sx={{
-                                        color: theme.palette.primary[900],
-                                        fontWeight: 500,
-                                        fontSize: '0.44rem',
-                                        lineHeight: 1.2,
-                                        letterSpacing: '0.01em',
-                                        fontFamily: "'Inter', 'Segoe UI', sans-serif",
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 2,
-                                        WebkitBoxOrient: 'vertical',
-                                      }}
-                                    >
+                            {/* Entity Items */}
+                            <List sx={{ py: 0.5, px: 0.75 }}>
+                              {suggestions.entity_name.map((entity, index) => (
+                                <ListItemButton
+                                  key={`entity-${index}`}
+                                  onClick={() => handleSuggestionSelect(entity)}
+                                  sx={{
+                                    py: 0.85, px: 1.5, mb: 0.3,
+                                    borderRadius: '8px',
+                                    transition: 'all 0.15s ease',
+                                    bgcolor: 'transparent',
+                                    borderLeft: `3px solid transparent`,
+                                    '&:hover': {
+                                      bgcolor: C.cyan[50],
+                                      borderLeft: `3px solid ${C.cyan[400]}`,
+                                      '& .item-arrow': { opacity: 1, transform: 'translateX(0)' },
+                                    },
+                                    '&:active': { bgcolor: C.cyan[100] },
+                                  }}
+                                >
+                                  <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: 1 }}>
+                                    <Box sx={{
+                                      width: 7, height: 7, borderRadius: '2px',
+                                      bgcolor: C.cyan[400], flexShrink: 0,
+                                    }} />
+                                    <Typography sx={{
+                                      color: C.slate[800], fontWeight: 500,
+                                      fontSize: '0.8rem', lineHeight: 1.45,
+                                      flex: 1, minWidth: 0,
+                                      overflow: 'hidden', textOverflow: 'ellipsis',
+                                      display: '-webkit-box',
+                                      WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+                                    }}>
                                       {entity}
                                     </Typography>
-
+                                    <ArrowIcon className="item-arrow" sx={{
+                                      fontSize: 11, color: C.cyan[400],
+                                      opacity: 0, transform: 'translateX(-4px)',
+                                      transition: 'all 0.15s ease', flexShrink: 0,
+                                    }} />
                                   </Box>
+                                </ListItemButton>
+                              ))}
+                            </List>
+                          </Box>
+                        )}
+                      </Box>
+                    )}
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
+          </Box>
+        </ClickAwayListener>
 
-
-                                </Box>
-                              </ListItemButton>
-                            ))}
-                          </List>
-                        </Box>
-                      )}
-                    </Paper>
-                  </Fade>
-                )}
-              </Box>
-            </Box>
-          </ClickAwayListener>
-        </Box>
-
-        {/* Flexible Spacer - Push Welcome/Profile to Right */}
+        {/* Spacer */}
         <Box sx={{ flex: 1 }} />
 
-        {/* Welcome Section & Profile - Compact Design */}
+        {/* Welcome & Profile */}
         <Stack spacing={{ xs: 1, md: 1.2 }} direction="row" alignItems="center">
-          {/* Welcome Card - Compact & Creative */}
           <Box
             sx={{
               display: { xs: 'none', sm: 'flex' },
@@ -879,12 +482,8 @@ const Header = () => {
                 inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.85)}
               `,
               backdropFilter: 'blur(10px)',
-              transition: 'none',
-              position: 'relative',
-              overflow: 'hidden',
               cursor: 'pointer',
               '&:hover': {
-                transform: 'none',
                 border: `1px solid ${withOpacity(theme.palette.primary[400], 0.5)}`,
                 boxShadow: `
                   0 4px 14px ${withOpacity(theme.palette.primary[400], 0.18)},
@@ -895,7 +494,6 @@ const Header = () => {
               }
             }}
           >
-            {/* Compact Icon Circle with Ring Animation */}
             <Box sx={{
               minWidth: { sm: 28, md: 32 },
               height: { sm: 28, md: 32 },
@@ -905,157 +503,81 @@ const Header = () => {
                 ${theme.palette.primary[500]} 50%,
                 ${theme.palette.primary[600]} 100%
               )`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: `
-                0 2px 8px ${withOpacity(theme.palette.primary[400], 0.3)},
-                inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.2)}
-              `,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: `0 2px 8px ${withOpacity(theme.palette.primary[400], 0.3)}`,
               border: `1px solid ${withOpacity(theme.palette.primary[300], 0.35)}`,
-              transition: 'none',
               position: 'relative',
               '&::before': {
-                content: '""',
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
+                content: '""', position: 'absolute',
+                top: '50%', left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: '100%',
-                height: '100%',
+                width: '100%', height: '100%',
                 borderRadius: '50%',
                 border: `2px solid ${theme.palette.primary[500]}`,
                 animation: 'ripple 2s infinite ease-out',
               },
               '&::after': {
-                content: '""',
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
+                content: '""', position: 'absolute',
+                top: '50%', left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: '100%',
-                height: '100%',
+                width: '100%', height: '100%',
                 borderRadius: '50%',
                 border: `2px solid ${theme.palette.primary[400]}`,
                 animation: 'ripple 2s infinite ease-out 1s',
               },
               '@keyframes ripple': {
-                '0%': {
-                  width: '100%',
-                  height: '100%',
-                  opacity: 1,
-                },
-                '100%': {
-                  width: '180%',
-                  height: '180%',
-                  opacity: 0,
-                }
+                '0%': { width: '100%', height: '100%', opacity: 1 },
+                '100%': { width: '180%', height: '180%', opacity: 0 },
               }
             }}>
               <Typography sx={{
                 fontSize: { sm: '0.85rem', md: '0.95rem' },
-                filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18))',
-                position: 'relative',
-                zIndex: 1,
+                position: 'relative', zIndex: 1,
               }}>
                 👋
               </Typography>
             </Box>
 
-            {/* Compact Text Content */}
-            <Box sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              gap: 0.2,
-            }}>
-              {/* Compact Greeting Text */}
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: theme.palette.primary[700],
-                    fontWeight: 700,
-                    fontSize: { sm: '0.45rem', md: '0.52rem' },
-                    lineHeight: 1,
-                    letterSpacing: '0.25px',
-                    background: `linear-gradient(135deg,
-                      ${theme.palette.primary[700]} 0%,
-                      ${theme.palette.primary[600]} 50%,
-                      ${theme.palette.primary[500]} 100%
-                    )`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    position: 'relative',
-                    display: 'inline-block',
-                  }}
-                >
-                  Welcome
-                </Typography>
-              </Box>
-
-              {/* Name with Compact Badge */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.2 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  fontWeight: 700,
+                  fontSize: { sm: '0.45rem', md: '0.52rem' },
+                  lineHeight: 1,
+                  background: `linear-gradient(135deg, ${theme.palette.primary[700]}, ${theme.palette.primary[500]})`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Welcome
+              </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
                 <Typography
                   variant="h6"
                   sx={{
-                    color: theme.palette.primary[700],
                     fontWeight: 600,
                     fontSize: { sm: '0.62rem', md: '0.66rem' },
-                    mb: 0,
                     lineHeight: 1,
-                    letterSpacing: '-0.015em',
-                    background: `linear-gradient(135deg,
-                      ${theme.palette.primary[700]} 0%,
-                      ${theme.palette.primary[600]} 50%,
-                      ${theme.palette.primary[500]} 100%
-                    )`,
+                    background: `linear-gradient(135deg, ${theme.palette.primary[700]}, ${theme.palette.primary[500]})`,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    position: 'relative',
-                    display: 'inline-block',
                   }}
                 >
                   User
                 </Typography>
-
-                {/* Compact Status Badge */}
                 <Box sx={{
-                  px: 0.5,
-                  py: 0.15,
-                  borderRadius: '5px',
-                  background: `linear-gradient(135deg,
-                    ${withOpacity(theme.palette.primary[100], 0.6)} 0%,
-                    ${withOpacity(theme.palette.primary[200], 0.4)} 100%
-                  )`,
-                  border: `0.5px solid ${withOpacity(theme.palette.primary[400], 0.3)}`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.3,
-                }}>
-                  <Box sx={{
-                    width: 3.5,
-                    height: 3.5,
-                    borderRadius: '50%',
-                    background: '#4CAF50',
-                    boxShadow: '0 0 3px #4CAF50',
-                    animation: 'none',
-                  }} />
-
-                </Box>
+                  width: 5, height: 5, borderRadius: '50%',
+                  background: '#4CAF50',
+                  boxShadow: '0 0 4px #4CAF50',
+                }} />
               </Box>
             </Box>
           </Box>
 
-          {/* Profile Avatar */}
           <Profile />
         </Stack>
       </ToolbarStyled>
-
-      {/* Bottom accent line - DISABLED */}
-      {/* <Box className="header-accent" /> */}
     </AppBarStyled>
   );
 };

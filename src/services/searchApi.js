@@ -106,7 +106,7 @@ export async function fetchNewsData({
       req_id,
       fromDate: fromdate,
       toDate: todate,
-      size: 20,
+      size,
       page: "news",
       lastdocid,
     }, {}, { maxRetries: 2, timeout: 30000 });
@@ -164,7 +164,7 @@ export async function fetchEventsData({
       lastdocid: lastdocid,
       fromDate: fromdate,
       toDate: todate,
-      size: 20,
+      size,
       page: "events"
     }, {}, { maxRetries: 2, timeout: 30000 });
 
@@ -217,7 +217,7 @@ export async function fetchIntelligenceData({
       req_id,
       fromDate: fromdate,
       toDate: todate,
-      size: 20,
+      size,
       page: "intelligence",
       lastdocid,
     }, {}, { maxRetries: 2, timeout: 30000 });
@@ -266,7 +266,7 @@ export async function fetchEquipmentData({
       req_id,
       fromDate: fromdate,
       toDate: todate,
-      size: 20,
+      size,
       page: "equipment",
       lastdocid,
     }, {}, { maxRetries: 2, timeout: 30000 });
@@ -349,7 +349,7 @@ export async function fetchMilitaryData({
       req_id,
       fromDate: fromdate,
       toDate: todate,
-      size: 20,
+      size,
       page: "military",
       lastdocid,
     }, {}, { maxRetries: 2, timeout: 30000 });
@@ -423,7 +423,7 @@ export async function fetchCombinedData({
       lastdocid: lastdocid,
       fromDate: fromdate,
       toDate: todate,
-      size: 20,
+      size,
       page: ""
     }, {}, { maxRetries: 2, timeout: 30000 });
 

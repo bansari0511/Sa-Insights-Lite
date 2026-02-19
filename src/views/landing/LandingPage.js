@@ -65,6 +65,26 @@ const subtlePulse = keyframes`
   50% { opacity: 0.2; }
 `;
 
+const radarSweep = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+const dataFlicker = keyframes`
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.07; }
+`;
+
+const typeIn = keyframes`
+  from { width: 0; }
+  to { width: 100%; }
+`;
+
+const blinkCaret = keyframes`
+  0%, 100% { border-color: transparent; }
+  50% { border-color: rgba(0,191,255,0.7); }
+`;
+
 // ─── Styled Components ───
 const StyledContainer = styled(Box)(() => ({
   minHeight: '100vh',
@@ -305,6 +325,74 @@ const LandingPage = () => {
         <FloatingParticle key={i} size={p.size} top={p.top} left={p.left} delay={p.delay} duration={p.duration} />
       ))}
 
+      {/* ─── Intel grid dot overlay ─── */}
+      <Box sx={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 1,
+        pointerEvents: 'none',
+        backgroundImage: `radial-gradient(circle, ${withOpacity(theme.palette.brand.cyan, 0.08)} 1px, transparent 1px)`,
+        backgroundSize: '40px 40px',
+        animation: `${dataFlicker} 4s ease-in-out infinite`,
+      }} />
+
+      {/* ─── Radar/sonar element — top-right ─── */}
+      <Box sx={{
+        position: 'absolute',
+        top: { xs: 20, md: 40 },
+        right: { xs: 20, md: 60 },
+        width: { xs: 80, md: 120 },
+        height: { xs: 80, md: 120 },
+        borderRadius: '50%',
+        border: `1px solid ${withOpacity(theme.palette.brand.cyan, 0.15)}`,
+        zIndex: 2,
+        pointerEvents: 'none',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: '15%',
+          borderRadius: '50%',
+          border: `1px solid ${withOpacity(theme.palette.brand.cyan, 0.12)}`,
+        },
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          width: '50%',
+          height: '2px',
+          transformOrigin: '0 50%',
+          background: `linear-gradient(90deg, ${withOpacity(theme.palette.brand.cyan, 0.6)}, transparent)`,
+          animation: `${radarSweep} 4s linear infinite`,
+          boxShadow: `0 0 8px ${withOpacity(theme.palette.brand.cyan, 0.3)}`,
+        },
+      }} />
+
+      {/* ─── Side accent lines — left edge ─── */}
+      <Box sx={{
+        position: 'absolute',
+        top: { xs: '10%', md: '8%' },
+        left: 0,
+        width: '3px',
+        height: { xs: '50%', md: '60%' },
+        zIndex: 3,
+        pointerEvents: 'none',
+        background: `linear-gradient(180deg, transparent, ${withOpacity(theme.palette.brand.cyan, 0.5)}, ${withOpacity('#a78bfa', 0.3)}, transparent)`,
+        animation: `${lineGlow} 3s ease-in-out infinite`,
+        borderRadius: '0 2px 2px 0',
+      }} />
+      <Box sx={{
+        position: 'absolute',
+        top: { xs: '15%', md: '12%' },
+        left: '8px',
+        width: '1.5px',
+        height: { xs: '35%', md: '40%' },
+        zIndex: 3,
+        pointerEvents: 'none',
+        background: `linear-gradient(180deg, transparent, ${withOpacity(theme.palette.brand.cyan, 0.25)}, transparent)`,
+        borderRadius: '2px',
+      }} />
+
       {/* ─── Main Content Layer ─── */}
       <Box sx={{
         position: 'relative',
@@ -313,22 +401,23 @@ const LandingPage = () => {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        px: { xs: 2, sm: 4, md: 6 },
-        py: { xs: 3, md: 4 },
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        px: { xs: 2, sm: 4, md: 6, lg: 8 },
+        pt: { xs: 4, sm: 5, md: 6 },
+        pb: { xs: 3, md: 4 },
       }}>
 
-        {/* ═══ HERO CONTENT — floats directly on video ═══ */}
+        {/* ═══ HERO CONTENT — aligned left, starts from top ═══ */}
         <Box sx={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-          maxWidth: '780px',
+          alignItems: 'flex-start',
+          textAlign: 'left',
+          maxWidth: '720px',
           width: '100%',
           opacity: mounted ? 1 : 0,
-          transform: mounted ? 'translateY(0)' : 'translateY(24px)',
+          transform: mounted ? 'translateX(0)' : 'translateX(-30px)',
           transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1)',
         }}>
 
@@ -361,6 +450,38 @@ const LandingPage = () => {
                 filter: 'drop-shadow(0 2px 8px rgba(0,191,255,0.15))',
               }} />
             </Box>
+          </Box>
+
+          {/* Intel classification label */}
+          <Box sx={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 1,
+            px: 1.5,
+            py: 0.4,
+            mb: 1.5,
+            borderRadius: '6px',
+            border: `1px solid ${withOpacity(theme.palette.brand.cyan, 0.25)}`,
+            background: withOpacity(theme.palette.brand.cyan, 0.06),
+            animation: `${fadeInUp} 0.6s ease-out 0.1s both`,
+          }}>
+            <Box sx={{
+              width: 6,
+              height: 6,
+              borderRadius: '50%',
+              bgcolor: theme.palette.brand.cyan,
+              boxShadow: `0 0 8px ${theme.palette.brand.cyan}`,
+              animation: `${subtlePulse} 2s ease-in-out infinite`,
+            }} />
+            <Typography sx={{
+              color: withOpacity(theme.palette.brand.cyan, 0.85),
+              fontSize: '0.65rem',
+              fontWeight: 700,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+            }}>
+              Intelligence Platform
+            </Typography>
           </Box>
 
           {/* App Name — animated gradient with glow aura */}
@@ -398,7 +519,7 @@ const LandingPage = () => {
           <Box sx={{
             width: { xs: '160px', md: '220px' },
             height: '2px',
-            background: `linear-gradient(90deg, transparent, ${withOpacity(theme.palette.brand.cyan, 0.7)}, transparent)`,
+            background: `linear-gradient(90deg, ${withOpacity(theme.palette.brand.cyan, 0.7)}, ${withOpacity(theme.palette.brand.cyan, 0.3)}, transparent)`,
             mb: 3,
             borderRadius: '2px',
             animation: `${lineGlow} 3s ease-in-out infinite 0.5s`,
@@ -424,7 +545,7 @@ const LandingPage = () => {
           <Box sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             gap: { xs: 1, sm: 1.5 },
             mb: 5,
             flexWrap: 'wrap',
@@ -503,18 +624,72 @@ const LandingPage = () => {
             </CTAButton>
           </Box>
 
-          {/* Version badge */}
-          <Typography sx={{
-            color: 'rgba(255, 255, 255, 0.3)',
-            fontSize: '0.65rem',
-            fontWeight: 500,
-            letterSpacing: '0.1em',
+          {/* Status line with typewriter caret */}
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
             mt: 3,
-            textTransform: 'uppercase',
-            textShadow: '0 1px 6px rgba(0,0,0,0.5)',
+            px: 1.5,
+            py: 0.6,
+            borderRadius: '8px',
+            border: `1px solid ${withOpacity(theme.palette.brand.cyan, 0.12)}`,
+            background: withOpacity(theme.palette.brand.cyan, 0.03),
           }}>
-            v{appConfig.version}
-          </Typography>
+            <Box sx={{
+              width: 5,
+              height: 5,
+              borderRadius: '50%',
+              bgcolor: '#34d399',
+              boxShadow: '0 0 6px #34d399',
+            }} />
+            <Typography sx={{
+              color: 'rgba(255, 255, 255, 0.45)',
+              fontSize: '0.62rem',
+              fontWeight: 500,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              fontFamily: 'monospace',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              borderRight: '2px solid transparent',
+              animation: `${typeIn} 2s steps(30) 1.5s both, ${blinkCaret} 1s step-end 3.5s infinite`,
+            }}>
+              System Active — v{appConfig.version} — All Feeds Online
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* ═══ Bottom-left data readout — intel HUD effect ═══ */}
+        <Box sx={{
+          position: 'fixed',
+          bottom: { xs: 16, md: 32 },
+          left: { xs: 16, md: 32 },
+          zIndex: 4,
+          display: { xs: 'none', sm: 'flex' },
+          flexDirection: 'column',
+          gap: 0.5,
+          animation: `${fadeInUp} 1s ease-out 1.2s both`,
+        }}>
+          {['DATA FEEDS: 4 ACTIVE', 'COVERAGE: GLOBAL', 'LATENCY: < 2ms'].map((line, i) => (
+            <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
+              <Box sx={{
+                width: 4, height: 4, borderRadius: '50%',
+                bgcolor: i === 0 ? '#34d399' : withOpacity(theme.palette.brand.cyan, 0.5),
+                boxShadow: i === 0 ? '0 0 4px #34d399' : 'none',
+              }} />
+              <Typography sx={{
+                color: withOpacity(theme.palette.brand.cyan, 0.35),
+                fontSize: '0.55rem',
+                fontWeight: 500,
+                letterSpacing: '0.12em',
+                fontFamily: 'monospace',
+                textTransform: 'uppercase',
+              }}>
+                {line}
+              </Typography>
+            </Box>
+          ))}
         </Box>
 
         {/* ═══ Contact Section - Bottom Right (same as sa-web-service) ═══ */}

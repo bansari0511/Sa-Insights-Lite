@@ -900,6 +900,20 @@ export async function loadAutocompleteData(keyword = '') {
 }
 
 /**
+ * Expand a small set of base records to fill totalHits by cycling with unique IDs.
+ * This ensures dummy pagination works properly.
+ */
+function expandRecords(baseRecords, totalHits) {
+  if (baseRecords.length >= totalHits) return baseRecords.slice(0, totalHits);
+  const expanded = [];
+  for (let i = 0; i < totalHits; i++) {
+    const base = baseRecords[i % baseRecords.length];
+    expanded.push({ ...base, id: `${base.id}-pg${Math.floor(i / baseRecords.length)}-${i}` });
+  }
+  return expanded;
+}
+
+/**
  * Load news search data
  * @param {Object} params - Query parameters
  * @returns {Promise<Object>} News data
@@ -908,9 +922,10 @@ export async function loadNewsData(params = {}) {
   await simulateDelay();
 
   const { size = 20, lastdocid = '' } = params;
+  const allRecords = expandRecords(newsData.records, newsData.totalHits);
   const offset = lastdocid ? parseInt(lastdocid.split('-').pop() || '0') : 0;
-  const records = newsData.records.slice(offset, offset + size);
-  const hasMore = (offset + size) < newsData.records.length;
+  const records = allRecords.slice(offset, offset + size);
+  const hasMore = (offset + size) < allRecords.length;
 
   return {
     records: records.map(record => ({
@@ -924,7 +939,7 @@ export async function loadNewsData(params = {}) {
     country: newsData.country,
     org: newsData.organization,
     nsag: newsData.nsag,
-    total: newsData.totalHits,
+    total: allRecords.length,
     hasMore,
     lastdocid: hasMore ? `news-2024-001-${offset + size}` : ''
   };
@@ -939,9 +954,10 @@ export async function loadEventsData(params = {}) {
   await simulateDelay();
 
   const { size = 20, lastdocid = '' } = params;
+  const allRecords = expandRecords(eventsData.records, eventsData.totalHits);
   const offset = lastdocid ? parseInt(lastdocid.split('-').pop() || '0') : 0;
-  const records = eventsData.records.slice(offset, offset + size);
-  const hasMore = (offset + size) < eventsData.records.length;
+  const records = allRecords.slice(offset, offset + size);
+  const hasMore = (offset + size) < allRecords.length;
 
   return {
     records: records.map(record => ({
@@ -959,7 +975,7 @@ export async function loadEventsData(params = {}) {
     actorlabel: eventsData.actorLabel,
     actornation: eventsData.actorNation,
     actortype: eventsData.actorType,
-    total: eventsData.totalHits,
+    total: allRecords.length,
     hasMore,
     lastdocid: hasMore ? `event-2024-001-${offset + size}` : ''
   };
@@ -974,9 +990,10 @@ export async function loadIntelligenceData(params = {}) {
   await simulateDelay();
 
   const { size = 20, lastdocid = '' } = params;
+  const allRecords = expandRecords(intelligenceData.records, intelligenceData.totalHits);
   const offset = lastdocid ? parseInt(lastdocid.split('-').pop() || '0') : 0;
-  const records = intelligenceData.records.slice(offset, offset + size);
-  const hasMore = (offset + size) < intelligenceData.records.length;
+  const records = allRecords.slice(offset, offset + size);
+  const hasMore = (offset + size) < allRecords.length;
 
   return {
     records: records.map(record => ({
@@ -990,7 +1007,7 @@ export async function loadIntelligenceData(params = {}) {
     country: intelligenceData.country,
     org: intelligenceData.organization,
     nsag: intelligenceData.nsag,
-    total: intelligenceData.totalHits,
+    total: allRecords.length,
     hasMore,
     lastdocid: hasMore ? `intel-2024-001-${offset + size}` : ''
   };
@@ -1005,9 +1022,10 @@ export async function loadEquipmentData(params = {}) {
   await simulateDelay();
 
   const { size = 80, lastdocid = '' } = params;
+  const allRecords = expandRecords(equipmentSearchData.records, equipmentSearchData.totalHits);
   const offset = lastdocid ? parseInt(lastdocid.split('-').pop() || '0') : 0;
-  const records = equipmentSearchData.records.slice(offset, offset + size);
-  const hasMore = (offset + size) < equipmentSearchData.records.length;
+  const records = allRecords.slice(offset, offset + size);
+  const hasMore = (offset + size) < allRecords.length;
 
   return {
     records: records.map(record => ({
@@ -1017,7 +1035,7 @@ export async function loadEquipmentData(params = {}) {
       date: record.lastModifiedDate,
       index: record.index
     })),
-    total: equipmentSearchData.totalHits,
+    total: allRecords.length,
     hasMore,
     lastdocid: hasMore ? `equipment-2024-001-${offset + size}` : ''
   };
@@ -1032,9 +1050,10 @@ export async function loadCombinedData(params = {}) {
   await simulateDelay();
 
   const { size = 20, lastdocid = '' } = params;
+  const allRecords = expandRecords(combinedData.records, combinedData.totalHits);
   const offset = lastdocid ? parseInt(lastdocid.split('-').pop() || '0') : 0;
-  const records = combinedData.records.slice(offset, offset + size);
-  const hasMore = (offset + size) < combinedData.records.length;
+  const records = allRecords.slice(offset, offset + size);
+  const hasMore = (offset + size) < allRecords.length;
 
   return {
     records: records.map(record => ({
@@ -1055,7 +1074,7 @@ export async function loadCombinedData(params = {}) {
     actorlabel: combinedData.actorLabel,
     actornation: combinedData.actorNation,
     actortype: combinedData.actorType,
-    total: combinedData.totalHits,
+    total: allRecords.length,
     hasMore,
     lastdocid: hasMore ? `combined-2024-001-${offset + size}` : ''
   };
@@ -1070,9 +1089,10 @@ export async function loadMilitaryData(params = {}) {
   await simulateDelay();
 
   const { size = 20, lastdocid = '' } = params;
+  const allRecords = expandRecords(militarySearchData.records, militarySearchData.totalHits);
   const offset = lastdocid ? parseInt(lastdocid.split('-').pop() || '0') : 0;
-  const records = militarySearchData.records.slice(offset, offset + size);
-  const hasMore = (offset + size) < militarySearchData.records.length;
+  const records = allRecords.slice(offset, offset + size);
+  const hasMore = (offset + size) < allRecords.length;
 
   return {
     records: records.map(record => ({
@@ -1086,7 +1106,7 @@ export async function loadMilitaryData(params = {}) {
       indigenousEchelon: record.indigenousEchelon,
       orbat: record.orbat
     })),
-    total: militarySearchData.totalHits,
+    total: allRecords.length,
     hasMore,
     lastdocid: hasMore ? `military-2024-001-${offset + size}` : ''
   };
