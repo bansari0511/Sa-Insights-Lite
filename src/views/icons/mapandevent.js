@@ -397,9 +397,20 @@ export default function MapEventsPage() {
   }, []);
 
   return (
-    <Grid container spacing={2} sx={{ height: '100%', bgcolor: '#ffffff', color: '#000000' }}>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: 'calc(100vh - 180px)',
+      bgcolor: '#ffffff',
+      color: '#000000',
+      p: { xs: 1.5, sm: 2, md: 2.5 },
+      m: { xs: 0.5, sm: 1, md: 1.5 },
+      borderRadius: { xs: 3, md: 4 },
+      boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+      border: '1px solid rgba(0,0,0,0.06)',
+    }}>
       {/* Filters */}
-      <Grid item xs={12}>
+      <Box sx={{ flexShrink: 0 }}>
         <EventFilterBar
           countries={countries}
           selectedCountries={selectedCountries}
@@ -420,19 +431,21 @@ export default function MapEventsPage() {
           isLoading={isLoading}
           hasResults={events.length > 0}
         />
-      </Grid>
+      </Box>
 
-      {/* Map - Full width when sidebar is hidden */}
-      <Grid item xs={12} md={SHOW_INSIGHTS_SIDEBAR ? 7 : 12} sx={{ height: 'calc(100% - 120px)' }}>
-        <Paper sx={{ height: '100%', p: 1 }} elevation={1}>
-          <MapTemplate onMapReady={handleMapReady} />
-        </Paper>
-      </Grid>
+      {/* Map + Timeline row */}
+      <Grid container spacing={2} sx={{ flex: 1, minHeight: 0, mt: 0 }}>
+        {/* Map - Full width when sidebar is hidden */}
+        <Grid item xs={12} md={SHOW_INSIGHTS_SIDEBAR ? 7 : 12} sx={{ height: '100%' }}>
+          <Paper sx={{ height: '100%', p: 1, borderRadius: 3 }} elevation={1}>
+            <MapTemplate onMapReady={handleMapReady} />
+          </Paper>
+        </Grid>
 
-      {/* Timeline - Conditionally rendered based on SHOW_INSIGHTS_SIDEBAR flag */}
-      {SHOW_INSIGHTS_SIDEBAR && <Grid item xs={12} md={5} sx={{ height: 'calc(100% - 120px)' }}>
-        <Paper sx={{ height: '100%', overflow: 'hidden', p: 2 }} elevation={1}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+        {/* Timeline - Conditionally rendered based on SHOW_INSIGHTS_SIDEBAR flag */}
+        {SHOW_INSIGHTS_SIDEBAR && <Grid item xs={12} md={5} sx={{ height: '100%' }}>
+        <Paper sx={{ height: '100%', overflow: 'hidden', p: 2, display: 'flex', flexDirection: 'column', borderRadius: 3 }} elevation={1}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, flexShrink: 0 }}>
             <Typography variant="h6" sx={{ color: '#000', fontWeight: 600 }}>
               Event Timeline
             </Typography>
@@ -483,7 +496,7 @@ export default function MapEventsPage() {
 
           {/* Animation Controls - Collapsible */}
           {events.length > 0 && (
-            <Collapse in={showAnimationControls}>
+            <Collapse in={showAnimationControls} sx={{ flexShrink: 0 }}>
               <Box sx={{ p: 2, bgcolor: '#f9f9f9', borderRadius: 2, mb: 2 }}>
                 {/* Animation Speed Control */}
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 2 }}>
@@ -592,9 +605,9 @@ export default function MapEventsPage() {
             </Collapse>
           )}
 
-          <Divider sx={{ mb: 2 }} />
+          <Divider sx={{ mb: 2, flexShrink: 0 }} />
 
-          <Box sx={{ height: 'calc(100% - 120px)', overflowY: 'auto', px: 2, position: 'relative' }} ref={timelineContainerRef}>
+          <Box sx={{ flex: 1, minHeight: 0, overflowY: 'auto', px: 2, position: 'relative' }} ref={timelineContainerRef}>
             {/* Loading Overlay - Shows during initial data fetch */}
             {isLoading && events.length === 0 && (
               <Box
@@ -1019,6 +1032,7 @@ export default function MapEventsPage() {
           </Box>
         </Paper>
       </Grid>}
-    </Grid>
+      </Grid>
+    </Box>
   );
 }

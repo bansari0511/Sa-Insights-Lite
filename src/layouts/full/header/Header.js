@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import {
-  Box, AppBar, Toolbar, styled, Stack,
+  Box, AppBar, Toolbar, styled,
   TextField, InputAdornment, Paper, List, ListItemButton,
-  Typography, ClickAwayListener, Grow, useTheme, Chip, Popper
+  Typography, ClickAwayListener, Grow, Chip, Popper
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,7 +15,6 @@ import {
 // components
 import Profile from './Profile';
 import { fetchSearchSuggestions } from '../../../services/searchApi';
-import { withOpacity } from '../../../theme/palette';
 
 /* ── Color tokens (indigo / blue / cyan / slate) ── */
 const C = {
@@ -48,7 +47,6 @@ const ToolbarStyled = styled(Toolbar)(() => ({
 }));
 
 const Header = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
   const searchRef = useRef(null);
 
@@ -461,122 +459,8 @@ const Header = () => {
         {/* Spacer */}
         <Box sx={{ flex: 1 }} />
 
-        {/* Welcome & Profile */}
-        <Stack spacing={{ xs: 1, md: 1.2 }} direction="row" alignItems="center">
-          <Box
-            sx={{
-              display: { xs: 'none', sm: 'flex' },
-              alignItems: 'center',
-              gap: { sm: 0.8, md: 1 },
-              px: { sm: 1.2, md: 1.5 },
-              py: { sm: 0.6, md: 0.8 },
-              borderRadius: '10px',
-              background: `linear-gradient(135deg,
-                ${theme.palette.common.white} 0%,
-                ${withOpacity(theme.palette.primary[50], 0.6)} 100%
-              )`,
-              border: `1px solid ${withOpacity(theme.palette.primary[300], 0.4)}`,
-              boxShadow: `
-                0 3px 10px ${withOpacity(theme.palette.primary[400], 0.12)},
-                0 2px 5px ${withOpacity(theme.palette.primary[500], 0.08)},
-                inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.85)}
-              `,
-              backdropFilter: 'blur(10px)',
-              cursor: 'pointer',
-              '&:hover': {
-                border: `1px solid ${withOpacity(theme.palette.primary[400], 0.5)}`,
-                boxShadow: `
-                  0 4px 14px ${withOpacity(theme.palette.primary[400], 0.18)},
-                  0 2px 7px ${withOpacity(theme.palette.primary[500], 0.12)},
-                  inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.95)},
-                  0 0 0 2px ${withOpacity(theme.palette.primary[200], 0.35)}
-                `,
-              }
-            }}
-          >
-            <Box sx={{
-              minWidth: { sm: 28, md: 32 },
-              height: { sm: 28, md: 32 },
-              borderRadius: '50%',
-              background: `linear-gradient(135deg,
-                ${theme.palette.primary[400]} 0%,
-                ${theme.palette.primary[500]} 50%,
-                ${theme.palette.primary[600]} 100%
-              )`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: `0 2px 8px ${withOpacity(theme.palette.primary[400], 0.3)}`,
-              border: `1px solid ${withOpacity(theme.palette.primary[300], 0.35)}`,
-              position: 'relative',
-              '&::before': {
-                content: '""', position: 'absolute',
-                top: '50%', left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '100%', height: '100%',
-                borderRadius: '50%',
-                border: `2px solid ${theme.palette.primary[500]}`,
-                animation: 'ripple 2s infinite ease-out',
-              },
-              '&::after': {
-                content: '""', position: 'absolute',
-                top: '50%', left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '100%', height: '100%',
-                borderRadius: '50%',
-                border: `2px solid ${theme.palette.primary[400]}`,
-                animation: 'ripple 2s infinite ease-out 1s',
-              },
-              '@keyframes ripple': {
-                '0%': { width: '100%', height: '100%', opacity: 1 },
-                '100%': { width: '180%', height: '180%', opacity: 0 },
-              }
-            }}>
-              <Typography sx={{
-                fontSize: { sm: '0.85rem', md: '0.95rem' },
-                position: 'relative', zIndex: 1,
-              }}>
-                👋
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.2 }}>
-              <Typography
-                variant="caption"
-                sx={{
-                  fontWeight: 700,
-                  fontSize: { sm: '0.45rem', md: '0.52rem' },
-                  lineHeight: 1,
-                  background: `linear-gradient(135deg, ${theme.palette.primary[700]}, ${theme.palette.primary[500]})`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >
-                Welcome
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: 600,
-                    fontSize: { sm: '0.62rem', md: '0.66rem' },
-                    lineHeight: 1,
-                    background: `linear-gradient(135deg, ${theme.palette.primary[700]}, ${theme.palette.primary[500]})`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
-                  User
-                </Typography>
-                <Box sx={{
-                  width: 5, height: 5, borderRadius: '50%',
-                  background: '#4CAF50',
-                  boxShadow: '0 0 4px #4CAF50',
-                }} />
-              </Box>
-            </Box>
-          </Box>
-
-          <Profile />
-        </Stack>
+        {/* User Profile */}
+        <Profile />
       </ToolbarStyled>
     </AppBarStyled>
   );

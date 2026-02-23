@@ -21,6 +21,9 @@ const IntelligenceBriefings = Loadable(lazy(() => import("../views/newsRoom/Inte
 // Timeline and Networks - Event Timeline with Map
 const EventTimeline = Loadable(lazy(() => import('../views/icons/mapandevent')))
 
+// Dashboard
+const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
+
 // Search Page
 const SearchPage = Loadable(lazy(() => import('../views/utilities/SearchPage')))
 
@@ -47,6 +50,8 @@ const Router = [
   {
     element: <FullLayout />,
     children: [
+      // Dashboard
+      { path: '/dashboard', element: <Dashboard /> },
       // Insights Section
       { path: '/NewsRoom', element: <NewsHomePage /> },
       { path: '/intelligenceBriefings', element: <IntelligenceBriefings /> },

@@ -179,7 +179,7 @@ envPrefix: ['REACT_APP_', 'VITE_'],
       brotliSize: true,
     })
   ],
-  base: '/sa-insights/',
+  base: '/',
   server: {
     port: parseInt(env.VITE_DEV_SERVER_PORT) || 9398,
     host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',

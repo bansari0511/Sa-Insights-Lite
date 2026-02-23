@@ -13,7 +13,7 @@ const ErrorPage = ({ error, resetError, showDetails = false }) => {
   const theme = useTheme();
 
   const handleGoHome = () => {
-    window.location.href = '/saaransh/';
+    window.location.href = '/';
   };
 
   const handleRefresh = () => {

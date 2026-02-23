@@ -28,7 +28,7 @@
 // =============================================================================
 
 // Base path for the application (must match BrowserRouter basename in main.jsx)
-const APP_BASE_PATH = '/saaransh';
+const APP_BASE_PATH = '';
 
 // SessionStorage keys for different profile types
 const STORAGE_KEYS = {

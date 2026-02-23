@@ -1,32 +1,36 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Avatar,
   Box,
   Menu,
-  Button,
-  IconButton,
-  useTheme,
-  Divider
+  Typography,
+  ButtonBase,
+  Divider,
 } from '@mui/material';
-import LogoutIcon from '@mui/icons-material/Logout';
-import HomeIcon from '@mui/icons-material/Home';
+import {
+  Logout as LogoutIcon,
+  Home as HomeIcon,
+  KeyboardArrowDown as ArrowDownIcon,
+} from '@mui/icons-material';
 
-import { withOpacity } from '../../../theme/palette';
 import { RequestContext } from '../../../context/RequestContext';
 import { useAuth } from '../../../context/AuthContext';
 
-import ProfileImg from 'src/assets/images/profile/exit3.png';
+/* ── Color tokens ── */
+const C = {
+  indigo: { 50: '#EEF2FF', 100: '#E0E7FF', 200: '#C7D2FE', 300: '#A5B4FC', 400: '#818CF8', 500: '#6366F1', 600: '#4F46E5', 700: '#4338CA' },
+  slate: { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 700: '#334155', 800: '#1E293B', 900: '#0F172A' },
+};
 
 const Profile = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
-  const [anchorEl2, setAnchorEl2] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-  // Get auth context for logout
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
+  const username = user?.username || 'User';
+  const initial = username.charAt(0).toUpperCase();
 
-  // Get context to close any open modals (some may be undefined if not used)
   const requestContext = useContext(RequestContext);
   const setOpenModalEquipmentOrg = requestContext?.setOpenModalEquipmentOrg;
   const setOpenModalEquipmentMg = requestContext?.setOpenModalEquipmentMg;
@@ -35,342 +39,231 @@ const Profile = () => {
   const setEquipment = requestContext?.setEquipment;
   const setMilitaryGroup = requestContext?.setMilitaryGroup;
 
-  const handleClick2 = (event) => {
-    setAnchorEl2(event.currentTarget);
-  };
-
-  const handleClose2 = () => {
-    setAnchorEl2(null);
-  };
-
-  const handleBackToHome = () => {
-    // Close the menu first
-    navigate('/');
-    handleClose2();
-
-    // Close any open modals and reset asset profile states (if available)
+  const closeModals = () => {
     setOpenModalEquipmentOrg?.(false);
     setOpenModalEquipmentMg?.(false);
     setOpenModalEquipmentProfile?.(false);
     setOpenModalMilitaryGroupEquipment?.(false);
-
-    // Clear equipment and military group selections (if available)
     setEquipment?.(null);
     setMilitaryGroup?.(null);
+  };
+
+  const handleOpen = (e) => setAnchorEl(e.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
+  const handleBackToHome = () => {
+    handleClose();
+    closeModals();
+    navigate('/');
   };
 
   const handleLogout = async () => {
-    // Close the menu
-    handleClose2();
-
-    // Close any open modals and reset asset profile states (if available)
-    setOpenModalEquipmentOrg?.(false);
-    setOpenModalEquipmentMg?.(false);
-    setOpenModalEquipmentProfile?.(false);
-    setOpenModalMilitaryGroupEquipment?.(false);
-
-    // Clear equipment and military group selections (if available)
-    setEquipment?.(null);
-    setMilitaryGroup?.(null);
-
-    // Perform logout
+    handleClose();
+    closeModals();
     await logout();
-
-    // Navigate to login page
     navigate('/auth/login');
   };
 
   return (
     <Box>
-      <Box
+      {/* ── User Chip Trigger ── */}
+      <ButtonBase
+        onClick={handleOpen}
+        disableRipple
         sx={{
-          position: 'relative',
-          display: 'inline-flex',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1.25,
+          pl: 0.75,
+          pr: 1.75,
+          py: 0.75,
+          borderRadius: '28px',
+          bgcolor: open ? '#fff' : C.slate[50],
+          border: `1.5px solid ${open ? C.indigo[300] : C.slate[200]}`,
+          boxShadow: open
+            ? `0 0 0 3px ${C.indigo[500]}12, 0 4px 12px ${C.indigo[500]}10`
+            : `0 1px 3px rgba(0,0,0,0.04)`,
+          transition: 'all 0.2s ease',
+          cursor: 'pointer',
+          '&:hover': {
+            bgcolor: '#fff',
+            border: `1.5px solid ${C.indigo[300]}`,
+            boxShadow: `0 0 0 3px ${C.indigo[500]}0A, 0 4px 14px ${C.indigo[500]}12`,
+          },
         }}
       >
-        <IconButton
-          size="medium"
-          aria-label="Back to Home"
-          color="inherit"
-          aria-controls="msgs-menu"
-          aria-haspopup="true"
-          sx={{
-            padding: 0.5,
-            transition: 'none',
-            position: 'relative',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              inset: -3,
-              borderRadius: '50%',
-              background: `linear-gradient(135deg,
-                ${theme.palette.primary[400]} 0%,
-                ${theme.palette.primary[600]} 100%
-              )`,
-              opacity: Boolean(anchorEl2) ? 0.15 : 0,
-              filter: 'blur(10px)',
-              transition: 'none',
-              zIndex: -1,
-            },
-            '&:hover': {
-              transform: 'none',
-              backgroundColor: 'transparent',
-              '&::before': {
-                opacity: 0.18,
-                inset: -4,
-              },
-            },
-            '&:active': {
-              transform: 'none',
-            },
-            ...(Boolean(anchorEl2) && {
-              transform: 'none',
-            }),
-          }}
-          onClick={handleClick2}
-        >
-          <Box
-            sx={{
-              position: 'relative',
-              display: 'flex',
-              borderRadius: '50%',
-              padding: '2.5px',
-              background: `linear-gradient(135deg,
-                ${theme.palette.primary[300]} 0%,
-                ${theme.palette.primary.main} 25%,
-                ${theme.palette.primary[600]} 65%,
-                ${theme.palette.primary[700]} 100%
-              )`,
-              backgroundSize: '200% 200%',
-              boxShadow: `
-                0 3px 12px ${withOpacity(theme.palette.primary[600], 0.35)},
-                0 2px 6px ${withOpacity(theme.palette.primary[700], 0.25)},
-                0 1px 3px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.25)},
-                0 0 0 1px ${withOpacity(theme.palette.primary[400], 0.12)}
-              `,
-              transition: 'none',
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                inset: 0,
-                borderRadius: '50%',
-                background: `linear-gradient(135deg,
-                  transparent 0%,
-                  ${withOpacity(theme.palette.common.white, 0.15)} 50%,
-                  transparent 100%
-                )`,
-                opacity: 0,
-                transition: 'none',
-              },
-              '&:hover': {
-                backgroundPosition: '100% 100%',
-                boxShadow: `
-                  0 5px 18px ${withOpacity(theme.palette.primary[600], 0.4)},
-                  0 3px 10px ${withOpacity(theme.palette.primary[700], 0.35)},
-                  0 2px 6px rgba(0, 0, 0, 0.2),
-                  inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.3)},
-                  0 0 0 2px ${withOpacity(theme.palette.primary[300], 0.35)},
-                  0 0 14px ${withOpacity(theme.palette.primary[500], 0.25)}
-                `,
-                background: `linear-gradient(135deg,
-                  ${theme.palette.primary[400]} 0%,
-                  ${theme.palette.primary[600]} 35%,
-                  ${theme.palette.primary[700]} 70%,
-                  ${theme.palette.primary[800]} 100%
-                )`,
-                '&::after': {
-                  opacity: 1,
-                },
-              },
-            }}
-          >
-            <Avatar
-              src={ProfileImg}
-              alt="Back to Home"
-              sx={{
-                width: 36,
-                height: 36,
-                border: `2px solid ${theme.palette.common.white}`,
-                boxShadow: `
-                  0 2px 8px rgba(0, 0, 0, 0.15),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.4),
-                  inset 0 -1px 0 rgba(0, 0, 0, 0.08)
-                `,
-                transition: 'none',
-                filter: 'brightness(1.05) contrast(1.05)',
-              }}
-            />
-          </Box>
-        </IconButton>
-      </Box>
-      {/* ------------------------------------------- */}
-      {/* Message Dropdown */}
-      {/* ------------------------------------------- */}
+        {/* Avatar */}
+        <Box sx={{
+          position: 'relative',
+          width: 36,
+          height: 36,
+          borderRadius: '50%',
+          background: `linear-gradient(145deg, ${C.indigo[400]}, ${C.indigo[600]})`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: `0 2px 8px ${C.indigo[500]}40`,
+          flexShrink: 0,
+        }}>
+          <Typography sx={{
+            color: '#fff',
+            fontSize: '0.95rem',
+            fontWeight: 700,
+            lineHeight: 1,
+            letterSpacing: '0.02em',
+          }}>
+            {initial}
+          </Typography>
+          {/* Online indicator */}
+          <Box sx={{
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            width: 11,
+            height: 11,
+            borderRadius: '50%',
+            bgcolor: '#22c55e',
+            border: '2.5px solid #fff',
+            boxShadow: '0 0 6px #22c55e80',
+          }} />
+        </Box>
+
+        {/* Welcome + Username */}
+        <Box sx={{ display: { xs: 'none', sm: 'flex' }, flexDirection: 'column', minWidth: 0 }}>
+          <Typography sx={{
+            fontSize: '0.65rem',
+            fontWeight: 600,
+            color: C.slate[500],
+            lineHeight: 1,
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
+          }}>
+            Welcome
+          </Typography>
+          <Typography sx={{
+            fontSize: '0.9rem',
+            fontWeight: 700,
+            color: C.indigo[900],
+            lineHeight: 1.3,
+            maxWidth: 120,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            mt: 0.15,
+          }}>
+            {username}
+          </Typography>
+        </Box>
+
+        {/* Chevron */}
+        <ArrowDownIcon sx={{
+          display: { xs: 'none', sm: 'flex' },
+          fontSize: 20,
+          color: open ? C.indigo[500] : C.slate[400],
+          transition: 'all 0.2s ease',
+          transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+          ml: -0.25,
+        }} />
+      </ButtonBase>
+
+      {/* ── Dropdown Menu ── */}
       <Menu
-        id="msgs-menu"
-        anchorEl={anchorEl2}
-        keepMounted
-        open={Boolean(anchorEl2)}
-        onClose={handleClose2}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        sx={{
-          '& .MuiMenu-paper': {
-            width: '180px',
-            borderRadius: '12px',
-            mt: 1.2,
-            background: `linear-gradient(135deg,
-              ${withOpacity(theme.palette.common.white, 0.98)} 0%,
-              ${withOpacity(theme.palette.primary[50], 0.95)} 100%
-            )`,
-            border: `1.5px solid ${theme.palette.primary[200]}`,
-            boxShadow: `
-              0 8px 28px ${withOpacity(theme.palette.primary[600], 0.18)},
-              0 3px 12px rgba(0, 0, 0, 0.08)
-            `,
-            backdropFilter: 'blur(16px)',
-            overflow: 'visible',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              top: 0,
-              right: 16,
-              width: 10,
-              height: 10,
-              bgcolor: theme.palette.primary[50],
-              transform: 'translateY(-50%) rotate(45deg)',
-              border: `1.5px solid ${theme.palette.primary[200]}`,
-              borderRight: 0,
-              borderBottom: 0,
+        slotProps={{
+          paper: {
+            sx: {
+              width: 210,
+              borderRadius: '12px',
+              mt: 1,
+              bgcolor: '#fff',
+              border: `1px solid ${C.slate[200]}`,
+              boxShadow: `0 12px 36px -8px rgba(0,0,0,0.12), 0 4px 12px -4px ${C.indigo[500]}10`,
+              overflow: 'hidden',
             },
           },
         }}
       >
-
-        <Box mt={0.8} py={1} px={1.5}>
-          <Button
-            onClick={handleBackToHome}
-            fullWidth
-            startIcon={<HomeIcon />}
-            sx={{
-              position: 'relative',
-              height: 38,
-              borderRadius: '10px',
-              fontSize: '0.8rem',
-              fontWeight: 600,
-              textTransform: 'none',
-              color: theme.palette.common.white,
-              background: `linear-gradient(135deg,
-                ${theme.palette.primary.main} 0%,
-                ${theme.palette.primary[500]} 100%
-              )`,
-              border: `1.5px solid ${theme.palette.primary[400]}`,
-              boxShadow: `
-                0 3px 12px ${withOpacity(theme.palette.primary[600], 0.28)},
-                0 2px 6px rgba(0, 0, 0, 0.08),
-                inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.18)}
-              `,
-              overflow: 'hidden',
-              transition: 'none',
-              '&::before': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '2px',
-                background: `linear-gradient(90deg,
-                  transparent 0%,
-                  ${withOpacity(theme.palette.common.white, 0.5)} 50%,
-                  transparent 100%
-                )`,
-              },
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: '-100%',
-                width: '100%',
-                height: '100%',
-                background: `linear-gradient(90deg,
-                  transparent,
-                  ${withOpacity(theme.palette.common.white, 0.15)},
-                  transparent
-                )`,
-                transition: 'none',
-              },
-              '&:hover': {
-                transform: 'none',
-                background: `linear-gradient(135deg,
-                  ${theme.palette.primary[600]} 0%,
-                  ${theme.palette.primary[700]} 100%
-                )`,
-                borderColor: theme.palette.primary[500],
-                boxShadow: `
-                  0 5px 18px ${withOpacity(theme.palette.primary[600], 0.35)},
-                  0 3px 10px rgba(0, 0, 0, 0.12),
-                  inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.25)}
-                `,
-                '&::after': {
-                  left: '100%',
-                },
-              },
-              '&:active': {
-                transform: 'none',
-              },
-            }}
-          >
-            Back to Home
-          </Button>
+        {/* ── Compact User Info ── */}
+        <Box sx={{
+          px: 1.75, py: 1.25,
+          background: `linear-gradient(135deg, ${C.indigo[50]} 0%, ${C.slate[50]} 100%)`,
+          borderBottom: `1px solid ${C.slate[100]}`,
+          display: 'flex', alignItems: 'center', gap: 1,
+        }}>
+          <Box sx={{
+            width: 32, height: 32, borderRadius: '8px',
+            background: `linear-gradient(145deg, ${C.indigo[400]}, ${C.indigo[600]})`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: `0 2px 6px ${C.indigo[500]}30`,
+            flexShrink: 0,
+          }}>
+            <Typography sx={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>
+              {initial}
+            </Typography>
+          </Box>
+          <Box sx={{ minWidth: 0, flex: 1 }}>
+            <Typography sx={{
+              fontSize: '0.8rem', fontWeight: 700, color: C.slate[800],
+              lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            }}>
+              {username}
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4, mt: 0.15 }}>
+              <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: '#22c55e', boxShadow: '0 0 4px #22c55e60' }} />
+              <Typography sx={{ fontSize: '0.62rem', color: '#16a34a', fontWeight: 600 }}>Online</Typography>
+            </Box>
+          </Box>
         </Box>
 
-        <Divider sx={{ my: 1 }} />
-
-        <Box py={1} px={1.5}>
-          <Button
-            onClick={handleLogout}
-            fullWidth
-            startIcon={<LogoutIcon />}
+        {/* ── Menu Items ── */}
+        <Box sx={{ py: 0.5, px: 0.5 }}>
+          <ButtonBase
+            onClick={handleBackToHome}
             sx={{
-              position: 'relative',
-              height: 38,
-              borderRadius: '10px',
-              fontSize: '0.8rem',
-              fontWeight: 600,
-              textTransform: 'none',
-              color: theme.palette.common.white,
-              background: `linear-gradient(135deg,
-                ${theme.palette.error.main} 0%,
-                ${theme.palette.error.dark} 100%
-              )`,
-              border: `1.5px solid ${theme.palette.error.main}`,
-              boxShadow: `
-                0 3px 12px ${withOpacity(theme.palette.error.main, 0.28)},
-                0 2px 6px rgba(0, 0, 0, 0.08),
-                inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.18)}
-              `,
-              overflow: 'hidden',
-              transition: 'none',
-              '&:hover': {
-                transform: 'none',
-                background: `linear-gradient(135deg,
-                  ${theme.palette.error.dark} 0%,
-                  ${theme.palette.error.main} 100%
-                )`,
-                boxShadow: `
-                  0 5px 18px ${withOpacity(theme.palette.error.main, 0.35)},
-                  0 3px 10px rgba(0, 0, 0, 0.12),
-                  inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.25)}
-                `,
-              },
-              '&:active': {
-                transform: 'none',
-              },
+              width: '100%', display: 'flex', alignItems: 'center', gap: 1,
+              px: 1.25, py: 0.75, borderRadius: '8px',
+              transition: 'all 0.15s ease',
+              '&:hover': { bgcolor: C.indigo[50] },
             }}
           >
-            Logout
-          </Button>
+            <Box sx={{
+              width: 28, height: 28, borderRadius: '7px',
+              bgcolor: C.indigo[50], border: `1px solid ${C.indigo[100]}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            }}>
+              <HomeIcon sx={{ fontSize: 15, color: C.indigo[500] }} />
+            </Box>
+            <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: C.slate[700] }}>
+              Back to Home
+            </Typography>
+          </ButtonBase>
+
+          <Divider sx={{ my: 0.4, mx: 0.75, borderColor: C.slate[100] }} />
+
+          <ButtonBase
+            onClick={handleLogout}
+            sx={{
+              width: '100%', display: 'flex', alignItems: 'center', gap: 1,
+              px: 1.25, py: 0.75, borderRadius: '8px',
+              transition: 'all 0.15s ease',
+              '&:hover': { bgcolor: '#fef2f2' },
+            }}
+          >
+            <Box sx={{
+              width: 28, height: 28, borderRadius: '7px',
+              bgcolor: '#fef2f2', border: '1px solid #fecaca',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            }}>
+              <LogoutIcon sx={{ fontSize: 14, color: '#ef4444' }} />
+            </Box>
+            <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: '#ef4444' }}>
+              Logout
+            </Typography>
+          </ButtonBase>
         </Box>
       </Menu>
     </Box>

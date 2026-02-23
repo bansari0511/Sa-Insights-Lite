@@ -209,13 +209,13 @@ export const getComponents = (mode = 'light') => {
             : `0 4px 20px ${primaryPalette[800]}26`,
           '& .MuiToolbar-root': {
             color: colors.white,
-            minHeight: '64px',
+            minHeight: '60px',
             padding: '0 24px',
           },
           '& .MuiTypography-root': {
-            color: colors.white,
+            // color: colors.white,
             fontWeight: tokens.fontWeight.bold,
-            fontSize: '1.25rem',
+            fontSize: '0.9rem',
           },
           '& .MuiIconButton-root': {
             color: colors.white,

@@ -58,7 +58,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary fallbackComponentName="Application Root">
     <ErrorProvider>
       <Suspense fallback={<div>Loading...</div>}>
-        <BrowserRouter basename="/sa-insights" >
+        <BrowserRouter>
           <AuthProvider>
             <RequestContextProvider>
               <App />
