@@ -9,15 +9,13 @@ import {
   useTheme
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import {
-  Newspaper as NewspaperIcon,
-  Security as SecurityIcon,
-  Map as MapIcon,
-  EventAvailable as EventIcon,
-  Explore as ExploreIcon,
-  Email as EmailIcon,
-  Phone as PhoneIcon
-} from '@mui/icons-material';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import SecurityIcon from '@mui/icons-material/Security';
+import MapIcon from '@mui/icons-material/Map';
+import EventIcon from '@mui/icons-material/EventAvailable';
+import ExploreIcon from '@mui/icons-material/Explore';
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneIcon from '@mui/icons-material/Phone';
 import logo from 'src/assets/images/logos/logo_landing.png';
 import backgroundVideo from 'src/assets/video/videoplayback.mp4';
 import appConfig from 'src/config/appConfig';

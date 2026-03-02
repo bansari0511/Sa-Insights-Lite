@@ -14,7 +14,7 @@ import {
   IconButton,
   Collapse,
 } from '@mui/material';
-import { Settings as SettingsIcon } from '@mui/icons-material';
+import SettingsIcon from '@mui/icons-material/Settings';
 import EventFilterBar from '../../components/shared/EventFilterBar';
 import MapTemplate from './mapTemplate';
 import { fetchEventsData } from './EventTimeLineApi';

@@ -4,15 +4,13 @@ import {
   MenuItem, Typography, CircularProgress, InputAdornment,
   IconButton, Tooltip, Grid,
 } from '@mui/material';
-import {
-  Search as SearchIcon,
-  CalendarToday as CalendarTodayIcon,
-  Public as PublicIcon,
-  Category as CategoryIcon,
-  TuneRounded as TuneIcon,
-  RestartAlt as ResetIcon,
-  KeyboardArrowDown as ArrowDownIcon,
-} from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import PublicIcon from '@mui/icons-material/Public';
+import CategoryIcon from '@mui/icons-material/Category';
+import TuneIcon from '@mui/icons-material/TuneRounded';
+import ResetIcon from '@mui/icons-material/RestartAlt';
+import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 /* ── Color tokens (indigo / blue / cyan) ── */
 const C = {

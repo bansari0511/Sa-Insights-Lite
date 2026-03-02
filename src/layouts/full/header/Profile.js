@@ -7,11 +7,9 @@ import {
   ButtonBase,
   Divider,
 } from '@mui/material';
-import {
-  Logout as LogoutIcon,
-  Home as HomeIcon,
-  KeyboardArrowDown as ArrowDownIcon,
-} from '@mui/icons-material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
+import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { RequestContext } from '../../../context/RequestContext';
 import { useAuth } from '../../../context/AuthContext';

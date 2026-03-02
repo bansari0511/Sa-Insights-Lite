@@ -6,22 +6,20 @@ import {
   IconButton, Drawer, Autocomplete, CircularProgress, Backdrop, Fade,
   Dialog, DialogContent, DialogTitle
 } from "@mui/material";
-import {
-  CalendarMonth as CalendarMonthIcon,
-  ViewModule as ViewModuleIcon,
-  ViewList as ViewListIcon,
-  ClearAll as ClearAllIcon,
-  Newspaper as NewspaperIcon,
-  EventAvailable as EventAvailableIcon,
-  Security as SecurityIcon,
-  Search as SearchIcon,
-  FilterList as FilterListIcon,
-  ChevronLeft as ChevronLeftIcon,
-  ChevronRight as ChevronRightIcon,
-  ArrowBack as ArrowBackIcon,
-  Close as CloseIcon,
-  Category as CategoryIcon
-} from "@mui/icons-material";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import SecurityIcon from '@mui/icons-material/Security';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CloseIcon from '@mui/icons-material/Close';
+import CategoryIcon from '@mui/icons-material/Category';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchNewsData, fetchEventsData, fetchCombinedData, fetchIntelligenceData } from '../../services/searchApi';
 import ArticleDetailPage from '../newsRoom/ArticleDetailPage';

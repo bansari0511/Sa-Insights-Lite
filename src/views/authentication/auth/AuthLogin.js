@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     Box,
     Typography,
@@ -9,7 +9,6 @@ import {
     InputAdornment,
     IconButton,
     TextField,
-    keyframes,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { Navigate, useLocation } from 'react-router-dom';
@@ -25,19 +24,9 @@ import authService from '../../../services/authService';
 const FONT = "'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif";
 const MONO = "'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace";
 
+const AZURE = '#38bdf8';
 const INDIGO = '#6366f1';
 const INDIGO_DK = '#4f46e5';
-
-const slideUp = keyframes`
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
-
-const pulseRing = keyframes`
-  0%   { box-shadow: 0 0 0 0 ${alpha('#6366f1', 0.3)}; }
-  70%  { box-shadow: 0 0 0 6px ${alpha('#6366f1', 0)}; }
-  100% { box-shadow: 0 0 0 0 ${alpha('#6366f1', 0)}; }
-`;
 
 const AuthLogin = ({ title, subtext }) => {
     const [username, setUsername] = useState('');
@@ -80,55 +69,50 @@ const AuthLogin = ({ title, subtext }) => {
         }
     };
 
-    const inputStyles = {
+    const inputSx = {
         '& .MuiOutlinedInput-root': {
             fontFamily: FONT,
-            borderRadius: '12px',
-            backgroundColor: 'rgba(255,255,255,0.06)',
-            color: '#fff',
-            transition: 'all 0.25s ease',
+            borderRadius: '10px',
+            backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            color: '#e2e8f0',
             '& fieldset': {
-                borderColor: 'rgba(255,255,255,0.15)',
-                borderWidth: '1.5px',
-                transition: 'all 0.25s ease',
+                borderColor: 'rgba(255, 255, 255, 0.1)',
+                borderWidth: '1px',
             },
             '&:hover fieldset': {
-                borderColor: alpha(INDIGO, 0.5),
+                borderColor: alpha(AZURE, 0.3),
             },
             '&.Mui-focused fieldset': {
-                borderColor: INDIGO,
-                borderWidth: '2px',
+                borderColor: AZURE,
+                borderWidth: '1.5px',
             },
             '&.Mui-focused': {
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                boxShadow: `0 0 0 3px ${alpha(INDIGO, 0.14)}, 0 2px 16px ${alpha(INDIGO, 0.1)}`,
+                backgroundColor: 'rgba(56, 189, 248, 0.03)',
+                boxShadow: `0 0 0 3px ${alpha(AZURE, 0.06)}`,
             },
         },
         '& .MuiInputAdornment-root': {
-            color: 'rgba(255,255,255,0.5)',
-            transition: 'color 0.25s ease',
+            color: 'rgba(255, 255, 255, 0.3)',
         },
         '& .Mui-focused .MuiInputAdornment-root': {
-            color: INDIGO,
+            color: AZURE,
         },
         '& input': {
             fontFamily: FONT,
-            padding: '14px 16px',
-            fontSize: '0.95rem',
+            padding: '12px 14px',
+            fontSize: '0.9rem',
             fontWeight: 500,
             color: '#e2e8f0',
-            letterSpacing: '0.01em',
             '&::placeholder': {
-                color: 'rgba(255,255,255,0.40)',
+                color: 'rgba(255, 255, 255, 0.25)',
                 opacity: 1,
-                fontWeight: 300,
-                fontStyle: 'italic',
+                fontWeight: 400,
             },
             '&:-webkit-autofill': {
-                WebkitBoxShadow: '0 0 0 100px rgba(10,12,30,1) inset',
+                WebkitBoxShadow: '0 0 0 100px rgba(10, 12, 26, 0.9) inset',
                 WebkitTextFillColor: '#e2e8f0',
                 caretColor: '#e2e8f0',
-                borderRadius: '12px',
+                borderRadius: '10px',
             },
         },
     };
@@ -148,14 +132,13 @@ const AuthLogin = ({ title, subtext }) => {
                     severity="error"
                     sx={{
                         mb: 2,
-                        borderRadius: '12px',
-                        fontSize: '0.85rem',
+                        borderRadius: '10px',
+                        fontSize: '0.8rem',
                         fontFamily: FONT,
                         fontWeight: 500,
-                        animation: `${slideUp} 0.3s ease-out`,
-                        bgcolor: alpha('#ef4444', 0.12),
+                        bgcolor: alpha('#ef4444', 0.08),
                         color: '#fca5a5',
-                        border: `1px solid ${alpha('#ef4444', 0.22)}`,
+                        border: `1px solid ${alpha('#ef4444', 0.12)}`,
                         '& .MuiAlert-icon': { alignItems: 'center', color: '#f87171' },
                     }}
                 >
@@ -163,15 +146,16 @@ const AuthLogin = ({ title, subtext }) => {
                 </Alert>
             )}
 
-            <Stack spacing={2.2}>
+            <Stack spacing={2}>
                 {/* Username */}
-                <Box sx={{ animation: `${slideUp} 0.35s ease-out 0.1s both` }}>
+                <Box>
                     <Typography sx={{
-                        fontFamily: FONT, fontSize: '0.76rem', fontWeight: 600,
-                        color: focusedField === 'user' ? INDIGO : 'rgba(255,255,255,0.75)',
-                        mb: 0.6, pl: 0.3, transition: 'color 0.25s ease',
-                        letterSpacing: '0.05em', textTransform: 'uppercase',
-                        textShadow: focusedField === 'user' ? `0 0 8px ${alpha(INDIGO, 0.3)}` : 'none',
+                        fontFamily: FONT,
+                        fontSize: '0.75rem',
+                        fontWeight: 600,
+                        color: focusedField === 'user' ? AZURE : '#94a3b8',
+                        mb: 0.6,
+                        pl: 0.2,
                     }}>
                         Username
                     </Typography>
@@ -189,22 +173,23 @@ const AuthLogin = ({ title, subtext }) => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <PersonOutlineIcon sx={{ fontSize: 20 }} />
+                                    <PersonOutlineIcon sx={{ fontSize: 19 }} />
                                 </InputAdornment>
                             ),
                         }}
-                        sx={inputStyles}
+                        sx={inputSx}
                     />
                 </Box>
 
                 {/* Password */}
-                <Box sx={{ animation: `${slideUp} 0.35s ease-out 0.18s both` }}>
+                <Box>
                     <Typography sx={{
-                        fontFamily: FONT, fontSize: '0.76rem', fontWeight: 600,
-                        color: focusedField === 'pass' ? INDIGO : 'rgba(255,255,255,0.75)',
-                        mb: 0.6, pl: 0.3, transition: 'color 0.25s ease',
-                        letterSpacing: '0.05em', textTransform: 'uppercase',
-                        textShadow: focusedField === 'pass' ? `0 0 8px ${alpha(INDIGO, 0.3)}` : 'none',
+                        fontFamily: FONT,
+                        fontSize: '0.75rem',
+                        fontWeight: 600,
+                        color: focusedField === 'pass' ? AZURE : '#94a3b8',
+                        mb: 0.6,
+                        pl: 0.2,
                     }}>
                         Password
                     </Typography>
@@ -223,7 +208,7 @@ const AuthLogin = ({ title, subtext }) => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <LockOutlinedIcon sx={{ fontSize: 20 }} />
+                                    <LockOutlinedIcon sx={{ fontSize: 19 }} />
                                 </InputAdornment>
                             ),
                             endAdornment: (
@@ -233,9 +218,8 @@ const AuthLogin = ({ title, subtext }) => {
                                         edge="end"
                                         size="small"
                                         sx={{
-                                            color: 'rgba(255,255,255,0.5)',
-                                            transition: 'all 0.2s ease',
-                                            '&:hover': { color: INDIGO, bgcolor: alpha(INDIGO, 0.1) },
+                                            color: 'rgba(255, 255, 255, 0.35)',
+                                            '&:hover': { color: AZURE, bgcolor: alpha(AZURE, 0.08) },
                                         }}
                                     >
                                         {showPassword
@@ -246,49 +230,36 @@ const AuthLogin = ({ title, subtext }) => {
                                 </InputAdornment>
                             ),
                         }}
-                        sx={inputStyles}
+                        sx={inputSx}
                     />
                 </Box>
 
                 {/* Sign In Button */}
-                <Box sx={{ animation: `${slideUp} 0.35s ease-out 0.26s both`, pt: 0.5 }}>
+                <Box sx={{ pt: 0.5 }}>
                     <Button
                         variant="contained"
                         size="large"
                         fullWidth
                         type="submit"
                         disabled={isLoading}
-                        endIcon={!isLoading && <ArrowForwardIcon sx={{ fontSize: '1.1rem !important', transition: 'transform 0.3s ease' }} />}
+                        endIcon={!isLoading && <ArrowForwardIcon sx={{ fontSize: '1rem !important' }} />}
                         sx={{
                             fontFamily: FONT,
-                            py: 1.6,
-                            borderRadius: '12px',
-                            fontSize: '0.95rem',
+                            py: 1.4,
+                            borderRadius: '10px',
+                            fontSize: '0.9rem',
                             fontWeight: 700,
                             textTransform: 'none',
                             letterSpacing: '0.02em',
-                            background: `linear-gradient(135deg, ${INDIGO} 0%, ${INDIGO_DK} 100%)`,
-                            boxShadow: `0 4px 16px ${alpha(INDIGO, 0.35)}`,
-                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                            position: 'relative',
-                            overflow: 'hidden',
-                            '&::after': {
-                                content: '""',
-                                position: 'absolute',
-                                top: 0, left: '-100%', width: '100%', height: '100%',
-                                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
-                                transition: 'left 0.5s ease',
-                            },
+                            background: `linear-gradient(135deg, ${AZURE} 0%, ${INDIGO} 60%, ${INDIGO_DK} 100%)`,
+                            boxShadow: `0 4px 16px ${alpha(AZURE, 0.2)}, 0 2px 8px ${alpha(INDIGO, 0.15)}`,
                             '&:hover': {
-                                boxShadow: `0 6px 24px ${alpha(INDIGO, 0.45)}`,
-                                transform: 'translateY(-1px)',
-                                '&::after': { left: '100%' },
-                                '& .MuiButton-endIcon': { transform: 'translateX(3px)' },
+                                boxShadow: `0 6px 24px ${alpha(AZURE, 0.3)}, 0 2px 12px ${alpha(INDIGO, 0.2)}`,
+                                background: `linear-gradient(135deg, #5cc8f9 0%, #7c7ff7 60%, ${INDIGO} 100%)`,
                             },
-                            '&:active': { transform: 'translateY(0) scale(0.99)' },
                             '&.Mui-disabled': {
-                                background: 'rgba(255,255,255,0.08)',
-                                color: 'rgba(255,255,255,0.35)',
+                                background: 'rgba(255, 255, 255, 0.06)',
+                                color: 'rgba(255, 255, 255, 0.3)',
                                 boxShadow: 'none',
                             },
                         }}
@@ -305,30 +276,45 @@ const AuthLogin = ({ title, subtext }) => {
                 </Box>
             </Stack>
 
-            {/* Mode Indicator */}
-            <Box sx={{ mt: 2.5, textAlign: 'center', animation: `${slideUp} 0.35s ease-out 0.34s both` }}>
+            {/* Mode indicator */}
+            <Box sx={{ mt: 2.5, textAlign: 'center' }}>
                 <Typography
                     component="div"
                     sx={{
-                        display: 'inline-flex', alignItems: 'center', gap: 0.6,
-                        px: 1.5, py: 0.5, borderRadius: '8px',
-                        backgroundColor: isDemoMode ? alpha('#6366f1', 0.1) : alpha('#22c55e', 0.1),
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 0.6,
+                        px: 1.5,
+                        py: 0.5,
+                        borderRadius: '8px',
+                        backgroundColor: isDemoMode ? alpha(INDIGO, 0.08) : alpha('#22c55e', 0.08),
                         color: isDemoMode ? '#a5b4fc' : '#86efac',
-                        fontWeight: 600, fontSize: '0.68rem', fontFamily: FONT,
-                        border: `1px solid ${isDemoMode ? alpha('#6366f1', 0.18) : alpha('#22c55e', 0.18)}`,
+                        fontWeight: 600,
+                        fontSize: '0.62rem',
+                        fontFamily: FONT,
+                        border: `1px solid ${isDemoMode ? alpha(INDIGO, 0.14) : alpha('#22c55e', 0.14)}`,
                     }}
                 >
                     <Box sx={{
-                        width: 5, height: 5, borderRadius: '50%',
+                        width: 5,
+                        height: 5,
+                        borderRadius: '50%',
                         bgcolor: isDemoMode ? '#818cf8' : '#4ade80',
-                        animation: `${pulseRing} 2s ease-out infinite`,
+                        boxShadow: isDemoMode
+                            ? '0 0 5px rgba(129,140,248,0.3)'
+                            : '0 0 5px rgba(74,222,128,0.3)',
+                        flexShrink: 0,
                     }} />
                     {isDemoMode ? (
                         <>Demo Mode &mdash; Any credentials work</>
                     ) : (
                         <>SSO Mode &mdash; Use: <code style={{
-                            fontFamily: MONO, backgroundColor: 'rgba(255,255,255,0.08)',
-                            padding: '2px 6px', borderRadius: '4px', fontWeight: 700, fontSize: '0.7rem',
+                            fontFamily: MONO,
+                            backgroundColor: 'rgba(255,255,255,0.08)',
+                            padding: '2px 6px',
+                            borderRadius: '4px',
+                            fontWeight: 700,
+                            fontSize: '0.64rem',
                         }}>labuser / labuser</code></>
                     )}
                 </Typography>

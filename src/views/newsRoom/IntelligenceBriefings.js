@@ -4,16 +4,14 @@ import {
     Box, Typography, LinearProgress, Card, Chip, Pagination,
     Grid, Fade, Button, Divider, useTheme
 } from '@mui/material';
-import {
-    Schedule as ScheduleIcon,
-    TrendingUp as TrendingUpIcon,
-    Public as PublicIcon,
-    Article as ArticleIcon,
-    PriorityHigh as PriorityHighIcon,
-    ExpandMore as ExpandMoreIcon,
-    ExpandLess as ExpandLessIcon,
-    Security as SecurityIcon,
-} from '@mui/icons-material';
+import ScheduleIcon from '@mui/icons-material/Schedule';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import PublicIcon from '@mui/icons-material/Public';
+import ArticleIcon from '@mui/icons-material/Article';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import SecurityIcon from '@mui/icons-material/Security';
 import { newsService } from 'src/services/dataService';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SHOW_INSIGHTS_SIDEBAR } from 'src/config/appMode';

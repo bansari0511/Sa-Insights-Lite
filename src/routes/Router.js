@@ -11,9 +11,6 @@ const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 
-// Landing Page
-const LandingPage = Loadable(lazy(() => import("../views/landing/LandingPage")))
-
 // NewsRoom / Insights
 const NewsHomePage = Loadable(lazy(() => import("../views/newsRoom/NewsHomePage")))
 const IntelligenceBriefings = Loadable(lazy(() => import("../views/newsRoom/IntelligenceBriefings")))
@@ -21,20 +18,14 @@ const IntelligenceBriefings = Loadable(lazy(() => import("../views/newsRoom/Inte
 // Timeline and Networks - Event Timeline with Map
 const EventTimeline = Loadable(lazy(() => import('../views/icons/mapandevent')))
 
-// Dashboard
-const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
-
 // Search Page
 const SearchPage = Loadable(lazy(() => import('../views/utilities/SearchPage')))
 
 const Router = [
-  // Landing page - public, no auth required
+  // Root redirects to login
   {
     path: '/',
-    element: <BlankLayout />,
-    children: [
-      { index: true, element: <LandingPage /> },
-    ],
+    element: <Navigate to="/auth/login" />,
   },
   // Auth routes - public
   {
@@ -51,7 +42,7 @@ const Router = [
     element: <FullLayout />,
     children: [
       // Dashboard
-      { path: '/dashboard', element: <Dashboard /> },
+      // { path: '/dashboard', element: <Dashboard /> },
       // Insights Section
       { path: '/NewsRoom', element: <NewsHomePage /> },
       { path: '/intelligenceBriefings', element: <IntelligenceBriefings /> },

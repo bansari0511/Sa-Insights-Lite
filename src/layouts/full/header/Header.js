@@ -5,12 +5,10 @@ import {
   Typography, ClickAwayListener, Grow, Chip, Popper
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import {
-  Search as SearchIcon,
-  Newspaper as NewspaperIcon,
-  EventAvailable as EventAvailableIcon,
-  ArrowForwardIos as ArrowIcon,
-} from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import ArrowIcon from '@mui/icons-material/ArrowForwardIos';
 
 // components
 import Profile from './Profile';

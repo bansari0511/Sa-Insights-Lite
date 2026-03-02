@@ -6,16 +6,14 @@ import {
     Tooltip, Paper, Badge, LinearProgress, Button
 } from '@mui/material';
 import { withOpacity } from '../../theme/palette';
-import {
-    ExpandMore as ExpandMoreIcon,
-    Search as SearchIcon,
-    Schedule as ScheduleIcon,
-    Visibility as ViewIcon,
-    Language as LanguageIcon,
-    LocationOn as LocationIcon,
-    Update as UpdateIcon,
-    AccessTime as AccessTimeIcon,
-} from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SearchIcon from '@mui/icons-material/Search';
+import ScheduleIcon from '@mui/icons-material/Schedule';
+import ViewIcon from '@mui/icons-material/Visibility';
+import LanguageIcon from '@mui/icons-material/Language';
+import LocationIcon from '@mui/icons-material/LocationOn';
+import UpdateIcon from '@mui/icons-material/Update';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, useLocation } from 'react-router-dom';
 import regionsData from '../../../countries.json';
