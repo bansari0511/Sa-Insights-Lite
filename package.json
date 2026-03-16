@@ -37,6 +37,7 @@
     "apexcharts": "^5.3.5",
     "esbuild": "^0.18.20",
     "html2canvas": "^1.4.1",
+    "mammoth": "^1.11.0",
     "neo4j-driver": "^5.28.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -47,8 +48,7 @@
     "react-router": "^6.16.0",
     "react-router-dom": "^6.16.0",
     "react-window": "^1.8.11",
-    "xlsx": "^0.18.5",
-    "mammoth": "^1.11.0"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@esbuild/linux-x64": "^0.18.20",
@@ -65,7 +65,12 @@
   },
   "description": "SA Insights Lite - A lightweight version of the SA Web Service with NewsRoom, Intelligence Briefings, and Event Timeline.",
   "main": "vite.config.js",
-  "keywords": ["insights", "news", "timeline", "intelligence"],
+  "keywords": [
+    "insights",
+    "news",
+    "timeline",
+    "intelligence"
+  ],
   "author": "",
   "license": "ISC"
 }

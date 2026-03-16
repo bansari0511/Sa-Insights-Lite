@@ -11,7 +11,6 @@ const MONO = "'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace";
 
 /* ── Palette ── */
 const AZURE = '#38bdf8';
-const AZURE_DEEP = '#0ea5e9';
 const INDIGO = '#6366f1';
 const INDIGO_LIGHT = '#818cf8';
 const VIOLET = '#8b5cf6';
@@ -153,9 +152,9 @@ const Login2 = () => {
           position: 'absolute', inset: 0, zIndex: 0,
           background: `linear-gradient(
             135deg,
-            rgba(5, 8, 22, 0.88) 0%,
-            rgba(10, 15, 35, 0.85) 40%,
-            rgba(15, 10, 40, 0.90) 100%
+            rgba(5, 8, 22, 0.55) 0%,
+            rgba(10, 15, 35, 0.50) 40%,
+            rgba(15, 10, 40, 0.58) 100%
           )`,
         }} />
 
@@ -230,179 +229,186 @@ const Login2 = () => {
           animation: `${slideRight} 0.9s cubic-bezier(0.16, 1, 0.3, 1)`,
         }}>
 
-          {/* ── Logo Hero ── */}
+          {/* ── Logo + Title Row ── */}
           <Box sx={{
-            position: 'relative',
-            width: 180, height: 180,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            mb: 4,
-            alignSelf: 'flex-start',
+            gap: { md: '32px', lg: '40px' },
+            mb: 3.5,
           }}>
-            {/* Outer glow backdrop */}
+            {/* Logo with orbital system */}
             <Box sx={{
-              position: 'absolute',
-              inset: -20,
-              borderRadius: '50%',
-              background: `radial-gradient(circle,
-                rgba(56, 189, 248, 0.12) 0%,
-                rgba(99, 102, 241, 0.08) 30%,
-                rgba(139, 92, 246, 0.04) 60%,
-                transparent 80%
-              )`,
-              animation: `${pulseRing} 4s ease-in-out infinite`,
-            }} />
-
-            {/* Orbit ring 1 - large, slow */}
-            <Box sx={{
-              position: 'absolute',
-              width: 175, height: 175,
-              borderRadius: '50%',
-              border: '1px solid transparent',
-              borderTopColor: `${AZURE}40`,
-              borderRightColor: `${AZURE}15`,
-              animation: `${orbit1} 12s linear infinite`,
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                top: -2, right: 20,
-                width: 5, height: 5,
-                borderRadius: '50%',
-                bgcolor: AZURE,
-                boxShadow: `0 0 10px ${AZURE}80`,
-              },
-            }} />
-
-            {/* Orbit ring 2 - medium, reverse */}
-            <Box sx={{
-              position: 'absolute',
+              position: 'relative',
               width: 150, height: 150,
-              borderRadius: '50%',
-              border: '1px solid transparent',
-              borderBottomColor: `${VIOLET}35`,
-              borderLeftColor: `${VIOLET}12`,
-              animation: `${orbit2} 9s linear infinite reverse`,
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                bottom: 0, left: 15,
-                width: 4, height: 4,
-                borderRadius: '50%',
-                bgcolor: VIOLET,
-                boxShadow: `0 0 8px ${VIOLET}80`,
-              },
-            }} />
-
-            {/* Orbit ring 3 - tilted */}
-            <Box sx={{
-              position: 'absolute',
-              width: 165, height: 165,
-              borderRadius: '50%',
-              border: '1px solid transparent',
-              borderLeftColor: `${CYAN}25`,
-              borderTopColor: `${CYAN}10`,
-              animation: `${orbit3} 15s linear infinite`,
-              transform: 'rotateX(60deg)',
-            }} />
-
-            {/* Inner glass frame */}
-            <Box sx={{
-              width: 120, height: 120,
-              borderRadius: '28px',
-              background: `linear-gradient(145deg,
-                rgba(56, 189, 248, 0.08) 0%,
-                rgba(99, 102, 241, 0.06) 50%,
-                rgba(139, 92, 246, 0.04) 100%
-              )`,
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(56, 189, 248, 0.12)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              position: 'relative',
-              overflow: 'hidden',
-              boxShadow: `
-                0 8px 32px rgba(56, 189, 248, 0.08),
-                inset 0 1px 0 rgba(255,255,255,0.06)
-              `,
+              flexShrink: 0,
             }}>
-              {/* Scan line effect */}
+              {/* Outer glow backdrop */}
               <Box sx={{
                 position: 'absolute',
-                left: 0, right: 0,
-                height: '2px',
-                background: `linear-gradient(90deg, transparent, ${AZURE}30, transparent)`,
-                animation: `${scanLine} 4s ease-in-out infinite`,
-                animationDelay: '1s',
-                zIndex: 2,
+                inset: -16,
+                borderRadius: '50%',
+                background: `radial-gradient(circle,
+                  rgba(56, 189, 248, 0.12) 0%,
+                  rgba(99, 102, 241, 0.08) 30%,
+                  rgba(139, 92, 246, 0.04) 60%,
+                  transparent 80%
+                )`,
+                animation: `${pulseRing} 4s ease-in-out infinite`,
               }} />
 
-              {/* Logo */}
-              <Box component="img" src={logo} alt="Logo" sx={{
-                width: 72, height: 72,
-                objectFit: 'contain',
-                animation: `${logoBreath} 5s ease-in-out infinite`,
-                position: 'relative',
-                zIndex: 1,
+              {/* Orbit ring 1 */}
+              <Box sx={{
+                position: 'absolute',
+                width: 145, height: 145,
+                borderRadius: '50%',
+                border: '1px solid transparent',
+                borderTopColor: `${AZURE}40`,
+                borderRightColor: `${AZURE}15`,
+                animation: `${orbit1} 12s linear infinite`,
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  top: -2, right: 16,
+                  width: 5, height: 5,
+                  borderRadius: '50%',
+                  bgcolor: AZURE,
+                  boxShadow: `0 0 10px ${AZURE}80`,
+                },
               }} />
+
+              {/* Orbit ring 2 */}
+              <Box sx={{
+                position: 'absolute',
+                width: 125, height: 125,
+                borderRadius: '50%',
+                border: '1px solid transparent',
+                borderBottomColor: `${VIOLET}35`,
+                borderLeftColor: `${VIOLET}12`,
+                animation: `${orbit2} 9s linear infinite reverse`,
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: 0, left: 12,
+                  width: 4, height: 4,
+                  borderRadius: '50%',
+                  bgcolor: VIOLET,
+                  boxShadow: `0 0 8px ${VIOLET}80`,
+                },
+              }} />
+
+              {/* Orbit ring 3 */}
+              <Box sx={{
+                position: 'absolute',
+                width: 138, height: 138,
+                borderRadius: '50%',
+                border: '1px solid transparent',
+                borderLeftColor: `${CYAN}25`,
+                borderTopColor: `${CYAN}10`,
+                animation: `${orbit3} 15s linear infinite`,
+                transform: 'rotateX(60deg)',
+              }} />
+
+              {/* Inner glass frame */}
+              <Box sx={{
+                width: 100, height: 100,
+                borderRadius: '24px',
+                background: `linear-gradient(145deg,
+                  rgba(56, 189, 248, 0.08) 0%,
+                  rgba(99, 102, 241, 0.06) 50%,
+                  rgba(139, 92, 246, 0.04) 100%
+                )`,
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1px solid rgba(56, 189, 248, 0.12)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                overflow: 'hidden',
+                boxShadow: `
+                  0 8px 32px rgba(56, 189, 248, 0.08),
+                  inset 0 1px 0 rgba(255,255,255,0.06)
+                `,
+              }}>
+                {/* Scan line */}
+                <Box sx={{
+                  position: 'absolute',
+                  left: 0, right: 0,
+                  height: '2px',
+                  background: `linear-gradient(90deg, transparent, ${AZURE}30, transparent)`,
+                  animation: `${scanLine} 4s ease-in-out infinite`,
+                  animationDelay: '1s',
+                  zIndex: 2,
+                }} />
+
+                {/* Logo */}
+                <Box component="img" src={logo} alt="Logo" sx={{
+                  width: 60, height: 60,
+                  objectFit: 'contain',
+                  animation: `${logoBreath} 5s ease-in-out infinite`,
+                  position: 'relative',
+                  zIndex: 1,
+                }} />
+              </Box>
+            </Box>
+
+            {/* Title + Subtitle beside logo */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+              <Typography sx={{
+                fontFamily: FONT,
+                fontSize: { md: '3.2rem', lg: '3.8rem' },
+                fontWeight: 900,
+                lineHeight: 1.05,
+                letterSpacing: '-0.03em',
+                mb: 0.5,
+              }}>
+                {titleWords.map((word, wi) => (
+                  <Box key={wi} component="span" sx={{
+                    display: 'inline-block',
+                    mr: 1.5,
+                    background: wi === 0
+                      ? `linear-gradient(135deg, ${AZURE} 0%, #e0f2fe 50%, ${AZURE} 100%)`
+                      : `linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 40%, ${INDIGO_LIGHT} 100%)`,
+                    backgroundSize: wi === 0 ? '200% auto' : 'auto',
+                    animation: wi === 0 ? `${shimmer} 4s linear infinite` : 'none',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}>
+                    {word}
+                  </Box>
+                ))}
+              </Typography>
+
+              {/* Animated underline */}
+              <Box sx={{
+                height: 3,
+                width: 100,
+                borderRadius: 4,
+                mb: 1.5,
+                background: `linear-gradient(90deg, ${AZURE}, ${INDIGO}, ${VIOLET}, ${CYAN}, ${AZURE})`,
+                backgroundSize: '200% 100%',
+                animation: `${underlineFlow} 3s linear infinite`,
+                boxShadow: `0 0 12px ${AZURE}40`,
+              }} />
+
+              {/* Subtitle */}
+              <Typography sx={{
+                fontFamily: FONT,
+                fontSize: { md: '1.05rem', lg: '1.2rem' },
+                fontWeight: 400,
+                color: 'rgba(226, 232, 240, 0.65)',
+                lineHeight: 1.5,
+                letterSpacing: '0.01em',
+                maxWidth: 380,
+              }}>
+                {appConfig.tagline}
+              </Typography>
             </Box>
           </Box>
-
-          {/* ── Title ── */}
-          <Box sx={{ mb: 1.5 }}>
-            <Typography sx={{
-              fontFamily: FONT,
-              fontSize: '3.8rem',
-              fontWeight: 900,
-              lineHeight: 1.05,
-              letterSpacing: '-0.03em',
-            }}>
-              {titleWords.map((word, wi) => (
-                <Box key={wi} component="span" sx={{
-                  display: 'inline-block',
-                  mr: 1.5,
-                  background: wi === 0
-                    ? `linear-gradient(135deg, ${AZURE} 0%, #e0f2fe 50%, ${AZURE} 100%)`
-                    : `linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 40%, ${INDIGO_LIGHT} 100%)`,
-                  backgroundSize: wi === 0 ? '200% auto' : 'auto',
-                  animation: wi === 0 ? `${shimmer} 4s linear infinite` : 'none',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}>
-                  {word}
-                </Box>
-              ))}
-            </Typography>
-
-            {/* Animated underline */}
-            <Box sx={{
-              height: 3,
-              width: 100,
-              borderRadius: 4,
-              mt: 1.5,
-              background: `linear-gradient(90deg, ${AZURE}, ${INDIGO}, ${VIOLET}, ${CYAN}, ${AZURE})`,
-              backgroundSize: '200% 100%',
-              animation: `${underlineFlow} 3s linear infinite`,
-              boxShadow: `0 0 12px ${AZURE}40`,
-            }} />
-          </Box>
-
-          {/* ── Tagline ── */}
-          <Typography sx={{
-            fontFamily: FONT,
-            fontSize: '1.25rem',
-            fontWeight: 400,
-            color: 'rgba(226, 232, 240, 0.7)',
-            lineHeight: 1.6,
-            maxWidth: 440,
-            mb: 3.5,
-            letterSpacing: '0.01em',
-          }}>
-            {appConfig.tagline}
-          </Typography>
 
           {/* ── Status strip ── */}
           <Box sx={{

@@ -1,11 +1,15 @@
 import { useState, } from "react";
 import { styled,  Box, Typography, Link, useMediaQuery, useTheme } from "@mui/material";
 import { Outlet } from "react-router-dom";
+import BlockIcon from '@mui/icons-material/Block';
 
 import Header from "./header/Header";
 import Sidebar from "./sidebar/Sidebar";
 import { withOpacity } from "../../theme/palette";
 import appConfig from "../../config/appConfig";
+import { useAuth } from "../../context/AuthContext";
+
+const CURRENT_APP_ID = import.meta.env.VITE_CURRENT_APP_ID || 'sa-insights';
 
 const MainWrapper = styled("div")(({ theme }) => ({
   display: "flex",
@@ -23,9 +27,34 @@ const FullLayout = () => {
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const { hasAccess, isLoading, entitlements } = useAuth();
 
   const sidebarWidth = isSidebarOpen ? 270 : 70;
 
+  // Show access denied if entitlements have loaded and user lacks access to this app
+  if (!isLoading && entitlements.length > 0 && !hasAccess(CURRENT_APP_ID)) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          gap: 2,
+          background: theme.palette.brand?.gradientBackground || theme.palette.background.default,
+        }}
+      >
+        <BlockIcon sx={{ fontSize: 64, color: theme.palette.error.main, opacity: 0.7 }} />
+        <Typography variant="h5" sx={{ fontWeight: 600, color: theme.palette.text.primary }}>
+          Access Denied
+        </Typography>
+        <Typography variant="body1" sx={{ color: theme.palette.text.secondary, textAlign: 'center', maxWidth: 400 }}>
+          You do not have permission to access {appConfig.appName}. Please contact your administrator.
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <MainWrapper className="mainwrapper">

@@ -34,8 +34,22 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(!DEMO_MODE);
+  const [entitlements, setEntitlements] = useState([]);
   const justLoggedOut = useRef(false);
   const loginInProgress = useRef(false);
+
+  /**
+   * Load entitlements from Metis API after successful authentication
+   */
+  const loadEntitlements = async (userData) => {
+    try {
+      const data = await authService.fetchEntitlements(userData?.userid || userData?.id, userData?.username || userData?.name);
+      setEntitlements(data);
+    } catch (err) {
+      console.error('[AuthContext] Entitlement fetch failed:', err);
+      setEntitlements([]);
+    }
+  };
 
   /**
    * Check authentication status
@@ -62,12 +76,15 @@ export const AuthProvider = ({ children }) => {
       const result = await authService.checkAuth();
 
       if (result.isAuthenticated) {
-        setUser({
+        const userData = {
           username: result.user?.username || result.user?.name || 'SSO User',
+          userid: result.user?.userid || result.user?.id,
           email: result.user?.email,
           roles: result.user?.roles,
-        });
+        };
+        setUser(userData);
         setIsAuthenticated(true);
+        await loadEntitlements(userData);
       } else {
         // Clear state when not authenticated
         setUser(null);
@@ -122,11 +139,13 @@ export const AuthProvider = ({ children }) => {
       if (DEMO_MODE) {
         const demoUser = {
           username: username || 'demo_user',
+          userid: 'demo_001',
           email: `${username || 'demo'}@saaranalytics.ai`,
           roles: ['user'],
         };
         setUser(demoUser);
         setIsAuthenticated(true);
+        await loadEntitlements(demoUser);
         return { success: true };
       }
 
@@ -136,17 +155,22 @@ export const AuthProvider = ({ children }) => {
         try {
           const authResult = await authService.checkAuth();
           if (authResult.isAuthenticated) {
-            setUser({
+            const userData = {
               username: authResult.user?.username || authResult.user?.name || username,
+              userid: authResult.user?.userid || authResult.user?.id,
               email: authResult.user?.email,
               roles: authResult.user?.roles,
-            });
+            };
+            setUser(userData);
             setIsAuthenticated(true);
+            await loadEntitlements(userData);
           }
         } catch {
           // Even if user fetch fails, login was successful
-          setUser({ username, email: '', roles: [] });
+          const fallbackUser = { username, email: '', roles: [] };
+          setUser(fallbackUser);
           setIsAuthenticated(true);
+          await loadEntitlements(fallbackUser);
         }
       }
       return result;
@@ -169,6 +193,7 @@ export const AuthProvider = ({ children }) => {
     if (DEMO_MODE) {
       setUser(null);
       setIsAuthenticated(false);
+      setEntitlements([]);
       // Reset the flag after a delay
       setTimeout(() => {
         justLoggedOut.current = false;
@@ -179,6 +204,7 @@ export const AuthProvider = ({ children }) => {
     await authService.ssoLogout();
     setUser(null);
     setIsAuthenticated(false);
+    setEntitlements([]);
 
     // Reset the flag after a delay to allow cross-app SSO to work again
     setTimeout(() => {
@@ -190,6 +216,8 @@ export const AuthProvider = ({ children }) => {
     user,
     isAuthenticated,
     isLoading,
+    entitlements,
+    hasAccess: (appid) => entitlements.some(e => e.appid === appid && e.status === 'has_access'),
     login,
     logout,
     checkAuthStatus,

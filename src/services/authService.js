@@ -26,6 +26,7 @@ const API_ENDPOINTS = {
   logout: import.meta.env.VITE_API_LOGOUT_ENDPOINT || '/api/auth/logout',
   refresh: import.meta.env.VITE_API_REFRESH_ENDPOINT || '/api/auth/refresh',
   authInfo: import.meta.env.VITE_API_AUTH_INFO_ENDPOINT || '/api/secure/info',
+  entitlements: import.meta.env.VITE_API_ENTITLEMENTS_ENDPOINT || '/api/entitlements',
 };
 
 /**
@@ -217,6 +218,44 @@ export const authService = {
       return false;
     } catch {
       return false;
+    }
+  },
+
+  /**
+   * Fetch entitlements for a user from the Metis entitlement API.
+   * Returns an array of app access entries with appid, appname, and status.
+   * @param {string} userid - User's ID
+   * @param {string} username - User's username
+   * @returns {Promise<Array<{appid: string, appname: string, status: string}>>}
+   */
+  async fetchEntitlements(userid, username) {
+    if (DEMO_MODE) {
+      return [
+        { appid: import.meta.env.VITE_CURRENT_APP_ID || 'sa-insights', appname: 'SA Insights', status: 'has_access' },
+      ];
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.entitlements}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ userid, username }),
+      });
+
+      if (!response.ok) {
+        console.error(`[authService] Entitlement check failed: ${response.status}`);
+        return [];
+      }
+
+      const text = await response.text();
+      if (!text) return [];
+
+      const result = JSON.parse(text);
+      return result?.data || [];
+    } catch (error) {
+      console.error('[authService] Entitlement fetch error:', error);
+      return [];
     }
   },
 
