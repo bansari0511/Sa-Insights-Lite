@@ -9,7 +9,7 @@ import { withOpacity } from "../../theme/palette";
 import appConfig from "../../config/appConfig";
 import { useAuth } from "../../context/AuthContext";
 
-const CURRENT_APP_ID = import.meta.env.VITE_CURRENT_APP_ID || 'sa-insights';
+const CURRENT_APP_NAME = import.meta.env.VITE_CURRENT_APP_NAME || 'news';
 
 const MainWrapper = styled("div")(({ theme }) => ({
   display: "flex",
@@ -27,12 +27,13 @@ const FullLayout = () => {
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const { hasAccess, isLoading, entitlements } = useAuth();
+  const { hasAccess, isLoading, entitlementsLoaded } = useAuth();
 
   const sidebarWidth = isSidebarOpen ? 270 : 70;
 
-  // Show access denied if entitlements have loaded and user lacks access to this app
-  if (!isLoading && entitlements.length > 0 && !hasAccess(CURRENT_APP_ID)) {
+  // Show access denied only after entitlements have been fetched from API
+  // In embedded mode, HostAuthProvider sets hasAccess=()=>true, so this never triggers
+  if (!isLoading && entitlementsLoaded && !hasAccess(CURRENT_APP_NAME)) {
     return (
       <Box
         sx={{

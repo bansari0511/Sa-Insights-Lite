@@ -141,7 +141,7 @@ const particles = [
 ];
 
 const Login2 = () => {
-  const titleWords = (appConfig.appName || 'SA Insights').split(' ');
+  const titleWords = (appConfig.appName || 'NEWS').split(' ');
 
   return (
     <PageContainer title="Login" description={`${appConfig.appName} - ${appConfig.tagline}`}>

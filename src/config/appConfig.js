@@ -7,10 +7,10 @@
 
 const appConfig = {
   // Application name - displayed in headers, titles, etc.
-  appName: 'SA Insights',
+  appName: 'NEWS',
 
   // Short name for compact displays
-  appNameShort: 'SA Insights',
+  appNameShort: 'NEWS',
 
   // Tagline/description
   tagline: 'Strategic Analysis & Insights Platform',

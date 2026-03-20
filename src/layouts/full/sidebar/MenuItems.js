@@ -10,12 +10,12 @@ let idCounter = 0;
 const uniqueId = (prefix = 'id_') => `${prefix}${++idCounter}`;
 
 const Menuitems = [
-  {
-    id: uniqueId(),
-    title: 'Dashboard',
-    icon: IconDashboard,
-    href: '/dashboard',
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Dashboard',
+  //   icon: IconDashboard,
+  //   href: '/dashboard',
+  // },
   {
     navlabel: true,
     subheader: 'Insights',

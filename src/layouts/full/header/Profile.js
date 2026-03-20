@@ -52,14 +52,14 @@ const Profile = () => {
   const handleBackToHome = () => {
     handleClose();
     closeModals();
-    navigate('/');
+    navigate('/NewsRoom');
   };
 
   const handleLogout = async () => {
     handleClose();
     closeModals();
     await logout();
-    navigate('/auth/login');
+    navigate('/login');
   };
 
   return (

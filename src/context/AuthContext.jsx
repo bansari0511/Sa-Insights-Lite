@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(!DEMO_MODE);
   const [entitlements, setEntitlements] = useState([]);
+  const [entitlementsLoaded, setEntitlementsLoaded] = useState(false);
   const justLoggedOut = useRef(false);
   const loginInProgress = useRef(false);
 
@@ -48,6 +49,8 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       console.error('[AuthContext] Entitlement fetch failed:', err);
       setEntitlements([]);
+    } finally {
+      setEntitlementsLoaded(true);
     }
   };
 
@@ -194,6 +197,7 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setIsAuthenticated(false);
       setEntitlements([]);
+      setEntitlementsLoaded(false);
       // Reset the flag after a delay
       setTimeout(() => {
         justLoggedOut.current = false;
@@ -205,6 +209,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsAuthenticated(false);
     setEntitlements([]);
+    setEntitlementsLoaded(false);
 
     // Reset the flag after a delay to allow cross-app SSO to work again
     setTimeout(() => {
@@ -212,12 +217,45 @@ export const AuthProvider = ({ children }) => {
     }, 3000);
   }, []);
 
+  /**
+   * Check if user has access by appname from the entitlements list.
+   * Iterates through all entitlements and returns true only if a matching
+   * appname is found with status 'has_access'. Returns false for 'no_access',
+   * missing entries, or empty entitlements.
+   *
+   * @param {string} appName - The app name to check (e.g., 'news', 'SA Insights')
+   * @returns {boolean}
+   */
+  const hasAccess = (appName) => {
+    if (!entitlements || entitlements.length === 0) {
+      console.debug('[AuthContext] hasAccess: no entitlements loaded yet');
+      return false;
+    }
+
+    const normalizedInput = appName?.toLowerCase().trim();
+
+    const result = entitlements.some(
+      (e) =>
+        e.appname?.toLowerCase().trim() === normalizedInput &&
+        e.status === 'has_access'
+    );
+
+    console.debug(
+      `[AuthContext] hasAccess("${appName}") → ${result}`,
+      '| entitlements:',
+      entitlements.map((e) => ({ appname: e.appname, status: e.status }))
+    );
+
+    return result;
+  };
+
   const value = {
     user,
     isAuthenticated,
     isLoading,
     entitlements,
-    hasAccess: (appid) => entitlements.some(e => e.appid === appid && e.status === 'has_access'),
+    entitlementsLoaded,
+    hasAccess,
     login,
     logout,
     checkAuthStatus,

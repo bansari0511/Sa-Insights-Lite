@@ -231,7 +231,7 @@ export const authService = {
   async fetchEntitlements(userid, username) {
     if (DEMO_MODE) {
       return [
-        { appid: import.meta.env.VITE_CURRENT_APP_ID || 'sa-insights', appname: 'SA Insights', status: 'has_access' },
+        { appid: import.meta.env.VITE_CURRENT_APP_ID || 'sa-insights', appname: import.meta.env.VITE_CURRENT_APP_NAME || 'news', status: 'has_access' },
       ];
     }
 

@@ -5,6 +5,112 @@ import fs from 'fs/promises';
 import http from 'http';
 import svgr from '@svgr/rollup';
 import { visualizer } from 'rollup-plugin-visualizer';
+import federation from '@originjs/vite-plugin-federation';
+
+/**
+ * Vite plugin: Federation React Shim
+ *
+ * Ensures ALL react / react-dom imports in the child app resolve through
+ * the federation `importShared` function.  When running embedded in the
+ * host, `importShared` returns the host's React (single instance).
+ * When running standalone, it falls back to the locally installed copy.
+ *
+ * Without this plugin, deep node_modules dependencies (MUI, antd, …)
+ * end up importing a separately-bundled React copy whose internal hooks
+ * dispatcher is null, causing "can't access property useContext, H is null".
+ */
+function federationReactShim() {
+  const SHIM_PREFIX = '\0federation-react-shim:';
+  const SHIMMED = ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'react-dom/client'];
+
+  // Comprehensive named export lists for React 19
+  const EXPORTS = {
+    'react': [
+      'Children','Component','Fragment','Profiler','PureComponent','StrictMode','Suspense',
+      'act','cache','cloneElement','createContext','createElement','createRef',
+      'forwardRef','isValidElement','lazy','memo','startTransition','use',
+      'useActionState','useCallback','useContext','useDebugValue','useDeferredValue',
+      'useEffect','useId','useImperativeHandle','useInsertionEffect','useLayoutEffect',
+      'useMemo','useOptimistic','useReducer','useRef','useState','useSyncExternalStore',
+      'useTransition','version',
+    ],
+    'react/jsx-runtime':     ['Fragment','jsx','jsxs'],
+    'react/jsx-dev-runtime': ['Fragment','jsxDEV'],
+    'react-dom': [
+      'createPortal','flushSync','preconnect','prefetchDNS','preinit','preload',
+      'requestFormReset','unstable_batchedUpdates','useFormState','useFormStatus','version',
+    ],
+    'react-dom/client': ['createRoot','hydrateRoot'],
+  };
+
+  return {
+    name: 'federation-react-shim',
+    enforce: 'pre',
+    apply: 'build',  // Only during build — dev mode uses real React directly
+
+    resolveId(source, importer) {
+      // Never intercept imports from federation internals or from our own shims
+      if (!importer) return null;
+      if (importer.includes('__federation_') || importer.includes(SHIM_PREFIX)) return null;
+      if (importer.includes('node_modules/@originjs')) return null;
+
+      if (SHIMMED.includes(source)) {
+        return { id: SHIM_PREFIX + source, moduleSideEffects: false };
+      }
+    },
+
+    load(id) {
+      if (!id.startsWith(SHIM_PREFIX)) return null;
+      const pkg = id.slice(SHIM_PREFIX.length);
+      const names = EXPORTS[pkg] || [];
+
+      // For subpath modules, derive from the parent shared module
+      // because only 'react' and 'react-dom' are in the federation shared config.
+      if (pkg === 'react/jsx-runtime' || pkg === 'react/jsx-dev-runtime') {
+        // Use React.createElement but adapt the jsx(type, props, key) signature.
+        // jsx-runtime puts children INSIDE props, createElement needs them as extra args.
+        // We must use createElement (not raw objects) so React sets _owner, _store, ref etc.
+        return [
+          `import { importShared } from '__federation_fn_import';`,
+          `const React = await importShared('react');`,
+          `const Fragment = React.Fragment;`,
+          `function jsx(type, config, maybeKey) {`,
+          `  const { children, ref, ...rest } = config || {};`,
+          `  if (maybeKey !== undefined) rest.key = maybeKey;`,
+          `  if (ref !== undefined) rest.ref = ref;`,
+          `  if (children !== undefined) {`,
+          `    return React.createElement(type, rest, ...(Array.isArray(children) ? children : [children]));`,
+          `  }`,
+          `  return React.createElement(type, rest);`,
+          `}`,
+          `const jsxs = jsx;`,
+          pkg === 'react/jsx-dev-runtime'
+            ? `const jsxDEV = jsx;\nexport { Fragment, jsxDEV };`
+            : `export { Fragment, jsx, jsxs };`,
+          `export default { Fragment, ${pkg.includes('dev') ? 'jsxDEV' : 'jsx, jsxs'} };`,
+        ].join('\n');
+      }
+
+      if (pkg === 'react-dom/client') {
+        return [
+          `import { importShared } from '__federation_fn_import';`,
+          `const _mod = await importShared('react-dom');`,
+          `export const createRoot = _mod.createRoot || (await import('react-dom/client')).createRoot;`,
+          `export const hydrateRoot = _mod.hydrateRoot || (await import('react-dom/client')).hydrateRoot;`,
+          `export default { createRoot, hydrateRoot };`,
+        ].join('\n');
+      }
+
+      // For top-level modules (react, react-dom) — use importShared directly
+      return [
+        `import { importShared } from '__federation_fn_import';`,
+        `const _mod = await importShared('${pkg}');`,
+        `export default (_mod && _mod.default !== undefined) ? _mod.default : _mod;`,
+        ...names.map(n => `export const ${n} = _mod.${n};`),
+      ].join('\n');
+    },
+  };
+}
 
 // Vite plugin: CORS proxy for fetching cross-origin files (xlsx, docx from assets server)
 // Usage: fetch('/sa-insights/cors-proxy?url=' + encodeURIComponent('http://172.18.111.11/file.xlsx'))
@@ -43,7 +149,7 @@ function corsProxyPlugin() {
   };
 }
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
@@ -62,71 +168,19 @@ envPrefix: ['REACT_APP_', 'VITE_'],
     exclude: [],
   },
   build: {
-    sourcemap: false, // Disable source maps to avoid ArcGIS source map errors
+    sourcemap: false,
     minify: 'esbuild',
-    target: 'es2020', // Modern target for better optimization and smaller bundles
-    // Optimize chunk size
+    target: 'esnext',
+    modulePreload: false,
+    cssCodeSplit: false,
     chunkSizeWarningLimit: 1000,
-    cssCodeSplit: true, // Enable CSS code splitting
-    reportCompressedSize: true, // Report compressed bundle size
+    reportCompressedSize: true,
     rollupOptions: {
-    external:[],
-    output:{
-    // Enhanced code-splitting strategy for better caching and performance
-    manualChunks: (id) => {
-      // Core React libraries
-      if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
-        return 'react-vendor';
-      }
-      // MUI icons - separate as they can be large (must check before general @mui)
-      if (id.includes('@mui/icons-material')) {
-        return 'mui-icons';
-      }
-      // MUI packages - separate chunk for better caching
-      if (id.includes('node_modules/@mui')) {
-        return 'mui';
-      }
-      // Emotion (CSS-in-JS for MUI)
-      if (id.includes('node_modules/@emotion')) {
-        return 'emotion';
-      }
-      // ArcGIS - very large library, separate chunk
-      if (id.includes('node_modules/@arcgis')) {
-        return 'arcgis';
-      }
-      // DevExtreme - large UI library
-      if (id.includes('node_modules/devextreme')) {
-        return 'devextreme';
-      }
-      // Charts libraries
-      if (id.includes('node_modules/apexcharts') || id.includes('node_modules/react-apexcharts')) {
-        return 'charts';
-      }
-      // D3 library
-      if (id.includes('node_modules/d3')) {
-        return 'd3';
-      }
-      // React Router
-      if (id.includes('node_modules/react-router')) {
-        return 'router';
-      }
-      // Axios
-      if (id.includes('node_modules/axios')) {
-        return 'axios';
-      }
-      // All other node_modules
-      if (id.includes('node_modules')) {
-        return 'vendor';
-      }
+      external: [],
     },
-    entryFileNames: 'assets/[name].[hash].js',
-    chunkFileNames: 'assets/[name].[hash].js',
-    assetFileNames: 'assets/[name].[hash].[ext]'
-    }
-  },
-  commonjsOptions:{
-    include:[/node_modules/,/@babel\/runtime/],
-  }
+    commonjsOptions: {
+      include: [/node_modules/, /@babel\/runtime/],
+    },
   },
   optimizeDeps: {
     exclude: ['@arcgis/core', '@arcgis/map-components'],
@@ -147,7 +201,7 @@ envPrefix: ['REACT_APP_', 'VITE_'],
       'dingbat-to-unicode'
     ],
     esbuildOptions: {
-      target: 'es2020',
+      target: 'esnext',
       plugins: [
         {
           name: 'load-js-files-as-jsx',
@@ -168,8 +222,22 @@ envPrefix: ['REACT_APP_', 'VITE_'],
     },
   },
   plugins: [
+    federationReactShim(),
     corsProxyPlugin(),
     svgr(),
+    federation({
+      name: 'news_app',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './App': './src/SAInsightsRoot.jsx',
+      },
+      shared: {
+        'react':           { requiredVersion: false },
+        'react-dom':       { requiredVersion: false },
+        'react-router':    { requiredVersion: false },
+        'react-router-dom':{ requiredVersion: false },
+      },
+    }),
     react(),
     // Bundle analyzer - generates stats.html after build
     visualizer({
@@ -179,10 +247,15 @@ envPrefix: ['REACT_APP_', 'VITE_'],
       brotliSize: true,
     })
   ],
-  base: '/',
+  // In build mode, use absolute URL so assets (images, fonts) resolve to child's server
+  // when loaded via federation from the host. In dev mode, use '/' for local serving.
+  base: command === 'build'
+    ? (env.VITE_FEDERATION_BASE_URL || `http://localhost:${parseInt(env.VITE_DEV_SERVER_PORT) || 9400}/`)
+    : '/',
   server: {
-    port: parseInt(env.VITE_DEV_SERVER_PORT) || 9398,
+    port: parseInt(env.VITE_DEV_SERVER_PORT) || 9400,
     host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',
+    cors: true,
     fs: {
       strict: false,
     },
@@ -200,6 +273,11 @@ envPrefix: ['REACT_APP_', 'VITE_'],
         '**/Thumbs.db'
       ]
     }
+  },
+  preview: {
+    port: parseInt(env.VITE_DEV_SERVER_PORT) || 9400,
+    host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',
+    cors: true,
   }
   };
 });

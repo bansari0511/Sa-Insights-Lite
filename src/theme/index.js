@@ -106,16 +106,7 @@ export {
 
 export {
   mapTheme,
-  mapColors,
-  mapTypography,
-  mapSizing,
-  mapEffects,
-  NODE_COLORS,
-  EDGE_COLORS,
-  getNodeColor,
-  getEdgeColor,
   eventCategories,
-  mapLayerConfig,
   highlightOptions,
 } from './MapVisualizationTheme';
 

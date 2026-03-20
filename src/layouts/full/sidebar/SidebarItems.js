@@ -1,6 +1,6 @@
 import React from 'react';
 import Menuitems from './MenuItems';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { Box, List, useTheme, Divider } from '@mui/material';
 import NavItem from './NavItem';
 import NavGroup from './NavGroup/NavGroup';
@@ -13,22 +13,16 @@ const SidebarItems = ({ isCollapsed = false }) => {
   const pathDirect = pathname;
 
   // Helper function to determine if an item should be active
+  // Uses endsWith to work in both standalone (/NewsRoom) and federation (/sa-insights/NewsRoom)
   const isItemActive = (item) => {
-    // Check if Intelligence Briefing should be active
     if (item.href === '/intelligenceBriefings') {
-      // Active when on /intelligenceBriefings OR when on /NewsRoom with intelligence_briefing state
-      return pathname === '/intelligenceBriefings' ||
-             (pathname === '/NewsRoom' && state?.selectedCountry === 'intelligence_briefing');
+      return pathname.endsWith('/intelligenceBriefings') ||
+             (pathname.endsWith('/NewsRoom') && state?.selectedCountry === 'intelligence_briefing');
     }
-
-    // Check if News Updates should be active
     if (item.href === '/NewsRoom') {
-      // Active when on /NewsRoom AND NOT in intelligence_briefing mode
-      return pathname === '/NewsRoom' && state?.selectedCountry !== 'intelligence_briefing';
+      return pathname.endsWith('/NewsRoom') && state?.selectedCountry !== 'intelligence_briefing';
     }
-
-    // Default: active when pathname matches href
-    return pathname === item.href;
+    return pathname.endsWith(item.href);
   };
 
   // Group menu items by subheader for better organization
