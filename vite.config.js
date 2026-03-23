@@ -166,6 +166,9 @@ envPrefix: ['REACT_APP_', 'VITE_'],
     loader: 'jsx',
     include: /src\/.*\.[jt]sx?$/, // cover .js, .jsx, .ts, .tsx
     exclude: [],
+    supported: {
+      'top-level-await': true,
+    },
   },
   build: {
     sourcemap: false,
