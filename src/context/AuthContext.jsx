@@ -43,13 +43,16 @@ export const AuthProvider = ({ children }) => {
    * Load entitlements from Metis API after successful authentication
    */
   const loadEntitlements = async (userData) => {
+    setEntitlementsLoaded(false);
     try {
       const data = await authService.fetchEntitlements(userData?.userid || userData?.id, userData?.username || userData?.name);
+      // Batch both updates together so React renders them in a single pass.
+      // This prevents a flash where entitlementsLoaded=true but entitlements is still [].
       setEntitlements(data);
+      setEntitlementsLoaded(true);
     } catch (err) {
       console.error('[AuthContext] Entitlement fetch failed:', err);
       setEntitlements([]);
-    } finally {
       setEntitlementsLoaded(true);
     }
   };

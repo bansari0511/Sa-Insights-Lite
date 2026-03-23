@@ -149,7 +149,7 @@ function corsProxyPlugin() {
   };
 }
 
-export default defineConfig(({ mode, command }) => {
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
@@ -234,12 +234,7 @@ envPrefix: ['REACT_APP_', 'VITE_'],
       exposes: {
         './App': './src/SAInsightsRoot.jsx',
       },
-      shared: {
-        'react':           { requiredVersion: false },
-        'react-dom':       { requiredVersion: false },
-        'react-router':    { requiredVersion: false },
-        'react-router-dom':{ requiredVersion: false },
-      },
+      shared: ['react', 'react-dom', 'react-router', 'react-router-dom'],
     }),
     react(),
     // Bundle analyzer - generates stats.html after build
@@ -250,11 +245,9 @@ envPrefix: ['REACT_APP_', 'VITE_'],
       brotliSize: true,
     })
   ],
-  // In build mode, use absolute URL so assets (images, fonts) resolve to child's server
-  // when loaded via federation from the host. In dev mode, use '/' for local serving.
-  base: command === 'build'
-    ? (env.VITE_FEDERATION_BASE_URL || `http://localhost:${parseInt(env.VITE_DEV_SERVER_PORT) || 9400}/`)
-    : '/',
+  // Base path for asset resolution — same pattern as my-ontology-app.
+  // Production: /news/ (via env), LAN: IP-based URL (via env), Dev: ./
+  base: env.VITE_FEDERATION_BASE_URL || './',
   server: {
     port: parseInt(env.VITE_DEV_SERVER_PORT) || 9400,
     host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',

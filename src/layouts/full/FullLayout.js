@@ -31,6 +31,18 @@ const FullLayout = () => {
 
   const sidebarWidth = isSidebarOpen ? 270 : 70;
 
+  // Wait for entitlements to load before rendering anything
+  // This prevents a flash of "Access Denied" while the API call is in progress
+  if (!isLoading && !entitlementsLoaded) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
+          Checking access...
+        </Typography>
+      </Box>
+    );
+  }
+
   // Show access denied only after entitlements have been fetched from API
   // In embedded mode, HostAuthProvider sets hasAccess=()=>true, so this never triggers
   if (!isLoading && entitlementsLoaded && !hasAccess(CURRENT_APP_NAME)) {
