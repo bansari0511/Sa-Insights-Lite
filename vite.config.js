@@ -10,18 +10,24 @@ import federation from '@originjs/vite-plugin-federation';
 /**
  * Vite plugin: Federation React Shim
  *
- * Ensures ALL react / react-dom imports in the child app resolve through
- * the federation `importShared` function.  When running embedded in the
- * host, `importShared` returns the host's React (single instance).
- * When running standalone, it falls back to the locally installed copy.
+ * Ensures ALL react / react-dom / react-router / react-router-dom imports
+ * in the child app resolve through the federation `importShared` function.
+ * When running embedded in the host, `importShared` returns the host's
+ * single instance.  When running standalone, it falls back to the locally
+ * installed copy.
  *
  * Without this plugin, deep node_modules dependencies (MUI, antd, …)
- * end up importing a separately-bundled React copy whose internal hooks
- * dispatcher is null, causing "can't access property useContext, H is null".
+ * end up importing a separately-bundled copy whose internal hooks
+ * dispatcher / router context is null, causing errors like
+ * "can't access property useContext, H is null" or
+ * "useLocation() may be used only in the context of a <Router>".
  */
 function federationReactShim() {
   const SHIM_PREFIX = '\0federation-react-shim:';
-  const SHIMMED = ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'react-dom/client'];
+  const SHIMMED = [
+    'react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'react-dom/client',
+    'react-router', 'react-router-dom',
+  ];
 
   // Comprehensive named export lists for React 19
   const EXPORTS = {
@@ -41,6 +47,36 @@ function federationReactShim() {
       'requestFormReset','unstable_batchedUpdates','useFormState','useFormStatus','version',
     ],
     'react-dom/client': ['createRoot','hydrateRoot'],
+    'react-router': [
+      'Await','BrowserRouter','Form','HashRouter','Link','Links','MemoryRouter','Meta',
+      'NavLink','Navigate','NavigationType','Outlet','PrefetchPageLinks','Route','Router',
+      'RouterProvider','Routes','Scripts','ScrollRestoration','StaticRouter',
+      'StaticRouterProvider','createBrowserRouter','createHashRouter','createMemoryRouter',
+      'createPath','createRoutesFromChildren','createRoutesFromElements','createSearchParams',
+      'generatePath','matchPath','matchRoutes','parsePath','redirect','redirectDocument',
+      'renderMatches','resolvePath','useActionData','useAsyncError','useAsyncValue',
+      'useBeforeUnload','useBlocker','useFetcher','useFetchers','useFormAction','useHref',
+      'useInRouterContext','useLinkClickHandler','useLoaderData','useLocation','useMatch',
+      'useMatches','useNavigate','useNavigation','useNavigationType','useOutlet',
+      'useOutletContext','useParams','useResolvedPath','useRevalidator','useRouteError',
+      'useRouteLoaderData','useRoutes','useSearchParams','useSubmit','useViewTransitionState',
+      'data','href','isRouteErrorResponse','replace',
+    ],
+    'react-router-dom': [
+      'Await','BrowserRouter','Form','HashRouter','HydratedRouter','Link','Links','MemoryRouter',
+      'Meta','NavLink','Navigate','NavigationType','Outlet','PrefetchPageLinks','Route','Router',
+      'RouterProvider','Routes','Scripts','ScrollRestoration','StaticRouter',
+      'StaticRouterProvider','createBrowserRouter','createHashRouter','createMemoryRouter',
+      'createPath','createRoutesFromChildren','createRoutesFromElements','createSearchParams',
+      'generatePath','matchPath','matchRoutes','parsePath','redirect','redirectDocument',
+      'renderMatches','resolvePath','useActionData','useAsyncError','useAsyncValue',
+      'useBeforeUnload','useBlocker','useFetcher','useFetchers','useFormAction','useHref',
+      'useInRouterContext','useLinkClickHandler','useLoaderData','useLocation','useMatch',
+      'useMatches','useNavigate','useNavigation','useNavigationType','useOutlet',
+      'useOutletContext','useParams','useResolvedPath','useRevalidator','useRouteError',
+      'useRouteLoaderData','useRoutes','useSearchParams','useSubmit','useViewTransitionState',
+      'data','href','isRouteErrorResponse','replace',
+    ],
   };
 
   return {
@@ -101,7 +137,17 @@ function federationReactShim() {
         ].join('\n');
       }
 
-      // For top-level modules (react, react-dom) — use importShared directly
+      // react-router-dom re-exports from react-router in v7 — proxy to same shared module
+      if (pkg === 'react-router-dom') {
+        return [
+          `import { importShared } from '__federation_fn_import';`,
+          `const _mod = await importShared('react-router');`,
+          `export default (_mod && _mod.default !== undefined) ? _mod.default : _mod;`,
+          ...names.map(n => `export const ${n} = _mod.${n};`),
+        ].join('\n');
+      }
+
+      // For top-level modules (react, react-dom, react-router) — use importShared directly
       return [
         `import { importShared } from '__federation_fn_import';`,
         `const _mod = await importShared('${pkg}');`,
