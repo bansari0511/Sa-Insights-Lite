@@ -6,7 +6,7 @@ NEWS Lite runs in two modes:
 
 | Mode | Entry Point | Router | Auth | URL |
 |------|-------------|--------|------|-----|
-| **Standalone** | `bootstrap.jsx` → `App.jsx` → `Router.js` | Own `BrowserRouter` | Own `AuthProvider` | `http://localhost:9400/NewsRoom` |
+| **Standalone** | `bootstrap.jsx` → `App.jsx` → `Router.js` | Own `BrowserRouter` | Own `AuthProvider` | `http://localhost:9398/NewsRoom` |
 | **Federation** (embedded in METIS) | `SAInsightsRoot.jsx` → `EmbeddedApp.jsx` | Host's `BrowserRouter` | `HostAuthProvider` (pass-through) | `http://localhost:9391/metis/news/NewsRoom` |
 
 The METIS host loads NEWS inline via **Vite Module Federation** (`@originjs/vite-plugin-federation`).
@@ -24,7 +24,7 @@ METIS Host (my-react-app, port 9391)
 │   ├── Route /onto/* → OntologyRoot
 │   └── Route /* → redirect to /login
 │
-NEWS (news-lite, port 9400)
+NEWS (news-lite, port 9398)
 ├── SAInsightsRoot.jsx (federation entry, exposed as ./App)
 │   ├── EmbeddedProvider (embedded=true)
 │   ├── HostAuthProvider (maps host auth → app's AuthContext)
@@ -126,9 +126,9 @@ This is transparent to all components — they use standalone absolute paths, th
 
 ### 5. Asset URLs (Logo, Fonts)
 
-**Problem:** `import logo from '...'` creates `/assets/logo_landing-xxx.png`. In federation, this resolves to the host's origin (port 9391), not the child's (port 9400).
+**Problem:** `import logo from '...'` creates `/assets/logo_landing-xxx.png`. In federation, this resolves to the host's origin (port 9391), not the child's (port 9398).
 
-**Solution:** `base` in vite.config.js set to `http://localhost:9400/` for builds:
+**Solution:** `base` in vite.config.js set to `http://localhost:9398/` for builds:
 ```js
 base: command === 'build'
   ? `http://localhost:${port}/`
@@ -155,10 +155,10 @@ METIS sidebar z-index bumped to 1300 (above MUI's 1200).
 ### All three apps together (federation mode)
 
 ```bash
-# Terminal 1: Build + preview NEWS (port 9400)
+# Terminal 1: Build + preview NEWS (port 9398)
 cd news-lite
 npm run build -- --mode development
-npx vite preview --port 9400 --host 0.0.0.0
+npx vite preview --port 9398 --host 0.0.0.0
 
 # Terminal 2: Build + preview Ontology (port 9399)
 cd my-ontology-app
@@ -179,7 +179,7 @@ cd news-lite
 npm run dev
 ```
 
-Open: http://localhost:9400/
+Open: http://localhost:9398/
 
 ---
 

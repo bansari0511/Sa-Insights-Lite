@@ -152,7 +152,7 @@ export default defineConfig(({ mode, command }) => {
   // - Dev serve (standalone): relative path, dev server handles it
   let basePath = env.VITE_FEDERATION_BASE_URL || './';
   if (command === 'build' && basePath === '/') {
-    const port = env.VITE_DEV_SERVER_PORT || '9400';
+    const port = env.VITE_DEV_SERVER_PORT || '9398';
     const host = env.VITE_DEV_SERVER_HOST || 'localhost';
     basePath = `http://${host === '0.0.0.0' ? 'localhost' : host}:${port}/`;
   }
@@ -235,7 +235,7 @@ envPrefix: ['REACT_APP_', 'VITE_'],
     corsProxyPlugin(),
     svgr(),
     federation({
-      name: 'news_app',
+      name: 'news',
       filename: 'remoteEntry.js',
       exposes: {
         './App': './src/SAInsightsRoot.jsx',
@@ -252,7 +252,7 @@ envPrefix: ['REACT_APP_', 'VITE_'],
   ],
   base: basePath,
   server: {
-    port: parseInt(env.VITE_DEV_SERVER_PORT) || 9400,
+    port: parseInt(env.VITE_DEV_SERVER_PORT) || 9398,
     host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',
     cors: true,
     fs: {
@@ -274,7 +274,7 @@ envPrefix: ['REACT_APP_', 'VITE_'],
     }
   },
   preview: {
-    port: parseInt(env.VITE_DEV_SERVER_PORT) || 9400,
+    port: parseInt(env.VITE_DEV_SERVER_PORT) || 9398,
     host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',
     cors: true,
   }

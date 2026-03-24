@@ -16,9 +16,9 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "start": "serve -s dist -l tcp://0.0.0.0:9400",
-    "start:local": "npm run build:local && serve -s dist -l tcp://localhost:9400",
-    "start:dev": "npm run build:development && serve -s dist -l tcp://0.0.0.0:9400"
+    "start": "serve -s dist -l tcp://0.0.0.0:9398",
+    "start:local": "npm run build:local && serve -s dist -l tcp://localhost:9398",
+    "start:dev": "npm run build:development && serve -s dist -l tcp://0.0.0.0:9398"
   },
   "dependencies": {
     "@arcgis/core": "^4.33.13",
