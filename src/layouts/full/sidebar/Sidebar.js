@@ -1,7 +1,6 @@
 import { useMediaQuery, Box, Drawer, Typography, Tooltip, IconButton, useTheme } from '@mui/material';
 import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from '@tabler/icons-react';
 import SidebarItems from './SidebarItems';
-import { Upgrade } from './Updrade';
 import logo from '../../../assets/images/logos/logo_landing.png';
 import { withOpacity } from '../../../theme/palette';
 import appConfig from '../../../config/appConfig';
@@ -9,7 +8,7 @@ import appConfig from '../../../config/appConfig';
 const MSidebar = (props) => {
   const theme = useTheme();
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
-  const { isSidebarOpen, sidebarWidth = 270 } = props;
+  const { isSidebarOpen, sidebarWidth = 270, isEmbedded = false } = props;
   const isCollapsed = !isSidebarOpen;
   const collapsedWidth = 70;
 
@@ -38,10 +37,10 @@ const MSidebar = (props) => {
     return (
       <Box
         sx={{
-          position: 'fixed',
+          position: isEmbedded ? 'absolute' : 'fixed',
           top: 0,
           left: 0,
-          height: '100vh',
+          height: isEmbedded ? '100%' : '100vh',
           width: isCollapsed ? collapsedWidth : sidebarWidth,
           zIndex: theme.custom.tokens.zIndex.fixed,
           display: 'flex',
@@ -70,36 +69,6 @@ const MSidebar = (props) => {
               display: 'flex',
               flexDirection: 'column',
               ...scrollbarStyles,
-              // Modern glass-morphism edge effect - DISABLED
-              // '&::before': {
-              //   content: '""',
-              //   position: 'absolute',
-              //   top: 0,
-              //   right: 0,
-              //   width: '1px',
-              //   height: '100%',
-              //   background: `linear-gradient(180deg, ${withOpacity(theme.palette.brand.cyan, 0.3)} 0%, ${withOpacity(theme.palette.brand.cyan, 0.1)} 50%, ${withOpacity(theme.palette.brand.cyan, 0.3)} 100%)`,
-              // },
-              // Subtle ambient glow - DISABLED
-              // '&::after': {
-              //   content: '""',
-              //   position: 'absolute',
-              //   top: '-50%',
-              //   right: '-50%',
-              //   width: '200%',
-              //   height: '200%',
-              //   background: `radial-gradient(circle at 80% 50%, ${withOpacity(theme.palette.brand.cyan, 0.08)} 0%, transparent 50%)`,
-              //   pointerEvents: 'none',
-              //   animation: 'pulse 8s ease-in-out infinite',
-              // },
-              // '@keyframes pulse': {
-              //   '0%, 100%': {
-              //     opacity: 0.5,
-              //   },
-              //   '50%': {
-              //     opacity: 1,
-              //   },
-              // },
             },
           }}
         >
@@ -191,18 +160,6 @@ const MSidebar = (props) => {
                       cursor: 'pointer',
                       transition: 'none',
                       overflow: 'hidden',
-                      // Animated gradient effect - DISABLED
-                      // '&::before': {
-                      //   content: '""',
-                      //   position: 'absolute',
-                      //   top: '-50%',
-                      //   left: '-50%',
-                      //   width: '200%',
-                      //   height: '200%',
-                      //   background: `linear-gradient(45deg, transparent 30%, ${withOpacity(theme.palette.common.white, 0.3)} 50%, transparent 70%)`,
-                      //   animation: 'shimmer 3s infinite',
-                      //   pointerEvents: 'none',
-                      // },
                       '&:hover': {
                         background: `linear-gradient(135deg, #8b5cf6 0%, ${theme.palette.brand.cyan} 50%, #3b82f6 100%)`,
                         transform: 'none',
@@ -214,14 +171,6 @@ const MSidebar = (props) => {
                           0 0 40px ${withOpacity(theme.palette.brand.cyan, 0.4)}
                         `,
                       },
-                      // '@keyframes shimmer': {
-                      //   '0%': {
-                      //     transform: 'translateX(-100%) translateY(-100%) rotate(45deg)',
-                      //   },
-                      //   '100%': {
-                      //     transform: 'translateX(100%) translateY(100%) rotate(45deg)',
-                      //   },
-                      // },
                     }}
                   >
                     <Typography
@@ -434,17 +383,6 @@ const MSidebar = (props) => {
           <SidebarItems isCollapsed={false} />
         </Box>
 
-        {/* Upgrade Section for Mobile */}
-        <Box
-          sx={{
-            p: 1.5,
-            flexShrink: 0,
-            borderTop: `1px solid ${theme.palette.divider}`,
-            mt: 'auto',
-          }}
-        >
-          <Upgrade />
-        </Box>
       </Box>
     </Drawer>
   );

@@ -1,8 +1,4 @@
 import React from 'react';
-import { Box, Typography, Button, Collapse } from '@mui/material';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import logger from '../utils/errorLogger';
 import { AppError, ErrorTypes, ErrorSeverity } from '../utils/errorHandler';
 import ErrorPage from './ErrorPage';

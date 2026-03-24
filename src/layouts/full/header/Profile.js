@@ -13,6 +13,7 @@ import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { RequestContext } from '../../../context/RequestContext';
 import { useAuth } from '../../../context/AuthContext';
+import { useIsEmbedded } from '../../../context/EmbeddedContext';
 
 /* ── Color tokens ── */
 const C = {
@@ -26,6 +27,7 @@ const Profile = () => {
   const open = Boolean(anchorEl);
 
   const { user, logout } = useAuth();
+  const isEmbedded = useIsEmbedded();
   const username = user?.username || 'User';
   const initial = username.charAt(0).toUpperCase();
 
@@ -52,14 +54,22 @@ const Profile = () => {
   const handleBackToHome = () => {
     handleClose();
     closeModals();
-    navigate('/NewsRoom');
+    if (isEmbedded) {
+      // Navigate to host's home page
+      navigate('/home');
+    } else {
+      navigate('/NewsRoom');
+    }
   };
 
   const handleLogout = async () => {
     handleClose();
     closeModals();
     await logout();
-    navigate('/login');
+    if (!isEmbedded) {
+      navigate('/login');
+    }
+    // In embedded mode, HostAuthProvider.logout() handles navigation to host login
   };
 
   return (
@@ -219,7 +229,7 @@ const Profile = () => {
 
         {/* ── Menu Items ── */}
         <Box sx={{ py: 0.5, px: 0.5 }}>
-          <ButtonBase
+          {/* <ButtonBase
             onClick={handleBackToHome}
             sx={{
               width: '100%', display: 'flex', alignItems: 'center', gap: 1,
@@ -240,7 +250,7 @@ const Profile = () => {
             </Typography>
           </ButtonBase>
 
-          <Divider sx={{ my: 0.4, mx: 0.75, borderColor: C.slate[100] }} />
+          <Divider sx={{ my: 0.4, mx: 0.75, borderColor: C.slate[100] }} /> */}
 
           <ButtonBase
             onClick={handleLogout}

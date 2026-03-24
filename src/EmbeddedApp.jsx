@@ -30,6 +30,7 @@ const EventTimeline = Loadable(lazy(() => import('./views/icons/mapandevent')));
 const SearchPage = Loadable(lazy(() => import('./views/utilities/SearchPage')));
 
 // NEWS page routes that need rewriting in federation mode
+// Only child app pages — NOT host routes like 'home' or 'login'
 const SA_PAGES = ['NewsRoom', 'intelligenceBriefings', 'map-and-timeline', 'search'];
 
 /**

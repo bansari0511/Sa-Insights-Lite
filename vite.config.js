@@ -10,82 +10,45 @@ import federation from '@originjs/vite-plugin-federation';
 /**
  * Vite plugin: Federation React Shim
  *
- * Ensures ALL react / react-dom / react-router / react-router-dom imports
- * in the child app resolve through the federation `importShared` function.
- * When running embedded in the host, `importShared` returns the host's
- * single instance.  When running standalone, it falls back to the locally
- * installed copy.
+ * Ensures ALL react, react-dom, and jsx-runtime imports resolve through
+ * the federation `importShared` function.  Without this, CJS dependencies
+ * (MUI, Emotion, Popper, etc.) bundle a SEPARATE React copy via Rollup's
+ * commonjs conversion — its hooks dispatcher is different from the host's
+ * shared React, causing "f.H is null" in federation mode.
  *
- * Without this plugin, deep node_modules dependencies (MUI, antd, …)
- * end up importing a separately-bundled copy whose internal hooks
- * dispatcher / router context is null, causing errors like
- * "can't access property useContext, H is null" or
- * "useLocation() may be used only in the context of a <Router>".
+ * Shimmed:  react, react-dom, react/jsx-runtime, react/jsx-dev-runtime
+ * NOT shimmed:  react-dom/client (causes circular fallback in standalone),
+ *               react-router, react-router-dom (federation handles them)
  */
 function federationReactShim() {
   const SHIM_PREFIX = '\0federation-react-shim:';
   const SHIMMED = [
-    'react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'react-dom/client',
-    'react-router', 'react-router-dom',
+    'react', 'react-dom',
+    'react/jsx-runtime', 'react/jsx-dev-runtime',
   ];
 
-  // Comprehensive named export lists for React 19
-  const EXPORTS = {
-    'react': [
-      'Children','Component','Fragment','Profiler','PureComponent','StrictMode','Suspense',
-      'act','cache','cloneElement','createContext','createElement','createRef',
-      'forwardRef','isValidElement','lazy','memo','startTransition','use',
-      'useActionState','useCallback','useContext','useDebugValue','useDeferredValue',
-      'useEffect','useId','useImperativeHandle','useInsertionEffect','useLayoutEffect',
-      'useMemo','useOptimistic','useReducer','useRef','useState','useSyncExternalStore',
-      'useTransition','version',
-    ],
-    'react/jsx-runtime':     ['Fragment','jsx','jsxs'],
-    'react/jsx-dev-runtime': ['Fragment','jsxDEV'],
-    'react-dom': [
-      'createPortal','flushSync','preconnect','prefetchDNS','preinit','preload',
-      'requestFormReset','unstable_batchedUpdates','useFormState','useFormStatus','version',
-    ],
-    'react-dom/client': ['createRoot','hydrateRoot'],
-    'react-router': [
-      'Await','BrowserRouter','Form','HashRouter','Link','Links','MemoryRouter','Meta',
-      'NavLink','Navigate','NavigationType','Outlet','PrefetchPageLinks','Route','Router',
-      'RouterProvider','Routes','Scripts','ScrollRestoration','StaticRouter',
-      'StaticRouterProvider','createBrowserRouter','createHashRouter','createMemoryRouter',
-      'createPath','createRoutesFromChildren','createRoutesFromElements','createSearchParams',
-      'generatePath','matchPath','matchRoutes','parsePath','redirect','redirectDocument',
-      'renderMatches','resolvePath','useActionData','useAsyncError','useAsyncValue',
-      'useBeforeUnload','useBlocker','useFetcher','useFetchers','useFormAction','useHref',
-      'useInRouterContext','useLinkClickHandler','useLoaderData','useLocation','useMatch',
-      'useMatches','useNavigate','useNavigation','useNavigationType','useOutlet',
-      'useOutletContext','useParams','useResolvedPath','useRevalidator','useRouteError',
-      'useRouteLoaderData','useRoutes','useSearchParams','useSubmit','useViewTransitionState',
-      'data','href','isRouteErrorResponse','replace',
-    ],
-    'react-router-dom': [
-      'Await','BrowserRouter','Form','HashRouter','HydratedRouter','Link','Links','MemoryRouter',
-      'Meta','NavLink','Navigate','NavigationType','Outlet','PrefetchPageLinks','Route','Router',
-      'RouterProvider','Routes','Scripts','ScrollRestoration','StaticRouter',
-      'StaticRouterProvider','createBrowserRouter','createHashRouter','createMemoryRouter',
-      'createPath','createRoutesFromChildren','createRoutesFromElements','createSearchParams',
-      'generatePath','matchPath','matchRoutes','parsePath','redirect','redirectDocument',
-      'renderMatches','resolvePath','useActionData','useAsyncError','useAsyncValue',
-      'useBeforeUnload','useBlocker','useFetcher','useFetchers','useFormAction','useHref',
-      'useInRouterContext','useLinkClickHandler','useLoaderData','useLocation','useMatch',
-      'useMatches','useNavigate','useNavigation','useNavigationType','useOutlet',
-      'useOutletContext','useParams','useResolvedPath','useRevalidator','useRouteError',
-      'useRouteLoaderData','useRoutes','useSearchParams','useSubmit','useViewTransitionState',
-      'data','href','isRouteErrorResponse','replace',
-    ],
-  };
+  const REACT_EXPORTS = [
+    'Children','Component','Fragment','Profiler','PureComponent','StrictMode','Suspense',
+    'act','cache','cloneElement','createContext','createElement','createRef',
+    'forwardRef','isValidElement','lazy','memo','startTransition','use',
+    'useActionState','useCallback','useContext','useDebugValue','useDeferredValue',
+    'useEffect','useId','useImperativeHandle','useInsertionEffect','useLayoutEffect',
+    'useMemo','useOptimistic','useReducer','useRef','useState','useSyncExternalStore',
+    'useTransition','version',
+  ];
+
+  const REACT_DOM_EXPORTS = [
+    'createPortal','flushSync','preconnect','prefetchDNS','preinit','preload',
+    'requestFormReset','unstable_batchedUpdates','useFormState','useFormStatus','version',
+    'createRoot','hydrateRoot',
+  ];
 
   return {
     name: 'federation-react-shim',
     enforce: 'pre',
-    apply: 'build',  // Only during build — dev mode uses real React directly
+    apply: 'build',
 
     resolveId(source, importer) {
-      // Never intercept imports from federation internals or from our own shims
       if (!importer) return null;
       if (importer.includes('__federation_') || importer.includes(SHIM_PREFIX)) return null;
       if (importer.includes('node_modules/@originjs')) return null;
@@ -98,62 +61,46 @@ function federationReactShim() {
     load(id) {
       if (!id.startsWith(SHIM_PREFIX)) return null;
       const pkg = id.slice(SHIM_PREFIX.length);
-      const names = EXPORTS[pkg] || [];
 
-      // For subpath modules, derive from the parent shared module
-      // because only 'react' and 'react-dom' are in the federation shared config.
+      // --- react/jsx-runtime & react/jsx-dev-runtime ---
       if (pkg === 'react/jsx-runtime' || pkg === 'react/jsx-dev-runtime') {
-        // Use React.createElement but adapt the jsx(type, props, key) signature.
-        // jsx-runtime puts children INSIDE props, createElement needs them as extra args.
-        // We must use createElement (not raw objects) so React sets _owner, _store, ref etc.
         return [
           `import { importShared } from '__federation_fn_import';`,
-          `const React = await importShared('react');`,
-          `const Fragment = React.Fragment;`,
-          `function jsx(type, config, maybeKey) {`,
-          `  const { children, ref, ...rest } = config || {};`,
-          `  if (maybeKey !== undefined) rest.key = maybeKey;`,
-          `  if (ref !== undefined) rest.ref = ref;`,
-          `  if (children !== undefined) {`,
-          `    return React.createElement(type, rest, ...(Array.isArray(children) ? children : [children]));`,
-          `  }`,
-          `  return React.createElement(type, rest);`,
+          `const _React = await importShared('react');`,
+          `export const Fragment = _React.Fragment;`,
+          `export function jsx(type, config, maybeKey) {`,
+          `  if (!config) return _React.createElement(type, null);`,
+          `  const { children, ...props } = config;`,
+          `  if (maybeKey !== undefined) props.key = maybeKey;`,
+          `  if (children === undefined) return _React.createElement(type, props);`,
+          `  if (Array.isArray(children)) return _React.createElement(type, props, ...children);`,
+          `  return _React.createElement(type, props, children);`,
           `}`,
-          `const jsxs = jsx;`,
-          pkg === 'react/jsx-dev-runtime'
-            ? `const jsxDEV = jsx;\nexport { Fragment, jsxDEV };`
-            : `export { Fragment, jsx, jsxs };`,
+          `export const jsxs = jsx;`,
+          pkg === 'react/jsx-dev-runtime' ? `export const jsxDEV = jsx;` : ``,
           `export default { Fragment, ${pkg.includes('dev') ? 'jsxDEV' : 'jsx, jsxs'} };`,
         ].join('\n');
       }
 
-      if (pkg === 'react-dom/client') {
+      // --- react ---
+      if (pkg === 'react') {
+        return [
+          `import { importShared } from '__federation_fn_import';`,
+          `const _mod = await importShared('react');`,
+          `export default (_mod && _mod.default !== undefined) ? _mod.default : _mod;`,
+          ...REACT_EXPORTS.map(n => `export const ${n} = _mod.${n};`),
+        ].join('\n');
+      }
+
+      // --- react-dom ---
+      if (pkg === 'react-dom') {
         return [
           `import { importShared } from '__federation_fn_import';`,
           `const _mod = await importShared('react-dom');`,
-          `export const createRoot = _mod.createRoot || (await import('react-dom/client')).createRoot;`,
-          `export const hydrateRoot = _mod.hydrateRoot || (await import('react-dom/client')).hydrateRoot;`,
-          `export default { createRoot, hydrateRoot };`,
-        ].join('\n');
-      }
-
-      // react-router-dom re-exports from react-router in v7 — proxy to same shared module
-      if (pkg === 'react-router-dom') {
-        return [
-          `import { importShared } from '__federation_fn_import';`,
-          `const _mod = await importShared('react-router');`,
           `export default (_mod && _mod.default !== undefined) ? _mod.default : _mod;`,
-          ...names.map(n => `export const ${n} = _mod.${n};`),
+          ...REACT_DOM_EXPORTS.map(n => `export const ${n} = _mod.${n};`),
         ].join('\n');
       }
-
-      // For top-level modules (react, react-dom, react-router) — use importShared directly
-      return [
-        `import { importShared } from '__federation_fn_import';`,
-        `const _mod = await importShared('${pkg}');`,
-        `export default (_mod && _mod.default !== undefined) ? _mod.default : _mod;`,
-        ...names.map(n => `export const ${n} = _mod.${n};`),
-      ].join('\n');
     },
   };
 }
@@ -195,8 +142,20 @@ function corsProxyPlugin() {
   };
 }
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '');
+
+  // Base path for asset resolution:
+  // - Production build: /news/ (nginx gateway routes /news/assets/ to this container)
+  // - Dev build (federation preview): absolute URL so cross-origin assets resolve
+  //   (root-relative '/' would resolve to host origin, not child server)
+  // - Dev serve (standalone): relative path, dev server handles it
+  let basePath = env.VITE_FEDERATION_BASE_URL || './';
+  if (command === 'build' && basePath === '/') {
+    const port = env.VITE_DEV_SERVER_PORT || '9400';
+    const host = env.VITE_DEV_SERVER_HOST || 'localhost';
+    basePath = `http://${host === '0.0.0.0' ? 'localhost' : host}:${port}/`;
+  }
 
   return {
 envPrefix: ['REACT_APP_', 'VITE_'],
@@ -271,6 +230,7 @@ envPrefix: ['REACT_APP_', 'VITE_'],
     },
   },
   plugins: [
+    react(),
     federationReactShim(),
     corsProxyPlugin(),
     svgr(),
@@ -282,7 +242,6 @@ envPrefix: ['REACT_APP_', 'VITE_'],
       },
       shared: ['react', 'react-dom', 'react-router', 'react-router-dom'],
     }),
-    react(),
     // Bundle analyzer - generates stats.html after build
     visualizer({
       open: false,
@@ -291,9 +250,7 @@ envPrefix: ['REACT_APP_', 'VITE_'],
       brotliSize: true,
     })
   ],
-  // Base path for asset resolution — same pattern as my-ontology-app.
-  // Production: /news/ (via env), LAN: IP-based URL (via env), Dev: ./
-  base: env.VITE_FEDERATION_BASE_URL || './',
+  base: basePath,
   server: {
     port: parseInt(env.VITE_DEV_SERVER_PORT) || 9400,
     host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',

@@ -1,5 +1,5 @@
 import { useState, } from "react";
-import { styled,  Box, Typography, Link, useMediaQuery, useTheme } from "@mui/material";
+import { styled,  Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import BlockIcon from '@mui/icons-material/Block';
 
@@ -8,14 +8,18 @@ import Sidebar from "./sidebar/Sidebar";
 import { withOpacity } from "../../theme/palette";
 import appConfig from "../../config/appConfig";
 import { useAuth } from "../../context/AuthContext";
+import { useIsEmbedded } from "../../context/EmbeddedContext";
 
 const CURRENT_APP_NAME = import.meta.env.VITE_CURRENT_APP_NAME || 'news';
 
-const MainWrapper = styled("div")(({ theme }) => ({
+const MainWrapper = styled("div", {
+  shouldForwardProp: (prop) => prop !== 'embedded',
+})(({ theme, embedded }) => ({
   display: "flex",
   height: "100vh",
-  width: "100vw",
+  width: embedded ? "100%" : "100vw",
   overflow: "hidden",
+  position: embedded ? "relative" : "static",
   [theme.breakpoints.down('md')]: {
     flexDirection: 'column',
     height: '100vh',
@@ -24,6 +28,7 @@ const MainWrapper = styled("div")(({ theme }) => ({
 
 const FullLayout = () => {
   const theme = useTheme();
+  const isEmbedded = useIsEmbedded();
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -70,7 +75,7 @@ const FullLayout = () => {
   }
 
   return (
-    <MainWrapper className="mainwrapper">
+    <MainWrapper className="mainwrapper" embedded={isEmbedded}>
       {/* ------------------------------------------- */}
       {/* Sidebar - Fixed Position */}
       {/* ------------------------------------------- */}
@@ -81,6 +86,7 @@ const FullLayout = () => {
         onToggleSidebar={() => setSidebarOpen(!isSidebarOpen)}
         sidebarWidth={sidebarWidth}
         lgUp={lgUp}
+        isEmbedded={isEmbedded}
       />
 
       {/* ------------------------------------------- */}
@@ -180,35 +186,7 @@ const FullLayout = () => {
               fontSize: '0.875rem',
             }}
           >
-            © 2025 {' '}
-            <Link
-              target="_blank"
-              href="https://www.adminmart.com"
-              sx={{
-                color: theme.palette.brand.deepPurple,
-                textDecoration: 'none',
-                fontWeight: theme.custom.tokens.fontWeight.semibold,
-                transition: 'none',
-                '&:hover': { color: theme.palette.brand.cyan }
-              }}
-            >
-              XYZ
-            </Link>
-            {' • '}
-            Designed and Developed by{' '}
-            <Link
-              target="_blank"
-              href="https://themewagon.com"
-              sx={{
-                color: theme.palette.brand.deepPurple,
-                textDecoration: 'none',
-                fontWeight: theme.custom.tokens.fontWeight.semibold,
-                transition: 'none',
-                '&:hover': { color: theme.palette.brand.cyan }
-              }}
-            >
-              {appConfig.companyName}
-            </Link>
+            © 2025 {appConfig.companyName}
           </Typography>
         </Box>
       </Box>

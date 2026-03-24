@@ -93,16 +93,9 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
   const itemIcon = <Icon stroke={1.5} size={isCollapsed ? "1.25rem" : "1.125rem"} />;
   const isSelected = customActive !== undefined ? customActive : pathDirect === item.href;
 
-  // Check if item is under development
-  var textColor = 'inherit', iconColor = 'inherit';
-  var isUnderDevelopment = false;
-
-  // Handle click for under development items and Intelligence Briefing special navigation
+  // Handle click for Intelligence Briefing special navigation
   const handleClick = (e) => {
-    if (isUnderDevelopment) {
-      e.preventDefault();
-      alert("Under development. Will be available shortly");
-    } else if (item.href === '/intelligenceBriefings') {
+    if (item.href === '/intelligenceBriefings') {
       e.preventDefault();
       navigate('/NewsRoom', {
         state: {
@@ -117,10 +110,10 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
 
   const listItemContent = (
     <ListItemStyled
-      component={isUnderDevelopment ? 'div' : (item.external ? 'a' : NavLink)}
-      to={!isUnderDevelopment ? item.href : undefined}
-      href={item.external && !isUnderDevelopment ? item.href : undefined}
-      target={item.external && !isUnderDevelopment ? '_blank' : undefined}
+      component={item.external ? 'a' : NavLink}
+      to={item.href}
+      href={item.external ? item.href : undefined}
+      target={item.external ? '_blank' : undefined}
       onClick={handleClick}
       selected={isSelected}
       sx={{
@@ -128,8 +121,6 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
         justifyContent: isCollapsed ? 'center' : 'flex-start',
         borderRadius: '6px',
         margin: isCollapsed ? '2px auto' : '0px',
-        cursor: isUnderDevelopment ? 'not-allowed' : 'pointer',
-        opacity: isUnderDevelopment ? 0.5 : 1,
         minHeight: isCollapsed ? 40 : 34,
         maxHeight: isCollapsed ? 40 : 34,
         width: isCollapsed ? 40 : 'auto',
@@ -156,7 +147,7 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
       <ListItemIcon
         sx={{
           minWidth: isCollapsed ? 'auto' : '28px',
-          color: iconColor,
+          color: 'inherit',
           justifyContent: 'center',
           transition: 'color 0.2s ease',
           display: 'flex',
@@ -172,7 +163,7 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
             '& .MuiListItemText-primary': {
               fontSize: '0.8125rem',
               fontWeight: 500,
-              color: textColor,
+              color: 'inherit',
               letterSpacing: '0.15px',
               lineHeight: 1.2,
               whiteSpace: 'nowrap',
