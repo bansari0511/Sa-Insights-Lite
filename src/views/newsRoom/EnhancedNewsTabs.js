@@ -457,7 +457,6 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                 {/* Horizontal News Layout */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     {currentArticles.map((article, index) => {
-                        // const articleKey = `${article.userId || '1'}-${article.reqId || '1'}-${article.docId || '1'}`;
                         const articleKey = `${article.docId || article.reqId || article.userId || article.link || article.title || article.last_updated}-${index}`
                         const viewCount = viewCounts[articleKey] || 0;
                         const priority = getPriorityLevel(article);

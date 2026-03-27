@@ -60,27 +60,6 @@ export async function fetchSearchSuggestions(keyword) {
 }
 
 
-// Dummy events data with lastdocid simulation
-const generateEventsData = (keywords, size, lastdocid = '') => {
-  const eventTypes = [
-    'Tech Conference', 'Business Summit', 'Research Symposium', 
-    'Industry Workshop', 'Innovation Forum', 'Leadership Meeting',
-    'Training Session', 'Product Launch', 'Networking Event', 'Awards Ceremony'
-  ];
-  
-  // Use lastdocid to determine starting offset for simulation
-  const offset = lastdocid ? parseInt(lastdocid.split('-').pop() || '0') : 0;
-  
-  return Array.from({ length: size }, (_, i) => ({
-    id: `event-${Date.now()}-${offset + i}`,
-    title: `${keywords || eventTypes[(offset + i) % eventTypes.length]} - ${new Date().getFullYear() + ((offset + i) % 2)}`,
-    summary: `Join industry leaders and experts at this exclusive ${keywords || eventTypes[(offset + i) % eventTypes.length].toLowerCase()} event. Discover cutting-edge innovations, network with professionals, and gain insights into future trends and opportunities in the field.`,
-    date: new Date(Date.now() + Math.random() * 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    imageurl: `https://picsum.photos/400/250?random=${Date.now() + offset + i + 100}`,
-    index: 'event'
-  }));
-};
-
 // News API with dummy data
 export async function fetchNewsData({
   keywords = '',

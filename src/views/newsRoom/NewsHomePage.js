@@ -58,10 +58,6 @@ function NewsRoomPage() {
 
     const pageInfo = getPageInfo();
 
-    // const handleBackToHome = () => {
-    //     navigate('/dashboard');
-    // };
-
     return (
         <PageContainer
             title={isViewingArticle ? "Article Details" : "Saaransh"}

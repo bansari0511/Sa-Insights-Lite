@@ -1,14 +1,22 @@
 import { useMediaQuery, Box, Drawer, Typography, Tooltip, IconButton, useTheme } from '@mui/material';
 import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from '@tabler/icons-react';
 import SidebarItems from './SidebarItems';
-import logo from '../../../assets/images/logos/logo_landing.png';
+import logoPath from '../../../assets/images/logos/logo_landing.png';
 import { withOpacity } from '../../../theme/palette';
 import appConfig from '../../../config/appConfig';
+import { useRemoteBaseUrl } from '../../../context/EmbeddedContext';
 
 const MSidebar = (props) => {
   const theme = useTheme();
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
   const { isSidebarOpen, sidebarWidth = 270, isEmbedded = false } = props;
+  const remoteBaseUrl = useRemoteBaseUrl();
+
+  // In federation mode, static asset paths (e.g., /assets/logo.png) resolve against
+  // the host origin instead of the child server. Prefix with the child server's URL.
+  const logo = remoteBaseUrl && !logoPath.startsWith('data:') && !logoPath.startsWith('http')
+    ? `${remoteBaseUrl}${logoPath}`
+    : logoPath;
   const isCollapsed = !isSidebarOpen;
   const collapsedWidth = 70;
 

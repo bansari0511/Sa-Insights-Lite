@@ -86,18 +86,21 @@ const ListStyled = styled(List)(({ theme }) => ({
   margin: 0,
 }));
 
-const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, customActive }) => {
+const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, customActive, basePath = '' }) => {
   const Icon = item.icon;
   const theme = useTheme();
   const navigate = useNavigate();
   const itemIcon = <Icon stroke={1.5} size={isCollapsed ? "1.25rem" : "1.125rem"} />;
   const isSelected = customActive !== undefined ? customActive : pathDirect === item.href;
 
+  // Prefix href with basePath for federation mode (e.g., '/news' + '/NewsRoom')
+  const resolvedHref = basePath ? `${basePath}${item.href}` : item.href;
+
   // Handle click for Intelligence Briefing special navigation
   const handleClick = (e) => {
     if (item.href === '/intelligenceBriefings') {
       e.preventDefault();
-      navigate('/NewsRoom', {
+      navigate(`${basePath}/NewsRoom`, {
         state: {
           selectedCountry: 'intelligence_briefing',
           returnToPage: 1
@@ -111,7 +114,7 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
   const listItemContent = (
     <ListItemStyled
       component={item.external ? 'a' : NavLink}
-      to={item.href}
+      to={resolvedHref}
       href={item.external ? item.href : undefined}
       target={item.external ? '_blank' : undefined}
       onClick={handleClick}
@@ -223,6 +226,7 @@ NavItem.propTypes = {
   onClick: PropTypes.func,
   isCollapsed: PropTypes.bool,
   customActive: PropTypes.bool,
+  basePath: PropTypes.string,
 };
 
 export default NavItem;

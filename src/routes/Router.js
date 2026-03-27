@@ -41,8 +41,6 @@ const Router = [
   {
     element: <FullLayout />,
     children: [
-      // Dashboard
-      // { path: '/dashboard', element: <Dashboard /> },
       // Insights Section
       { path: '/NewsRoom', element: <NewsHomePage /> },
       { path: '/intelligenceBriefings', element: <IntelligenceBriefings /> },

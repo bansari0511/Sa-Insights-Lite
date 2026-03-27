@@ -145,17 +145,15 @@ function corsProxyPlugin() {
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
-  // Base path for asset resolution:
-  // - Production build: /news/ (nginx gateway routes /news/assets/ to this container)
-  // - Dev build (federation preview): absolute URL so cross-origin assets resolve
-  //   (root-relative '/' would resolve to host origin, not child server)
-  // - Dev serve (standalone): relative path, dev server handles it
-  let basePath = env.VITE_FEDERATION_BASE_URL || './';
-  if (command === 'build' && basePath === '/') {
-    const port = env.VITE_DEV_SERVER_PORT || '9398';
-    const host = env.VITE_DEV_SERVER_HOST || 'localhost';
-    basePath = `http://${host === '0.0.0.0' ? 'localhost' : host}:${port}/`;
-  }
+  // MUST use '/' as base for federation to work correctly.
+  // - './' causes the federation plugin to generate chunk paths with 'assets/' prefix
+  //   (e.g., ./assets/__federation_expose_App.js) which double up as assets/assets/...
+  //   since remoteEntry.js is already inside dist/assets/.
+  // - '/news/' causes the federation name to be prepended as a directory prefix.
+  // - '/' generates correct sibling references (./__federation_expose_App.js) and
+  //   correct CSS base URL construction, matching the working ontology app pattern.
+  // Works for: standalone dev, federation via host, LAN/production behind nginx.
+  const basePath = '/';
 
   return {
 envPrefix: ['REACT_APP_', 'VITE_'],

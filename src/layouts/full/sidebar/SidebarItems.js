@@ -5,12 +5,14 @@ import { Box, List, useTheme, Divider } from '@mui/material';
 import NavItem from './NavItem';
 import NavGroup from './NavGroup/NavGroup';
 import { withOpacity } from '../../../theme/palette';
+import { useBasePath } from '../../../context/BasePathContext';
 
 const SidebarItems = ({ isCollapsed = false }) => {
   const theme = useTheme()
   const location = useLocation();
   const { pathname, state } = location;
   const pathDirect = pathname;
+  const basePath = useBasePath();
 
   // Helper function to determine if an item should be active
   // Uses endsWith to work in both standalone (/NewsRoom) and federation (/sa-insights/NewsRoom)
@@ -96,6 +98,7 @@ const SidebarItems = ({ isCollapsed = false }) => {
                 pathDirect={pathDirect}
                 isCollapsed={isCollapsed}
                 customActive={isItemActive(item)}
+                basePath={basePath}
               />
             ))}
           </List>

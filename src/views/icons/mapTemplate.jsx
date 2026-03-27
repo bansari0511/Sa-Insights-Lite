@@ -79,54 +79,9 @@ export default function MapTemplate({ onMapReady, basemap = 'arcgis-topographic'
 
   useEffect(() => {
     // create map & view
-     // create map & view
-//           const baseLayer = new TileLayer({
-//               url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
-//               title: "BaseMap",
-//             });
-//
-//     const map = new Map({
-//           layers: [baseLayer],
-//         });
-
-
 MapProvider(mapDivRef.current);
 const map = getMap();
 
-
-/* const view = new MapView({
-                     container: mapDivRef.current,
-                     map,
-                     scale: 40000000,
-                     center: [78.19342753563451, 21.591641645634088],
-                     constraints: {
-                     minScale: 100000000,
-                     },
-                     popup: {
-                       dockEnabled: true,
-                       autoOpenEnabled: true,
-                       dockOptions: {
-                         // Ignore the default sizes that trigger responsive docking
-                         breakpoint: false,
-                         position: "top-right",
-                       },
-                     },
-                     highlightOptions: {
-                       color: [255, 180, 0, 1],
-                       haloColor: [255, 0, 0, 1],
-                       haloOpacity: 1,
-                       fillOpacity: 0.01,
-                       shadowColor: "black",
-                       shadowOpacity: 1,
-                     },
-                   }); */
-/* const view = new MapView({
-      container: mapDivRef.current,
-       map,
-       scale: 40000000,
-       center: [78.19342753563451, 21.591641645634088],
-
-    }); */
    const view = getView();
     viewRef.current = view;
 
@@ -318,12 +273,6 @@ const map = getMap();
         totalCount: graphicsArray.length
       });
     });
-
-    // widgets
-    /* const homeWidget = new Home({ view });
-    const compassWidget = new Compass({ view });
-    view.ui.add(homeWidget, 'top-left');
-    view.ui.add(compassWidget, 'top-left'); */
 
     // helper: category -> rgba color (kept for backward compatibility)
     function mapCategoryColor(category) {
