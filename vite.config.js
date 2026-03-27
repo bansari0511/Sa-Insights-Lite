@@ -1,11 +1,40 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 import fs from 'fs/promises';
 import http from 'http';
 import svgr from '@svgr/rollup';
 import { visualizer } from 'rollup-plugin-visualizer';
 import federation from '@originjs/vite-plugin-federation';
+
+/**
+ * Vite plugin: Copy federation CSS to dist root after build.
+ *
+ * The federation plugin references CSS as "style-xxx.css" (without assets/ prefix)
+ * but Vite outputs it to dist/assets/. This plugin copies the CSS to dist/ root
+ * so it's accessible at both paths.
+ */
+function copyFederationCss() {
+  return {
+    name: 'copy-federation-css',
+    apply: 'build',
+    closeBundle: async () => {
+      const distDir = resolve(__dirname, 'dist');
+      const assetsDir = join(distDir, 'assets');
+      try {
+        const files = await fs.readdir(assetsDir);
+        for (const file of files) {
+          if (file.startsWith('style') && file.endsWith('.css')) {
+            await fs.copyFile(join(assetsDir, file), join(distDir, file));
+            console.log(`[copy-federation-css] Copied ${file} to dist root`);
+          }
+        }
+      } catch (err) {
+        console.warn('[copy-federation-css] Warning:', err.message);
+      }
+    },
+  };
+}
 
 /**
  * Vite plugin: Federation React Shim
@@ -240,6 +269,7 @@ envPrefix: ['REACT_APP_', 'VITE_'],
       },
       shared: ['react', 'react-dom', 'react-router', 'react-router-dom'],
     }),
+    copyFederationCss(),
     // Bundle analyzer - generates stats.html after build
     visualizer({
       open: false,

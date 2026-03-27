@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { styled, Box, Typography } from "@mui/material";
 import appConfig from "src/config/appConfig";
+import { useBasePath } from "../../../../context/BasePathContext";
 
 const LinkStyled = styled(Link)(() => ({
   height: "70px",
@@ -10,9 +11,11 @@ const LinkStyled = styled(Link)(() => ({
 }));
 
 const Logo = () => {
+  const basePath = useBasePath();
+
   return (
     <LinkStyled
-      to="/"
+      to={basePath || "/"}
       style={{
         display: "flex",
         alignItems: "center",
