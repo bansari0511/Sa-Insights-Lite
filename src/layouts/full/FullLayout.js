@@ -114,6 +114,7 @@ const FullLayout = () => {
         <Header
           toggleSidebar={() => setSidebarOpen(!isSidebarOpen)}
           toggleMobileSidebar={() => setMobileSidebarOpen(true)}
+          isEmbedded={isEmbedded}
         />
         {/* ------------------------------------------- */}
         {/* Main Content - Full Width */}
@@ -160,8 +161,9 @@ const FullLayout = () => {
         </Box>
 
         {/* ------------------------------------------- */}
-        {/* Footer - Full Width */}
+        {/* Footer - Full Width (hidden in federation mode) */}
         {/* ------------------------------------------- */}
+        {!isEmbedded && (
         <Box
           sx={{
             pt: 2,
@@ -189,6 +191,7 @@ const FullLayout = () => {
             © 2025 {appConfig.companyName}
           </Typography>
         </Box>
+        )}
       </Box>
     </MainWrapper>
   );

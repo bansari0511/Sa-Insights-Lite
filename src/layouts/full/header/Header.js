@@ -44,7 +44,7 @@ const ToolbarStyled = styled(Toolbar)(() => ({
   overflow: 'visible',
 }));
 
-const Header = () => {
+const Header = ({ isEmbedded = false }) => {
   const navigate = useNavigate();
   const searchRef = useRef(null);
 
@@ -457,8 +457,8 @@ const Header = () => {
         {/* Spacer */}
         <Box sx={{ flex: 1 }} />
 
-        {/* User Profile */}
-        <Profile />
+        {/* User Profile (hidden in federation mode — host shows its own) */}
+        {!isEmbedded && <Profile />}
       </ToolbarStyled>
     </AppBarStyled>
   );

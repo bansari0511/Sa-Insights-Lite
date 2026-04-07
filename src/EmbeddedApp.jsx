@@ -137,13 +137,13 @@ const EmbeddedApp = ({ basePath }) => {
         <BasePathProvider value={bp}>
           <Routes>
             <Route element={<FullLayout />}>
-              <Route index element={<Navigate to={`${bp}/NewsRoom`} replace />} />
+              <Route index element={<Navigate to="NewsRoom" replace />} />
               <Route path="NewsRoom" element={<NewsHomePage />} />
               <Route path="intelligenceBriefings" element={<IntelligenceBriefings />} />
               <Route path="map-and-timeline" element={<EventTimeline />} />
               <Route path="search" element={<SearchPage />} />
             </Route>
-            <Route path="*" element={<Navigate to={`${bp}/NewsRoom`} replace />} />
+            <Route path="*" element={<Navigate to="NewsRoom" replace />} />
           </Routes>
         </BasePathProvider>
       </HistoryInterceptor>
