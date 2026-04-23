@@ -78,7 +78,7 @@ const SAInsightsRoot = (props) => {
             <HostAuthProvider hostProps={props}>
               <RequestContextProvider>
                 <ThemeContextProvider>
-                  <EmbeddedApp basePath={props.basePath} />
+                  <EmbeddedApp basePath={props.basePath} onNavigateToHost={props.onNavigateToHost} />
                 </ThemeContextProvider>
               </RequestContextProvider>
             </HostAuthProvider>

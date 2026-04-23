@@ -277,7 +277,6 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
         // Update view count
         const key = `${userId}-${reqId}-${docId}`;
         setViewCounts(prev => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
-
         const navigationState = {
             userId,
             reqId,
@@ -290,7 +289,6 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
             returnPageIdentifier: pageIdentifier,
             last_updated
         };
-
         // Navigate to article detail - use state for article data and return state
         navigate('/NewsRoom', { state: navigationState });
     };

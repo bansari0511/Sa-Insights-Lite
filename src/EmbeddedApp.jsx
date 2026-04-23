@@ -88,7 +88,7 @@ const HistoryInterceptor = ({ basePath, children }) => {
   return children;
 };
 
-const EmbeddedApp = ({ basePath }) => {
+const EmbeddedApp = ({ basePath, onNavigateToHost }) => {
   const { mode } = useThemeContext();
   const theme = useMemo(() => getTheme(mode), [mode]);
   const {
@@ -136,7 +136,7 @@ const EmbeddedApp = ({ basePath }) => {
       <HistoryInterceptor basePath={basePath}>
         <BasePathProvider value={bp}>
           <Routes>
-            <Route element={<FullLayout />}>
+            <Route element={<FullLayout onNavigateToHost={onNavigateToHost} />}>
               <Route index element={<Navigate to="NewsRoom" replace />} />
               <Route path="NewsRoom" element={<NewsHomePage />} />
               <Route path="intelligenceBriefings" element={<IntelligenceBriefings />} />

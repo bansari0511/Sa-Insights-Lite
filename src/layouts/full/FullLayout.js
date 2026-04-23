@@ -1,4 +1,4 @@
-import { useState, } from "react";
+import { useState, useEffect } from "react";
 import { styled,  Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import BlockIcon from '@mui/icons-material/Block';
@@ -26,15 +26,41 @@ const MainWrapper = styled("div", {
   },
 }));
 
-const FullLayout = () => {
+const CHAT_PANEL_WIDTH = 380;
+
+const FullLayout = ({ onNavigateToHost } = {}) => {
   const theme = useTheme();
   const isEmbedded = useIsEmbedded();
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  // Chat panel state — only used in federation mode
+  const [isChatOpen, setChatOpen] = useState(false);
+  const [ChatPanel, setChatPanel] = useState(null);
+
   const { hasAccess, isLoading, entitlementsLoaded } = useAuth();
 
   const sidebarWidth = isSidebarOpen ? 270 : 70;
+  const showChat = isEmbedded && isChatOpen && ChatPanel;
+
+  // Load chat panel component on demand (federation mode only)
+  useEffect(() => {
+    if (!isEmbedded) return;
+    import('../../components/AIChatPanel').then(mod => {
+      setChatPanel(() => mod.default);
+    });
+  }, [isEmbedded]);
+
+  // Push host's fixed feedback button left when chat panel is open (federation only)
+  useEffect(() => {
+    if (!isEmbedded) return;
+    const fb = document.querySelector('.feedback-bubble');
+    if (fb) {
+      fb.style.transition = 'right 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
+      fb.style.right = isChatOpen ? `${CHAT_PANEL_WIDTH + 16}px` : '';
+    }
+  }, [isChatOpen, isEmbedded]);
 
   // Wait for entitlements to load before rendering anything
   // This prevents a flash of "Access Denied" while the API call is in progress
@@ -115,19 +141,25 @@ const FullLayout = () => {
           toggleSidebar={() => setSidebarOpen(!isSidebarOpen)}
           toggleMobileSidebar={() => setMobileSidebarOpen(true)}
           isEmbedded={isEmbedded}
+          {...(isEmbedded ? {
+            isChatOpen,
+            onToggleChat: () => setChatOpen(prev => !prev),
+          } : {})}
         />
         {/* ------------------------------------------- */}
-        {/* Main Content - Full Width */}
+        {/* Content area */}
         {/* ------------------------------------------- */}
         <Box
           sx={{
             flex: 1,
+            display: 'flex',
+            gap: showChat ? '10px' : 0,
             width: '100%',
             height: 'calc(100vh - 70px)',
             background: theme.palette.brand.gradientBackground,
             position: 'relative',
-            overflow: 'auto',
-            // Mobile responsive adjustments
+            overflow: 'hidden',
+            transition: 'gap 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
             [theme.breakpoints.down('md')]: {
               height: 'calc(100vh - 60px)',
             },
@@ -136,28 +168,48 @@ const FullLayout = () => {
             },
           }}
         >
-          {/* ------------------------------------------- */}
-          {/* Page Content */}
-          {/* ------------------------------------------- */}
+          {/* ── Main content ── */}
           <Box
             sx={{
-              width: '100%',
+              flex: 1,
+              minWidth: 0,
               height: '100%',
-              px: { xs: 2, sm: 3 },
-              py: { xs: 2, sm: 3 },
-              // Mobile responsive adjustments
-              [theme.breakpoints.down('md')]: {
-                px: 2,
-                py: 2,
-              },
-              [theme.breakpoints.down('sm')]: {
-                px: 1.5,
-                py: 1.5,
-              },
+              overflow: 'auto',
+              transition: isEmbedded ? 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
             }}
           >
-            <Outlet />
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                px: { xs: 2, sm: 3 },
+                py: { xs: 2, sm: 3 },
+                [theme.breakpoints.down('md')]: { px: 2, py: 2 },
+                [theme.breakpoints.down('sm')]: { px: 1.5, py: 1.5 },
+              }}
+            >
+              <Outlet />
+            </Box>
           </Box>
+
+          {/* ── Chat panel (federation mode only) ── */}
+          {isEmbedded && ChatPanel && (
+            <Box
+              sx={{
+                width: isChatOpen ? CHAT_PANEL_WIDTH : 0,
+                minWidth: isChatOpen ? CHAT_PANEL_WIDTH : 0,
+                height: '100%',
+                overflow: 'hidden',
+                transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                flexShrink: 0,
+                pt: isChatOpen ? '6px' : 0,
+                pr: isChatOpen ? '6px' : 0,
+                pb: isChatOpen ? '6px' : 0,
+              }}
+            >
+              <ChatPanel open={isChatOpen} onClose={() => setChatOpen(false)} onNavigateToHost={onNavigateToHost} />
+            </Box>
+          )}
         </Box>
 
         {/* ------------------------------------------- */}

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import {
   Box, AppBar, Toolbar, styled,
   TextField, InputAdornment, Paper, List, ListItemButton,
-  Typography, ClickAwayListener, Grow, Chip, Popper
+  Typography, ClickAwayListener, Grow, Chip, Popper, Tooltip
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
@@ -44,7 +44,7 @@ const ToolbarStyled = styled(Toolbar)(() => ({
   overflow: 'visible',
 }));
 
-const Header = ({ isEmbedded = false }) => {
+const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
   const navigate = useNavigate();
   const searchRef = useRef(null);
 
@@ -456,6 +456,68 @@ const Header = ({ isEmbedded = false }) => {
 
         {/* Spacer */}
         <Box sx={{ flex: 1 }} />
+
+        {/* ── AI Assistant Toggle — Animated Orb ── */}
+        {onToggleChat && (
+          <Tooltip title={isChatOpen ? 'Close Assistant' : 'Nova AI Assistant'} arrow placement="bottom">
+            <Box
+              onClick={onToggleChat}
+              sx={{
+                position: 'relative',
+                width: 38, height: 38, borderRadius: '50%',
+                background: isChatOpen
+                  ? `conic-gradient(from 0deg, ${C.indigo[500]}, ${C.blue[500]}, ${C.cyan[400]}, ${C.indigo[500]})`
+                  : `linear-gradient(145deg, #fff 0%, ${C.indigo[50]} 100%)`,
+                border: isChatOpen ? 'none' : `2px solid ${C.indigo[400]}`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer', mr: 1.5,
+                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: isChatOpen
+                  ? `0 0 0 2px ${C.indigo[200]}40, 0 4px 20px ${C.indigo[500]}30, 0 0 30px ${C.cyan[400]}18`
+                  : `0 0 0 3px ${C.indigo[100]}, 0 2px 8px ${C.indigo[400]}25`,
+                animation: isChatOpen ? 'novaOrbSpin 6s linear infinite' : 'none',
+                '&:hover': {
+                  transform: isChatOpen ? 'scale(1.08)' : 'scale(1.1)',
+                  boxShadow: `0 0 0 2px ${C.indigo[300]}60, 0 6px 24px ${C.indigo[500]}30, 0 0 32px ${C.cyan[400]}20`,
+                  background: isChatOpen
+                    ? `conic-gradient(from 0deg, ${C.indigo[600]}, ${C.blue[500]}, ${C.cyan[400]}, ${C.indigo[600]})`
+                    : `linear-gradient(145deg, ${C.indigo[50]} 0%, ${C.blue[50]} 100%)`,
+                },
+                '&:active': { transform: 'scale(0.96)' },
+                '@keyframes novaOrbSpin': {
+                  '0%':   { background: `conic-gradient(from 0deg, ${C.indigo[500]}, ${C.blue[500]}, ${C.cyan[400]}, ${C.indigo[500]})` },
+                  '100%': { background: `conic-gradient(from 360deg, ${C.indigo[500]}, ${C.blue[500]}, ${C.cyan[400]}, ${C.indigo[500]})` },
+                },
+              }}
+            >
+              {/* Inner circle — gives depth to the orb */}
+              <Box sx={{
+                width: 28, height: 28, borderRadius: '50%',
+                background: isChatOpen
+                  ? 'rgba(255,255,255,0.15)'
+                  : 'transparent',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                backdropFilter: isChatOpen ? 'blur(4px)' : 'none',
+                transition: 'all 0.3s',
+              }}>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                  <defs>
+                    <linearGradient id="novaOrbG" x1="3" y1="3" x2="21" y2="21">
+                      <stop offset="0%" stopColor={isChatOpen ? '#fff' : C.indigo[500]} />
+                      <stop offset="50%" stopColor={isChatOpen ? '#e0e7ff' : C.blue[500]} />
+                      <stop offset="100%" stopColor={isChatOpen ? '#c7d2fe' : C.cyan[500]} />
+                    </linearGradient>
+                  </defs>
+                  {/* Neural/AI paths — abstract brain-like shape */}
+                  <circle cx="12" cy="12" r="3" fill="url(#novaOrbG)" />
+                  <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="url(#novaOrbG)" strokeWidth="1.8" strokeLinecap="round" />
+                  <path d="M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"
+                    stroke="url(#novaOrbG)" strokeWidth="1.3" strokeLinecap="round" opacity="0.6" />
+                </svg>
+              </Box>
+            </Box>
+          </Tooltip>
+        )}
 
         {/* User Profile (hidden in federation mode — host shows its own) */}
         {!isEmbedded && <Profile />}
