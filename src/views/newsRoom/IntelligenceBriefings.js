@@ -253,7 +253,7 @@ function IntelligenceBriefings({ initialTab }) {
         return (
             <Box sx={{ p: 4, textAlign: 'center' }}>
                 <SecurityIcon sx={{ fontSize: 64, color: theme.palette.brand.cyan, mb: 2, opacity: 0.7 }} />
-                <Typography variant="h6" sx={{ mb: 2, color: theme.palette.brand.deepPurple, fontWeight: theme.custom.tokens.fontWeight.semibold }}>
+                <Typography variant="h6" sx={{ mb: 2, color: theme.palette.primary.main, fontWeight: theme.custom.tokens.fontWeight.semibold }}>
                     Loading Intelligence Briefings...
                 </Typography>
                 <LinearProgress
@@ -264,7 +264,7 @@ function IntelligenceBriefings({ initialTab }) {
                         mx: 'auto',
                         backgroundColor: withOpacity(theme.palette.brand.cyan, 0.2),
                         '& .MuiLinearProgress-bar': {
-                            background: 'linear-gradient(90deg, theme.palette.brand.deepPurple 0%, theme.palette.brand.cyan 100%)',
+                            background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.brand.cyan} 100%)`,
                         },
                     }}
                 />
@@ -287,7 +287,7 @@ function IntelligenceBriefings({ initialTab }) {
                     icon={<ArticleIcon />}
                     label={`${articles.length} Total Briefings`}
                     sx={{
-                        background: 'linear-gradient(135deg, theme.palette.brand.deepPurple 0%, theme.palette.brand.cyan 100%)',
+                        background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.brand.cyan} 100%)`,
                         color: 'white',
                         fontWeight: theme.custom.tokens.fontWeight.semibold,
                         fontSize: '0.85rem',
@@ -300,11 +300,11 @@ function IntelligenceBriefings({ initialTab }) {
                     label={`Page ${page} of ${totalPages}`}
                     sx={{
                         bgcolor: withOpacity(theme.palette.brand.cyan, 0.15),
-                        color: theme.palette.brand.deepPurple,
+                        color: theme.palette.primary.main,
                         fontWeight: theme.custom.tokens.fontWeight.semibold,
                         fontSize: '0.85rem',
                         height: 36,
-                        border: '1px solid withOpacity(theme.palette.brand.cyan, 0.3)',
+                        border: `1px solid ${withOpacity(theme.palette.brand.cyan, 0.3)}`,
                     }}
                 />
             </Box>
@@ -315,7 +315,7 @@ function IntelligenceBriefings({ initialTab }) {
                     <Box sx={{ mb: 2 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
                             <PriorityHighIcon sx={{ color: '#d32f2f', fontSize: 24 }} />
-                            <Typography variant="h6" sx={{ color: theme.palette.primary[900], fontWeight: 600, fontSize: '1.1rem' }}>
+                            <Typography variant="h6" sx={{ color: theme.palette.text.primary, fontWeight: 600, fontSize: '1.1rem' }}>
                                 Priority Briefings
                             </Typography>
                             <Chip
@@ -340,7 +340,7 @@ function IntelligenceBriefings({ initialTab }) {
                                         <Card
                                             elevation={0}
                                             sx={{
-                                                background: '#fff',
+                                                background: theme.palette.background.paper,
                                                 border: '2px solid #d32f2f',
                                                 borderRadius: 2,
                                                 overflow: 'hidden',
@@ -376,7 +376,7 @@ function IntelligenceBriefings({ initialTab }) {
                                                                     height: 20,
                                                                 }}
                                                             />
-                                                            <Typography variant="caption" sx={{ color: theme.palette.primary[600], fontWeight: 500 }}>
+                                                            <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontWeight: 500 }}>
                                                                 #{(page - 1) * itemsPerPage + idx + 1}
                                                             </Typography>
                                                         </Box>
@@ -393,7 +393,7 @@ function IntelligenceBriefings({ initialTab }) {
                                                                 });
                                                             }}
                                                             sx={{
-                                                                color: theme.palette.primary[900],
+                                                                color: theme.palette.text.primary,
                                                                 fontWeight: 600,
                                                                 fontSize: '1.1rem',
                                                                 mb: 1,
@@ -409,8 +409,8 @@ function IntelligenceBriefings({ initialTab }) {
                                                         </Typography>
                                                     </Box>
                                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, ml: 2 }}>
-                                                        <ScheduleIcon sx={{ fontSize: 14, color: theme.palette.primary[600] }} />
-                                                        <Typography variant="caption" sx={{ color: theme.palette.primary[600], fontWeight: 500, fontSize: '0.75rem' }}>
+                                                        <ScheduleIcon sx={{ fontSize: 14, color: theme.palette.text.secondary }} />
+                                                        <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontWeight: 500, fontSize: '0.75rem' }}>
                                                             {new Date(article.last_updated).toLocaleDateString('en-US', {
                                                                 month: 'short',
                                                                 day: 'numeric',
@@ -424,7 +424,7 @@ function IntelligenceBriefings({ initialTab }) {
                                                     <Typography
                                                         variant="body2"
                                                         sx={{
-                                                            color: theme.palette.primary[800],
+                                                            color: theme.palette.text.primary,
                                                             lineHeight: 1.6,
                                                             fontSize: '0.9rem',
                                                             mb: 1,
@@ -459,7 +459,7 @@ function IntelligenceBriefings({ initialTab }) {
                                                 </Box>
 
                                                 <Box sx={{ mt: 'auto' }}>
-                                                    <Divider sx={{ my: 1, borderColor: theme.palette.primary[200] }} />
+                                                    <Divider sx={{ my: 1, borderColor: theme.palette.divider }} />
 
                                                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                                                         {article.classifications?.slice(0, 10).map((cls, idx) => (
@@ -494,7 +494,7 @@ function IntelligenceBriefings({ initialTab }) {
                     {priorityArticles.length > 0 && (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
                             <TrendingUpIcon sx={{ color: theme.palette.primary.main, fontSize: 24 }} />
-                            <Typography variant="h6" sx={{ color: theme.palette.primary[900], fontWeight: 600, fontSize: '1.1rem' }}>
+                            <Typography variant="h6" sx={{ color: theme.palette.text.primary, fontWeight: 600, fontSize: '1.1rem' }}>
                                 Standard Briefings
                             </Typography>
                         </Box>
@@ -511,15 +511,15 @@ function IntelligenceBriefings({ initialTab }) {
                                         elevation={0}
                                         sx={{
                                             height: '100%',
-                                            background: '#fff',
-                                            border: `1.5px solid ${theme.palette.primary[300]}`,
+                                            background: theme.palette.background.paper,
+                                            border: `1.5px solid ${theme.palette.divider}`,
                                             borderRadius: 2,
                                             overflow: 'hidden',
                                             transition: 'all 0.2s ease',
                                             position: 'relative',
                                             '&:hover': {
                                                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                                                borderColor: theme.palette.primary[400],
+                                                borderColor: theme.palette.primary.main,
                                             },
                                             '&::before': {
                                                 content: '""',
@@ -538,16 +538,16 @@ function IntelligenceBriefings({ initialTab }) {
                                                     label={`#${(page - 1) * itemsPerPage + actualIdx + 1}`}
                                                     size="small"
                                                     sx={{
-                                                        color: theme.palette.primary[700],
+                                                        color: theme.palette.text.secondary,
                                                         fontWeight: 600,
-                                                        bgcolor: theme.palette.primary[100],
+                                                        bgcolor: theme.palette.action.selected,
                                                         height: 20,
                                                         fontSize: '0.7rem',
                                                     }}
                                                 />
                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                                    <ScheduleIcon sx={{ fontSize: 14, color: theme.palette.primary[600] }} />
-                                                    <Typography variant="caption" sx={{ color: theme.palette.primary[600], fontWeight: 500, fontSize: '0.75rem' }}>
+                                                    <ScheduleIcon sx={{ fontSize: 14, color: theme.palette.text.secondary }} />
+                                                    <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontWeight: 500, fontSize: '0.75rem' }}>
                                                         {new Date(article.last_updated).toLocaleDateString('en-US', {
                                                             month: 'short',
                                                             day: 'numeric'
@@ -570,7 +570,7 @@ function IntelligenceBriefings({ initialTab }) {
                                                         });
                                                     }}
                                                     sx={{
-                                                        color: theme.palette.primary[900],
+                                                        color: theme.palette.text.primary,
                                                         fontWeight: 600,
                                                         fontSize: '1rem',
                                                         mb: 1,
@@ -581,7 +581,7 @@ function IntelligenceBriefings({ initialTab }) {
                                                         WebkitBoxOrient: 'vertical',
                                                         overflow: 'hidden',
                                                         '&:hover': {
-                                                            color: theme.palette.primary[600],
+                                                            color: theme.palette.text.secondary,
                                                         }
                                                     }}
                                                 >
@@ -591,7 +591,7 @@ function IntelligenceBriefings({ initialTab }) {
                                                 <Typography
                                                     variant="body2"
                                                     sx={{
-                                                        color: theme.palette.primary[800],
+                                                        color: theme.palette.text.primary,
                                                         lineHeight: 1.6,
                                                         fontSize: '0.875rem',
                                                         mb: 1,
@@ -614,7 +614,7 @@ function IntelligenceBriefings({ initialTab }) {
                                                             textTransform: 'none',
                                                             minHeight: 'auto',
                                                             '&:hover': {
-                                                                bgcolor: theme.palette.primary[50],
+                                                                bgcolor: theme.palette.action.hover,
                                                             }
                                                         }}
                                                     >
@@ -624,7 +624,7 @@ function IntelligenceBriefings({ initialTab }) {
                                             </Box>
 
                                             <Box sx={{ mt: 'auto' }}>
-                                                <Divider sx={{ my: 1, borderColor: theme.palette.primary[200] }} />
+                                                <Divider sx={{ my: 1, borderColor: theme.palette.divider }} />
                                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                                     {article.classifications?.slice(0, 3).map((cls, idx) => (
                                                         <Chip
@@ -632,12 +632,12 @@ function IntelligenceBriefings({ initialTab }) {
                                                             label={cls}
                                                             size="small"
                                                             sx={{
-                                                                bgcolor: theme.palette.primary[100],
-                                                                color: theme.palette.primary[800],
+                                                                bgcolor: theme.palette.action.selected,
+                                                                color: theme.palette.text.primary,
                                                                 fontWeight: 600,
                                                                 fontSize: '0.7rem',
                                                                 height: 22,
-                                                                border: `1px solid ${theme.palette.primary[300]}`,
+                                                                border: `1px solid ${theme.palette.divider}`,
                                                             }}
                                                         />
                                                     ))}
@@ -663,7 +663,7 @@ function IntelligenceBriefings({ initialTab }) {
                         mt: 3,
                         p: 2,
                         borderRadius: 2,
-                        background: theme.palette.primary[50],
+                        background: theme.palette.background.default,
                     }}
                 >
                     <Pagination
@@ -674,7 +674,7 @@ function IntelligenceBriefings({ initialTab }) {
                         shape="rounded"
                         sx={{
                             '& .MuiPaginationItem-root': {
-                                color: '#64748b',
+                                color: theme.palette.text.secondary,
                                 borderColor: withOpacity(theme.palette.brand.cyan, 0.3),
                                 fontWeight: theme.custom.tokens.fontWeight.semibold,
                                 fontSize: '1rem',
@@ -683,10 +683,10 @@ function IntelligenceBriefings({ initialTab }) {
                                 '&:hover': {
                                     bgcolor: withOpacity(theme.palette.brand.cyan, 0.15),
                                     borderColor: theme.palette.brand.cyan,
-                                    color: theme.palette.brand.deepPurple,
+                                    color: theme.palette.primary.main,
                                 },
                                 '&.Mui-selected': {
-                                    background: 'linear-gradient(135deg, theme.palette.brand.deepPurple 0%, theme.palette.brand.cyan 100%)',
+                                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.brand.cyan} 100%)`,
                                     color: 'white',
                                     fontWeight: theme.custom.tokens.fontWeight.bold,
                                     border: 'none',
@@ -705,7 +705,7 @@ function IntelligenceBriefings({ initialTab }) {
                             onClick={loadMoreNews}
                             disabled={loadingMore}
                             sx={{
-                                background: 'linear-gradient(135deg, theme.palette.brand.deepPurple 0%, theme.palette.brand.cyan 100%)',
+                                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.brand.cyan} 100%)`,
                                 color: 'white',
                                 fontWeight: theme.custom.tokens.fontWeight.bold,
                                 fontSize: '1rem',
@@ -713,10 +713,10 @@ function IntelligenceBriefings({ initialTab }) {
                                 px: 5,
                                 borderRadius: theme.custom.tokens.borderRadius.sm,
                                 textTransform: 'none',
-                                boxShadow: '0 4px 20px withOpacity(theme.palette.brand.cyan, 0.4)',
+                                boxShadow: `0 4px 20px ${withOpacity(theme.palette.brand.cyan, 0.4)}`,
                                 '&:hover': {
                                     background: 'linear-gradient(135deg, #1a1350 0%, #5ab5e0 100%)',
-                                    boxShadow: '0 6px 25px withOpacity(theme.palette.brand.cyan, 0.5)',
+                                    boxShadow: `0 6px 25px ${withOpacity(theme.palette.brand.cyan, 0.5)}`,
                                 },
                                 '&:disabled': {
                                     background: 'linear-gradient(135deg, #94a3b8 0%, #cbd5e1 100%)',
@@ -746,7 +746,7 @@ function IntelligenceBriefings({ initialTab }) {
 
                     {!hasMoreData && page === totalPages && (
                         <Box sx={{ textAlign: 'center' }}>
-                            <Typography variant="body2" sx={{ color: '#64748b', fontWeight: 500 }}>
+                            <Typography variant="body2" sx={{ color: theme.palette.text.secondary, fontWeight: 500 }}>
                                 ✓ All briefings loaded
                             </Typography>
                         </Box>
@@ -758,14 +758,14 @@ function IntelligenceBriefings({ initialTab }) {
                 <Box sx={{
                     textAlign: 'center',
                     py: 8,
-                    background: 'linear-gradient(135deg, theme.palette.grey[50] 0%, theme.palette.brand.lightBlue 100%)',
+                    background: theme.palette.background.default,
                     borderRadius: 3,
                 }}>
-                    <SecurityIcon sx={{ fontSize: 80, color: '#cbd5e1', mb: 2 }} />
-                    <Typography variant="h5" sx={{ color: '#64748b', fontWeight: theme.custom.tokens.fontWeight.semibold, mb: 1 }}>
+                    <SecurityIcon sx={{ fontSize: 80, color: theme.palette.text.disabled, mb: 2 }} />
+                    <Typography variant="h5" sx={{ color: theme.palette.text.secondary, fontWeight: theme.custom.tokens.fontWeight.semibold, mb: 1 }}>
                         No Intelligence Briefings Available
                     </Typography>
-                    <Typography variant="body1" sx={{ color: '#94a3b8' }}>
+                    <Typography variant="body1" sx={{ color: theme.palette.text.disabled }}>
                         Check back later for new strategic updates and analysis
                     </Typography>
                 </Box>

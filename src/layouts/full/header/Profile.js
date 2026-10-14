@@ -6,6 +6,7 @@ import {
   Typography,
   ButtonBase,
   Divider,
+  useTheme,
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
@@ -21,8 +22,30 @@ const C = {
   slate: { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 700: '#334155', 800: '#1E293B', 900: '#0F172A' },
 };
 
+/* Dark counterparts, mirroring the `--dm-*` ladder in src/styles/common.css.
+   This component paints its trigger and menu with inline sx, which the
+   dark stylesheet cannot reach (emotion classes, and there is no
+   .MuiButtonBase-root surface rule) — so the light values above rendered a
+   near-white pill with near-white ink on the dark AppBar, at 1.5:1. */
+const D = {
+  triggerBg: 'rgba(255, 255, 255, 0.06)',
+  triggerBgOpen: 'rgba(255, 255, 255, 0.10)',
+  border: 'rgba(255, 255, 255, 0.08)',
+  borderOpen: '#a6a0f0',
+  surface: '#232328',
+  surfaceRaised: '#2a2a2f',
+  text: '#ededf0',
+  textMuted: '#a8a8b3',
+  accent: '#a6a0f0',
+  danger: '#f87171',
+  dangerWash: 'rgba(248, 113, 113, 0.14)',
+  dangerEdge: 'rgba(248, 113, 113, 0.35)',
+};
+
 const Profile = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -86,17 +109,25 @@ const Profile = () => {
           pr: 1.75,
           py: 0.75,
           borderRadius: '28px',
-          bgcolor: open ? '#fff' : C.slate[50],
-          border: `1.5px solid ${open ? C.indigo[300] : C.slate[200]}`,
-          boxShadow: open
-            ? `0 0 0 3px ${C.indigo[500]}12, 0 4px 12px ${C.indigo[500]}10`
-            : `0 1px 3px rgba(0,0,0,0.04)`,
+          bgcolor: isDark
+            ? (open ? D.triggerBgOpen : D.triggerBg)
+            : (open ? '#fff' : C.slate[50]),
+          border: `1.5px solid ${isDark
+            ? (open ? D.borderOpen : D.border)
+            : (open ? C.indigo[300] : C.slate[200])}`,
+          boxShadow: isDark
+            ? (open ? `0 0 0 3px rgba(166, 160, 240, 0.18)` : 'none')
+            : (open
+              ? `0 0 0 3px ${C.indigo[500]}12, 0 4px 12px ${C.indigo[500]}10`
+              : `0 1px 3px rgba(0,0,0,0.04)`),
           transition: 'all 0.2s ease',
           cursor: 'pointer',
           '&:hover': {
-            bgcolor: '#fff',
-            border: `1.5px solid ${C.indigo[300]}`,
-            boxShadow: `0 0 0 3px ${C.indigo[500]}0A, 0 4px 14px ${C.indigo[500]}12`,
+            bgcolor: isDark ? D.triggerBgOpen : '#fff',
+            border: `1.5px solid ${isDark ? D.borderOpen : C.indigo[300]}`,
+            boxShadow: isDark
+              ? `0 0 0 3px rgba(166, 160, 240, 0.14)`
+              : `0 0 0 3px ${C.indigo[500]}0A, 0 4px 14px ${C.indigo[500]}12`,
           },
         }}
       >
@@ -131,7 +162,7 @@ const Profile = () => {
             height: 11,
             borderRadius: '50%',
             bgcolor: '#22c55e',
-            border: '2.5px solid #fff',
+            border: `2.5px solid ${isDark ? D.surface : '#fff'}`,
             boxShadow: '0 0 6px #22c55e80',
           }} />
         </Box>
@@ -141,7 +172,7 @@ const Profile = () => {
           <Typography sx={{
             fontSize: '0.65rem',
             fontWeight: 600,
-            color: C.slate[500],
+            color: isDark ? D.textMuted : C.slate[500],
             lineHeight: 1,
             letterSpacing: '0.05em',
             textTransform: 'uppercase',
@@ -151,7 +182,7 @@ const Profile = () => {
           <Typography sx={{
             fontSize: '0.9rem',
             fontWeight: 700,
-            color: C.indigo[900],
+            color: isDark ? D.text : C.indigo[900],
             lineHeight: 1.3,
             maxWidth: 120,
             overflow: 'hidden',
@@ -167,7 +198,7 @@ const Profile = () => {
         <ArrowDownIcon sx={{
           display: { xs: 'none', sm: 'flex' },
           fontSize: 20,
-          color: open ? C.indigo[500] : C.slate[400],
+          color: isDark ? (open ? D.accent : D.textMuted) : (open ? C.indigo[500] : C.slate[400]),
           transition: 'all 0.2s ease',
           transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
           ml: -0.25,
@@ -187,8 +218,8 @@ const Profile = () => {
               width: 210,
               borderRadius: '12px',
               mt: 1,
-              bgcolor: '#fff',
-              border: `1px solid ${C.slate[200]}`,
+              bgcolor: isDark ? D.surfaceRaised : '#fff',
+              border: `1px solid ${isDark ? D.border : C.slate[200]}`,
               boxShadow: `0 12px 36px -8px rgba(0,0,0,0.12), 0 4px 12px -4px ${C.indigo[500]}10`,
               overflow: 'hidden',
             },
@@ -198,8 +229,10 @@ const Profile = () => {
         {/* ── Compact User Info ── */}
         <Box sx={{
           px: 1.75, py: 1.25,
-          background: `linear-gradient(135deg, ${C.indigo[50]} 0%, ${C.slate[50]} 100%)`,
-          borderBottom: `1px solid ${C.slate[100]}`,
+          background: isDark
+            ? 'linear-gradient(135deg, #33323c 0%, #3a3444 100%)'
+            : `linear-gradient(135deg, ${C.indigo[50]} 0%, ${C.slate[50]} 100%)`,
+          borderBottom: `1px solid ${isDark ? D.border : C.slate[100]}`,
           display: 'flex', alignItems: 'center', gap: 1,
         }}>
           <Box sx={{
@@ -215,14 +248,14 @@ const Profile = () => {
           </Box>
           <Box sx={{ minWidth: 0, flex: 1 }}>
             <Typography sx={{
-              fontSize: '0.8rem', fontWeight: 700, color: C.slate[800],
+              fontSize: '0.8rem', fontWeight: 700, color: isDark ? D.text : C.slate[800],
               lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
             }}>
               {username}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4, mt: 0.15 }}>
               <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: '#22c55e', boxShadow: '0 0 4px #22c55e60' }} />
-              <Typography sx={{ fontSize: '0.62rem', color: '#16a34a', fontWeight: 600 }}>Online</Typography>
+              <Typography sx={{ fontSize: '0.62rem', color: isDark ? '#4ade80' : '#16a34a', fontWeight: 600 }}>Online</Typography>
             </Box>
           </Box>
         </Box>
@@ -258,17 +291,17 @@ const Profile = () => {
               width: '100%', display: 'flex', alignItems: 'center', gap: 1,
               px: 1.25, py: 0.75, borderRadius: '8px',
               transition: 'all 0.15s ease',
-              '&:hover': { bgcolor: '#fef2f2' },
+              '&:hover': { bgcolor: isDark ? D.dangerWash : '#fef2f2' },
             }}
           >
             <Box sx={{
               width: 28, height: 28, borderRadius: '7px',
-              bgcolor: '#fef2f2', border: '1px solid #fecaca',
+              bgcolor: isDark ? D.dangerWash : '#fef2f2', border: `1px solid ${isDark ? D.dangerEdge : '#fecaca'}`,
               display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}>
-              <LogoutIcon sx={{ fontSize: 14, color: '#ef4444' }} />
+              <LogoutIcon sx={{ fontSize: 14, color: isDark ? D.danger : '#ef4444' }} />
             </Box>
-            <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: '#ef4444' }}>
+            <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: isDark ? D.danger : '#ef4444' }}>
               Logout
             </Typography>
           </ButtonBase>

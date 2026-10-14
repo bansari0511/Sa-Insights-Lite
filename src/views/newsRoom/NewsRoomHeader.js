@@ -15,6 +15,7 @@ function NewsRoomHeader({
   totalPages = 1
 }) {
   const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
 
   return (
     <Box
@@ -30,9 +31,9 @@ function NewsRoomHeader({
           right: 0,
           height: '2px',
           background: `linear-gradient(90deg,
-            ${theme.palette.primary[500]} 0%,
-            ${theme.palette.primary[400]} 25%,
-            ${withOpacity(theme.palette.primary[300], 0.3)} 75%,
+            ${theme.palette.primary.main} 0%,
+            ${theme.palette.primary.light} 25%,
+            ${withOpacity(theme.palette.primary.light, 0.3)} 75%,
             transparent 100%)`,
         }
       }}
@@ -43,18 +44,26 @@ function NewsRoomHeader({
             display: 'flex',
             alignItems: 'center',
             gap: 1.2,
-            background: `linear-gradient(135deg,
-              ${withOpacity(theme.palette.primary[50], 0.6)} 0%,
-              ${withOpacity(theme.palette.primary[100], 0.2)} 100%)`,
+            background: isDark
+              ? theme.palette.action.hover
+              : `linear-gradient(135deg,
+                ${withOpacity(theme.palette.primary[50], 0.6)} 0%,
+                ${withOpacity(theme.palette.primary[100], 0.2)} 100%)`,
             padding: '10px 14px',
             borderRadius: '8px',
-            boxShadow: `0 2px 8px ${withOpacity(theme.palette.primary[400], 0.08)}`,
+            boxShadow: isDark
+              ? '0 2px 8px rgba(0,0,0,0.3)'
+              : `0 2px 8px ${withOpacity(theme.palette.primary[400], 0.08)}`,
             transition: 'all 0.3s ease',
             '&:hover': {
-              background: `linear-gradient(135deg,
-                ${withOpacity(theme.palette.primary[100], 0.7)} 0%,
-                ${withOpacity(theme.palette.primary[50], 0.3)} 100%)`,
-              boxShadow: `0 3px 12px ${withOpacity(theme.palette.primary[400], 0.12)}`,
+              background: isDark
+                ? theme.palette.action.selected
+                : `linear-gradient(135deg,
+                  ${withOpacity(theme.palette.primary[100], 0.7)} 0%,
+                  ${withOpacity(theme.palette.primary[50], 0.3)} 100%)`,
+              boxShadow: isDark
+                ? '0 3px 12px rgba(0,0,0,0.4)'
+                : `0 3px 12px ${withOpacity(theme.palette.primary[400], 0.12)}`,
               transform: 'translateY(-1px)',
             }
           }}
@@ -63,11 +72,11 @@ function NewsRoomHeader({
             width: 36,
             height: 36,
             borderRadius: '8px',
-            background: `linear-gradient(135deg, ${theme.palette.primary[600]} 0%, ${theme.palette.primary[500]} 100%)`,
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: `0 2px 8px ${withOpacity(theme.palette.primary[600], 0.3)}`,
+            boxShadow: `0 2px 8px ${withOpacity(theme.palette.primary.main, 0.3)}`,
             position: 'relative',
             '&::before': {
               content: '""',
@@ -95,7 +104,7 @@ function NewsRoomHeader({
               sx={{
                 fontWeight: 700,
                 fontSize: '1.15rem',
-                color: theme.palette.primary[900],
+                color: theme.palette.text.primary,
                 mb: 0,
                 letterSpacing: '-0.015em',
                 lineHeight: 1.2,
@@ -135,7 +144,7 @@ function NewsRoomHeader({
               <Box sx={{
                 px: 2,
                 py: 0.75,
-                bgcolor: theme.palette.primary[500],
+                bgcolor: theme.palette.primary.light,
                 color: 'white',
                 borderRadius: 1,
                 fontSize: '0.875rem',

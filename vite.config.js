@@ -57,19 +57,19 @@ function federationReactShim() {
   ];
 
   const REACT_EXPORTS = [
-    'Children','Component','Fragment','Profiler','PureComponent','StrictMode','Suspense',
-    'act','cache','cloneElement','createContext','createElement','createRef',
-    'forwardRef','isValidElement','lazy','memo','startTransition','use',
-    'useActionState','useCallback','useContext','useDebugValue','useDeferredValue',
-    'useEffect','useId','useImperativeHandle','useInsertionEffect','useLayoutEffect',
-    'useMemo','useOptimistic','useReducer','useRef','useState','useSyncExternalStore',
-    'useTransition','version',
+    'Children', 'Component', 'Fragment', 'Profiler', 'PureComponent', 'StrictMode', 'Suspense',
+    'act', 'cache', 'cloneElement', 'createContext', 'createElement', 'createRef',
+    'forwardRef', 'isValidElement', 'lazy', 'memo', 'startTransition', 'use',
+    'useActionState', 'useCallback', 'useContext', 'useDebugValue', 'useDeferredValue',
+    'useEffect', 'useId', 'useImperativeHandle', 'useInsertionEffect', 'useLayoutEffect',
+    'useMemo', 'useOptimistic', 'useReducer', 'useRef', 'useState', 'useSyncExternalStore',
+    'useTransition', 'version',
   ];
 
   const REACT_DOM_EXPORTS = [
-    'createPortal','flushSync','preconnect','prefetchDNS','preinit','preload',
-    'requestFormReset','unstable_batchedUpdates','useFormState','useFormStatus','version',
-    'createRoot','hydrateRoot',
+    'createPortal', 'flushSync', 'preconnect', 'prefetchDNS', 'preinit', 'preload',
+    'requestFormReset', 'unstable_batchedUpdates', 'useFormState', 'useFormStatus', 'version',
+    'createRoot', 'hydrateRoot',
   ];
 
   return {
@@ -185,126 +185,126 @@ export default defineConfig(({ mode, command }) => {
   const basePath = '/';
 
   return {
-envPrefix: ['REACT_APP_', 'VITE_'],
-  resolve: {
-    alias: {
-      src: resolve(__dirname, 'src'),
-      '@babel/runtime':resolve(__dirname,'node_modules/@babel/runtime'),
-      '@babel/runtime/helpers/esm/createSuper':resolve(__dirname,'node_modules/@babel/runtime/helpers/esm/createSuper.js'),
-      'dingbat-to-unicode': resolve(__dirname, 'node_modules/dingbat-to-unicode/dist/index.js'),
-    },
-  },
-  esbuild: {
-    loader: 'jsx',
-    include: /src\/.*\.[jt]sx?$/, // cover .js, .jsx, .ts, .tsx
-    exclude: [],
-    supported: {
-      'top-level-await': true,
-    },
-  },
-  build: {
-    sourcemap: false,
-    minify: 'esbuild',
-    target: 'esnext',
-    modulePreload: false,
-    cssCodeSplit: false,
-    chunkSizeWarningLimit: 1000,
-    reportCompressedSize: true,
-    rollupOptions: {
-      external: [],
-    },
-    commonjsOptions: {
-      include: [/node_modules/, /@babel\/runtime/],
-    },
-  },
-  optimizeDeps: {
-    exclude: ['@arcgis/core', '@arcgis/map-components'],
-    include: [
-      '@emotion/react',
-      '@emotion/styled',
-      '@mui/styled-engine',
-      '@mui/system',
-      '@mui/material',
-      '@mui/material/Box',
-      '@mui/material/Grid',
-      '@mui/material/Paper',
-      '@mui/material/Typography',
-      '@mui/material/Button',
-      'apexcharts',
-      'react-apexcharts',
-      'mammoth',
-      'dingbat-to-unicode'
-    ],
-    esbuildOptions: {
-      target: 'esnext',
-      plugins: [
-        {
-          name: 'load-js-files-as-jsx',
-          setup(build) {
-            build.onLoad(
-              { filter: /src\/.*\.js$/ },
-              async (args) => {
-                const contents = await fs.readFile(args.path, 'utf8');
-                return {
-                  loader: 'jsx',
-                  contents,
-                };
-              }
-            );
-          },
-        }
-      ],
-    },
-  },
-  plugins: [
-    react(),
-    federationReactShim(),
-    corsProxyPlugin(),
-    svgr(),
-    federation({
-      name: 'news',
-      filename: 'remoteEntry.js',
-      exposes: {
-        './App': './src/SAInsightsRoot.jsx',
+    envPrefix: ['REACT_APP_', 'VITE_'],
+    resolve: {
+      alias: {
+        src: resolve(__dirname, 'src'),
+        '@babel/runtime': resolve(__dirname, 'node_modules/@babel/runtime'),
+        '@babel/runtime/helpers/esm/createSuper': resolve(__dirname, 'node_modules/@babel/runtime/helpers/esm/createSuper.js'),
+        'dingbat-to-unicode': resolve(__dirname, 'node_modules/dingbat-to-unicode/dist/index.js'),
       },
-      shared: ['react', 'react-dom', 'react-router', 'react-router-dom'],
-    }),
-    copyFederationCss(),
-    // Bundle analyzer - generates stats.html after build
-    visualizer({
-      open: false,
-      filename: 'dist/stats.html',
-      gzipSize: true,
-      brotliSize: true,
-    })
-  ],
-  base: basePath,
-  server: {
-    port: parseInt(env.VITE_DEV_SERVER_PORT) || 9398,
-    host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',
-    cors: true,
-    fs: {
-      strict: false,
     },
-    watch: {
-      ignored: [
-        '**/node_modules/**',
-        '**/dist/**',
-        '**/public/assets/esri/**',
-        '**/.git/**',
-        '**/coverage/**',
-        '**/tmp/**',
-        '**/temp/**',
-        '**/*.log',
-        '**/.DS_Store',
-        '**/Thumbs.db'
-      ]
+    esbuild: {
+      loader: 'jsx',
+      include: /src\/.*\.[jt]sx?$/, // cover .js, .jsx, .ts, .tsx
+      exclude: [],
+      supported: {
+        'top-level-await': true,
+      },
+    },
+    build: {
+      sourcemap: false,
+      minify: 'esbuild',
+      target: 'esnext',
+      modulePreload: false,
+      cssCodeSplit: false,
+      chunkSizeWarningLimit: 1000,
+      reportCompressedSize: true,
+      rollupOptions: {
+        external: [],
+      },
+      commonjsOptions: {
+        include: [/node_modules/, /@babel\/runtime/],
+      },
+    },
+    optimizeDeps: {
+      exclude: ['@arcgis/core', '@arcgis/map-components'],
+      include: [
+        '@emotion/react',
+        '@emotion/styled',
+        '@mui/styled-engine',
+        '@mui/system',
+        '@mui/material',
+        '@mui/material/Box',
+        '@mui/material/Grid',
+        '@mui/material/Paper',
+        '@mui/material/Typography',
+        '@mui/material/Button',
+        'apexcharts',
+        'react-apexcharts',
+        'mammoth',
+        'dingbat-to-unicode'
+      ],
+      esbuildOptions: {
+        target: 'esnext',
+        plugins: [
+          {
+            name: 'load-js-files-as-jsx',
+            setup(build) {
+              build.onLoad(
+                { filter: /src\/.*\.js$/ },
+                async (args) => {
+                  const contents = await fs.readFile(args.path, 'utf8');
+                  return {
+                    loader: 'jsx',
+                    contents,
+                  };
+                }
+              );
+            },
+          }
+        ],
+      },
+    },
+    plugins: [
+      react(),
+      federationReactShim(),
+      corsProxyPlugin(),
+      svgr(),
+      federation({
+        name: 'news',
+        filename: 'remoteEntry.js',
+        exposes: {
+          './App': './src/SAInsightsRoot.jsx',
+        },
+        shared: ['react', 'react-dom', 'react-router', 'react-router-dom'],
+      }),
+      copyFederationCss(),
+      // Bundle analyzer - generates stats.html after build
+      visualizer({
+        open: false,
+        filename: 'dist/stats.html',
+        gzipSize: true,
+        brotliSize: true,
+      })
+    ],
+    base: basePath,
+    server: {
+      port: parseInt(env.VITE_DEV_SERVER_PORT) || 9398,
+      host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',
+      cors: true,
+      fs: {
+        strict: false,
+      },
+      watch: {
+        ignored: [
+          '**/node_modules/**',
+          '**/dist/**',
+          '**/public/assets/esri/**',
+          '**/.git/**',
+          '**/coverage/**',
+          '**/tmp/**',
+          '**/temp/**',
+          '**/*.log',
+          '**/.DS_Store',
+          '**/Thumbs.db'
+        ]
+      }
+    },
+    preview: {
+      port: parseInt(env.VITE_DEV_SERVER_PORT) || 9398,
+      host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',
+      cors: true,
     }
-  },
-  preview: {
-    port: parseInt(env.VITE_DEV_SERVER_PORT) || 9398,
-    host: env.VITE_DEV_SERVER_HOST || '0.0.0.0',
-    cors: true,
-  }
   };
 });

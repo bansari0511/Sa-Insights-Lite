@@ -9,10 +9,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import ArrowIcon from '@mui/icons-material/ArrowForwardIos';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 
 // components
 import Profile from './Profile';
 import { fetchSearchSuggestions } from '../../../services/searchApi';
+import { useThemeContext } from '../../../theme/ThemeContext';
+import NovaToggle from './NovaToggle';
 
 /* ── Color tokens (indigo / blue / cyan / slate) ── */
 const C = {
@@ -20,6 +24,25 @@ const C = {
   blue:   { 50: '#EFF6FF', 100: '#DBEAFE', 200: '#BFDBFE', 300: '#93C5FD', 400: '#60A5FA', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8', 800: '#1E40AF', 900: '#1E3A8A' },
   cyan:   { 50: '#ECFEFF', 100: '#CFFAFE', 200: '#A5F3FC', 300: '#67E8F9', 400: '#22D3EE', 500: '#06B6D4', 600: '#0891B2', 700: '#0E7490', 800: '#155E75', 900: '#164E63' },
   slate:  { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 700: '#334155', 800: '#1E293B', 900: '#0F172A' },
+};
+
+/* Dark counterparts for the header controls, mirroring the `--dm-*` ladder in
+   src/styles/common.css. The theme toggle and the Nova pill paint themselves
+   with inline sx gradients, which the dark stylesheet cannot reach — so in dark
+   mode they stayed a white disc and a pale lavender pill sitting on the dark
+   AppBar. */
+const D = {
+  controlBg: 'rgba(255, 255, 255, 0.06)',
+  controlBgHover: 'rgba(255, 255, 255, 0.10)',
+  border: 'rgba(255, 255, 255, 0.14)',
+  accent: '#A6A0F0',
+  accentInk: '#C7D2FE',
+  accentEdge: 'rgba(166, 160, 240, 0.35)',
+  accentRing: 'rgba(166, 160, 240, 0.14)',
+  accentRingHover: 'rgba(166, 160, 240, 0.22)',
+  orbBg: 'linear-gradient(145deg, #2A2A2F 0%, #313136 100%)',
+  novaBg: 'linear-gradient(135deg, rgba(166, 160, 240, 0.14) 0%, rgba(166, 160, 240, 0.06) 100%)',
+  novaBgHover: 'linear-gradient(135deg, rgba(166, 160, 240, 0.22) 0%, rgba(166, 160, 240, 0.12) 100%)',
 };
 
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
@@ -47,6 +70,7 @@ const ToolbarStyled = styled(Toolbar)(() => ({
 const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
   const navigate = useNavigate();
   const searchRef = useRef(null);
+  const { isDark, toggleTheme, hostOwnsTheme } = useThemeContext();
 
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
@@ -457,67 +481,60 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
         {/* Spacer */}
         <Box sx={{ flex: 1 }} />
 
-        {/* ── AI Assistant Toggle — Animated Orb ── */}
-        {onToggleChat && (
-          <Tooltip title={isChatOpen ? 'Close Assistant' : 'Nova AI Assistant'} arrow placement="bottom">
+        {/* ── Light/Dark theme switch — standalone only ──
+            Hidden, not disabled, whenever the METIS host is driving the theme: embedded, the
+            portal's top bar carries the switch for every child app, and a second one here was
+            both a duplicate control and a lie about who was in charge.
+
+            `hostOwnsTheme` is true exactly when the host handed us a theme to follow, which is
+            the same condition that makes `toggleTheme` a no-op — so this cannot drift out of
+            step with the context, and it cannot hide the switch while it still works. Running
+            standalone nothing is passed, the flag is false, and this renders as it always did. */}
+        {!hostOwnsTheme && (
+          <Tooltip title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow placement="bottom">
             <Box
-              onClick={onToggleChat}
+              onClick={toggleTheme}
               sx={{
+                flexShrink: 0,
                 position: 'relative',
+                zIndex: 2,
                 width: 38, height: 38, borderRadius: '50%',
-                background: isChatOpen
-                  ? `conic-gradient(from 0deg, ${C.indigo[500]}, ${C.blue[500]}, ${C.cyan[400]}, ${C.indigo[500]})`
-                  : `linear-gradient(145deg, #fff 0%, ${C.indigo[50]} 100%)`,
-                border: isChatOpen ? 'none' : `2px solid ${C.indigo[400]}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 cursor: 'pointer', mr: 1.5,
-                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: isChatOpen
-                  ? `0 0 0 2px ${C.indigo[200]}40, 0 4px 20px ${C.indigo[500]}30, 0 0 30px ${C.cyan[400]}18`
+                background: isDark
+                  ? D.controlBg
+                  : `linear-gradient(145deg, #fff 0%, ${C.indigo[50]} 100%)`,
+                border: `2px solid ${isDark ? D.border : C.indigo[400]}`,
+                boxShadow: isDark
+                  ? `0 0 0 3px ${D.accentRing}`
                   : `0 0 0 3px ${C.indigo[100]}, 0 2px 8px ${C.indigo[400]}25`,
-                animation: isChatOpen ? 'novaOrbSpin 6s linear infinite' : 'none',
+                transition: 'all 0.25s ease',
                 '&:hover': {
-                  transform: isChatOpen ? 'scale(1.08)' : 'scale(1.1)',
-                  boxShadow: `0 0 0 2px ${C.indigo[300]}60, 0 6px 24px ${C.indigo[500]}30, 0 0 32px ${C.cyan[400]}20`,
-                  background: isChatOpen
-                    ? `conic-gradient(from 0deg, ${C.indigo[600]}, ${C.blue[500]}, ${C.cyan[400]}, ${C.indigo[600]})`
+                  transform: 'scale(1.08)',
+                  background: isDark
+                    ? D.controlBgHover
                     : `linear-gradient(145deg, ${C.indigo[50]} 0%, ${C.blue[50]} 100%)`,
+                  boxShadow: isDark
+                    ? `0 0 0 3px ${D.accentRingHover}`
+                    : `0 0 0 3px ${C.indigo[200]}, 0 4px 12px ${C.indigo[400]}30`,
                 },
                 '&:active': { transform: 'scale(0.96)' },
-                '@keyframes novaOrbSpin': {
-                  '0%':   { background: `conic-gradient(from 0deg, ${C.indigo[500]}, ${C.blue[500]}, ${C.cyan[400]}, ${C.indigo[500]})` },
-                  '100%': { background: `conic-gradient(from 360deg, ${C.indigo[500]}, ${C.blue[500]}, ${C.cyan[400]}, ${C.indigo[500]})` },
-                },
               }}
             >
-              {/* Inner circle — gives depth to the orb */}
-              <Box sx={{
-                width: 28, height: 28, borderRadius: '50%',
-                background: isChatOpen
-                  ? 'rgba(255,255,255,0.15)'
-                  : 'transparent',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backdropFilter: isChatOpen ? 'blur(4px)' : 'none',
-                transition: 'all 0.3s',
-              }}>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-                  <defs>
-                    <linearGradient id="novaOrbG" x1="3" y1="3" x2="21" y2="21">
-                      <stop offset="0%" stopColor={isChatOpen ? '#fff' : C.indigo[500]} />
-                      <stop offset="50%" stopColor={isChatOpen ? '#e0e7ff' : C.blue[500]} />
-                      <stop offset="100%" stopColor={isChatOpen ? '#c7d2fe' : C.cyan[500]} />
-                    </linearGradient>
-                  </defs>
-                  {/* Neural/AI paths — abstract brain-like shape */}
-                  <circle cx="12" cy="12" r="3" fill="url(#novaOrbG)" />
-                  <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="url(#novaOrbG)" strokeWidth="1.8" strokeLinecap="round" />
-                  <path d="M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"
-                    stroke="url(#novaOrbG)" strokeWidth="1.3" strokeLinecap="round" opacity="0.6" />
-                </svg>
-              </Box>
+              {isDark
+                ? <LightModeOutlinedIcon sx={{ fontSize: 18, color: D.accentInk }} />
+                : <DarkModeOutlinedIcon sx={{ fontSize: 18, color: C.indigo[600] }} />}
             </Box>
           </Tooltip>
         )}
+
+        {/* ── Nova AI Assistant ──
+            Drawn in NovaToggle.jsx, which is byte-identical in sa-web-service and
+            sa-insights-lite. The two apps had drifted into visibly different controls for the
+            same feature; the shared file is what makes them stay the same. It also carries the
+            reasoning for the hexagon-and-lockup shape, which is borrowed from the portal bar
+            directly above this one. */}
+        <NovaToggle isChatOpen={isChatOpen} onToggleChat={onToggleChat} isDark={isDark} />
 
         {/* User Profile (hidden in federation mode — host shows its own) */}
         {!isEmbedded && <Profile />}

@@ -27,7 +27,17 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     const navigate = useNavigate();
     const location = useLocation();
     const theme = useTheme();
+    const isDark = theme.palette.mode === 'dark';
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    // Theme-aware danger accent for priority / "Hot" markers. These must stay
+    // red and distinct from the indigo primary accent, so they can't route
+    // through theme.palette.error (which the palette maps to indigo in light
+    // mode). Values are tuned per mode: GitHub-red family in dark, red-600 in light.
+    const dangerColor = theme.palette.mode === 'dark' ? '#F85149' : '#DC2626';
+    const dangerColorSoft = theme.palette.mode === 'dark' ? '#FF7B72' : '#EF4444';
+    // Darker variant of the primary→cyan brand gradient, for hover/active states.
+    const brandGradientHover = `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.secondary.dark} 100%)`;
 
     // Get all countries from regions data (needed for initialization)
     const allCountries = regionsData.flatMap(region => region.countries);
@@ -349,7 +359,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     if (loading) {
         content = (
             <Box sx={{ p: 4, textAlign: 'center' }}>
-                <Typography variant="h6" sx={{ mb: 2, color: theme.palette.brand.deepPurple, fontWeight: theme.custom.tokens.fontWeight.semibold }}>
+                <Typography variant="h6" sx={{ mb: 2, color: theme.palette.primary.main, fontWeight: theme.custom.tokens.fontWeight.semibold }}>
                     Loading latest news...
                 </Typography>
                 <LinearProgress
@@ -357,7 +367,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                         borderRadius: 2,
                         height: 6,
                         '& .MuiLinearProgress-bar': {
-                            background: `linear-gradient(45deg, ${theme.palette.brand.deepPurple} 30%, ${theme.palette.brand.cyan} 90%)`,
+                            background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.brand.cyan} 90%)`,
                         },
                     }}
                 />
@@ -371,9 +381,9 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                     sx={{
                         mb: 2.5,
                         p: 2,
-                        background: theme.palette.primary[50],
+                        background: theme.palette.action.hover,
                         borderRadius: '12px',
-                        border: `1px solid ${theme.palette.primary[200]}`,
+                        border: `1px solid ${theme.palette.divider}`,
                     }}
                 >
                     {/* First Row - Title and Last Updated */}
@@ -381,7 +391,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                         <Typography
                             variant="h6"
                             sx={{
-                                color: theme.palette.primary[900],
+                                color: theme.palette.text.primary,
                                 fontWeight: 700,
                                 display: 'flex',
                                 alignItems: 'center',
@@ -406,7 +416,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                 size="small"
                                 sx={{
                                     borderColor: theme.palette.brand.cyan,
-                                    color: theme.palette.brand.deepPurple,
+                                    color: theme.palette.primary.main,
                                     fontWeight: theme.custom.tokens.fontWeight.semibold,
                                     background: withOpacity(theme.palette.brand.cyan, 0.05),
                                     height: 28,
@@ -418,10 +428,10 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                 variant="outlined"
                                 size="small"
                                 sx={{
-                                    borderColor: theme.palette.brand.deepPurple,
-                                    color: theme.palette.brand.deepPurple,
+                                    borderColor: theme.palette.primary.main,
+                                    color: theme.palette.primary.main,
                                     fontWeight: theme.custom.tokens.fontWeight.semibold,
-                                    background: withOpacity(theme.palette.brand.deepPurple, 0.05),
+                                    background: withOpacity(theme.palette.primary.main, 0.05),
                                     height: 28,
                                 }}
                             />
@@ -430,7 +440,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                 size="small"
                                 sx={{
                                     bgcolor: withOpacity(theme.palette.brand.cyan, 0.1),
-                                    color: theme.palette.brand.deepPurple,
+                                    color: theme.palette.primary.main,
                                     fontWeight: theme.custom.tokens.fontWeight.semibold,
                                     border: `1px solid ${withOpacity(theme.palette.brand.cyan, 0.2)}`,
                                     height: 28,
@@ -442,7 +452,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                         <Typography
                             variant="body2"
                             sx={{
-                                color: theme.palette.primary[700],
+                                color: theme.palette.text.secondary,
                                 fontWeight: 500,
                                 fontSize: '0.8rem',
                             }}
@@ -466,10 +476,10 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                 sx={{
                                     display: 'flex',
                                     flexDirection: { xs: 'column', sm: 'row' },
-                                    background: '#fff',
+                                    background: theme.palette.background.paper,
                                     border: priority === 'high'
-                                        ? '2px solid #ff4444'
-                                        : `1px solid ${theme.palette.primary[200]}`,
+                                        ? `2px solid ${dangerColor}`
+                                        : `1px solid ${theme.palette.divider}`,
                                     borderRadius: '12px',
                                     cursor: 'pointer',
                                     position: 'relative',
@@ -484,7 +494,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                         left: 0,
                                         width: '4px',
                                         height: '100%',
-                                        background: '#ff4444',
+                                        background: dangerColor,
                                         zIndex: 1,
                                     } : {
                                         content: '""',
@@ -499,9 +509,9 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                     '&:hover': {
                                         transform: 'translateY(-4px)',
                                         boxShadow: priority === 'high'
-                                            ? '0 8px 24px rgba(255, 68, 68, 0.2)'
+                                            ? `0 8px 24px ${withOpacity(dangerColor, 0.2)}`
                                             : '0 8px 24px rgba(0, 0, 0, 0.12)',
-                                        borderColor: priority === 'high' ? '#ff6666' : theme.palette.primary[300],
+                                        borderColor: priority === 'high' ? dangerColorSoft : theme.palette.primary.main,
                                         '& .article-image': {
                                             transform: 'scale(1.08)',
                                         },
@@ -529,7 +539,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                         borderRadius: { xs: '16px 16px 0 0', sm: '16px 0 0 16px' },
                                         background: article.caption_img
                                             ? 'transparent'
-                                            : `linear-gradient(135deg, ${theme.palette.brand.lightBlue} 0%, #e0f2fe 100%)`,
+                                            : theme.palette.action.hover,
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
@@ -560,7 +570,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                                     width: '30%',
                                                     background: {
                                                         xs: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
-                                                        sm: 'linear-gradient(to right, transparent, rgba(248,250,252,0.8))'
+                                                        sm: `linear-gradient(to right, transparent, ${withOpacity(theme.palette.background.paper, 0.8)})`
                                                     },
                                                 }}
                                             />
@@ -572,7 +582,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                                 flexDirection: 'column',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
-                                                color: '#94a3b8',
+                                                color: theme.palette.text.disabled,
                                                 textAlign: 'center',
                                                 p: 3,
                                             }}
@@ -601,7 +611,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                         <Typography
                                             variant="h6"
                                             sx={{
-                                                color: '#1e293b',
+                                                color: theme.palette.text.primary,
                                                 fontWeight: theme.custom.tokens.fontWeight.bold,
                                                 mb: 1.5,
                                                 lineHeight: 1.3,
@@ -618,7 +628,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                         <Typography
                                             variant="body2"
                                             sx={{
-                                                color: '#0f3670ff',
+                                                color: theme.palette.text.secondary,
                                                 lineHeight: 1.5,
                                                 mb: 2,
                                                 fontSize: '0.9rem',
@@ -642,7 +652,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                                 justifyContent: 'space-between',
                                                 alignItems: 'center',
                                                 pt: 2,
-                                                borderTop: `1px solid ${theme.palette.primary[200]}`,  // Visible border
+                                                borderTop: `1px solid ${theme.palette.divider}`,  // Visible border
                                                 flexWrap: 'wrap',
                                                 gap: 1,
                                             }}
@@ -657,7 +667,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                                         size="small"
                                                         sx={{
                                                             bgcolor: withOpacity(theme.palette.brand.cyan, 0.1),
-                                                            color: theme.palette.brand.deepPurple,
+                                                            color: theme.palette.primary.main,
                                                             fontSize: '0.7rem',
                                                             fontWeight: theme.custom.tokens.fontWeight.semibold,
                                                             border: `1px solid withOpacity(theme.palette.brand.cyan, 0.2)`,
@@ -671,11 +681,11 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                                                 {article.last_updated && (
                                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                                        <ScheduleIcon sx={{ fontSize: 16, color: '#001430ff' }} />
+                                                        <ScheduleIcon sx={{ fontSize: 16, color: theme.palette.text.secondary }} />
                                                         <Typography
                                                             variant="caption"
                                                             sx={{
-                                                                color: '#001430ff',
+                                                                color: theme.palette.text.secondary,
                                                                 fontSize: '0.8rem',
                                                                 fontWeight: 500,
                                                             }}
@@ -687,8 +697,8 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
 
                                                 {viewCount > 0 && (
                                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                                        <ViewIcon sx={{ fontSize: 16, color: '#94a3b8' }} />
-                                                        <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 500 }}>
+                                                        <ViewIcon sx={{ fontSize: 16, color: theme.palette.text.disabled }} />
+                                                        <Typography variant="caption" sx={{ color: theme.palette.text.disabled, fontWeight: 500 }}>
                                                             {viewCount}
                                                         </Typography>
                                                     </Box>
@@ -712,8 +722,8 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                             alignItems: 'center',
                             gap: 2,
                             p: 2,
-                            borderTop: `1px solid ${theme.palette.primary[200]}`,
-                            background: theme.palette.primary[50],
+                            borderTop: `1px solid ${theme.palette.divider}`,
+                            background: theme.palette.action.hover,
                         }}
                     >
                         <Pagination
@@ -724,7 +734,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                             size="medium"
                             sx={{
                                 '& .MuiPaginationItem-root': {
-                                    color: '#64748b',
+                                    color: theme.palette.text.secondary,
                                     borderColor: withOpacity(theme.palette.brand.cyan, 0.3),
                                     fontWeight: theme.custom.tokens.fontWeight.semibold,
                                     fontSize: '0.9rem',
@@ -733,15 +743,15 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                     '&:hover': {
                                         bgcolor: withOpacity(theme.palette.brand.cyan, 0.1),
                                         borderColor: theme.palette.brand.cyan,
-                                        color: theme.palette.brand.deepPurple,
+                                        color: theme.palette.primary.main,
                                         transform: 'scale(1.05)',
                                     },
                                     '&.Mui-selected': {
-                                        background: `linear-gradient(135deg, ${theme.palette.brand.deepPurple} 0%, ${theme.palette.brand.cyan} 100%)`,
+                                        background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.brand.cyan} 100%)`,
                                         color: 'white',
                                         fontWeight: theme.custom.tokens.fontWeight.bold,
                                         '&:hover': {
-                                            background: 'linear-gradient(135deg, #1a1350 0%, #5ab5e0 100%)',
+                                            background: brandGradientHover,
                                         },
                                     },
                                 },
@@ -756,7 +766,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                 onClick={handleLoadMore}
                                 disabled={loadingMore}
                                 sx={{
-                                    background: `linear-gradient(135deg, ${theme.palette.brand.deepPurple} 0%, ${theme.palette.brand.cyan} 100%)`,
+                                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.brand.cyan} 100%)`,
                                     color: 'white',
                                     fontWeight: theme.custom.tokens.fontWeight.bold,
                                     fontSize: '0.95rem',
@@ -764,16 +774,18 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                     px: 4,
                                     borderRadius: theme.custom.tokens.borderRadius.sm,
                                     textTransform: 'none',
-                                    boxShadow: `0 4px 20px withOpacity(theme.palette.brand.cyan, 0.3)`,
+                                    boxShadow: `0 4px 20px ${withOpacity(theme.palette.brand.cyan, 0.3)}`,
                                     transition: theme.custom.tokens.transitions.default,
                                     '&:hover': {
-                                        background: 'linear-gradient(135deg, #1a1350 0%, #5ab5e0 100%)',
+                                        background: brandGradientHover,
                                         transform: 'translateY(-2px)',
-                                        boxShadow: `0 6px 25px withOpacity(theme.palette.brand.cyan, 0.4)`,
+                                        boxShadow: `0 6px 25px ${withOpacity(theme.palette.brand.cyan, 0.4)}`,
                                     },
                                     '&:disabled': {
-                                        background: 'linear-gradient(135deg, #94a3b8 0%, #cbd5e1 100%)',
-                                        color: 'white',
+                                        background: theme.palette.mode === 'dark'
+                                            ? `linear-gradient(135deg, ${theme.palette.grey[700]} 0%, ${theme.palette.grey[600]} 100%)`
+                                            : `linear-gradient(135deg, ${theme.palette.grey[400]} 0%, ${theme.palette.grey[300]} 100%)`,
+                                        color: theme.palette.mode === 'dark' ? theme.palette.text.secondary : 'white',
                                     }
                                 }}
                             >
@@ -803,7 +815,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                             <Typography
                                 variant="body2"
                                 sx={{
-                                    color: '#64748b',
+                                    color: theme.palette.text.secondary,
                                     fontWeight: 500,
                                     fontStyle: 'italic',
                                 }}
@@ -819,11 +831,11 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     } else {
         content = (
             <Box sx={{ p: 6, textAlign: 'center' }}>
-                <LanguageIcon sx={{ fontSize: 64, color: '#94a3b8', mb: 2 }} />
-                <Typography variant="h5" sx={{ color: '#64748b', fontWeight: theme.custom.tokens.fontWeight.semibold, mb: 1 }}>
+                <LanguageIcon sx={{ fontSize: 64, color: theme.palette.text.disabled, mb: 2 }} />
+                <Typography variant="h5" sx={{ color: theme.palette.text.secondary, fontWeight: theme.custom.tokens.fontWeight.semibold, mb: 1 }}>
                     No articles available
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#94a3b8' }}>
+                <Typography variant="body1" sx={{ color: theme.palette.text.disabled }}>
                     No news articles found for this country at the moment.
                 </Typography>
             </Box>
@@ -860,8 +872,8 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                         px: 2,
                         py: 1,
                         borderRadius: '12px',
-                        background: `linear-gradient(135deg, ${theme.palette.primary[50]} 0%, ${theme.palette.primary[100]} 100%)`,
-                        border: `1px solid ${theme.palette.primary[200]}`,
+                        background: theme.palette.action.hover,
+                        border: `1px solid ${theme.palette.divider}`,
                         boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
                     }}
                 >
@@ -869,7 +881,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                     <Typography
                         sx={{
                             fontSize: '0.85rem',
-                            color: theme.palette.primary[700],
+                            color: theme.palette.text.secondary,
                             fontWeight: 500,
                         }}
                     >
@@ -902,14 +914,14 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                 transition: 'all 0.2s ease',
                                 background: isCountryListOpen ? theme.palette.primary.main : 'transparent',
                                 '&:hover': {
-                                    background: isCountryListOpen ? theme.palette.primary.dark : theme.palette.primary[200],
+                                    background: isCountryListOpen ? theme.palette.primary.dark : theme.palette.action.selected,
                                 },
                             }}
                         >
                             <InfoOutlinedIcon
                                 sx={{
                                     fontSize: '1.1rem',
-                                    color: isCountryListOpen ? '#fff' : theme.palette.primary.main,
+                                    color: isCountryListOpen ? theme.palette.primary.contrastText : theme.palette.primary.main,
                                 }}
                             />
                         </Box>
@@ -935,7 +947,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                         mt: 1,
                         borderRadius: '16px',
                         boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
-                        border: `1px solid ${theme.palette.primary[200]}`,
+                        border: `1px solid ${theme.palette.divider}`,
                         maxHeight: '400px',
                         overflow: 'hidden',
                     },
@@ -947,14 +959,14 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                         sx={{
                             p: 2,
                             background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary[700]} 100%)`,
-                            borderBottom: `1px solid ${theme.palette.primary[300]}`,
+                            borderBottom: `1px solid ${theme.palette.divider}`,
                         }}
                     >
                         <Typography
                             sx={{
                                 fontSize: '1rem',
                                 fontWeight: 700,
-                                color: '#fff',
+                                color: theme.palette.primary.contrastText,
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: 1,
@@ -965,7 +977,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                         </Typography>
                     </Box>
                     {/* Search Box */}
-                    <Box sx={{ p: 1.5, borderBottom: `1px solid ${theme.palette.primary[100]}` }}>
+                    <Box sx={{ p: 1.5, borderBottom: `1px solid ${theme.palette.divider}` }}>
                         <TextField
                             fullWidth
                             size="small"
@@ -975,27 +987,27 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon sx={{ color: theme.palette.primary[400], fontSize: '1.1rem' }} />
+                                        <SearchIcon sx={{ color: theme.palette.text.secondary, fontSize: '1.1rem' }} />
                                     </InputAdornment>
                                 ),
                             }}
                             sx={{
                                 '& .MuiOutlinedInput-root': {
                                     borderRadius: '10px',
-                                    background: theme.palette.primary[50],
+                                    background: theme.palette.action.hover,
                                     fontSize: '0.85rem',
                                     '& fieldset': {
-                                        borderColor: theme.palette.primary[200],
+                                        borderColor: theme.palette.divider,
                                     },
                                     '&:hover fieldset': {
-                                        borderColor: theme.palette.primary[300],
+                                        borderColor: theme.palette.primary.main,
                                     },
                                     '&.Mui-focused fieldset': {
                                         borderColor: theme.palette.primary.main,
                                     },
                                 },
                                 '& .MuiInputBase-input::placeholder': {
-                                    color: theme.palette.primary[400],
+                                    color: theme.palette.text.secondary,
                                     opacity: 1,
                                 },
                             }}
@@ -1010,10 +1022,10 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                 width: '6px',
                             },
                             '&::-webkit-scrollbar-track': {
-                                background: theme.palette.primary[50],
+                                background: theme.palette.action.hover,
                             },
                             '&::-webkit-scrollbar-thumb': {
-                                background: theme.palette.primary[300],
+                                background: theme.palette.divider,
                                 borderRadius: '3px',
                             },
                         }}
@@ -1030,11 +1042,11 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                     px: 1,
                                     py: 1,
                                     borderBottom: index < filteredArray.length - 1
-                                        ? `1px solid ${theme.palette.primary[100]}`
+                                        ? `1px solid ${theme.palette.divider}`
                                         : 'none',
                                     transition: 'all 0.2s ease',
                                     '&:hover': {
-                                        background: theme.palette.primary[50],
+                                        background: theme.palette.action.hover,
                                     },
                                 }}
                             >
@@ -1065,8 +1077,8 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                         year: 'numeric',
                                     })}
                                     sx={{
-                                        background: theme.palette.primary[100],
-                                        color: theme.palette.primary[800],
+                                        background: theme.palette.action.selected,
+                                        color: theme.palette.text.primary,
                                         fontWeight: 600,
                                         fontSize: '0.75rem',
                                         height: 24,
@@ -1108,8 +1120,8 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                     sx={{
                         width: 260,
                         height: 'calc(100vh - 150px)',
-                        background: '#fff',
-                        border: `1px solid ${theme.palette.primary[200]}`,
+                        background: theme.palette.background.paper,
+                        border: `1px solid ${theme.palette.divider}`,
                         borderRadius: '16px',
                         overflow: 'hidden',
                         flexShrink: 0,
@@ -1122,8 +1134,15 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                     <Box
                         sx={{
                             p: 2,
-                            background: theme.palette.primary.main,
-                            borderBottom: `1px solid ${theme.palette.primary[300]}`,
+                            // Light mode keeps the solid brand band. In dark mode a
+                            // saturated indigo slab sits far brighter than anything
+                            // around it, so use the raised rung of the `--dm-*`
+                            // ladder with a faint accent cast — the same treatment
+                            // the profile menu header uses.
+                            background: isDark
+                                ? 'linear-gradient(145deg, #33323C 0%, #3A3444 100%)'
+                                : theme.palette.primary.main,
+                            borderBottom: `1px solid ${theme.palette.divider}`,
                         }}
                     >
                         <Box sx={{ position: 'relative', zIndex: 1 }}>
@@ -1165,7 +1184,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '10px',
-                                        backgroundColor: '#fff',
+                                        backgroundColor: theme.palette.background.paper,
                                         transition: 'all 0.2s ease',
                                         '&:hover': {
                                             boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
@@ -1176,7 +1195,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                     },
                                     '& .MuiOutlinedInput-input': {
                                         '&::placeholder': {
-                                            color: theme.palette.primary[600],
+                                            color: theme.palette.text.secondary,
                                             opacity: 0.8,
                                             fontWeight: 500,
                                         }
@@ -1262,10 +1281,10 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                         }} />}
                                         sx={{
                                             minHeight: 48,
-                                            background: theme.palette.primary[50],
+                                            background: theme.palette.action.hover,
                                             transition: 'all 0.2s ease',
                                             '&:hover': {
-                                                background: theme.palette.primary[100],
+                                                background: theme.palette.action.selected,
                                             },
                                             '& .MuiAccordionSummary-content': {
                                                 margin: '10px 0',
@@ -1400,9 +1419,9 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                     sx={{
                         flex: 1,
                         height: 'calc(100vh - 150px)',
-                        background: '#fff',
+                        background: theme.palette.background.paper,
                         borderRadius: '16px',
-                        border: `1px solid ${theme.palette.primary[200]}`,
+                        border: `1px solid ${theme.palette.divider}`,
                         display: 'flex',
                         flexDirection: 'column',
                         overflow: 'hidden',
@@ -1412,8 +1431,10 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                     {/* Enhanced Tab Header */}
                     <Box
                         sx={{
-                            background: 'linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%)',
-                            borderBottom: `2px solid ${theme.palette.primary[200]}`,
+                            background: theme.palette.mode === 'dark'
+                                ? theme.palette.background.paper
+                                : 'linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%)',
+                            borderBottom: `2px solid ${theme.palette.divider}`,
                             position: 'relative',
                             pb: 0.5,
                         }}
@@ -1439,13 +1460,13 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                     textTransform: 'none',
                                     fontWeight: 600,  // Increased from 500 to 600 for better visibility
                                     fontSize: '1rem',  // Increased from 0.95rem to 1rem
-                                    color: theme.palette.primary[900],  // Darker color (from [700] to [900]) for better visibility
+                                    color: theme.palette.text.primary,  // Darker color (from [700] to [900]) for better visibility
                                     minHeight: 58,
                                     px: 2.5,
                                     borderRadius: '12px 12px 0 0',
                                     position: 'relative',
                                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    background: 'rgba(255, 255, 255, 0.6)',
+                                    background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(255, 255, 255, 0.6)',
                                     border: `2px solid transparent`,
                                     borderBottom: 'none',
                                     overflow: 'hidden',
@@ -1461,9 +1482,9 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                     },
                                     '&:hover': {
                                         color: theme.palette.primary.main,
-                                        background: '#fff',
+                                        background: theme.palette.background.paper,
                                         transform: 'translateY(-3px)',
-                                        border: `2px solid ${theme.palette.primary[200]}`,
+                                        border: `2px solid ${theme.palette.divider}`,
                                         borderBottom: 'none',
                                         boxShadow: '0 -4px 12px rgba(0, 0, 0, 0.08)',
                                         '&::before': {
@@ -1475,7 +1496,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                     color: theme.palette.primary.main,  // Dark purple text for visibility
                                     fontWeight: 700,  // Extra bold for better readability
                                     fontSize: '1.05rem',  // Slightly larger for selected state
-                                    background: `linear-gradient(135deg, ${theme.palette.primary[100]} 0%, ${theme.palette.primary[50]} 100%)`,  // Light purple gradient background
+                                    background: theme.palette.action.selected,
                                     border: `2px solid ${theme.palette.primary.main}`,  // Dark border for emphasis
                                     borderBottom: 'none',
                                     transform: 'translateY(-4px)',
@@ -1490,7 +1511,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                         background: theme.palette.primary.main,  // Solid color accent bar
                                     },
                                     '&:hover': {
-                                        background: `linear-gradient(135deg, ${theme.palette.primary[100]} 0%, ${theme.palette.primary[50]} 100%)`,
+                                        background: theme.palette.action.selected,
                                         transform: 'translateY(-4px)',
                                     },
                                 },
@@ -1515,7 +1536,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                                         sx={{
                                                             height: 16,
                                                             fontSize: '0.65rem',
-                                                            background: 'linear-gradient(45deg, #FF6B6B, #FF8E8E)',
+                                                            background: `linear-gradient(45deg, ${dangerColor}, ${dangerColorSoft})`,
                                                             color: 'white',
                                                             fontWeight: theme.custom.tokens.fontWeight.bold,
                                                         }}
@@ -1546,11 +1567,11 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                     borderRadius: '10px',
                                 },
                                 '&::-webkit-scrollbar-thumb': {
-                                    background: `linear-gradient(135deg, ${theme.palette.brand.deepPurple} 0%, ${theme.palette.brand.cyan} 100%)`,
+                                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.brand.cyan} 100%)`,
                                     borderRadius: '10px',
                                 },
                                 '&::-webkit-scrollbar-thumb:hover': {
-                                    background: 'linear-gradient(135deg, #1a1350 0%, #5ab5e0 100%)',
+                                    background: brandGradientHover,
                                 },
                             }}
                         >

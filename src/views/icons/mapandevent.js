@@ -13,6 +13,7 @@ import {
   Slider,
   IconButton,
   Collapse,
+  useTheme,
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EventFilterBar from '../../components/shared/EventFilterBar';
@@ -104,6 +105,8 @@ function computePresetRange(preset) {
 }
 
 export default function MapEventsPage() {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
   // static country list for now
   const [selectedCountries, setSelectedCountries] = useState(['China', 'Pakistan', 'India']);
 
@@ -401,13 +404,13 @@ export default function MapEventsPage() {
       display: 'flex',
       flexDirection: 'column',
       height: 'calc(100vh - 180px)',
-      bgcolor: '#ffffff',
-      color: '#000000',
+      bgcolor: theme.palette.background.paper,
+      color: theme.palette.text.primary,
       p: { xs: 1.5, sm: 2, md: 2.5 },
       m: { xs: 0.5, sm: 1, md: 1.5 },
       borderRadius: { xs: 3, md: 4 },
-      boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-      border: '1px solid rgba(0,0,0,0.06)',
+      boxShadow: isDark ? '0 2px 12px rgba(0,0,0,0.4)' : '0 2px 12px rgba(0,0,0,0.06)',
+      border: `1px solid ${theme.palette.divider}`,
     }}>
       {/* Filters */}
       <Box sx={{ flexShrink: 0 }}>
@@ -446,7 +449,7 @@ export default function MapEventsPage() {
         {SHOW_INSIGHTS_SIDEBAR && <Grid item xs={12} md={5} sx={{ height: '100%' }}>
         <Paper sx={{ height: '100%', overflow: 'hidden', p: 2, display: 'flex', flexDirection: 'column', borderRadius: 3 }} elevation={1}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, flexShrink: 0 }}>
-            <Typography variant="h6" sx={{ color: '#000', fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ color: theme.palette.text.primary, fontWeight: 600 }}>
               Event Timeline
             </Typography>
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
@@ -462,8 +465,8 @@ export default function MapEventsPage() {
                     bgcolor: isAnimating ? '#b71c1c' : '#1565c0',
                   },
                   '&:disabled': {
-                    bgcolor: '#ccc',
-                    color: '#999',
+                    bgcolor: theme.palette.action.disabledBackground,
+                    color: theme.palette.text.disabled,
                   }
                 }}
               >
@@ -474,17 +477,17 @@ export default function MapEventsPage() {
                 onClick={() => setShowAnimationControls(!showAnimationControls)}
                 disabled={events.length === 0}
                 sx={{
-                  bgcolor: showAnimationControls ? '#f5f5f5' : 'transparent',
+                  bgcolor: showAnimationControls ? theme.palette.action.hover : 'transparent',
                   '&:hover': {
-                    bgcolor: '#f5f5f5',
+                    bgcolor: theme.palette.action.hover,
                   },
                   '&:disabled': {
                     bgcolor: 'transparent',
-                    color: '#ccc',
+                    color: theme.palette.text.disabled,
                   }
                 }}
               >
-                <SettingsIcon fontSize="small" sx={{ color: showAnimationControls ? ACCENT : '#666' }} />
+                <SettingsIcon fontSize="small" sx={{ color: showAnimationControls ? ACCENT : theme.palette.text.secondary }} />
               </IconButton>
               <Chip
                 label={`${events.length} events`}
@@ -497,10 +500,10 @@ export default function MapEventsPage() {
           {/* Animation Controls - Collapsible */}
           {events.length > 0 && (
             <Collapse in={showAnimationControls} sx={{ flexShrink: 0 }}>
-              <Box sx={{ p: 2, bgcolor: '#f9f9f9', borderRadius: 2, mb: 2 }}>
+              <Box sx={{ p: 2, bgcolor: theme.palette.action.hover, borderRadius: 2, mb: 2 }}>
                 {/* Animation Speed Control */}
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 2 }}>
-                  <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, minWidth: 80 }}>
+                  <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontWeight: 600, minWidth: 80 }}>
                     Speed:
                   </Typography>
                   <Slider
@@ -523,7 +526,7 @@ export default function MapEventsPage() {
                       maxWidth: 300,
                       '& .MuiSlider-markLabel': {
                         fontSize: 10,
-                        color: '#999',
+                        color: theme.palette.text.secondary,
                       },
                       '& .MuiSlider-thumb': {
                         bgcolor: ACCENT,
@@ -532,18 +535,18 @@ export default function MapEventsPage() {
                         bgcolor: ACCENT,
                       },
                       '& .MuiSlider-rail': {
-                        bgcolor: '#ddd',
+                        bgcolor: theme.palette.divider,
                       },
                     }}
                   />
-                  <Typography variant="caption" sx={{ color: '#999', minWidth: 40, fontSize: 11 }}>
+                  <Typography variant="caption" sx={{ color: theme.palette.text.secondary, minWidth: 40, fontSize: 11 }}>
                     {animationSpeed / 1000}s/card
                   </Typography>
                 </Box>
 
                 {/* Animation Range Controls */}
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
-                  <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, minWidth: 80 }}>
+                  <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontWeight: 600, minWidth: 80 }}>
                     Animation Range:
                   </Typography>
                   <TextField
@@ -562,7 +565,7 @@ export default function MapEventsPage() {
                     }}
                     sx={{ width: 80 }}
                   />
-                  <Typography variant="caption" sx={{ color: '#999' }}>to</Typography>
+                  <Typography variant="caption" sx={{ color: theme.palette.text.secondary }}>to</Typography>
                   <TextField
                     label="End"
                     type="number"
@@ -579,7 +582,7 @@ export default function MapEventsPage() {
                     }}
                     sx={{ width: 80 }}
                   />
-                  <Typography variant="caption" sx={{ color: '#999', fontSize: 10 }}>
+                  <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontSize: 10 }}>
                     (of {events.length})
                   </Typography>
                   <Button
@@ -590,11 +593,11 @@ export default function MapEventsPage() {
                       fontSize: 10,
                       minWidth: 60,
                       height: 28,
-                      borderColor: '#ccc',
-                      color: '#666',
+                      borderColor: theme.palette.divider,
+                      color: theme.palette.text.secondary,
                       '&:hover': {
-                        borderColor: '#999',
-                        bgcolor: '#fff',
+                        borderColor: theme.palette.text.secondary,
+                        bgcolor: theme.palette.action.hover,
                       }
                     }}
                   >
@@ -621,7 +624,7 @@ export default function MapEventsPage() {
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  bgcolor: 'rgba(255, 255, 255, 0.95)',
+                  bgcolor: isDark ? 'rgba(13, 17, 23, 0.92)' : 'rgba(255, 255, 255, 0.95)',
                   zIndex: 10,
                   backdropFilter: 'blur(4px)',
                 }}
@@ -640,7 +643,7 @@ export default function MapEventsPage() {
                 <Typography
                   variant="h6"
                   sx={{
-                    color: '#666',
+                    color: theme.palette.text.primary,
                     fontWeight: 600,
                     mb: 1,
                   }}
@@ -650,7 +653,7 @@ export default function MapEventsPage() {
                 <Typography
                   variant="caption"
                   sx={{
-                    color: '#999',
+                    color: theme.palette.text.secondary,
                     fontStyle: 'italic',
                   }}
                 >
@@ -740,7 +743,7 @@ export default function MapEventsPage() {
                               height: '18px',
                               borderRadius: '50%',
                               bgcolor: categoryColor,
-                              border: '3px solid #fff',
+                              border: `3px solid ${theme.palette.background.paper}`,
                               boxShadow: `0 0 0 2px ${categoryColor}50`,
                               zIndex: 2,
                               cursor: 'pointer',
@@ -805,8 +808,8 @@ export default function MapEventsPage() {
                             sx={{
                               flex: 1,
                               p: 2,
-                              bgcolor: isActiveAnimation ? `${categoryColor}08` : '#fff',
-                              border: isActiveAnimation ? `3px solid ${categoryColor}` : `2px solid ${categoryColor}30`,
+                              bgcolor: isActiveAnimation ? `${categoryColor}${isDark ? '22' : '08'}` : theme.palette.background.paper,
+                              border: isActiveAnimation ? `3px solid ${categoryColor}` : `2px solid ${categoryColor}${isDark ? '55' : '30'}`,
                               borderRadius: 2,
                               position: 'relative',
                               cursor: 'pointer',
@@ -846,7 +849,12 @@ export default function MapEventsPage() {
                                   top: -8,
                                   right: 8,
                                   bgcolor: isStartCard ? '#4caf50' : '#ff9800',
-                                  color: '#fff',
+                                  // Dark ink, not white: on these two fills white
+                                  // measures 2.8:1 (green) and 2.2:1 (amber) — both
+                                  // well below AA at 9px. The darkest neutral in the
+                                  // ladder clears 6.2:1 and 8.1:1 while the
+                                  // green/amber coding still reads.
+                                  color: '#1a1a1e',
                                   px: 1.5,
                                   py: 0.3,
                                   borderRadius: 1,
@@ -912,8 +920,8 @@ export default function MapEventsPage() {
                                   sx={{
                                     height: 20,
                                     fontSize: 9,
-                                    bgcolor: '#e8e8e8',
-                                    color: '#555',
+                                    bgcolor: theme.palette.action.selected,
+                                    color: theme.palette.text.primary,
                                     fontWeight: 500,
                                     '& .MuiChip-label': { px: 0.8 }
                                   }}
@@ -926,8 +934,8 @@ export default function MapEventsPage() {
                                   sx={{
                                     height: 20,
                                     fontSize: 9,
-                                    bgcolor: '#e8e8e8',
-                                    color: '#555',
+                                    bgcolor: theme.palette.action.selected,
+                                    color: theme.palette.text.primary,
                                     fontWeight: 500,
                                     '& .MuiChip-label': { px: 0.8 }
                                   }}
@@ -940,7 +948,7 @@ export default function MapEventsPage() {
                               sx={{
                                 fontWeight: 700,
                                 fontSize: 14,
-                                color: '#1a1a1a',
+                                color: theme.palette.text.primary,
                                 mb: 0.5,
                                 lineHeight: 1.3,
                               }}
@@ -949,7 +957,7 @@ export default function MapEventsPage() {
                             </Typography>
 
                             {/* Location */}
-                            <Typography variant="caption" sx={{ color: '#666', display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
+                            <Typography variant="caption" sx={{ color: theme.palette.text.secondary, display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
                               <span style={{ fontSize: 11 }}>📍</span>
                               {ev.country}
                             </Typography>
@@ -958,7 +966,7 @@ export default function MapEventsPage() {
                             <Typography
                               variant="body2"
                               sx={{
-                                color: '#555',
+                                color: theme.palette.text.secondary,
                                 lineHeight: 1.4,
                                 fontSize: 12,
                               }}
@@ -990,7 +998,7 @@ export default function MapEventsPage() {
                           bgcolor: '#e67e00',
                         },
                         '&:disabled': {
-                          bgcolor: '#ccc',
+                          bgcolor: theme.palette.action.disabledBackground,
                         }
                       }}
                       startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : null}
@@ -1011,11 +1019,11 @@ export default function MapEventsPage() {
                         px: 2,
                         py: 1,
                         borderRadius: 2,
-                        bgcolor: '#f5f5f5',
-                        border: '2px dashed #ccc',
+                        bgcolor: theme.palette.action.hover,
+                        border: `2px dashed ${theme.palette.divider}`,
                       }}
                     >
-                      <Typography variant="caption" sx={{ color: '#999', fontWeight: 600 }}>
+                      <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontWeight: 600 }}>
                         No more events to load
                       </Typography>
                     </Box>
@@ -1023,8 +1031,8 @@ export default function MapEventsPage() {
                 )}
               </Box>
             ) : (
-              <Paper sx={{ p: 3, bgcolor: '#f9f9f9', border: '1px solid #e0e0e0', textAlign: 'center' }}>
-                <Typography sx={{ color: '#666', fontStyle: 'italic' }}>
+              <Paper sx={{ p: 3, bgcolor: theme.palette.action.hover, border: `1px solid ${theme.palette.divider}`, textAlign: 'center' }}>
+                <Typography sx={{ color: theme.palette.text.secondary, fontStyle: 'italic' }}>
                   No events to display. Use filters and click Search to load events.
                 </Typography>
               </Paper>

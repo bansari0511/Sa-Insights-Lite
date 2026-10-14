@@ -331,15 +331,17 @@ export const gradients = {
 
 export const darkGradients = {
   primary: `linear-gradient(135deg, ${colors.navy[500]} 0%, ${colors.navy[700]} 100%)`,
-  background: 'linear-gradient(135deg, #0D1117 0%, #161B22 100%)',
-  card: 'linear-gradient(135deg, #161B22 0%, #1C2128 100%)',
+  background: 'linear-gradient(135deg, #1A1A1E 0%, #232328 100%)',
+  card: 'linear-gradient(135deg, #232328 0%, #2A2A2F 100%)',
   button: `linear-gradient(135deg, ${colors.navy[500]} 0%, ${colors.navy[600]} 100%)`,
-  sidebar: 'linear-gradient(180deg, #161B22 0%, #0D1117 100%)',
-  appBar: 'linear-gradient(180deg, #161B22 0%, #1C2128 100%)',
-  table: 'linear-gradient(135deg, #161B22 0%, #1C2128 100%)',
-  chip: 'linear-gradient(135deg, #21262D 0%, #30363D 100%)',
-  chipHover: 'linear-gradient(135deg, #30363D 0%, #484F58 100%)',
-  glass: 'linear-gradient(135deg, rgba(22, 27, 34, 0.95) 0%, rgba(33, 38, 45, 0.9) 100%)',
+  sidebar: 'linear-gradient(180deg, #232328 0%, #1A1A1E 100%)',
+  appBar: 'linear-gradient(180deg, #232328 0%, #2A2A2F 100%)',
+  table: 'linear-gradient(135deg, #232328 0%, #2A2A2F 100%)',
+  // Solid rungs of the ladder, not a fade into translucent white — a gradient
+  // ending in rgba(255,255,255,.14) shows whatever sits behind the chip.
+  chip: 'linear-gradient(135deg, #2A2A2F 0%, #313136 100%)',
+  chipHover: 'linear-gradient(135deg, #313136 0%, #3A3A40 100%)',
+  glass: 'linear-gradient(135deg, rgba(35, 35, 40, 0.95) 0%, rgba(42, 42, 47, 0.9) 100%)',
 };
 
 // ============================================================================
@@ -350,11 +352,11 @@ export const palette = {
   mode: 'light',
 
   primary: {
-    main: colors.navy[600],
-    light: colors.navy[400],
-    dark: colors.navy[800],
+    main: colors.indigo[600],
+    light: colors.indigo[400],
+    dark: colors.indigo[800],
     contrastText: colors.white,
-    ...colors.navy,
+    ...colors.indigo,
   },
 
   secondary: {
@@ -444,6 +446,15 @@ export const palette = {
     blue: colors.blue[500],
     indigo: colors.indigo[500],
     navy: colors.navy[600],
+    // Sidebar surface — Metis dark rail (host --rail-base + indigo aurora glow).
+    // The sidebar uses white text, so it stays a dark rail in both app modes.
+    gradientSidebarAlt:
+      'radial-gradient(120% 60% at 50% 0%, rgba(99, 102, 241, 0.20), transparent 60%), linear-gradient(180deg, #171f38 0%, #0e142a 60%, #090c1c 100%)',
+    gradientLight: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
+    gradientPrimary: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #a855f7 100%)',
+    deepPurple: '#c7d2fe',
+    scrollbar: 'rgba(148, 163, 184, 0.35)',
+    scrollbarHover: 'rgba(148, 163, 184, 0.55)',
   },
 
   // Equipment colors - reference core scales with main/light/dark
@@ -972,29 +983,29 @@ export const getModalStyles = (theme = 'blue') => {
 // ============================================================================
 
 const darkBackground = {
-  default: '#0D1117',
-  paper: '#161B22',
-  secondary: '#21262D',
-  elevated: '#1C2128',
+  default: '#1A1A1E',
+  paper: '#232328',
+  secondary: '#313136',
+  elevated: '#2A2A2F',
 };
 
 const darkText = {
-  primary: '#E6EDF3',
-  secondary: '#8B949E',
-  disabled: '#484F58',
-  inverse: '#0D1117',
-  accent: '#58A6FF',
+  primary: '#EDEDF0',
+  secondary: '#A8A8B3',
+  disabled: '#6B6B75',
+  inverse: '#1A1A1E',
+  accent: '#A6A0F0',
 };
 
 export const darkPalette = {
   mode: 'dark',
 
   primary: {
-    main: colors.navy[400],
-    light: colors.navy[300],
-    dark: colors.navy[600],
+    main: colors.indigo[400],
+    light: colors.indigo[300],
+    dark: colors.indigo[600],
     contrastText: colors.white,
-    ...colors.navy,
+    ...colors.indigo,
   },
 
   secondary: {
@@ -1021,22 +1032,22 @@ export const darkPalette = {
   text: darkText,
 
   action: {
-    hover: 'rgba(177, 186, 196, 0.12)',
-    selected: 'rgba(177, 186, 196, 0.16)',
-    disabled: 'rgba(177, 186, 196, 0.3)',
-    disabledBackground: 'rgba(177, 186, 196, 0.12)',
-    focus: 'rgba(177, 186, 196, 0.2)',
-    active: 'rgba(177, 186, 196, 0.24)',
+    hover: 'rgba(255, 255, 255, 0.12)',
+    selected: 'rgba(255, 255, 255, 0.16)',
+    disabled: 'rgba(255, 255, 255, 0.3)',
+    disabledBackground: 'rgba(255, 255, 255, 0.12)',
+    focus: 'rgba(255, 255, 255, 0.2)',
+    active: 'rgba(255, 255, 255, 0.24)',
   },
 
   background: {
     ...darkBackground,
     gradient: darkGradients.background,
     darkContrast: darkBackground.elevated,
-    glass: 'rgba(22, 27, 34, 0.95)',
+    glass: 'rgba(35, 35, 40, 0.95)',
   },
 
-  divider: '#30363D',
+  divider: 'rgba(255, 255, 255, 0.14)',
 
   common: { black: colors.black, white: colors.white },
 
@@ -1047,53 +1058,61 @@ export const darkPalette = {
     blue: colors.blue[400],
     indigo: colors.indigo[400],
     navy: colors.navy[400],
+    // Sidebar surface — Metis dark rail (host --rail-base + indigo aurora glow).
+    gradientSidebarAlt:
+      'radial-gradient(120% 60% at 50% 0%, rgba(99, 102, 241, 0.20), transparent 60%), linear-gradient(180deg, #171f38 0%, #0e142a 60%, #090c1c 100%)',
+    gradientLight: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
+    gradientPrimary: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #a855f7 100%)',
+    deepPurple: '#c7d2fe',
+    scrollbar: 'rgba(148, 163, 184, 0.35)',
+    scrollbarHover: 'rgba(148, 163, 184, 0.55)',
   },
 
   equipment: {
     ...palette.equipment,
-    gray: { 50: '#0D1117', 100: '#161B22', 200: '#21262D', 400: '#484F58', 600: '#8B949E', 800: '#C9D1D9' },
+    gray: { 50: '#1A1A1E', 100: '#232328', 200: '#313136', 400: '#6B6B75', 600: '#A8A8B3', 800: '#B0B0BA' },
     backgrounds: {
       blueTint: 'rgba(56, 139, 253, 0.08)',
       blueLight: 'rgba(56, 139, 253, 0.12)',
       cyanTint: 'rgba(63, 185, 80, 0.08)',
       indigoTint: 'rgba(163, 113, 247, 0.08)',
-      page: '#0D1117',
+      page: '#1A1A1E',
     },
   },
 
   militaryGroup: {
     ...palette.militaryGroup,
     backgrounds: {
-      page: '#0D1117',
-      card: '#161B22',
+      page: '#1A1A1E',
+      card: '#232328',
       blueTint: 'rgba(56, 139, 253, 0.08)',
       indigoTint: 'rgba(163, 113, 247, 0.08)',
       cyanTint: 'rgba(56, 139, 253, 0.08)',
     },
     text: {
-      primary: '#E6EDF3',
-      secondary: '#8B949E',
-      muted: '#6E7681',
+      primary: '#EDEDF0',
+      secondary: '#A8A8B3',
+      muted: '#85858F',
       blueHeading: '#79C0FF',
       indigoHeading: '#D2A8FF',
       cyanHeading: '#A5D6FF',
-      label: '#C9D1D9',
+      label: '#B0B0BA',
     },
   },
 
   dashboard: {
     ...palette.dashboard,
     background: {
-      default: '#0D1117',
-      surface: '#161B22',
-      surfaceHover: '#1C2128',
+      default: '#1A1A1E',
+      surface: '#232328',
+      surfaceHover: '#2A2A2F',
     },
     text: {
-      primary: '#E6EDF3',
-      secondary: '#8B949E',
-      tertiary: '#6E7681',
-      muted: '#484F58',
-      inverse: '#0D1117',
+      primary: '#EDEDF0',
+      secondary: '#A8A8B3',
+      tertiary: '#85858F',
+      muted: '#6B6B75',
+      inverse: '#1A1A1E',
     },
   },
 };

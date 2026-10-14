@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // mui imports
 import { ListSubheader, useTheme } from '@mui/material';
-import { withOpacity } from '../../../../theme/palette';
+import { SB } from '../sidebarTheme';
 
 const NavGroup = ({ item, isFirstGroup = false }) => {
   const theme = useTheme();
@@ -11,15 +11,15 @@ const NavGroup = ({ item, isFirstGroup = false }) => {
       disableSticky
       sx={{
         ...theme.typography.overline,
-        fontWeight: 600,
+        fontWeight: 700,
         fontSize: '0.65rem',
         marginTop: isFirstGroup ? 0.5 : 1.5,
         marginBottom: 0.5,
-        color: withOpacity(theme.palette.brand.cyan, 0.85),
+        color: SB.textMuted,
         lineHeight: '16px',
         padding: '3px 8px 3px 10px',
         textTransform: 'uppercase',
-        letterSpacing: '0.1em',
+        letterSpacing: '0.12em',
         backgroundColor: 'transparent',
         position: 'relative',
         display: 'flex',
@@ -35,8 +35,8 @@ const NavGroup = ({ item, isFirstGroup = false }) => {
           width: '4px',
           height: '4px',
           borderRadius: '50%',
-          background: theme.palette.brand.cyan,
-          boxShadow: `0 0 6px ${withOpacity(theme.palette.brand.cyan, 0.6)}`,
+          background: SB.indigo,
+          boxShadow: `0 0 6px ${SB.indigo}`,
           flexShrink: 0,
         },
 
@@ -45,7 +45,7 @@ const NavGroup = ({ item, isFirstGroup = false }) => {
           content: '""',
           flex: 1,
           height: '1px',
-          background: `linear-gradient(90deg, ${withOpacity(theme.palette.brand.cyan, 0.25)} 0%, transparent 100%)`,
+          background: `linear-gradient(90deg, ${SB.border} 0%, transparent 100%)`,
           marginLeft: 1,
         },
       }}

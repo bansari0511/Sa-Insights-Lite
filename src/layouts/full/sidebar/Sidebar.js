@@ -1,15 +1,17 @@
 import { useMediaQuery, Box, Drawer, Typography, Tooltip, IconButton, useTheme } from '@mui/material';
 import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from '@tabler/icons-react';
 import SidebarItems from './SidebarItems';
+import { Upgrade } from './Updrade';
 import logoPath from '../../../assets/images/logos/logo_landing.png';
 import { withOpacity } from '../../../theme/palette';
+import { SB } from './sidebarTheme';
 import appConfig from '../../../config/appConfig';
 import { useRemoteBaseUrl } from '../../../context/EmbeddedContext';
 
 const MSidebar = (props) => {
   const theme = useTheme();
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
-  const { isSidebarOpen, sidebarWidth = 270, isEmbedded = false } = props;
+  const { isSidebarOpen, sidebarWidth = 260, isEmbedded = false } = props;
   const remoteBaseUrl = useRemoteBaseUrl();
 
   // In federation mode, static asset paths (e.g., /assets/logo.png) resolve against
@@ -22,20 +24,21 @@ const MSidebar = (props) => {
 
   // Enhanced scrollbar styling with modern look
   const scrollbarStyles = {
+    scrollbarWidth: 'thin',
+    scrollbarColor: `${SB.scrollThumb} transparent`,
     '&::-webkit-scrollbar': {
       width: '6px',
     },
     '&::-webkit-scrollbar-track': {
-      background: withOpacity(theme.palette.brand.cyan, 0.05),
+      background: SB.scrollTrack,
       borderRadius: theme.custom.tokens.borderRadius.md,
       margin: '4px 0',
     },
     '&::-webkit-scrollbar-thumb': {
-      background: theme.palette.brand.scrollbar,
+      background: SB.scrollThumb,
       borderRadius: theme.custom.tokens.borderRadius.md,
-      border: `2px solid ${withOpacity(theme.palette.brand.deepPurple, 0.1)}`,
       '&:hover': {
-        background: theme.palette.brand.scrollbarHover,
+        background: SB.scrollThumbHover,
       },
     },
   };
@@ -53,6 +56,9 @@ const MSidebar = (props) => {
           zIndex: theme.custom.tokens.zIndex.fixed,
           display: 'flex',
           flexDirection: 'column',
+          // Full-height divider between sidebar and content (both app modes)
+          boxSizing: 'border-box',
+          borderRight: `1px solid ${SB.border}`,
         }}
       >
         {/* Modern Collapsible Sidebar for Desktop */}
@@ -61,17 +67,20 @@ const MSidebar = (props) => {
           open={true}
           variant="permanent"
           PaperProps={{
+            // Scoping hook: this app's global stylesheet stays loaded in the
+            // Metis host after you navigate to a sibling child app, so any
+            // bare `.MuiDrawer-paper` rule would also repaint *their* sidebar.
+            // Sidebar rules in common.css are keyed off this class instead.
+            className: 'news-sidebar',
             sx: {
               width: '100%',
               height: '100vh',
               boxSizing: 'border-box',
-              background: theme.palette.brand.gradientSidebarAlt,
-              borderRight: 'none',
-              boxShadow: `
-                8px 0 32px rgba(0, 0, 0, 0.3),
-                4px 0 16px ${withOpacity(theme.palette.brand.cyan, 0.15)},
-                inset -1px 0 0 ${withOpacity(theme.palette.brand.cyan, 0.1)}
-              `,
+              background: SB.surface,
+              backdropFilter: 'blur(20px) saturate(1.4)',
+              WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
+              borderRight: `1px solid ${SB.border}`,
+              boxShadow: SB.surfaceShadow,
               position: 'relative',
               overflow: 'visible',
               display: 'flex',
@@ -94,11 +103,11 @@ const MSidebar = (props) => {
             <Box
               sx={{
                 p: isCollapsed ? 1.5 : 3,
-                borderBottom: `1px solid ${theme.palette.divider}`,
+                borderBottom: `1px solid ${SB.divider}`,
                 textAlign: 'center',
                 position: 'relative',
                 transition: 'none',
-                background: `linear-gradient(180deg, ${withOpacity(theme.palette.brand.cyan, 0.05)} 0%, transparent 100%)`,
+                background: `linear-gradient(180deg, ${withOpacity(SB.indigo, 0.06)} 0%, transparent 100%)`,
                 backdropFilter: theme.custom.tokens.backdropFilter.sm,
               }}
             >
@@ -119,27 +128,26 @@ const MSidebar = (props) => {
                       height: '160px',
                       width: '160px',
                       borderRadius: theme.custom.tokens.borderRadius.sm,
-                      filter: `drop-shadow(0 4px 16px ${withOpacity(theme.palette.brand.cyan, 0.2)})`,
+                      filter: `drop-shadow(0 4px 16px ${withOpacity(SB.indigo, 0.22)})`,
                       transition: 'none',
                       '&:hover': {
                         transform: 'none',
-                        filter: `drop-shadow(0 6px 20px ${withOpacity(theme.palette.brand.cyan, 0.3)})`,
+                        filter: `drop-shadow(0 6px 20px ${withOpacity(SB.indigo, 0.3)})`,
                       },
                     }}
                   />
                   <Typography
                     variant="h5"
                     sx={{
-                      color: theme.palette.common.white,
-                      fontWeight: 700,
+                      fontWeight: 800,
                       fontSize: '1.5rem',
                       letterSpacing: '2px',
                       textTransform: 'uppercase',
-                      textShadow: `
-                        0 2px 10px rgba(0, 0, 0, 0.5),
-                        0 0 30px ${withOpacity(theme.palette.brand.cyan, 0.6)},
-                        0 0 15px ${withOpacity(theme.palette.common.white, 0.3)}
-                      `,
+                      background: SB.gradientText,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      color: 'transparent',
                       mt: 0.5,
                     }}
                   >
@@ -154,29 +162,28 @@ const MSidebar = (props) => {
                       width: 52,
                       height: 52,
                       borderRadius: '14px',
-                      background: `linear-gradient(135deg, ${theme.palette.brand.cyan} 0%, #3b82f6 50%, #8b5cf6 100%)`,
+                      background: SB.gradient,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       margin: '0 auto',
-                      border: `2px solid ${withOpacity(theme.palette.common.white, 0.3)}`,
+                      border: `1px solid ${withOpacity('#ffffff', 0.5)}`,
                       boxShadow: `
-                        0 8px 24px ${withOpacity(theme.palette.brand.cyan, 0.4)},
-                        0 4px 12px rgba(139, 92, 246, 0.3),
-                        inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.4)}
+                        0 8px 22px rgba(99, 102, 241, 0.4),
+                        0 4px 12px rgba(139, 92, 246, 0.28),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.45)
                       `,
                       cursor: 'pointer',
                       transition: 'none',
                       overflow: 'hidden',
                       '&:hover': {
-                        background: `linear-gradient(135deg, #8b5cf6 0%, ${theme.palette.brand.cyan} 50%, #3b82f6 100%)`,
+                        background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #c026d3 100%)',
                         transform: 'none',
-                        borderColor: withOpacity(theme.palette.common.white, 0.5),
+                        borderColor: withOpacity('#ffffff', 0.7),
                         boxShadow: `
-                          0 12px 32px ${withOpacity(theme.palette.brand.cyan, 0.6)},
-                          0 6px 16px rgba(139, 92, 246, 0.5),
-                          inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.6)},
-                          0 0 40px ${withOpacity(theme.palette.brand.cyan, 0.4)}
+                          0 12px 30px rgba(99, 102, 241, 0.55),
+                          0 6px 16px rgba(217, 70, 239, 0.4),
+                          inset 0 1px 0 rgba(255, 255, 255, 0.6)
                         `,
                       },
                     }}
@@ -203,7 +210,7 @@ const MSidebar = (props) => {
                         justifyContent: 'center',
                       }}
                     >
-                      S
+                      {appConfig.appName.charAt(0).toUpperCase()}
                     </Typography>
                   </Box>
                 </Tooltip>
@@ -249,24 +256,30 @@ const MSidebar = (props) => {
                   sx={{
                     width: 36,
                     height: 36,
-                    background: theme.palette.brand.gradientLight,
-                    color: theme.palette.brand.deepPurple,
-                    border: `2px solid ${withOpacity(theme.palette.brand.cyan, 0.4)}`,
+                    // Dark mode: a raised surface off the `--dm-*` ladder. The
+                    // white disc read as a bright speck against the dark sidebar.
+                    background: theme.palette.mode === 'dark' ? '#2A2A2F' : '#ffffff',
+                    color: theme.palette.mode === 'dark' ? '#C7D2FE' : SB.indigoStrong,
+                    border: `1.5px solid ${theme.palette.mode === 'dark'
+                      ? 'rgba(166, 160, 240, 0.35)'
+                      : withOpacity(SB.indigo, 0.35)}`,
                     borderRadius: '50%',
-                    boxShadow: `
-                      0 4px 16px ${withOpacity(theme.palette.brand.cyan, 0.3)},
-                      0 2px 8px rgba(0, 0, 0, 0.1),
-                      inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.8)}
+                    boxShadow: theme.palette.mode === 'dark'
+                      ? '0 2px 8px rgba(0, 0, 0, 0.5)'
+                      : `
+                      0 4px 14px rgba(99, 102, 241, 0.22),
+                      0 2px 6px rgba(15, 23, 42, 0.08),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.9)
                     `,
                     '&:hover': {
-                      background: theme.palette.brand.gradientPrimary,
-                      color: theme.palette.common.white,
-                      borderColor: withOpacity(theme.palette.common.white, 0.6),
+                      background: SB.gradient,
+                      color: '#ffffff',
+                      borderColor: withOpacity('#ffffff', 0.7),
                       transform: 'none',
                       boxShadow: `
-                        0 6px 24px ${withOpacity(theme.palette.brand.cyan, 0.5)},
-                        0 3px 12px rgba(0, 0, 0, 0.15),
-                        inset 0 1px 0 ${withOpacity(theme.palette.common.white, 0.4)}
+                        0 6px 20px rgba(99, 102, 241, 0.45),
+                        0 3px 10px rgba(217, 70, 239, 0.28),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.5)
                       `,
                     },
                     '&:active': {
@@ -300,15 +313,15 @@ const MSidebar = (props) => {
         keepMounted: true, // Better mobile performance
       }}
       PaperProps={{
+        className: 'news-sidebar',
         sx: {
           width: { xs: '280px', sm: '300px', md: '270px' },
           height: '100vh',
-          background: theme.palette.brand.gradientSidebarAlt,
-          borderRight: 'none',
-          boxShadow: `
-            8px 0 32px rgba(0, 0, 0, 0.3),
-            4px 0 16px ${withOpacity(theme.palette.brand.cyan, 0.15)}
-          `,
+          background: SB.surface,
+          backdropFilter: 'blur(20px) saturate(1.4)',
+          WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
+          borderRight: `1px solid ${SB.border}`,
+          boxShadow: SB.surfaceShadow,
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -334,9 +347,9 @@ const MSidebar = (props) => {
         <Box
           sx={{
             p: 3,
-            borderBottom: `1px solid ${theme.palette.divider}`,
+            borderBottom: `1px solid ${SB.divider}`,
             textAlign: 'center',
-            background: `linear-gradient(180deg, ${withOpacity(theme.palette.brand.cyan, 0.05)} 0%, transparent 100%)`,
+            background: `linear-gradient(180deg, ${withOpacity(SB.indigo, 0.06)} 0%, transparent 100%)`,
           }}
         >
           <Box
@@ -346,29 +359,26 @@ const MSidebar = (props) => {
             sx={{
               maxHeight: '100px',
               maxWidth: '210px',
-              background: theme.palette.common.white,
-              padding: '4px 6px',
               borderRadius: theme.custom.tokens.borderRadius.sm,
-              filter: `drop-shadow(0 4px 16px ${withOpacity(theme.palette.brand.cyan, 0.2)})`,
+              filter: `drop-shadow(0 4px 16px ${withOpacity(SB.indigo, 0.22)})`,
             }}
           />
           <Typography
             variant="h6"
             sx={{
-              color: theme.palette.common.white,
-              fontWeight: 700,
+              fontWeight: 800,
               fontSize: '1.25rem',
               letterSpacing: '2px',
               textTransform: 'uppercase',
               mt: 1.5,
-              textShadow: `
-                0 2px 10px rgba(0, 0, 0, 0.5),
-                0 0 30px ${withOpacity(theme.palette.brand.cyan, 0.6)},
-                0 0 15px ${withOpacity(theme.palette.common.white, 0.3)}
-              `,
+              background: SB.gradientText,
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent',
             }}
           >
-            SAARANSH
+            {appConfig.appName.toUpperCase()}
           </Typography>
         </Box>
 
@@ -391,6 +401,17 @@ const MSidebar = (props) => {
           <SidebarItems isCollapsed={false} />
         </Box>
 
+        {/* Upgrade Section for Mobile */}
+        <Box
+          sx={{
+            p: 1.5,
+            flexShrink: 0,
+            borderTop: `1px solid ${theme.palette.divider}`,
+            mt: 'auto',
+          }}
+        >
+          <Upgrade />
+        </Box>
       </Box>
     </Drawer>
   );

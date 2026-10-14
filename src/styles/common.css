@@ -11,7 +11,21 @@
 /* ========================================
    CSS Variables
    ======================================== */
-:root {
+/* ── Scoped to this app, not to :root ──
+   Under Module Federation this stylesheet is injected into the HOST document and
+   is never removed, so anything declared on `:root` outlives the app that shipped
+   it and applies to every sibling child app for the rest of the session.
+
+   `--tw-bg-opacity` is the one that makes this concrete rather than theoretical:
+   it is a Tailwind internal, and a Tailwind sibling reading a value this app
+   pinned would render colours neither app asked for.
+
+   The marker is set on <html> by theme/ThemeContext.js on mount and cleared on
+   unmount, in BOTH standalone and embedded mode — so this is equivalent to :root
+   while the app is up, and simply absent when it is not. Custom properties still
+   inherit from <html>, so every descendant reads them exactly as before.
+   See also the dark-mode rules further down, which were already gated this way. */
+html[data-metis-app="news"] {
   --gradient-primary: linear-gradient(135deg, #6bc3eb 0%, #20175e 100%);
   --gradient-light: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
   --color-primary: #6bc3eb;
@@ -31,23 +45,32 @@
 /* ========================================
    Custom Scrollbar
    ======================================== */
-::-webkit-scrollbar {
+/* ── Scoped to this app's own subtree ──
+   Bare `::-webkit-scrollbar` restyles EVERY scrollbar in the document, host chrome
+   and sibling child apps included, and it kept doing so after this app unmounted.
+   `.mainwrapper` is this layout's root element in both standalone and embedded
+   mode, so scoping to it keeps the app's own scrollbars and touches nothing else.
+
+   Portalled surfaces (menus, dialogs) render under <body>, outside .mainwrapper,
+   and so fall back to the platform scrollbar. That is the correct trade: a default
+   scrollbar in a dropdown is invisible next to repainting the whole portal's. */
+html[data-metis-app="news"] .mainwrapper ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-::-webkit-scrollbar-track {
+html[data-metis-app="news"] .mainwrapper ::-webkit-scrollbar-track {
   background: rgba(240, 249, 255, 0.5);
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb {
+html[data-metis-app="news"] .mainwrapper ::-webkit-scrollbar-thumb {
   background: linear-gradient(135deg, rgba(107, 195, 235, 0.6) 0%, rgba(32, 23, 94, 0.6) 100%);
   border-radius: 4px;
   transition: background 0.3s ease;
 }
 
-::-webkit-scrollbar-thumb:hover {
+html[data-metis-app="news"] .mainwrapper ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, rgba(107, 195, 235, 0.8) 0%, rgba(32, 23, 94, 0.8) 100%);
 }
 
@@ -299,4 +322,608 @@
   .no-print {
     display: none !important;
   }
+}
+
+/* ========================================
+   Dark Mode (data-theme="dark" on <html>)
+   ----------------------------------------
+   Light mode is completely untouched — every rule below is scoped under
+   `html[data-metis-app="news"][data-theme="dark"]`.
+
+   Strategy: instead of inverting the page (which flipped already-dark
+   elements light), we override the most common surface and text classes
+   to dark. Already-dark elements (premium navy headers, gradient hero
+   bars) stay dark because we don't touch their gradients. Hard-coded
+   light backgrounds get repainted with a dark surface via !important.
+
+   Dark palette
+   ------------
+   Every dark colour below is declared ONCE, as a `--dm-*` custom property on
+   the dark root, and referenced by `var()` everywhere else in this file. No
+   rule restates a literal hex, so a surface can never drift out of step with
+   the rung above it — that drift is what produced two near-identical greys
+   sitting on top of each other.
+
+   These values are the same neutral ladder used by the sibling child app
+   sa-web-service (src/styles/common.css), so both apps read as one product
+   when embedded side by side in the Metis host.
+
+   The JS half of the pairing lives in src/theme/components.js
+   (`getModeColors`), which feeds the MUI theme. The two MUST agree: when MUI
+   paints a Paper from the JS value and this stylesheet repaints it from a
+   different one, you get the mismatched-surface bug. Change both together.
+   ======================================== */
+/* Scoped for the same reason as the block at the top of this file: bare `html, body`
+   from a federated stylesheet keeps animating the HOST's background long after this
+   app is gone. sa-web-service has no equivalent rule, which is why this one is here
+   and not in both. */
+html[data-metis-app="news"],
+html[data-metis-app="news"] body {
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* --- Scope: Dark theme root ---
+   Dark palette, 2026-08-05
+   ------------------------
+   Surface ramp + hairline treatment follow the velora.colorlib.com reference:
+   a near-black page (their body is lab(2.75) ≈ #0A0A0A), panels lifted only one
+   or two steps, and depth carried by 1px rgba(255,255,255,0.09) hairlines rather
+   than heavy shadows. Text follows their #FAFAFA / ~#A0A0A0 pairing.
+
+   Accents are NOT taken from the reference (their vivid blue) — they come from
+   the Metis host theme in my-react-app/src/styles/unified-theme.css, so the
+   child apps read as part of the portal: indigo-400 #818CF8 for accents,
+   indigo-200 #C7D2FE for accent text on dark, rgba(99,102,241,…) for washes.
+   The surfaces carry a whisper of indigo (#0A0A0F, not neutral #0A0A0A) so the
+   near-black sits under those accents without looking grey-on-blue.
+   Kept in sync with sa-web-service's block of the same name. */
+html[data-metis-app="news"][data-theme="dark"] {
+  /* Surface ladder: page → card → raised (menus, tooltips) → chip/header */
+  --dm-bg: #0A0A0F;
+  --dm-paper: #101017;
+  --dm-paper-2: #16161F;
+  --dm-paper-3: #1D1D28;
+
+  /* Ink: body → secondary → muted → disabled.
+     --dm-text-3 is #a8a8b3 rather than sa-web-service's #85858f. That app can
+     afford the dimmer value because its runtime patcher re-lightens ink that
+     falls below AA; this app has no such pass, so the literal value has to
+     stand on its own. At #85858f the captions ("10/30/2024", "📍Pakistan",
+     "No more events to load") measured 3.3-4.3:1 on the card tiers. #a8a8b3
+     clears 4.5:1 on every rung of the ladder above, and also on a white hover
+     wash stacked over the top rung (#3d3d42) — the brightest backdrop muted
+     text actually lands on. */
+  --dm-text: #FAFAFA;
+  --dm-text-2: #A1A1AA;
+  --dm-text-3: #8B8B96;
+  --dm-text-disabled: #5C5C68;
+
+  /* Seams: hairline and divider weights of one neutral */
+  --dm-border: rgba(255, 255, 255, 0.09);
+  --dm-border-strong: rgba(255, 255, 255, 0.16);
+
+  /* Accent — matches sa-web-service's --dm-accent */
+  --dm-accent: #818CF8;
+  --dm-accent-strong: #A5B4FC;
+  --dm-accent-ink: #c7d2fe;
+  --dm-accent-wash: rgba(99, 102, 241, 0.14);
+  --dm-accent-wash-2: rgba(99, 102, 241, 0.22);
+  --dm-accent-edge: rgba(129, 140, 248, 0.45);
+
+  /* Neutral hover/selected washes */
+  --dm-hover: rgba(255, 255, 255, 0.05);
+  --dm-hover-2: rgba(255, 255, 255, 0.08);
+  --dm-selected: rgba(99, 102, 241, 0.16);
+
+  /* Entity-highlight categories. These six hues are *data*, not decoration —
+     they distinguish entity types in article bodies — so they keep their own
+     identities rather than collapsing onto --dm-accent. Each is declared once,
+     with its wash and edge derived from the same hue, so a category can never
+     end up with one colour's ink over another colour's background. */
+  --dm-hl-1: #60A5FA;
+  --dm-hl-1-wash: rgba(96, 165, 250, 0.16);
+  --dm-hl-1-edge: rgba(96, 165, 250, 0.42);
+  --dm-hl-2: #C4B5FD;
+  --dm-hl-2-wash: rgba(196, 181, 253, 0.16);
+  --dm-hl-2-edge: rgba(196, 181, 253, 0.42);
+  --dm-hl-3: #5eead4;
+  --dm-hl-3-wash: rgba(94, 234, 212, 0.18);
+  --dm-hl-3-edge: rgba(94, 234, 212, 0.4);
+  --dm-hl-4: #86efac;
+  --dm-hl-4-wash: rgba(134, 239, 172, 0.18);
+  --dm-hl-4-edge: rgba(134, 239, 172, 0.4);
+  --dm-hl-5: #f9a8d4;
+  --dm-hl-5-wash: rgba(249, 168, 212, 0.18);
+  --dm-hl-5-edge: rgba(249, 168, 212, 0.4);
+  --dm-hl-6: #a8dadc;
+  --dm-hl-6-wash: rgba(168, 218, 220, 0.18);
+  --dm-hl-6-edge: rgba(168, 218, 220, 0.4);
+
+  background-color: var(--dm-bg);
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html[data-metis-app="news"][data-theme="dark"] body {
+  background-color: var(--dm-bg) !important;
+  color: var(--dm-text);
+}
+
+/* --- App shell: page wrapper / main wrapper / content gradient bg --- */
+html[data-metis-app="news"][data-theme="dark"] .mainwrapper,
+html[data-metis-app="news"][data-theme="dark"] .page-wrapper,
+html[data-metis-app="news"][data-theme="dark"] #root,
+html[data-metis-app="news"][data-theme="dark"] #root > div {
+  background-color: var(--dm-bg) !important;
+}
+
+/* --- MUI surfaces: Paper / Card / Dialog / Menu / Popover --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiPaper-root {
+  background-color: var(--dm-paper) !important;
+  background-image: none !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root {
+  background-color: var(--dm-paper) !important;
+  background-image: none !important;
+  color: var(--dm-text) !important;
+  border: 1px solid var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiAccordion-root {
+  background-color: var(--dm-paper) !important;
+  color: var(--dm-text) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiDialog-paper,
+html[data-metis-app="news"][data-theme="dark"] .MuiPopover-paper,
+html[data-metis-app="news"][data-theme="dark"] .MuiMenu-paper,
+html[data-metis-app="news"][data-theme="dark"] .MuiAutocomplete-paper {
+  background-color: var(--dm-paper-2) !important;
+  color: var(--dm-text) !important;
+  border: 1px solid var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiBackdrop-root {
+  background-color: rgba(0, 0, 0, 0.72) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiDivider-root {
+  border-color: var(--dm-border) !important;
+}
+
+/* --- AppBar / Toolbar (Header) --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiAppBar-root {
+  background: linear-gradient(135deg, var(--dm-paper) 0%, var(--dm-paper-2) 50%, var(--dm-paper) 100%) !important;
+  background-color: var(--dm-paper) !important;
+  color: var(--dm-text) !important;
+  border-bottom: 1px solid var(--dm-border) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiToolbar-root {
+  color: var(--dm-text) !important;
+}
+
+/* --- Drawer / Sidebar --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiDrawer-paper {
+  background-color: var(--dm-bg) !important;
+  color: var(--dm-text) !important;
+  border-right: 1px solid var(--dm-border) !important;
+}
+
+/* --- Typography: text becomes light --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-root {
+  color: var(--dm-text);
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-colorTextSecondary,
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-body2 {
+  color: var(--dm-text-3);
+}
+
+/* --- Inputs / TextFields --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiOutlinedInput-root {
+  background-color: var(--dm-bg) !important;
+  color: var(--dm-text) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiOutlinedInput-notchedOutline {
+  border-color: var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--dm-accent) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--dm-accent) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiInputBase-input,
+html[data-metis-app="news"][data-theme="dark"] .MuiInputBase-input::placeholder {
+  color: var(--dm-text) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiInputBase-input::placeholder {
+  color: var(--dm-text-disabled) !important;
+  opacity: 1;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiInputLabel-root {
+  color: var(--dm-text-3) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiFormHelperText-root {
+  color: var(--dm-text-3) !important;
+}
+
+/* --- Tabs --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiTabs-root {
+  background-color: transparent !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiTab-root {
+  color: var(--dm-text-3) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiTab-root.Mui-selected {
+  color: var(--dm-accent) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiTabs-indicator {
+  background-color: var(--dm-accent) !important;
+}
+
+/* --- Lists / Menu items --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiListItem-root,
+html[data-metis-app="news"][data-theme="dark"] .MuiListItemButton-root,
+html[data-metis-app="news"][data-theme="dark"] .MuiMenuItem-root {
+  color: var(--dm-text) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiListItemButton-root:hover,
+html[data-metis-app="news"][data-theme="dark"] .MuiMenuItem-root:hover {
+  background-color: var(--dm-hover) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiListItemIcon-root,
+html[data-metis-app="news"][data-theme="dark"] .MuiListItemText-secondary {
+  color: var(--dm-text-3) !important;
+}
+
+/* --- Sidebar nav: keep resting / hover / selected semantics in dark mode ---
+   NavItem deliberately sets its label and icon to `color: inherit` so the row's
+   own colour cascades down — SB.text when resting, SB.textStrong on hover,
+   SB.indigoStrong when selected. The blanket `.MuiTypography-body1/-body2` rule
+   further down declares a colour *directly* on the label span, which
+   short-circuits that inheritance and flattens every row to the same grey: in
+   dark mode the selected item stopped looking selected. Hand the label back to
+   inheritance and colour the row itself, mirroring the light-mode ramp with
+   dark-surface tokens.
+
+   NavItem renders each row as a styled ListItem (an <a class="MuiListItem-root">),
+   not a ListItemButton — both are covered below so this survives either.
+
+   Everything here is keyed off `.news-sidebar` (set on the Drawer's PaperProps
+   in layouts/full/sidebar/Sidebar.js), NOT bare `.MuiDrawer-paper`. This
+   stylesheet is injected into the Metis host document and is never removed when
+   you navigate to a sibling child app, so an unscoped rule would keep repainting
+   that app's sidebar too. */
+html[data-metis-app="news"][data-theme="dark"] .news-sidebar .MuiListItemText-primary,
+html[data-metis-app="news"][data-theme="dark"] .news-sidebar .MuiListItem-root .MuiListItemIcon-root,
+html[data-metis-app="news"][data-theme="dark"] .news-sidebar .MuiListItemButton-root .MuiListItemIcon-root {
+  color: inherit !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .news-sidebar .MuiListItem-root,
+html[data-metis-app="news"][data-theme="dark"] .news-sidebar .MuiListItemButton-root {
+  color: var(--dm-text-2) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .news-sidebar .MuiListItem-root:hover,
+html[data-metis-app="news"][data-theme="dark"] .news-sidebar .MuiListItemButton-root:hover {
+  color: var(--dm-text) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .news-sidebar .MuiListItem-root.Mui-selected,
+html[data-metis-app="news"][data-theme="dark"] .news-sidebar .MuiListItemButton-root.Mui-selected {
+  color: var(--dm-accent-ink) !important;
+}
+
+/* Section subheaders ("INSIGHTS", "TIMELINE AND NETWORKS"). The sidebar token
+   is tuned for its near-white light surface; on the dark panel that same slate
+   reads too heavy, so lift it to the muted dark-text token. */
+html[data-metis-app="news"][data-theme="dark"] .news-sidebar .MuiListSubheader-root {
+  color: var(--dm-text-3) !important;
+}
+
+/* Own the dark sidebar surface explicitly rather than leaning on the blanket
+   `.MuiPaper-root` rule above — that one also reaches a sibling child app's
+   drawer once both remotes have loaded. */
+html[data-metis-app="news"][data-theme="dark"] .MuiDrawer-paper.news-sidebar {
+  background-color: var(--dm-bg) !important;
+  background-image: none !important;
+  border-right: 1px solid var(--dm-border) !important;
+}
+
+/* --- Table --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiTableCell-root {
+  color: var(--dm-text) !important;
+  border-bottom-color: var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiTableCell-head {
+  background-color: var(--dm-paper-2) !important;
+  color: var(--dm-text-2) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiTableRow-root:hover {
+  background-color: var(--dm-hover) !important;
+}
+
+/* --- Chips / Badges --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiChip-root {
+  background-color: var(--dm-paper-3) !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiChip-outlined {
+  background-color: transparent !important;
+  border-color: var(--dm-border) !important;
+}
+
+/* --- Tooltip / Snackbar --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiTooltip-tooltip {
+  background-color: var(--dm-paper-2) !important;
+  color: var(--dm-text) !important;
+  border: 1px solid var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiTooltip-arrow {
+  color: var(--dm-paper-2) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiSnackbarContent-root {
+  background-color: var(--dm-paper-2) !important;
+  color: var(--dm-text) !important;
+}
+
+/* --- Buttons (preserve primary color, darken text/contained variants) --- */
+html[data-metis-app="news"][data-theme="dark"] .MuiButton-text {
+  color: var(--dm-accent) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiButton-outlined {
+  color: var(--dm-accent) !important;
+  border-color: var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiIconButton-root {
+  color: var(--dm-text-2);
+}
+
+/* --- Headings inside dark surfaces (h1..h6 with hard-coded dark colors) --- */
+html[data-metis-app="news"][data-theme="dark"] h1,
+html[data-metis-app="news"][data-theme="dark"] h2,
+html[data-metis-app="news"][data-theme="dark"] h3,
+html[data-metis-app="news"][data-theme="dark"] h4,
+html[data-metis-app="news"][data-theme="dark"] h5,
+html[data-metis-app="news"][data-theme="dark"] h6 {
+  color: var(--dm-text);
+}
+
+/* --- Font rendering: crisp on dark --- */
+html[data-metis-app="news"][data-theme="dark"] body,
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-root,
+html[data-metis-app="news"][data-theme="dark"] input,
+html[data-metis-app="news"][data-theme="dark"] textarea,
+html[data-metis-app="news"][data-theme="dark"] select,
+html[data-metis-app="news"][data-theme="dark"] button {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Scrollbar --- */
+html[data-metis-app="news"][data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--dm-hover);
+}
+html[data-metis-app="news"][data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, rgba(166, 160, 240, 0.55) 0%, rgba(184, 179, 236, 0.55) 100%);
+}
+html[data-metis-app="news"][data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, rgba(166, 160, 240, 0.85) 0%, rgba(184, 179, 236, 0.85) 100%);
+}
+
+/* --- Browser autofill --- */
+html[data-metis-app="news"][data-theme="dark"] input:-webkit-autofill,
+html[data-metis-app="news"][data-theme="dark"] input:-webkit-autofill:hover,
+html[data-metis-app="news"][data-theme="dark"] input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--dm-text);
+  -webkit-box-shadow: 0 0 0px 1000px var(--dm-paper) inset;
+  caret-color: var(--dm-text);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* --- Text selection --- */
+html[data-metis-app="news"][data-theme="dark"] ::selection {
+  background: var(--dm-accent-wash-2);
+  color: var(--dm-text);
+}
+
+/* --- News room polish for dark mode --- */
+/* Article body rendered via dangerouslySetInnerHTML doesn't go through the
+   MUI typography overrides, so style the raw HTML elements directly. */
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root p,
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root li {
+  color: var(--dm-text-2);
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root h1,
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root h2,
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root h3,
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root h4,
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root h5,
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root h6,
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root strong {
+  color: var(--dm-text);
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root figcaption {
+  color: var(--dm-text-3) !important;
+}
+
+/* Stronger contrast for body text on dark surfaces */
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-body1,
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-body2 {
+  color: var(--dm-text-2);
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-h1,
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-h2,
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-h3,
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-h4,
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-h5,
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-h6 {
+  color: var(--dm-text);
+  letter-spacing: -0.01em;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiTypography-caption {
+  color: var(--dm-text-3);
+}
+
+/* Pagination buttons — keep readable */
+html[data-metis-app="news"][data-theme="dark"] .MuiPaginationItem-root {
+  color: var(--dm-text-2) !important;
+  border-color: var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiPaginationItem-root:hover {
+  background-color: var(--dm-accent-wash) !important;
+  color: var(--dm-accent) !important;
+}
+
+/* MUI Chip — better default contrast (covers any chip without an explicit color override) */
+html[data-metis-app="news"][data-theme="dark"] .MuiChip-filled {
+  background-color: var(--dm-paper-3) !important;
+  color: var(--dm-text) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiChip-icon {
+  color: var(--dm-text-3) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiChip-deleteIcon {
+  color: var(--dm-text-3) !important;
+}
+
+/* Tab strip in news room — flatten light gradient backgrounds */
+html[data-metis-app="news"][data-theme="dark"] .MuiTab-root {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiTab-root.Mui-selected {
+  background: var(--dm-accent-wash) !important;
+  border-color: var(--dm-border) !important;
+  color: var(--dm-accent) !important;
+}
+
+/* Search input + icon adornments inside news room sidebar/popovers */
+html[data-metis-app="news"][data-theme="dark"] .MuiInputAdornment-root .MuiSvgIcon-root {
+  color: var(--dm-text-3) !important;
+}
+
+/* Article highlight spans — used by entity highlighting in article body */
+html[data-metis-app="news"][data-theme="dark"] .highlight-primary,
+html[data-metis-app="news"][data-theme="dark"] .highlight {
+  background-color: var(--dm-hl-1-wash) !important;
+  color: var(--dm-hl-1) !important;
+  border-color: var(--dm-hl-1-edge) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .highlight-secondary {
+  background-color: var(--dm-hl-2-wash) !important;
+  color: var(--dm-hl-2) !important;
+  border-color: var(--dm-hl-2-edge) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .highlight-tertiary {
+  background-color: var(--dm-hl-3-wash) !important;
+  color: var(--dm-hl-3) !important;
+  border-color: var(--dm-hl-3-edge) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .highlight-quaternary {
+  background-color: var(--dm-hl-4-wash) !important;
+  color: var(--dm-hl-4) !important;
+  border-color: var(--dm-hl-4-edge) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .highlight-quinary {
+  background-color: var(--dm-hl-5-wash) !important;
+  color: var(--dm-hl-5) !important;
+  border-color: var(--dm-hl-5-edge) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .highlight-senary {
+  background-color: var(--dm-hl-6-wash) !important;
+  color: var(--dm-hl-6) !important;
+  border-color: var(--dm-hl-6-edge) !important;
+}
+
+/* Sticky table headers in document preview */
+html[data-metis-app="news"][data-theme="dark"] table thead th {
+  background-color: var(--dm-paper-2) !important;
+  color: var(--dm-text-2) !important;
+}
+
+/* Wikipedia entity tooltip (Popper inside ArticleDetailPage sidebar/content) */
+html[data-metis-app="news"][data-theme="dark"] .MuiPopper-root .MuiPaper-root {
+  background-color: var(--dm-paper) !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiPopper-root .MuiPaper-root [class*="MuiBox-root"] {
+  border-color: var(--dm-border);
+}
+
+/* Autocomplete listbox + options in dark mode */
+html[data-metis-app="news"][data-theme="dark"] .MuiAutocomplete-listbox {
+  background-color: var(--dm-paper) !important;
+  color: var(--dm-text) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiAutocomplete-option {
+  color: var(--dm-text) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiAutocomplete-option:hover,
+html[data-metis-app="news"][data-theme="dark"] .MuiAutocomplete-option[aria-selected="true"] {
+  background-color: var(--dm-selected) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .MuiSelect-select,
+html[data-metis-app="news"][data-theme="dark"] .MuiSelect-icon {
+  color: var(--dm-text-2) !important;
+}
+
+/* Slider markers — track colors come from sx, but labels need contrast */
+html[data-metis-app="news"][data-theme="dark"] .MuiSlider-markLabel {
+  color: var(--dm-text-3) !important;
+}
+
+/* Map and timeline page: paper containers wrapping the map and the legend
+   already get the .MuiPaper-root dark surface via existing rules. Add subtle
+   border so they don't fade into the page. */
+html[data-metis-app="news"][data-theme="dark"] .MuiPaper-root.MuiPaper-elevation1 {
+  border: 1px solid var(--dm-border) !important;
+}
+
+/* ArcGIS map chrome.
+   The MapView builds its own UI and hard-codes `calcite-mode-light` on the
+   container, so the zoom buttons, attribution strip and popups stayed white
+   on the dark page — the attribution bar was the largest light slab left in
+   dark mode. Only the chrome is restyled here; basemap tiles are imagery and
+   are deliberately left alone. */
+html[data-metis-app="news"][data-theme="dark"] .esri-widget,
+html[data-metis-app="news"][data-theme="dark"] .esri-widget--button,
+html[data-metis-app="news"][data-theme="dark"] .esri-attribution,
+html[data-metis-app="news"][data-theme="dark"] .esri-popup__main-container,
+html[data-metis-app="news"][data-theme="dark"] .esri-popup__header,
+html[data-metis-app="news"][data-theme="dark"] .esri-popup__content {
+  background-color: var(--dm-paper-2) !important;
+  color: var(--dm-text) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .esri-attribution__sources,
+html[data-metis-app="news"][data-theme="dark"] .esri-attribution__link {
+  color: var(--dm-text-3) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .esri-widget--button:hover {
+  background-color: var(--dm-paper-3) !important;
+  color: var(--dm-text) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .esri-widget--button {
+  border-color: var(--dm-border) !important;
+}
+html[data-metis-app="news"][data-theme="dark"] .esri-popup__pointer-direction {
+  background-color: var(--dm-paper-2) !important;
+}
+
+/* News tab strip — keep the focused state visible without the light gradient */
+html[data-metis-app="news"][data-theme="dark"] .MuiTab-root.Mui-selected {
+  box-shadow: 0 -3px 12px var(--dm-accent-wash-2) !important;
+}
+
+/* Ensure any remaining Box that hardcodes #fff/#ffffff backgrounds inside
+   the news room/event timeline actually gets dark.  This catches inline
+   white surfaces wrapped in Cards/Papers (which we already darken) — the
+   inner Box would otherwise stay light. */
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root [style*="background: rgb(255, 255, 255)"],
+html[data-metis-app="news"][data-theme="dark"] .MuiCard-root [style*="background-color: rgb(255, 255, 255)"],
+html[data-metis-app="news"][data-theme="dark"] .MuiPaper-root [style*="background: rgb(255, 255, 255)"],
+html[data-metis-app="news"][data-theme="dark"] .MuiPaper-root [style*="background-color: rgb(255, 255, 255)"] {
+  background-color: var(--dm-paper) !important;
+  color: var(--dm-text-2) !important;
 }

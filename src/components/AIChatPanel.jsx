@@ -10,9 +10,17 @@
  * is `<username>-<timestamp>` — stable for the session, unique per user.
  */
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { getDummySearchResult } from '../data/dummyChatPanelData';
 import './AIChatPanel.css';
+
+// Code-split: react-markdown + remark-gfm only download when the chat opens.
+const MarkdownMessage = lazy(() => import('./MarkdownMessage'));
+
+// TEMP: bypass the live /osintsearch/query endpoint and render dummy data instead.
+// Flip to false (or remove this branch) to restore the real API call.
+const USE_DUMMY_CHAT_DATA = true;
 
 const SEARCH_API_URL = import.meta.env.VITE_AI_CHAT_API_URL || '/osintsearch/query';
 const STORE_API_URL = import.meta.env.VITE_CHAT_STORE_API_URL || '';
@@ -28,6 +36,7 @@ function makeConversationId(username) {
 // Fire-and-forget POST to the chat store. No-ops if the store URL is not set.
 function saveToStore(conversationId, input, output) {
   if (!STORE_API_URL || !conversationId) return;
+  console.log("STORE_API_URL",STORE_API_URL)
   fetch(STORE_API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -46,19 +55,6 @@ function getDateRange90() {
   const past = new Date(now);
   past.setDate(now.getDate() - 90);
   return { from_date: fmtDate(past), to_date: fmtDate(now) };
-}
-
-function renderMd(text) {
-  if (!text) return '';
-  let h = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  h = h
-    .replace(/```([\s\S]*?)```/g, '<pre class="ai-code">$1</pre>')
-    .replace(/`([^`]+)`/g, '<code class="ai-ic">$1</code>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    .replace(/^[-*] (.+)/gm, '<div class="ai-li">$1</div>')
-    .replace(/\n/g, '<br/>');
-  return h;
 }
 
 function timeLabel(ts) {
@@ -99,6 +95,27 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
     setIsLoading(false);
   }, [username]);
 
+  // Clear chat on page refresh / bfcache restore / app-switch unmount.
+  // `pageshow` catches bfcache back-forward restores (some browsers preserve
+  // React state); unmount cleanup covers federation app switches. Refresh
+  // itself already resets state, but `beforeunload` abort is defensive.
+  useEffect(() => {
+    const reset = () => {
+      abortRef.current?.abort();
+      setMessages([]);
+      setInput('');
+      setIsLoading(false);
+      setConversationId(makeConversationId(username));
+    };
+    window.addEventListener('pageshow', reset);
+    window.addEventListener('beforeunload', reset);
+    return () => {
+      window.removeEventListener('pageshow', reset);
+      window.removeEventListener('beforeunload', reset);
+      reset();
+    };
+  }, [username]);
+
   const submit = useCallback(async (queryOverride) => {
     const query = (queryOverride || input).trim();
     if (!query || isLoading) return;
@@ -116,15 +133,21 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
 
     abortRef.current = new AbortController();
     try {
-      // 1. Run the OSINT search.
-      const res = await fetch(SEARCH_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-        signal: abortRef.current.signal,
-      });
-      if (!res.ok) throw new Error(`Server error (${res.status})`);
-      const data = await res.json();
+      // 1. Run the OSINT search (or load dummy data while the API is offline).
+      let data;
+      if (USE_DUMMY_CHAT_DATA) {
+        data = await getDummySearchResult(query);
+        if (abortRef.current?.signal.aborted) return;
+      } else {
+        const res = await fetch(`${SEARCH_API_URL}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+          signal: abortRef.current.signal,
+        });
+        if (!res.ok) throw new Error(`Server error (${res.status})`);
+        data = await res.json();
+      }
 
       // 2. Show the answer.
       const assistantMsg = {
@@ -259,7 +282,11 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
               {m.error ? (
                 <div className="ai-msg-err">{m.error}</div>
               ) : (
-                <div className="ai-msg-text" dangerouslySetInnerHTML={{ __html: renderMd(m.content) }} />
+                <div className="ai-msg-text ai-md">
+                  <Suspense fallback={<div className="ai-md-fallback">{m.content}</div>}>
+                    <MarkdownMessage>{m.content}</MarkdownMessage>
+                  </Suspense>
+                </div>
               )}
               <div className="ai-msg-foot">
                 {m.sources > 0 && <span className="ai-msg-badge">{m.sources} source{m.sources !== 1 ? 's' : ''}</span>}

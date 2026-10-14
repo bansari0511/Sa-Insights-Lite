@@ -99,7 +99,7 @@ const renderHighlightedContent = (htmlString, highlights = [], entities = []) =>
   // Define the same colors as the entities
   const highlightColors = [
     'highlight-primary',    // #5aadd3ff
-    'highlight-secondary',  // theme.palette.brand.deepPurple
+    'highlight-secondary',  // theme.palette.primary.main
     'highlight-tertiary',   // #66a5a1ff
     'highlight-quaternary', // #5d957bff
     'highlight-quinary',    // #F38BA8
@@ -225,55 +225,105 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
     loadArticle();
   }, [userId, reqId, docId]);
 
-  // Event delegation for content entity hover preview
+  // Event delegation for content entity hover preview.
+  // Uses mouseover/mouseout (which bubble) so hovers move correctly between
+  // sibling entity spans inside the content area. closest() resolves to the
+  // entity span even when the cursor is over a nested text node.
+  //
+  // The anchor is a virtual element built from the mouse coords + the line-rect
+  // under the cursor. Inline spans that wrap across lines have a union
+  // bounding rect whose left edge sits at the line-box gutter, not where the
+  // user hovered — anchoring directly to the span would place the popper far
+  // from the actual hover point (this was the "top-left" bug).
   useEffect(() => {
     const contentElement = contentRef.current;
     if (!contentElement) return;
 
-    const handleMouseEnter = (e) => {
-      const target = e.target;
-      if (target.dataset?.hasPreview === 'true') {
-        // Clear any existing timeout
-        if (hoverTimeoutRef.current) {
-          clearTimeout(hoverTimeoutRef.current);
+    let currentEntityEl = null;
+
+    const buildVirtualAnchor = (target, mouseX, mouseY) => {
+      // Find the specific line-rect under the cursor so multi-line wrapped
+      // entities still anchor against the right line.
+      const rects = target.getClientRects();
+      let lineRect = null;
+      for (const r of rects) {
+        if (mouseY >= r.top && mouseY <= r.bottom) {
+          lineRect = r;
+          break;
         }
-
-        // Small delay before showing tooltip
-        hoverTimeoutRef.current = setTimeout(() => {
-          const entityType = target.dataset.entityType;
-          const entityName = target.dataset.entityName;
-          const colorIndex = parseInt(target.dataset.colorIndex, 10) || 0;
-
-          if (entityType && entityName) {
-            setContentHoverEntity({ entityType, entityName, colorIndex });
-            setContentHoverAnchor(target);
-          }
-        }, 200);
       }
+      // Fallback: zero-size point at the cursor.
+      const top = lineRect ? lineRect.top : mouseY;
+      const bottom = lineRect ? lineRect.bottom : mouseY;
+      const left = mouseX;
+      return {
+        nodeType: 1,
+        contextElement: target,
+        getBoundingClientRect: () => ({
+          top,
+          bottom,
+          left,
+          right: left,
+          width: 0,
+          height: bottom - top,
+          x: left,
+          y: top,
+          toJSON: () => ({}),
+        }),
+      };
     };
 
-    const handleMouseLeave = (e) => {
-      const target = e.target;
-      if (target.dataset?.hasPreview === 'true') {
-        // Clear timeout if leaving before it fires
-        if (hoverTimeoutRef.current) {
-          clearTimeout(hoverTimeoutRef.current);
-        }
+    const handleMouseOver = (e) => {
+      const target = e.target.closest?.('[data-has-preview="true"]');
+      if (!target || target === currentEntityEl) return;
+      currentEntityEl = target;
 
-        // Small delay before hiding to allow moving to tooltip
-        hoverTimeoutRef.current = setTimeout(() => {
-          setContentHoverEntity(null);
-          setContentHoverAnchor(null);
-        }, 150);
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
       }
+
+      hoverTimeoutRef.current = setTimeout(() => {
+        if (!target.isConnected) return;
+        const entityType = target.dataset.entityType;
+        const entityName = target.dataset.entityName;
+        const colorIndex = parseInt(target.dataset.colorIndex, 10) || 0;
+
+        if (entityType && entityName) {
+          setContentHoverEntity({ entityType, entityName, colorIndex });
+          setContentHoverAnchor(buildVirtualAnchor(target, mouseX, mouseY));
+        }
+      }, 200);
     };
 
-    contentElement.addEventListener('mouseenter', handleMouseEnter, true);
-    contentElement.addEventListener('mouseleave', handleMouseLeave, true);
+    const handleMouseOut = (e) => {
+      const target = e.target.closest?.('[data-has-preview="true"]');
+      if (!target) return;
+
+      // Still inside the same entity span (moving onto a child text node).
+      const related = e.relatedTarget?.closest?.('[data-has-preview="true"]');
+      if (related === target) return;
+
+      currentEntityEl = null;
+
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+
+      hoverTimeoutRef.current = setTimeout(() => {
+        setContentHoverEntity(null);
+        setContentHoverAnchor(null);
+      }, 150);
+    };
+
+    contentElement.addEventListener('mouseover', handleMouseOver);
+    contentElement.addEventListener('mouseout', handleMouseOut);
 
     return () => {
-      contentElement.removeEventListener('mouseenter', handleMouseEnter, true);
-      contentElement.removeEventListener('mouseleave', handleMouseLeave, true);
+      contentElement.removeEventListener('mouseover', handleMouseOver);
+      contentElement.removeEventListener('mouseout', handleMouseOut);
       if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current);
       }
@@ -502,7 +552,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: 'calc(100vh - 64px)',
-            background: `linear-gradient(135deg, ${theme.palette.brand.lightBlue} 0%, ${theme.palette.grey[50]} 100%)`,
+            background: theme.palette.background.default,
           }}
         >
           <CircularProgress
@@ -525,14 +575,14 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: 'calc(100vh - 64px)',
-            background: `linear-gradient(135deg, ${theme.palette.brand.lightBlue} 0%, ${theme.palette.grey[50]} 100%)`,
+            background: theme.palette.background.default,
           }}
         >
           <Card
             sx={{
               p: 4,
               textAlign: 'center',
-              background: `linear-gradient(135deg, ${theme.palette.common.white} 0%, ${theme.palette.brand.lightBlue} 100%)`,
+              background: theme.palette.background.paper,
               border: `1px solid ${withOpacity(theme.palette.brand.cyan, 0.1)}`,
               borderRadius: theme.custom.tokens.borderRadius.card,
               boxShadow: `0 4px 20px ${withOpacity(theme.palette.brand.cyan, 0.1)}`,
@@ -541,7 +591,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
             <Typography
               variant="h6"
               sx={{
-                color: withOpacity(theme.palette.brand.deepPurple, 0.7),
+                color: withOpacity(theme.palette.primary.main, 0.7),
                 fontWeight: theme.custom.tokens.fontWeight.semibold,
               }}
             >
@@ -565,7 +615,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
       <Box
         sx={{
           minHeight: 'calc(100vh - 64px)',
-          background: `linear-gradient(135deg, ${theme.palette.brand.lightBlue} 0%, ${theme.palette.grey[50]} 100%)`,
+          background: theme.palette.background.default,
         }}
       >
         <Box
@@ -580,7 +630,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
           <Card
             sx={{
               flex: 1,
-              background: `linear-gradient(135deg, ${theme.palette.common.white} 0%, ${theme.palette.brand.lightBlue} 100%)`,
+              background: theme.palette.background.paper,
               border: `1px solid ${withOpacity(theme.palette.brand.cyan, 0.1)}`,
               borderRadius: theme.custom.tokens.borderRadius.card,
               boxShadow: `0 4px 20px ${withOpacity(theme.palette.brand.cyan, 0.1)}`,
@@ -597,7 +647,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                     <Typography
                       variant="h5"
                       sx={{
-                        color: '#1e293b',
+                        color: theme.palette.text.primary,
                         fontWeight: 700,
                         fontSize: '1.4rem',
                         lineHeight: 1.4,
@@ -611,12 +661,12 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                       sx={{
                         fontWeight: 600,
                         fontSize: '0.8rem',
-                        color: '#475569',
-                        backgroundColor: '#f1f5f9',
+                        color: theme.palette.text.secondary,
+                        backgroundColor: theme.palette.action.hover,
                         px: 1.5,
                         py: 0.5,
                         borderRadius: '6px',
-                        border: '1px solid #e2e8f0',
+                        border: `1px solid ${theme.palette.divider}`,
                         whiteSpace: 'nowrap',
                         flexShrink: 0,
                       }}
@@ -636,10 +686,10 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                 sx={{
                   lineHeight: 1.6,
                   fontSize: '16px',
-                  color: '#1a202c',
+                  color: theme.palette.text.primary,
                   fontFamily: "'Inter', 'Roboto', 'Segoe UI'",
                   '& h1, & h2, & h3, & h4, & h5, & h6': {
-                    color: theme.palette.brand.deepPurple,
+                    color: theme.palette.primary.main,
                     fontWeight: theme.custom.tokens.fontWeight.semibold,
                     mb: 1.5,
                     mt: 2,
@@ -653,15 +703,15 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                   '& h4': { fontSize: '1.1rem' },
                   '& p': {
                     mb: 1.5,
-                    color: '#2d3748',
+                    color: theme.palette.text.primary,
                     fontWeight: 400,
                   },
                   '& strong': {
-                    color: theme.palette.brand.deepPurple,
+                    color: theme.palette.primary.main,
                     fontWeight: theme.custom.tokens.fontWeight.semibold,
                   },
                   '& em': {
-                    color: '#4a5568',
+                    color: theme.palette.text.secondary,
                     fontStyle: 'italic',
                   },
                   '& img': {
@@ -673,7 +723,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                   },
                   '& .highlight-primary, & .highlight': {
                     backgroundColor: withOpacity(theme.palette.brand.cyan, 0.2),
-                    color: theme.palette.brand.deepPurple,
+                    color: theme.palette.primary.main,
                     fontWeight: theme.custom.tokens.fontWeight.semibold,
                     padding: '2px 6px',
                     borderRadius: '4px',
@@ -688,18 +738,18 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                     },
                   },
                   '& .highlight-secondary': {
-                    backgroundColor: withOpacity(theme.palette.brand.deepPurple, 0.15),
-                    color: theme.palette.brand.deepPurple,
+                    backgroundColor: withOpacity(theme.palette.primary.main, 0.15),
+                    color: theme.palette.primary.main,
                     fontWeight: theme.custom.tokens.fontWeight.semibold,
                     padding: '2px 6px',
                     borderRadius: '4px',
-                    border: `1px solid ${theme.palette.brand.deepPurple}`,
-                    boxShadow: `0 1px 3px ${withOpacity(theme.palette.brand.deepPurple, 0.2)}`,
+                    border: `1px solid ${theme.palette.primary.main}`,
+                    boxShadow: `0 1px 3px ${withOpacity(theme.palette.primary.main, 0.2)}`,
                     transition: 'all 0.2s ease',
                     cursor: 'pointer',
                     '&:hover': {
-                      backgroundColor: withOpacity(theme.palette.brand.deepPurple, 0.25),
-                      boxShadow: `0 2px 6px ${withOpacity(theme.palette.brand.deepPurple, 0.3)}`,
+                      backgroundColor: withOpacity(theme.palette.primary.main, 0.25),
+                      boxShadow: `0 2px 6px ${withOpacity(theme.palette.primary.main, 0.3)}`,
                       transform: 'translateY(-1px)',
                     },
                   },
@@ -777,10 +827,10 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                     padding: '12px 16px',
                     borderRadius: '6px',
                     fontStyle: 'italic',
-                    color: '#4a5568',
+                    color: theme.palette.text.secondary,
                   },
                   '& ul, & ol': {
-                    color: '#2d3748',
+                    color: theme.palette.text.primary,
                     pl: 2,
                     mb: 1.5,
                   },
@@ -821,7 +871,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                       sx={{
                         fontWeight: 700,
                         fontSize: '1.1rem',
-                        color: hasAssets ? '#1e293b' : '#64748b',
+                        color: hasAssets ? theme.palette.text.primary : theme.palette.text.secondary,
                         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
                       }}
                     >
@@ -830,7 +880,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                     <Typography
                       sx={{
                         fontSize: '0.75rem',
-                        color: '#64748b',
+                        color: theme.palette.text.secondary,
                         fontFamily: "'Inter', sans-serif",
                       }}
                     >
@@ -851,9 +901,9 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                       justifyContent: 'center',
                       py: 5,
                       px: 3,
-                      backgroundColor: '#f8fafc',
+                      backgroundColor: theme.palette.action.hover,
                       borderRadius: '12px',
-                      border: '2px dashed #e2e8f0',
+                      border: `2px dashed ${theme.palette.divider}`,
                     }}
                   >
                     <Box
@@ -861,20 +911,20 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                         width: 64,
                         height: 64,
                         borderRadius: '50%',
-                        backgroundColor: '#f1f5f9',
+                        backgroundColor: theme.palette.action.selected,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         mb: 2,
                       }}
                     >
-                      <AttachmentIcon sx={{ color: '#94a3b8', fontSize: '2rem' }} />
+                      <AttachmentIcon sx={{ color: theme.palette.text.disabled, fontSize: '2rem' }} />
                     </Box>
                     <Typography
                       sx={{
                         fontWeight: 600,
                         fontSize: '1rem',
-                        color: '#475569',
+                        color: theme.palette.text.primary,
                         mb: 0.5,
                         fontFamily: "'Inter', sans-serif",
                       }}
@@ -884,7 +934,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                     <Typography
                       sx={{
                         fontSize: '0.85rem',
-                        color: '#94a3b8',
+                        color: theme.palette.text.secondary,
                         textAlign: 'center',
                         fontFamily: "'Inter', sans-serif",
                       }}
@@ -920,14 +970,14 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                           const colors = getMediaTypeColor('video');
                           return (
                             <Box key={item.id} onClick={() => handleMediaClick(item, 'video')}
-                              sx={{ display: 'flex', alignItems: 'center', gap: 1.2, p: 1, flex: '1 1 calc(25% - 6px)', minWidth: 'calc(25% - 6px)', maxWidth: 'calc(33.33% - 6px)', cursor: 'pointer', borderRadius: '10px', border: `1px solid ${withOpacity(colors.primary, 0.25)}`, backgroundColor: '#fff', transition: 'all 0.2s ease', '&:hover': { backgroundColor: colors.light, boxShadow: `0 4px 14px ${withOpacity(colors.primary, 0.15)}`, transform: 'translateY(-1px)' } }}
+                              sx={{ display: 'flex', alignItems: 'center', gap: 1.2, p: 1, flex: '1 1 calc(25% - 6px)', minWidth: 'calc(25% - 6px)', maxWidth: 'calc(33.33% - 6px)', cursor: 'pointer', borderRadius: '10px', border: `1px solid ${withOpacity(colors.primary, 0.25)}`, backgroundColor: theme.palette.background.paper, transition: 'all 0.2s ease', '&:hover': { backgroundColor: theme.palette.mode === 'dark' ? withOpacity(colors.primary, 0.15) : colors.light, boxShadow: `0 4px 14px ${withOpacity(colors.primary, 0.15)}`, transform: 'translateY(-1px)' } }}
                             >
                               <Box sx={{ width: 34, height: 34, borderRadius: '8px', background: `linear-gradient(135deg, ${colors.primary}, ${colors.dark})`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                 <VideoLibraryIcon sx={{ color: '#fff', fontSize: '1rem' }} />
                               </Box>
                               <Box sx={{ flex: 1, minWidth: 0 }}>
-                                <Typography sx={{ fontWeight: 600, fontSize: '0.75rem', color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography>
-                                <Typography sx={{ fontSize: '0.6rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600 }}>{item.extension}</Typography>
+                                <Typography sx={{ fontWeight: 600, fontSize: '0.75rem', color: theme.palette.text.primary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography>
+                                <Typography sx={{ fontSize: '0.6rem', color: theme.palette.text.secondary, textTransform: 'uppercase', fontWeight: 600 }}>{item.extension}</Typography>
                               </Box>
                               <PlayArrowIcon sx={{ fontSize: '1rem', color: colors.primary, flexShrink: 0 }} />
                             </Box>
@@ -943,14 +993,14 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                           const colors = getMediaTypeColor('audio');
                           return (
                             <Box key={item.id} onClick={() => handleMediaClick(item, 'audio')}
-                              sx={{ display: 'flex', alignItems: 'center', gap: 1.2, p: 1, flex: '1 1 calc(25% - 6px)', minWidth: 'calc(25% - 6px)', maxWidth: 'calc(33.33% - 6px)', cursor: 'pointer', borderRadius: '10px', border: `1px solid ${withOpacity(colors.primary, 0.25)}`, backgroundColor: '#fff', transition: 'all 0.2s ease', '&:hover': { backgroundColor: colors.light, boxShadow: `0 4px 14px ${withOpacity(colors.primary, 0.15)}`, transform: 'translateY(-1px)' } }}
+                              sx={{ display: 'flex', alignItems: 'center', gap: 1.2, p: 1, flex: '1 1 calc(25% - 6px)', minWidth: 'calc(25% - 6px)', maxWidth: 'calc(33.33% - 6px)', cursor: 'pointer', borderRadius: '10px', border: `1px solid ${withOpacity(colors.primary, 0.25)}`, backgroundColor: theme.palette.background.paper, transition: 'all 0.2s ease', '&:hover': { backgroundColor: theme.palette.mode === 'dark' ? withOpacity(colors.primary, 0.15) : colors.light, boxShadow: `0 4px 14px ${withOpacity(colors.primary, 0.15)}`, transform: 'translateY(-1px)' } }}
                             >
                               <Box sx={{ width: 34, height: 34, borderRadius: '8px', background: `linear-gradient(135deg, ${colors.primary}, ${colors.dark})`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                 <AudiotrackIcon sx={{ color: '#fff', fontSize: '1rem' }} />
                               </Box>
                               <Box sx={{ flex: 1, minWidth: 0 }}>
-                                <Typography sx={{ fontWeight: 600, fontSize: '0.75rem', color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography>
-                                <Typography sx={{ fontSize: '0.6rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600 }}>{item.extension}</Typography>
+                                <Typography sx={{ fontWeight: 600, fontSize: '0.75rem', color: theme.palette.text.primary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography>
+                                <Typography sx={{ fontSize: '0.6rem', color: theme.palette.text.secondary, textTransform: 'uppercase', fontWeight: 600 }}>{item.extension}</Typography>
                               </Box>
                               <PlayArrowIcon sx={{ fontSize: '1rem', color: colors.primary, flexShrink: 0 }} />
                             </Box>
@@ -967,14 +1017,14 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                           const viewable = isViewableDoc(item.extension);
                           return (
                             <Box key={item.id} onClick={() => handleMediaClick(item, 'document')}
-                              sx={{ display: 'flex', alignItems: 'center', gap: 1.2, p: 1, width: 'calc(33.33% - 6px)', minWidth: 160, cursor: 'pointer', borderRadius: '10px', border: `1px solid ${withOpacity(colors.primary, 0.25)}`, backgroundColor: '#fff', transition: 'all 0.2s ease', '&:hover': { backgroundColor: colors.light, boxShadow: `0 4px 14px ${withOpacity(colors.primary, 0.15)}`, transform: 'translateY(-1px)' } }}
+                              sx={{ display: 'flex', alignItems: 'center', gap: 1.2, p: 1, width: 'calc(33.33% - 6px)', minWidth: 160, cursor: 'pointer', borderRadius: '10px', border: `1px solid ${withOpacity(colors.primary, 0.25)}`, backgroundColor: theme.palette.background.paper, transition: 'all 0.2s ease', '&:hover': { backgroundColor: theme.palette.mode === 'dark' ? withOpacity(colors.primary, 0.15) : colors.light, boxShadow: `0 4px 14px ${withOpacity(colors.primary, 0.15)}`, transform: 'translateY(-1px)' } }}
                             >
-                              <Box sx={{ width: 34, height: 34, borderRadius: '8px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                              <Box sx={{ width: 34, height: 34, borderRadius: '8px', background: theme.palette.action.selected, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                 {getFileIcon(item.extension, 24)}
                               </Box>
                               <Box sx={{ flex: 1, minWidth: 0 }}>
-                                <Typography sx={{ fontWeight: 600, fontSize: '0.75rem', color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography>
-                                <Typography sx={{ fontSize: '0.6rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600, mt: 0.2 }}>{item.extension}</Typography>
+                                <Typography sx={{ fontWeight: 600, fontSize: '0.75rem', color: theme.palette.text.primary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography>
+                                <Typography sx={{ fontSize: '0.6rem', color: theme.palette.text.secondary, textTransform: 'uppercase', fontWeight: 600, mt: 0.2 }}>{item.extension}</Typography>
                               </Box>
                               {viewable
                                 ? <VisibilityIcon sx={{ fontSize: '0.95rem', color: colors.primary, flexShrink: 0 }} />
@@ -996,8 +1046,8 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
             sx={{
               width: showRelatedInfo ? 320 : 50,
               transition: 'all 0.3s ease',
-              background: `linear-gradient(135deg, ${theme.palette.common.white} 0%, ${theme.palette.brand.lightBlue} 100%)`,
-              color: theme.palette.brand.deepPurple,
+              background: theme.palette.background.paper,
+              color: theme.palette.text.primary,
               borderRadius: theme.custom.tokens.borderRadius.sm,
               boxShadow: `0 4px 16px ${withOpacity(theme.palette.brand.cyan, 0.15)}`,
               border: `1px solid ${withOpacity(theme.palette.brand.cyan, 0.2)}`,
@@ -1012,7 +1062,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                 left: 0,
                 right: 0,
                 height: '3px',
-                background: `linear-gradient(90deg, ${theme.palette.brand.deepPurple}, ${theme.palette.brand.cyan}, ${theme.palette.brand.deepPurple})`,
+                background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.brand.cyan}, ${theme.palette.primary.main})`,
                 borderRadius: '12px 12px 0 0',
               },
             }}
@@ -1104,7 +1154,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                   py: 1.25,
                   overflow: 'auto',
                   flex: 1,
-                  background: '#f8fafc',
+                  background: theme.palette.background.default,
                 }}
               >
                 {article.entities && article.entities.length > 0 && article.entities.map((entity, index) => {
@@ -1131,14 +1181,14 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                         px: 1,
                         mb: 0.6,
                         borderRadius: '8px',
-                        backgroundColor: '#ffffff',
-                        border: '1px solid #e5e7eb',
+                        backgroundColor: theme.palette.background.paper,
+                        border: `1px solid ${theme.palette.divider}`,
                         borderLeft: `3px solid ${c.primary}`,
                         cursor: hasHoverPreview ? 'pointer' : 'default',
                         transition: 'all 0.2s ease',
                         position: 'relative',
                         '&:hover': {
-                          backgroundColor: hasHoverPreview ? `${c.light}` : '#ffffff',
+                          backgroundColor: hasHoverPreview ? (theme.palette.mode === 'dark' ? withOpacity(c.primary, 0.15) : c.light) : theme.palette.background.paper,
                           borderColor: c.primary,
                           borderLeftWidth: '4px',
                           boxShadow: hasHoverPreview
@@ -1178,7 +1228,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                         sx={{
                           fontSize: '0.78rem',
                           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-                          color: '#374151',
+                          color: theme.palette.text.primary,
                           fontWeight: 500,
                           lineHeight: 1.4,
                           flex: 1,
@@ -1237,9 +1287,9 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                         mb: 1.2,
                         borderRadius: '8px',
                         overflow: 'hidden',
-                        backgroundColor: '#ffffff',
+                        backgroundColor: theme.palette.background.paper,
                         boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-                        border: '1px solid #e2e8f0',
+                        border: `1px solid ${theme.palette.divider}`,
                         '&:last-child': { mb: 0 },
                       }}
                     >
@@ -1251,8 +1301,10 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                           display: 'flex',
                           alignItems: 'center',
                           gap: 0.65,
-                          background: `linear-gradient(135deg, ${c.light} 0%, #ffffff 100%)`,
-                          borderBottom: '1px solid #e2e8f0',
+                          background: theme.palette.mode === 'dark'
+                            ? withOpacity(c.primary, 0.15)
+                            : `linear-gradient(135deg, ${c.light} 0%, #ffffff 100%)`,
+                          borderBottom: `1px solid ${theme.palette.divider}`,
                         }}
                       >
                         <Typography
@@ -1271,7 +1323,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                       </Box>
 
                       {/* Values - Each item in its own row */}
-                      <Box sx={{ p: 0.65, display: 'flex', flexDirection: 'column', backgroundColor: '#fafbfc' }}>
+                      <Box sx={{ p: 0.65, display: 'flex', flexDirection: 'column', backgroundColor: theme.palette.background.default }}>
                         {valueArray.map((item, idx) =>
                           hasHoverPreview ? (
                             <WikipediaTooltip
@@ -1302,15 +1354,15 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                   transform: 'rotate(180deg)',
                   fontWeight: theme.custom.tokens.fontWeight.bold,
                   letterSpacing: 2,
-                  color: theme.palette.brand.deepPurple,
+                  color: theme.palette.primary.main,
                   userSelect: 'none',
                   cursor: 'pointer',
                   fontSize: '0.8rem',
-                  background: theme.palette.grey[50],
+                  background: theme.palette.action.hover,
                   '&:hover': {
                     color: theme.palette.brand.cyan,
                     letterSpacing: 3,
-                    background: '#f1f5f9',
+                    background: theme.palette.action.selected,
                   },
                   transition: 'all 0.3s ease',
                 }}

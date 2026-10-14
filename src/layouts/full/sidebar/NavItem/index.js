@@ -12,6 +12,7 @@ import {
   Box
 } from '@mui/material';
 import { withOpacity } from '../../../../theme/palette';
+import { SB } from '../sidebarTheme';
 
 const ListItemStyled = styled(ListItem)(({ theme }) => ({
   whiteSpace: 'nowrap',
@@ -20,11 +21,11 @@ const ListItemStyled = styled(ListItem)(({ theme }) => ({
   paddingBottom: 0,
   paddingLeft: 8,
   paddingRight: 8,
-  borderRadius: '6px',
+  borderRadius: '10px',
   backgroundColor: 'transparent',
-  color: withOpacity('#ffffff', 0.8),
-  transition: 'all 0.2s ease-out',
-  border: 'none',
+  color: SB.text,
+  border: '1px solid transparent',
+  transition: 'background 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out, transform 0.2s ease-out, box-shadow 0.2s ease-out',
   minHeight: '34px',
   maxHeight: '34px',
   position: 'relative',
@@ -38,44 +39,49 @@ const ListItemStyled = styled(ListItem)(({ theme }) => ({
     top: '50%',
     transform: 'translateY(-50%) scaleY(0)',
     width: '3px',
-    height: '60%',
-    background: theme.palette.brand.cyan,
-    borderRadius: '0 2px 2px 0',
+    height: '58%',
+    background: SB.accentBar,
+    borderRadius: '0 3px 3px 0',
+    boxShadow: SB.accentBarGlow,
     transition: 'transform 0.2s ease-out',
   },
 
+  '& .MuiListItemIcon-root': {
+    color: SB.icon,
+  },
+
   '&:hover': {
-    backgroundColor: withOpacity(theme.palette.brand.cyan, 0.1),
-    color: '#ffffff',
-    paddingLeft: 10,
+    backgroundColor: SB.hoverBg,
+    color: SB.textStrong,
+    borderColor: SB.divider,
 
     '&::before': {
       transform: 'translateY(-50%) scaleY(1)',
     },
 
     '& .MuiListItemIcon-root': {
-      color: theme.palette.brand.cyan,
+      color: SB.indigo,
     },
   },
 
   '&.Mui-selected': {
-    background: `linear-gradient(90deg, ${withOpacity(theme.palette.brand.cyan, 0.18)} 0%, ${withOpacity(theme.palette.brand.cyan, 0.08)} 100%)`,
-    color: '#ffffff',
+    background: SB.activeBg,
+    color: SB.indigoStrong,
     fontWeight: 600,
-    paddingLeft: 10,
+    borderColor: 'rgba(129, 140, 248, 0.32)',
+    boxShadow: SB.activeShadow,
 
     '&::before': {
       transform: 'translateY(-50%) scaleY(1)',
-      background: `linear-gradient(180deg, ${theme.palette.brand.cyan} 0%, ${withOpacity(theme.palette.brand.cyan, 0.6)} 100%)`,
-      boxShadow: `0 0 8px ${withOpacity(theme.palette.brand.cyan, 0.5)}`,
     },
 
     '& .MuiListItemIcon-root': {
-      color: theme.palette.brand.cyan,
+      color: SB.indigoStrong,
     },
 
     '&:hover': {
-      background: `linear-gradient(90deg, ${withOpacity(theme.palette.brand.cyan, 0.22)} 0%, ${withOpacity(theme.palette.brand.cyan, 0.12)} 100%)`,
+      background: SB.activeBg,
+      filter: 'brightness(1.02)',
     },
   },
 }));
@@ -93,12 +99,19 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
   const itemIcon = <Icon stroke={1.5} size={isCollapsed ? "1.25rem" : "1.125rem"} />;
   const isSelected = customActive !== undefined ? customActive : pathDirect === item.href;
 
-  // Prefix href with basePath for federation mode (e.g., '/news' + '/NewsRoom')
+  // Prefix href with basePath for federation mode (e.g., '/assets' + '/equipment')
   const resolvedHref = basePath ? `${basePath}${item.href}` : item.href;
 
-  // Handle click for Intelligence Briefing special navigation
+  // Check if item is under development
+  var textColor = 'inherit', iconColor = 'inherit';
+  var isUnderDevelopment = false;
+
+  // Handle click for under development items and Intelligence Briefing special navigation
   const handleClick = (e) => {
-    if (item.href === '/intelligenceBriefings') {
+    if (isUnderDevelopment) {
+      e.preventDefault();
+      alert("Under development. Will be available shortly");
+    } else if (item.href === '/intelligenceBriefings') {
       e.preventDefault();
       navigate(`${basePath}/NewsRoom`, {
         state: {
@@ -113,10 +126,10 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
 
   const listItemContent = (
     <ListItemStyled
-      component={item.external ? 'a' : NavLink}
-      to={resolvedHref}
-      href={item.external ? item.href : undefined}
-      target={item.external ? '_blank' : undefined}
+      component={isUnderDevelopment ? 'div' : (item.external ? 'a' : NavLink)}
+      to={!isUnderDevelopment ? resolvedHref : undefined}
+      href={item.external && !isUnderDevelopment ? item.href : undefined}
+      target={item.external && !isUnderDevelopment ? '_blank' : undefined}
       onClick={handleClick}
       selected={isSelected}
       sx={{
@@ -124,6 +137,8 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
         justifyContent: isCollapsed ? 'center' : 'flex-start',
         borderRadius: '6px',
         margin: isCollapsed ? '2px auto' : '0px',
+        cursor: isUnderDevelopment ? 'not-allowed' : 'pointer',
+        opacity: isUnderDevelopment ? 0.5 : 1,
         minHeight: isCollapsed ? 40 : 34,
         maxHeight: isCollapsed ? 40 : 34,
         width: isCollapsed ? 40 : 'auto',
@@ -133,15 +148,16 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
             display: 'none',
           },
           '&.Mui-selected': {
-            background: withOpacity(theme.palette.brand.cyan, 0.2),
-            borderRadius: '8px',
+            background: SB.gradient,
+            borderColor: 'transparent',
+            borderRadius: '10px',
+            boxShadow: '0 6px 16px rgba(99, 102, 241, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35)',
             '& .MuiListItemIcon-root': {
-              color: theme.palette.brand.cyan,
-              filter: `drop-shadow(0 0 4px ${withOpacity(theme.palette.brand.cyan, 0.6)})`,
+              color: '#ffffff',
             },
           },
           '&:hover': {
-            background: withOpacity(theme.palette.brand.cyan, 0.15),
+            background: SB.hoverBg,
             paddingLeft: 8,
           },
         }),
@@ -150,7 +166,7 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
       <ListItemIcon
         sx={{
           minWidth: isCollapsed ? 'auto' : '28px',
-          color: 'inherit',
+          color: iconColor,
           justifyContent: 'center',
           transition: 'color 0.2s ease',
           display: 'flex',
@@ -165,8 +181,8 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
             margin: 0,
             '& .MuiListItemText-primary': {
               fontSize: '0.8125rem',
-              fontWeight: 500,
-              color: 'inherit',
+              fontWeight: 700,
+              color: textColor,
               letterSpacing: '0.15px',
               lineHeight: 1.2,
               whiteSpace: 'nowrap',
@@ -191,19 +207,20 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
           slotProps={{
             tooltip: {
               sx: {
-                bgcolor: theme.palette.brand.deepPurple,
+                bgcolor: SB.indigoStrong,
                 color: '#fff',
                 fontSize: '0.75rem',
-                fontWeight: 500,
+                fontWeight: 600,
+                letterSpacing: '0.02em',
                 px: 1.5,
                 py: 0.75,
-                borderRadius: '6px',
-                boxShadow: `0 4px 12px ${withOpacity(theme.palette.brand.cyan, 0.2)}`,
+                borderRadius: '8px',
+                boxShadow: '0 8px 22px rgba(79, 70, 229, 0.28)',
               },
             },
             arrow: {
               sx: {
-                color: theme.palette.brand.deepPurple,
+                color: SB.indigoStrong,
               },
             },
           }}

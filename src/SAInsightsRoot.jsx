@@ -77,7 +77,10 @@ const SAInsightsRoot = (props) => {
           <ErrorProvider>
             <HostAuthProvider hostProps={props}>
               <RequestContextProvider>
-                <ThemeContextProvider>
+                {/* The host owns the theme while we are mounted inside it — its top bar carries the
+                    only switch. Passing it here is the whole wiring; ThemeContext does the rest and
+                    falls back to its own mode if a host build does not send one. */}
+                <ThemeContextProvider hostTheme={props.theme}>
                   <EmbeddedApp basePath={props.basePath} onNavigateToHost={props.onNavigateToHost} />
                 </ThemeContextProvider>
               </RequestContextProvider>

@@ -15,18 +15,37 @@ const CURRENT_APP_NAME = import.meta.env.VITE_CURRENT_APP_NAME || 'news';
 const MainWrapper = styled("div", {
   shouldForwardProp: (prop) => prop !== 'embedded',
 })(({ theme, embedded }) => ({
+  /* ── 100vh is a lie inside the host ──
+     The METIS shell reserves --topbar-h for its persistent top bar, so the box
+     this app is handed is that much shorter than the window. `100vh` measures
+     the WINDOW, so embedded we rendered exactly one bar-height too tall and the
+     host clipped the difference.
+
+     That clipping was the visible half of the bug. The other half only showed up
+     with the AI chat panel: opening it focuses the composer, the browser scrolls
+     the nearest scrollable ancestor to bring it into view, and because this
+     subtree overflowed there was somewhere to scroll TO — so the whole app slid
+     up underneath the host's top bar. The bar looked like it was overlapping the
+     app; in fact the app was climbing behind the bar. Remove the overflow and
+     there is nothing to scroll, so the slip cannot happen.
+
+     Gated on `embedded` rather than switched outright, and gated rather than
+     left to the host's child-viewport-compat.css shim: 100% only resolves when
+     every ancestor carries a height, which is true inside the shell and is NOT
+     guaranteed for `html, body, #root` when this app runs standalone. Same
+     pattern as sidebar/Sidebar.js, which already does exactly this. */
   display: "flex",
-  height: "100vh",
+  height: embedded ? "100%" : "100vh",
   width: embedded ? "100%" : "100vw",
   overflow: "hidden",
   position: embedded ? "relative" : "static",
   [theme.breakpoints.down('md')]: {
     flexDirection: 'column',
-    height: '100vh',
+    height: embedded ? '100%' : '100vh',
   },
 }));
 
-const CHAT_PANEL_WIDTH = 380;
+const CHAT_PANEL_WIDTH = 480;
 
 const FullLayout = ({ onNavigateToHost } = {}) => {
   const theme = useTheme();
@@ -41,7 +60,7 @@ const FullLayout = ({ onNavigateToHost } = {}) => {
 
   const { hasAccess, isLoading, entitlementsLoaded } = useAuth();
 
-  const sidebarWidth = isSidebarOpen ? 270 : 70;
+  const sidebarWidth = isSidebarOpen ? 260 : 70;
   const showChat = isEmbedded && isChatOpen && ChatPanel;
 
   // Load chat panel component on demand (federation mode only)
@@ -124,7 +143,11 @@ const FullLayout = ({ onNavigateToHost } = {}) => {
           display: 'flex',
           flexDirection: 'column',
           width: '100%',
-          height: '100vh',
+          /* 100% embedded — see the note on MainWrapper. This one is the element
+             that actually moved: measured at 1600x900 with the chat panel open,
+             `.page-wrapper` sat at top: 49px against a content box starting at
+             56px, i.e. 7px of it was behind the host bar. */
+          height: isEmbedded ? '100%' : '100vh',
           paddingLeft: lgUp ? sidebarWidth + 'px' : 0,
           transition: 'none',
           backgroundColor: 'transparent',
@@ -155,16 +178,49 @@ const FullLayout = ({ onNavigateToHost } = {}) => {
             display: 'flex',
             gap: showChat ? '10px' : 0,
             width: '100%',
-            height: 'calc(100vh - 70px)',
-            background: theme.palette.brand.gradientBackground,
+            /* `auto` embedded, not another calc.
+
+               This box is already `flex: 1` inside a column flex parent, so the
+               explicit height was only ever a second opinion about a size the
+               flexbox had already worked out — and it was the one measuring the
+               window. Letting flex do it means this tracks whatever the host
+               gives the app, at any bar height, with no number to keep in sync.
+
+               `minHeight: 0` is required with it: a flex item's default
+               `min-height: auto` refuses to shrink below its content, which
+               would reintroduce the overflow this is removing. */
+            height: isEmbedded ? 'auto' : 'calc(100vh - 70px)',
+            minHeight: 0,
+            // Aurora content backdrop — mirrors the METIS host + Saaransh theme
+            // (near-white base washed with indigo/violet/cyan/fuchsia radial
+            // "aurora" blobs over a fine indigo dot grid; deep-navy aurora in
+            // dark mode) so OSINT Analysis reads as one surface with the parent.
+            backgroundColor: theme.palette.mode === 'dark' ? '#0B1220' : '#f8f9fd',
+            backgroundImage: theme.palette.mode === 'dark'
+              ? [
+                  'radial-gradient(ellipse 80% 70% at 2% 20%, rgba(129, 140, 248, 0.14), transparent 60%)',
+                  'radial-gradient(ellipse 70% 60% at 98% 82%, rgba(217, 70, 239, 0.10), transparent 62%)',
+                  'radial-gradient(ellipse 60% 52% at 88% 4%, rgba(34, 211, 238, 0.09), transparent 60%)',
+                  'linear-gradient(135deg, #0B1220 0%, #111827 50%, #0B1220 100%)',
+                ].join(', ')
+              : [
+                  'radial-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1.5px)',
+                  'radial-gradient(ellipse 62% 52% at 88% 4%, rgba(34, 211, 238, 0.12), transparent 60%)',
+                  'radial-gradient(ellipse 74% 64% at 97% 80%, rgba(217, 70, 239, 0.09), transparent 62%)',
+                  'radial-gradient(ellipse 80% 70% at 2% 22%, rgba(129, 140, 248, 0.22), transparent 62%)',
+                  'radial-gradient(ellipse 66% 56% at 42% 68%, rgba(167, 139, 250, 0.10), transparent 60%)',
+                ].join(', '),
+            backgroundSize: theme.palette.mode === 'dark'
+              ? 'auto'
+              : '22px 22px, auto, auto, auto, auto',
             position: 'relative',
             overflow: 'hidden',
             transition: 'gap 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
             [theme.breakpoints.down('md')]: {
-              height: 'calc(100vh - 60px)',
+              height: isEmbedded ? 'auto' : 'calc(100vh - 60px)',
             },
             [theme.breakpoints.down('sm')]: {
-              height: 'calc(100vh - 56px)',
+              height: isEmbedded ? 'auto' : 'calc(100vh - 56px)',
             },
           }}
         >
@@ -226,8 +282,12 @@ const FullLayout = ({ onNavigateToHost } = {}) => {
             alignItems: 'center',
             flexWrap: 'wrap',
             gap: 2,
-            background: `linear-gradient(135deg, ${theme.palette.grey[200]} 0%, ${theme.palette.brand.lightBlue} 100%)`,
-            borderTop: `1px solid ${withOpacity(theme.palette.brand.cyan, 0.1)}`,
+            background: theme.palette.mode === 'dark'
+              ? 'var(--dm-paper)'
+              : `linear-gradient(135deg, ${theme.palette.grey[200]} 0%, ${theme.palette.brand.lightBlue} 100%)`,
+            borderTop: `1px solid ${theme.palette.mode === 'dark'
+              ? 'var(--dm-border)'
+              : withOpacity(theme.palette.brand.cyan, 0.1)}`,
             width: '100%',
             flexShrink: 0,
           }}
@@ -235,7 +295,11 @@ const FullLayout = ({ onNavigateToHost } = {}) => {
           <Typography
             variant="body2"
             sx={{
-              color: withOpacity(theme.palette.brand.deepPurple, 0.7),
+              // `brand.deepPurple` is #c7d2fe — a pale indigo despite the name.
+              // At 70% over this pale footer gradient it composited to #d2dbfb
+              // on #edf0f4: 1.2:1, i.e. invisible. Use the theme's own
+              // secondary ink, which is mode-aware and meant for body copy.
+              color: theme.palette.text.secondary,
               textAlign: 'center',
               fontSize: '0.875rem',
             }}

@@ -22,24 +22,29 @@ const getModeColors = (mode) => {
   return {
     isDark,
     // Background colors
+    // Dark values are the `--dm-*` ladder declared in src/styles/common.css and
+    // shared with the sibling child app sa-web-service. MUI paints surfaces from
+    // here while that stylesheet repaints some of the same elements, so the two
+    // must stay identical — a mismatch shows up as two subtly different greys on
+    // what should be one surface. Change both together.
     background: {
-      body: isDark ? '#0d1117' : primaryPalette[50],
-      paper: isDark ? '#161b22' : colors.white,
-      secondary: isDark ? '#21262d' : primaryPalette[100],
-      elevated: isDark ? '#1c2128' : colors.white,
+      body: isDark ? '#1a1a1e' : primaryPalette[50],      // --dm-bg
+      paper: isDark ? '#232328' : colors.white,           // --dm-paper
+      secondary: isDark ? '#313136' : primaryPalette[100], // --dm-paper-3
+      elevated: isDark ? '#2a2a2f' : colors.white,        // --dm-paper-2
     },
     // Text colors
     text: {
-      primary: isDark ? '#e6edf3' : primaryPalette[900],
-      secondary: isDark ? '#8b949e' : primaryPalette[700],
-      disabled: isDark ? '#484f58' : colors.gray[400],
-      inverse: isDark ? '#0d1117' : colors.white,
+      primary: isDark ? '#ededf0' : primaryPalette[900],   // --dm-text
+      secondary: isDark ? '#a8a8b3' : primaryPalette[700], // --dm-text-3
+      disabled: isDark ? '#6b6b75' : colors.gray[400],     // --dm-text-disabled
+      inverse: isDark ? '#1a1a1e' : colors.white,          // --dm-bg
     },
     // Border colors
     border: {
-      default: isDark ? '#30363d' : primaryPalette[300],
-      light: isDark ? '#21262d' : primaryPalette[200],
-      dark: isDark ? '#484f58' : primaryPalette[400],
+      default: isDark ? 'rgba(255, 255, 255, 0.14)' : primaryPalette[300], // --dm-border-strong
+      light: isDark ? 'rgba(255, 255, 255, 0.08)' : primaryPalette[200],   // --dm-border
+      dark: isDark ? 'rgba(255, 255, 255, 0.22)' : primaryPalette[400],
     },
     // Primary colors (adjusted for mode)
     primary: {
@@ -52,9 +57,9 @@ const getModeColors = (mode) => {
     gradients: isDark ? darkGradients : gradients,
     // Action states
     action: {
-      hover: isDark ? 'rgba(177, 186, 196, 0.12)' : `${primaryPalette[600]}14`,
-      selected: isDark ? 'rgba(177, 186, 196, 0.16)' : `${primaryPalette[600]}1F`,
-      focus: isDark ? 'rgba(177, 186, 196, 0.2)' : `${primaryPalette[600]}29`,
+      hover: isDark ? 'rgba(255, 255, 255, 0.06)' : `${primaryPalette[600]}14`,    // --dm-hover
+      selected: isDark ? 'rgba(255, 255, 255, 0.12)' : `${primaryPalette[600]}1F`, // --dm-selected
+      focus: isDark ? 'rgba(255, 255, 255, 0.16)' : `${primaryPalette[600]}29`,
     },
   };
 };
@@ -203,7 +208,7 @@ export const getComponents = (mode = 'light') => {
         root: {
           background: c.gradients.appBar,
           backdropFilter: tokens.backdropFilter.md,
-          borderBottom: `1px solid ${c.isDark ? '#30363d' : primaryPalette[400] + '33'}`,
+          borderBottom: `1px solid ${c.isDark ? c.border.default : primaryPalette[400] + '33'}`,
           boxShadow: c.isDark
             ? `0 4px 20px rgba(0, 0, 0, 0.4)`
             : `0 4px 20px ${primaryPalette[800]}26`,
@@ -235,7 +240,7 @@ export const getComponents = (mode = 'light') => {
       styleOverrides: {
         paper: {
           background: c.gradients.sidebar,
-          borderRight: `1px solid ${c.isDark ? '#30363d' : primaryPalette[400] + '4D'}`,
+          borderRight: `1px solid ${c.isDark ? c.border.default : primaryPalette[400] + '4D'}`,
           boxShadow: c.isDark
             ? `8px 0 32px rgba(0, 0, 0, 0.5)`
             : `8px 0 32px ${primaryPalette[900]}26`,
@@ -247,7 +252,7 @@ export const getComponents = (mode = 'light') => {
             color: colors.white,
           },
           '& .MuiDivider-root': {
-            borderColor: c.isDark ? '#30363d' : `${primaryPalette[400]}33`,
+            borderColor: c.isDark ? c.border.default : `${primaryPalette[400]}33`,
             margin: '8px 0',
           },
         },
@@ -274,7 +279,7 @@ export const getComponents = (mode = 'light') => {
             width: '3px',
             height: '0px',
             background: c.isDark
-              ? `linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%)`
+              ? `linear-gradient(135deg, #a6a0f0 0%, #b8b3ec 100%)`
               : `linear-gradient(135deg, ${primaryPalette[300]} 0%, #ffffff 100%)`,
             borderRadius: '0 2px 2px 0',
             transition: 'none',
@@ -495,7 +500,7 @@ export const getComponents = (mode = 'light') => {
       styleOverrides: {
         root: {
           background: c.gradients.appBar,
-          borderTop: `1px solid ${c.isDark ? '#30363d' : primaryPalette[400] + '33'}`,
+          borderTop: `1px solid ${c.isDark ? c.border.default : primaryPalette[400] + '33'}`,
           boxShadow: c.isDark
             ? `0 -4px 20px rgba(0, 0, 0, 0.4)`
             : `0 -4px 20px ${primaryPalette[800]}26`,
@@ -652,7 +657,7 @@ export const getComponents = (mode = 'light') => {
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          background: c.isDark ? '#21262d' : primaryPalette[800],
+          background: c.isDark ? c.background.secondary : primaryPalette[800],
           color: colors.white,
           fontSize: '0.75rem',
           borderRadius: tokens.borderRadius.sm,

@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Box, Button, TextField, Autocomplete, Chip,
   MenuItem, Typography, CircularProgress, InputAdornment,
-  IconButton, Tooltip, Grid,
+  IconButton, Tooltip, Grid, useTheme,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -20,36 +20,40 @@ const C = {
   slate:  { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 700: '#334155', 800: '#1E293B', 900: '#0F172A' },
 };
 
-/* ── Input field styling factory ── */
-const fieldSx = (accentLight, accentMain, accentRing) => ({
-  '& .MuiOutlinedInput-root': {
-    borderRadius: '8px',
-    bgcolor: accentLight,
-    fontSize: '0.84rem',
-    transition: 'all 0.2s ease',
-    '& fieldset': { borderColor: 'transparent' },
-    '&:hover': {
-      bgcolor: accentRing,
-      '& fieldset': { borderColor: `${accentMain}40` },
+/* ── Input field styling factory (theme-aware) ── */
+const makeFieldSx = (theme) => (accentLight, accentMain, accentRing) => {
+  const isDark = theme.palette.mode === 'dark';
+  return {
+    '& .MuiOutlinedInput-root': {
+      borderRadius: '8px',
+      bgcolor: isDark ? theme.palette.action.hover : accentLight,
+      color: theme.palette.text.primary,
+      fontSize: '0.84rem',
+      transition: 'all 0.2s ease',
+      '& fieldset': { borderColor: 'transparent' },
+      '&:hover': {
+        bgcolor: isDark ? theme.palette.action.selected : accentRing,
+        '& fieldset': { borderColor: `${accentMain}${isDark ? '70' : '40'}` },
+      },
+      '&.Mui-focused': {
+        bgcolor: isDark ? theme.palette.background.paper : '#fff',
+        boxShadow: `0 0 0 2.5px ${accentMain}${isDark ? '40' : '18'}, 0 1px 3px ${accentMain}12`,
+        '& fieldset': { borderColor: accentMain, borderWidth: 1.5 },
+      },
     },
-    '&.Mui-focused': {
-      bgcolor: '#fff',
-      boxShadow: `0 0 0 2.5px ${accentMain}18, 0 1px 3px ${accentMain}12`,
-      '& fieldset': { borderColor: accentMain, borderWidth: 1.5 },
-    },
-  },
-  '& .MuiInputLabel-root': { fontSize: '0.8rem', fontWeight: 500 },
-});
+    '& .MuiInputLabel-root': { fontSize: '0.8rem', fontWeight: 500 },
+  };
+};
 
 /* ── Field label ── */
-const FieldLabel = ({ icon, label, color }) => (
+const FieldLabel = ({ icon, label, color, theme }) => (
   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.75 }}>
     {React.cloneElement(icon, { sx: { fontSize: 13, color } })}
     <Typography
       variant="caption"
       sx={{
         fontWeight: 700,
-        color: C.slate[600],
+        color: theme ? theme.palette.text.secondary : C.slate[600],
         fontSize: '0.65rem',
         letterSpacing: '0.06em',
         textTransform: 'uppercase',
@@ -83,6 +87,9 @@ export default function EventFilterBar({
   isLoading,
   hasResults = true,
 }) {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
+  const fieldSx = makeFieldSx(theme);
   const activeCount =
     selectedCountries.length +
     selectedCategories.length +
@@ -101,9 +108,11 @@ export default function EventFilterBar({
       sx={{
         borderRadius: '12px',
         overflow: 'hidden',
-        border: `1px solid ${C.indigo[200]}50`,
-        bgcolor: '#fff',
-        boxShadow: `0 1px 3px ${C.indigo[500]}08, 0 4px 20px ${C.blue[500]}06`,
+        border: `1px solid ${isDark ? theme.palette.divider : `${C.indigo[200]}50`}`,
+        bgcolor: theme.palette.background.paper,
+        boxShadow: isDark
+          ? '0 1px 3px rgba(0,0,0,0.4), 0 4px 20px rgba(0,0,0,0.25)'
+          : `0 1px 3px ${C.indigo[500]}08, 0 4px 20px ${C.blue[500]}06`,
         position: 'relative',
         // Subtle left accent bar
         '&::before': {
@@ -124,8 +133,10 @@ export default function EventFilterBar({
           justifyContent: 'space-between',
           px: 2.5,
           py: 1.25,
-          background: `linear-gradient(135deg, ${C.indigo[50]} 0%, ${C.blue[50]} 50%, ${C.cyan[50]} 100%)`,
-          borderBottom: `1px solid ${C.indigo[100]}`,
+          background: isDark
+            ? theme.palette.action.hover
+            : `linear-gradient(135deg, ${C.indigo[50]} 0%, ${C.blue[50]} 50%, ${C.cyan[50]} 100%)`,
+          borderBottom: `1px solid ${theme.palette.divider}`,
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
@@ -139,7 +150,7 @@ export default function EventFilterBar({
           >
             <TuneIcon sx={{ fontSize: 15, color: '#fff' }} />
           </Box>
-          <Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: C.indigo[800], letterSpacing: '-0.01em' }}>
+          <Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: isDark ? theme.palette.text.primary : C.indigo[800], letterSpacing: '-0.01em' }}>
             Filters
           </Typography>
           {activeCount > 0 && (
@@ -167,7 +178,10 @@ export default function EventFilterBar({
                 width: 28, height: 28, borderRadius: '7px',
                 color: C.slate[400],
                 transition: 'all 0.2s ease',
-                '&:hover': { color: '#EF4444', bgcolor: '#FEF2F2' },
+                '&:hover': {
+                  color: isDark ? '#F87171' : '#EF4444',
+                  bgcolor: isDark ? 'rgba(248, 113, 113, 0.14)' : '#FEF2F2',
+                },
               }}
             >
               <ResetIcon sx={{ fontSize: 16 }} />
@@ -182,7 +196,7 @@ export default function EventFilterBar({
 
           {/* ── Country ── */}
           <Grid item xs={12} sm={6} md={3}>
-            <FieldLabel icon={<PublicIcon />} label="Country" color={C.blue[500]} />
+            <FieldLabel icon={<PublicIcon />} label="Country" color={C.blue[500]} theme={theme} />
             <Autocomplete
               multiple
               size="small"
@@ -227,7 +241,7 @@ export default function EventFilterBar({
 
           {/* ── Event Category ── */}
           <Grid item xs={12} sm={6} md={3}>
-            <FieldLabel icon={<CategoryIcon />} label="Event Category" color={C.indigo[500]} />
+            <FieldLabel icon={<CategoryIcon />} label="Event Category" color={C.indigo[500]} theme={theme} />
             <Autocomplete
               multiple
               size="small"
@@ -285,7 +299,7 @@ export default function EventFilterBar({
 
           {/* ── Keyword ── */}
           <Grid item xs={12} sm={6} md={2}>
-            <FieldLabel icon={<SearchIcon />} label="Keyword" color={C.cyan[600]} />
+            <FieldLabel icon={<SearchIcon />} label="Keyword" color={C.cyan[600]} theme={theme} />
             <TextField
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
@@ -305,7 +319,7 @@ export default function EventFilterBar({
 
           {/* ── Date Range ── */}
           <Grid item xs={12} sm={6} md={2}>
-            <FieldLabel icon={<CalendarTodayIcon />} label="Date Range" color={C.blue[500]} />
+            <FieldLabel icon={<CalendarTodayIcon />} label="Date Range" color={C.blue[500]} theme={theme} />
             <TextField
               select
               value={dateFilter}
@@ -334,11 +348,13 @@ export default function EventFilterBar({
                     onClick={handleClearAll}
                     sx={{
                       width: 36, height: 36, borderRadius: '8px',
-                      bgcolor: '#FEF2F2',
-                      color: '#EF4444',
-                      border: '1px solid #FECACA',
+                      // Dark mode: a translucent danger wash instead of the pale
+                      // red-50 fill, which read as a bright chip on the dark bar.
+                      bgcolor: isDark ? 'rgba(248, 113, 113, 0.14)' : '#FEF2F2',
+                      color: isDark ? '#F87171' : '#EF4444',
+                      border: `1px solid ${isDark ? 'rgba(248, 113, 113, 0.35)' : '#FECACA'}`,
                       display: { xs: 'none', md: 'flex' },
-                      '&:hover': { bgcolor: '#FEE2E2' },
+                      '&:hover': { bgcolor: isDark ? 'rgba(248, 113, 113, 0.22)' : '#FEE2E2' },
                     }}
                   >
                     <ResetIcon sx={{ fontSize: 17 }} />
@@ -389,7 +405,7 @@ export default function EventFilterBar({
           {dateFilter === 'custom' && (
             <>
               <Grid item xs={6} sm={3} md={2}>
-                <FieldLabel icon={<CalendarTodayIcon />} label="From" color={C.cyan[600]} />
+                <FieldLabel icon={<CalendarTodayIcon />} label="From" color={C.cyan[600]} theme={theme} />
                 <TextField
                   type="date"
                   value={customFrom}
@@ -401,7 +417,7 @@ export default function EventFilterBar({
                 />
               </Grid>
               <Grid item xs={6} sm={3} md={2}>
-                <FieldLabel icon={<CalendarTodayIcon />} label="To" color={C.cyan[600]} />
+                <FieldLabel icon={<CalendarTodayIcon />} label="To" color={C.cyan[600]} theme={theme} />
                 <TextField
                   type="date"
                   value={customTo}
