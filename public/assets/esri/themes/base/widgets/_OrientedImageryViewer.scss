@@ -87,21 +87,21 @@
       height: 100%;
 
       &-current-coverage {
-        --calcite-ui-icon-color: var(--calcite-color-status-danger);
+        --calcite-icon-color: var(--calcite-color-status-danger);
       }
 
       &-additional {
         &-camera-locations {
-          --calcite-ui-icon-color: var(--calcite-color-brand);
+          --calcite-icon-color: var(--calcite-color-brand);
         }
 
         &-coverage {
-          --calcite-ui-icon-color: var(--calcite-color-status-info);
+          --calcite-icon-color: var(--calcite-color-status-info);
         }
       }
 
       &-footprint {
-        --calcite-ui-icon-color: var(--calcite-color-status-success);
+        --calcite-icon-color: var(--calcite-color-status-success);
       }
     }
 

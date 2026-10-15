@@ -16,7 +16,7 @@ const HostAuthProvider = ({ hostProps, children }) => {
     user: hostProps.user
       ? {
           username: hostProps.user.username,
-          userid: hostProps.user.username,
+          userid: hostProps.user.userid || hostProps.user.userId,
           email: hostProps.user.email,
           roles: hostProps.user.roles || [],
         }

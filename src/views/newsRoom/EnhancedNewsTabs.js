@@ -68,6 +68,8 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     // Initialize tab countries state
     const [tabCountries, setTabCountries] = useState(getInitialTabCountries);
 
+    const toggleSidebar = () => setSidebarCollapsed(prev => !prev);
+
     // Read initial state from location.state (or use defaults)
     const getInitialTab = () => {
         const stateTab = location.state?.returnTab;
@@ -117,6 +119,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     const [lastUpdatedData, setLastUpdatedData] = useState({ last_updated_date: '', last_updated_list: [] });
     const [countryListAnchor, setCountryListAnchor] = useState(null);
     const [countrySearchQuery, setCountrySearchQuery] = useState('');
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
     const itemsPerPage = 10;
 
     const parseImageUrl = (image_url) => {
@@ -226,7 +229,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
             setLastUpdatedData(dataLastUpdated);
         };
         fetchLastUpdated();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentCountry, pageSize]);
 
     const totalPages = Math.ceil(articles.length / itemsPerPage);
@@ -355,6 +358,8 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
         return 'low';
     };
 
+    const isCountryListOpen = Boolean(countryListAnchor);
+
     let content;
     if (loading) {
         content = (
@@ -375,34 +380,48 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
         );
     } else if (currentArticles.length > 0) {
         content = (
-            <Box sx={{ p: 2 }}>
+            <Box sx={{ p: 1 }}>
                 {/* Enhanced Stats Header */}
                 <Box
                     sx={{
-                        mb: 2.5,
-                        p: 2,
+                        mb: 1,
+                        p: 1,
                         background: theme.palette.action.hover,
                         borderRadius: '12px',
                         border: `1px solid ${theme.palette.divider}`,
                     }}
                 >
-                    {/* First Row - Title and Last Updated */}
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                color: theme.palette.text.primary,
-                                fontWeight: 700,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1,
-                                fontSize: '1.15rem',
-                            }}
-                        >
-                            📰 News and Analysis
-                        </Typography>
-
-               
+                    {/* First Row - Title, Last 3 months, and Last Updated in same row */}
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', mb: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                            {/* Last 3 months pill */}
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 0.75,
+                                    px: 1.5,
+                                    py: 0.5,
+                                    borderRadius: '20px',
+                                    background: isDark
+                                        ? `linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(139,92,246,0.08) 100%)`
+                                        : `linear-gradient(135deg, ${theme.palette.primary[50]} 0%, ${theme.palette.primary[100]} 100%)`,
+                                    border: `1px solid ${isDark ? 'rgba(139,92,246,0.2)' : theme.palette.primary[200]}`,
+                                }}
+                            >
+                                <AccessTimeIcon sx={{ fontSize: '0.75rem', color: isDark ? '#a78bfa' : theme.palette.primary[600] }} />
+                                <Typography
+                                    sx={{
+                                        fontSize: '0.7rem',
+                                        color: isDark ? '#c4b5fd' : theme.palette.primary[800],
+                                        fontWeight: 500,
+                                        whiteSpace: 'nowrap',
+                                    }}
+                                >
+                                    Displaying News from last 3 months. For older articles, please use global search.
+                                </Typography>
+                            </Box>
+                        </Box>
                     </Box>
 
                     {/* Second Row - Chips and Info text in one row */}
@@ -645,6 +664,62 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                     {/* Tags and Meta Info */}
                                     <Box>
 
+                                        {/* Source Badge - between summary and footer */}
+                                        {article.data_source && (
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 1,
+                                                    mb: 1.5,
+                                                    px: 1.5,
+                                                    py: 0.6,
+                                                    borderRadius: '8px',
+                                                    background: withOpacity(theme.palette.warning?.main || '#ed6c02', 0.06),
+                                                    border: `1px solid ${withOpacity(theme.palette.warning?.main || '#ed6c02', 0.15)}`,
+                                                    width: 'fit-content',
+                                                }}
+                                            >
+                                                <Box
+                                                    component="span"
+                                                    sx={{
+                                                        fontSize: '0.65rem',
+                                                        fontWeight: 700,
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '0.8px',
+                                                        color: theme.palette.text.secondary,
+                                                        opacity: 0.7,
+                                                    }}
+                                                >
+                                                    Source:
+                                                </Box>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 0.5,
+                                                    }}
+                                                >
+                                                    <LanguageIcon
+                                                        sx={{
+                                                            fontSize: '0.85rem',
+                                                            color: theme.palette.warning?.main || '#ed6c02',
+                                                        }}
+                                                    />
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            fontWeight: 700,
+                                                            fontSize: '0.78rem',
+                                                            color: theme.palette.warning?.main || '#ed6c02',
+                                                        }}
+                                                    >
+                                                        {article.data_source}
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+                                        )}
+
                                         {/* Footer - Classification and Date in one row */}
                                         <Box
                                             sx={{
@@ -712,7 +787,6 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                     })}
                 </Box>
 
-                {/* Pagination after content */}
                 {/* Pagination after content */}
                 {totalPages > 1 && (
                     <Box
@@ -842,17 +916,6 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
         );
     }
 
-    const handleCountryListOpen = (event) => {
-        setCountryListAnchor(event.currentTarget);
-    };
-
-    const handleCountryListClose = () => {
-        setCountryListAnchor(null);
-        setCountrySearchQuery('');
-    };
-
-    const isCountryListOpen = Boolean(countryListAnchor);
-
     return (
         <Box sx={{ position: 'relative' }}>
             {/* Last Updated Note - Top Right */}
@@ -861,7 +924,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                     display: 'flex',
                     justifyContent: 'flex-end',
                     mb: 1,
-                    mt: 1,
+                    mt: 0,
                 }}
             >
                 <Box
@@ -869,7 +932,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1,
-                        px: 2,
+                        px: 1,
                         py: 1,
                         borderRadius: '12px',
                         background: theme.palette.action.hover,
@@ -902,7 +965,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                     </Typography>
                     <Tooltip title="View country-wise last updated dates" arrow>
                         <Box
-                            onClick={handleCountryListOpen}
+                            onClick={(e) => setCountryListAnchor(e.currentTarget)}
                             sx={{
                                 display: 'flex',
                                 alignItems: 'center',
@@ -921,7 +984,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                             <InfoOutlinedIcon
                                 sx={{
                                     fontSize: '1.1rem',
-                                    color: isCountryListOpen ? theme.palette.primary.contrastText : theme.palette.primary.main,
+                                    color: isCountryListOpen ? '#fff' : theme.palette.primary.main,
                                 }}
                             />
                         </Box>
@@ -933,7 +996,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
             <Popover
                 open={isCountryListOpen}
                 anchorEl={countryListAnchor}
-                onClose={handleCountryListClose}
+                onClose={() => { setCountryListAnchor(null); setCountrySearchQuery(''); }}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'right',
@@ -1033,76 +1096,76 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                         {(lastUpdatedData?.last_updated_list || [])
                             .filter(item => item.country.toLowerCase().includes(countrySearchQuery.toLowerCase()))
                             .map((item, index, filteredArray) => (
-                            <Box
-                                key={item.country}
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    px: 1,
-                                    py: 1,
-                                    borderBottom: index < filteredArray.length - 1
-                                        ? `1px solid ${theme.palette.divider}`
-                                        : 'none',
-                                    transition: 'all 0.2s ease',
-                                    '&:hover': {
-                                        background: theme.palette.action.hover,
-                                    },
-                                }}
-                            >
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                                    <Box
+                                <Box
+                                    key={item.country}
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        px: 1,
+                                        py: 1,
+                                        borderBottom: index < filteredArray.length - 1
+                                            ? `1px solid ${theme.palette.divider}`
+                                            : 'none',
+                                        transition: 'all 0.2s ease',
+                                        '&:hover': {
+                                            background: theme.palette.action.hover,
+                                        },
+                                    }}
+                                >
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                        <Box
+                                            sx={{
+                                                width: 8,
+                                                height: 8,
+                                                borderRadius: '50%',
+                                                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                                            }}
+                                        />
+                                        <Typography
+                                            sx={{
+                                                fontSize: '0.9rem',
+                                                fontWeight: 600,
+                                                color: 'rgb(30, 30, 149)',
+                                            }}
+                                        >
+                                            {item.country}
+                                        </Typography>
+                                    </Box>
+                                    <Chip
+                                        size="small"
+                                        label={new Date(item.last_modified_date).toLocaleDateString('en-US', {
+                                            month: 'short',
+                                            day: 'numeric',
+                                            year: 'numeric',
+                                        })}
                                         sx={{
-                                            width: 8,
-                                            height: 8,
-                                            borderRadius: '50%',
-                                            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                                            background: theme.palette.action.selected,
+                                            color: theme.palette.text.primary,
+                                            fontWeight: 600,
+                                            fontSize: '0.75rem',
+                                            height: 24,
                                         }}
                                     />
-                                    <Typography
-                                        sx={{
-                                            fontSize: '0.9rem',
-                                            fontWeight: 600,
-                                            color: theme.palette.text.primary,
-                                        }}
-                                    >
-                                        {item.country}
-                                    </Typography>
                                 </Box>
-                                <Chip
-                                    size="small"
-                                    label={new Date(item.last_modified_date).toLocaleDateString('en-US', {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        year: 'numeric',
-                                    })}
-                                    sx={{
-                                        background: theme.palette.action.selected,
-                                        color: theme.palette.text.primary,
-                                        fontWeight: 600,
-                                        fontSize: '0.75rem',
-                                        height: 24,
-                                    }}
-                                />
-                            </Box>
-                        ))}
+                            ))}
                         {/* No Results Message */}
                         {countrySearchQuery && (lastUpdatedData?.last_updated_list || []).filter(item =>
                             item.country.toLowerCase().includes(countrySearchQuery.toLowerCase())
                         ).length === 0 && (
-                            <Box sx={{
-                                py: 3,
-                                px: 2,
-                                textAlign: 'center',
-                            }}>
-                                <Typography sx={{
-                                    color: theme.palette.text.secondary,
-                                    fontSize: '0.85rem',
+                                <Box sx={{
+                                    py: 3,
+                                    px: 2,
+                                    textAlign: 'center',
                                 }}>
-                                    No countries found for "{countrySearchQuery}"
-                                </Typography>
-                            </Box>
-                        )}
+                                    <Typography sx={{
+                                        color: theme.palette.text.secondary,
+                                        fontSize: '0.85rem',
+                                    }}>
+                                        No countries found for "{countrySearchQuery}"
+                                    </Typography>
+                                </Box>
+                            )}
                     </Box>
                 </Box>
             </Popover>
@@ -1114,11 +1177,11 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                 gap: 2,
                 background: 'transparent',
             }}>
-                {/* Enhanced Sidebar - Conditionally rendered based on SHOW_INSIGHTS_SIDEBAR flag */}
+                {/* Enhanced Sidebar - Conditionally rendered based on SHOW_INSIGHTS_SIDEBAR flag, with collapsible toggle */}
                 {SHOW_INSIGHTS_SIDEBAR && <Paper
                     elevation={0}
                     sx={{
-                        width: 260,
+                        width: sidebarCollapsed ? 52 : 260,
                         height: 'calc(100vh - 150px)',
                         background: theme.palette.background.paper,
                         border: `1px solid ${theme.palette.divider}`,
@@ -1128,288 +1191,385 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                         display: 'flex',
                         flexDirection: 'column',
                         boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                        transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     }}
                 >
-                    {/* Enhanced Search Header */}
+                    {/* Collapse Toggle Button */}
                     <Box
+                        onClick={toggleSidebar}
                         sx={{
-                            p: 2,
-                            // Light mode keeps the solid brand band. In dark mode a
-                            // saturated indigo slab sits far brighter than anything
-                            // around it, so use the raised rung of the `--dm-*`
-                            // ladder with a faint accent cast — the same treatment
-                            // the profile menu header uses.
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: 48,
+                            cursor: 'pointer',
                             background: isDark
                                 ? 'linear-gradient(145deg, #33323C 0%, #3A3444 100%)'
-                                : theme.palette.primary.main,
-                            borderBottom: `1px solid ${theme.palette.divider}`,
+                                : theme.palette.primary.other,
+                            borderBottom: sidebarCollapsed ? 'none' : `1px solid ${theme.palette.divider}`,
+                            transition: 'all 0.2s ease',
+                            '&:hover': {
+                                filter: 'brightness(1.1)',
+                            },
                         }}
+                        title={sidebarCollapsed ? 'Expand country list' : 'Collapse country list'}
                     >
-                        <Box sx={{ position: 'relative', zIndex: 1 }}>
-                            <TextField
-                                size="small"
-                                fullWidth
-                                placeholder="Search for any country..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                variant="outlined"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SearchIcon sx={{
-                                                color: theme.palette.secondary.main,
-                                                fontSize: 20
-                                            }} />
-                                        </InputAdornment>
-                                    ),
-                                    sx: {
-                                        color: theme.palette.text.primary,
-                                        fontSize: '0.9rem',
-                                        fontWeight: 500,
-                                        height: '44px',
-                                        '& .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: `${theme.palette.primary.light}40`,
-                                            borderWidth: '1px',
-                                        },
-                                        '&:hover .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: `${theme.palette.primary.light}80`,
-                                            borderWidth: '1px',
-                                        },
-                                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: theme.palette.primary.main,
-                                            borderWidth: '2px',
-                                        },
-                                    },
-                                }}
-                                sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '10px',
-                                        backgroundColor: theme.palette.background.paper,
-                                        transition: 'all 0.2s ease',
-                                        '&:hover': {
-                                            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                                        },
-                                        '&.Mui-focused': {
-                                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                                        }
-                                    },
-                                    '& .MuiOutlinedInput-input': {
-                                        '&::placeholder': {
-                                            color: theme.palette.text.secondary,
-                                            opacity: 0.8,
-                                            fontWeight: 500,
-                                        }
-                                    },
-                                }}
-                            />
+                        <Box
+                            sx={{
+                                transform: sidebarCollapsed ? 'rotate(0deg)' : 'rotate(180deg)',
+                                transition: 'transform 0.3s ease',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={theme.palette.primary.contrastText} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="13 17 8 12 13 7" />
+                                <polyline points="18 17 13 12 18 7" />
+                            </svg>
                         </Box>
                     </Box>
 
-                    {/* Countries List */}
+                    {/* Active Country Indicator — visible when sidebar is collapsed */}
+                    {sidebarCollapsed && tabCountries[selectedTab] && (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                py: 2,
+                                px: 0.5,
+                                background: isDark
+                                    ? 'linear-gradient(180deg, rgba(139,92,246,0.08) 0%, transparent 100%)'
+                                    : 'linear-gradient(180deg, rgba(64,58,151,0.06) 0%, transparent 100%)',
+                                position: 'relative',
+                            }}
+                        >
+                            <Tooltip title={tabCountries[selectedTab].label} arrow placement="right">
+                                <Box
+                                    sx={{
+                                        width: 36,
+                                        height: 36,
+                                        borderRadius: '12px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '1.3rem',
+                                        cursor: 'pointer',
+                                        background: `linear-gradient(135deg, ${theme.palette.primary.light}25 0%, ${theme.palette.primary.main}15 100%)`,
+                                        border: `2px solid ${theme.palette.primary.light}50`,
+                                        boxShadow: `0 0 16px ${theme.palette.primary.main}30`,
+                                        transition: 'all 0.2s ease',
+                                        '&:hover': {
+                                            transform: 'scale(1.1)',
+                                            boxShadow: `0 0 24px ${theme.palette.primary.main}50`,
+                                        },
+                                    }}
+                                    onClick={toggleSidebar}
+                                >
+                                    {tabCountries[selectedTab].label.split(' ')[0]}
+                                </Box>
+                            </Tooltip>
+                            <Box
+                                sx={{
+                                    mt: 1.5,
+                                    width: 4,
+                                    height: 4,
+                                    borderRadius: '50%',
+                                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                                    boxShadow: `0 0 8px ${theme.palette.primary.main}60`,
+                                    animation: 'pulse 2s infinite',
+                                }}
+                            />
+                        </Box>
+                    )}
+
+                    {/* Collapsible Content */}
                     <Box sx={{
                         flex: 1,
-                        overflow: 'auto',
-                        p: 1,
-                        position: 'relative',
-                        zIndex: 1,
-                        scrollBehavior: 'smooth',
-                        '&::-webkit-scrollbar': {
-                            width: '6px',
-                        },
-                        '&::-webkit-scrollbar-track': {
-                            background: `${theme.palette.primary.light}15`,
-                            borderRadius: theme.custom.tokens.borderRadius.sm,
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                            background: `linear-gradient(135deg,
-                            ${theme.palette.primary.main} 0%,
-                            ${theme.palette.primary.dark} 100%)`,
-                            borderRadius: theme.custom.tokens.borderRadius.sm,
-                            border: `1px solid ${theme.palette.primary.light}30`,
-                        },
-                        '&::-webkit-scrollbar-thumb:hover': {
-                            background: `linear-gradient(135deg,
-                            ${theme.palette.primary.dark} 0%,
-                            ${theme.palette.primary.main} 100%)`,
-                        },
+                        display: 'flex',
+                        flexDirection: 'column',
+                        overflow: sidebarCollapsed ? 'hidden' : 'visible',
+                        width: sidebarCollapsed ? 0 : 260,
+                        transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     }}>
-                        {regionsData.map((region) => {
-                            const visibleCountries = region.countries.filter(c =>
-                                c.label.toLowerCase().includes(search.toLowerCase()) ||
-                                c.value.toLowerCase().includes(search.toLowerCase())
-                            );
-
-                            if (visibleCountries.length === 0) return null;
-
-                            const defaultExpanded = region.countries.some(country => tabCountries.some(c => c.value === country.value));
-                            return (
-                                <Accordion
-                                    key={`${region.region}-${search.trim() ? 'search' : 'normal'}`}
-
-                                    defaultExpanded={search.trim() || defaultExpanded}
-
-                                    elevation={0}
-                                    sx={{
-                                        mb: 2,
-                                        border: `1px solid ${theme.palette.primary.light}25`,
-                                        borderRadius: `${theme.custom.tokens.borderRadius.card}px !important`,
-                                        background: `linear-gradient(135deg,
-                                        ${theme.palette.background.paper}80 0%,
-                                        ${theme.palette.background.default}60 100%)`,
-                                        backdropFilter: 'blur(10px)',
-                                        WebkitBackdropFilter: 'blur(10px)',
-                                        transition: theme.custom.tokens.transitions.default,
-                                        '&:before': {
-                                            display: 'none',
+                        {/* Enhanced Search Header */}
+                        <Box
+                            sx={{
+                                p: 2,
+                                background: isDark
+                                    ? 'linear-gradient(145deg, #33323C 0%, #3A3444 100%)'
+                                    : theme.palette.primary.other,
+                                borderBottom: `1px solid ${theme.palette.divider}`,
+                            }}
+                        >
+                            <Box sx={{ position: 'relative', zIndex: 1 }}>
+                                <TextField
+                                    size="small"
+                                    fullWidth
+                                    placeholder="Search for any country..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    variant="outlined"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SearchIcon sx={{
+                                                    color: theme.palette.secondary.main,
+                                                    fontSize: 20
+                                                }} />
+                                            </InputAdornment>
+                                        ),
+                                        sx: {
+                                            color: theme.palette.text.primary,
+                                            fontSize: '0.9rem',
+                                            fontWeight: 500,
+                                            height: '44px',
+                                            '& .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: `${theme.palette.primary.light}40`,
+                                                borderWidth: '1px',
+                                            },
+                                            '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: `${theme.palette.primary.light}80`,
+                                                borderWidth: '1px',
+                                            },
+                                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: theme.palette.primary.main,
+                                                borderWidth: '2px',
+                                            },
                                         },
-                                        '&.Mui-expanded': {
-                                            margin: '0 0 16px 0',
-                                            boxShadow: `0 8px 24px ${theme.palette.primary.main}15`,
-                                            border: `1px solid ${theme.palette.primary.light}40`,
-                                            transform: 'translateY(-2px)',
-                                        },
-                                        '&:hover': {
-                                            boxShadow: `0 6px 20px ${theme.palette.primary.main}10`,
-                                            border: `1px solid ${theme.palette.primary.light}35`,
-                                        }
                                     }}
-                                >
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon sx={{
-                                            color: theme.palette.primary.main,
-                                            fontSize: 20
-                                        }} />}
-                                        sx={{
-                                            minHeight: 48,
-                                            background: theme.palette.action.hover,
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px',
+                                            backgroundColor: theme.palette.background.paper,
                                             transition: 'all 0.2s ease',
                                             '&:hover': {
-                                                background: theme.palette.action.selected,
+                                                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                                             },
-                                            '& .MuiAccordionSummary-content': {
-                                                margin: '10px 0',
-                                                alignItems: 'center',
+                                            '&.Mui-focused': {
+                                                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                                            }
+                                        },
+                                        '& .MuiOutlinedInput-input': {
+                                            '&::placeholder': {
+                                                color: theme.palette.text.secondary,
+                                                opacity: 0.8,
+                                                fontWeight: 500,
+                                            }
+                                        },
+                                    }}
+                                />
+                            </Box>
+                        </Box>
+
+                        {/* Countries List */}
+                        <Box sx={{
+                            flex: 1,
+                            overflow: 'auto',
+                            p: 1,
+                            position: 'relative',
+                            zIndex: 1,
+                            scrollBehavior: 'smooth',
+                            '&::-webkit-scrollbar': {
+                                width: '6px',
+                            },
+                            '&::-webkit-scrollbar-track': {
+                                background: `${theme.palette.primary.light}15`,
+                                borderRadius: theme.custom.tokens.borderRadius.sm,
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                background: `linear-gradient(135deg,
+                                ${theme.palette.primary.main} 0%,
+                                ${theme.palette.primary.dark} 100%)`,
+                                borderRadius: theme.custom.tokens.borderRadius.sm,
+                                border: `1px solid ${theme.palette.primary.light}30`,
+                            },
+                            '&::-webkit-scrollbar-thumb:hover': {
+                                background: `linear-gradient(135deg,
+                                ${theme.palette.primary.dark} 0%,
+                                ${theme.palette.primary.main} 100%)`,
+                            },
+                        }}>
+                            {regionsData.map((region) => {
+                                const visibleCountries = region.countries.filter(c =>
+                                    c.label.toLowerCase().includes(search.toLowerCase()) ||
+                                    c.value.toLowerCase().includes(search.toLowerCase())
+                                );
+
+                                if (visibleCountries.length === 0) return null;
+
+                                const defaultExpanded = region.countries.some(country => tabCountries.some(c => c.value === country.value));
+                                return (
+                                    <Accordion
+                                        key={`${region.region}-${search.trim() ? 'search' : 'normal'}`}
+
+                                        defaultExpanded={search.trim() || defaultExpanded}
+
+                                        elevation={0}
+                                        sx={{
+                                            mb: 2,
+                                            border: `1px solid ${theme.palette.primary.light}25`,
+                                            borderRadius: `${theme.custom.tokens.borderRadius.card}px !important`,
+                                            background: `linear-gradient(135deg,
+                                            ${theme.palette.background.paper}80 0%,
+                                            ${theme.palette.background.default}60 100%)`,
+                                            backdropFilter: 'blur(10px)',
+                                            WebkitBackdropFilter: 'blur(10px)',
+                                            transition: theme.custom.tokens.transitions.default,
+                                            '&:before': {
+                                                display: 'none',
                                             },
+                                            '&.Mui-expanded': {
+                                                margin: '0 0 16px 0',
+                                                boxShadow: `0 8px 24px ${theme.palette.primary.main}15`,
+                                                border: `1px solid ${theme.palette.primary.light}40`,
+                                                transform: 'translateY(-2px)',
+                                            },
+                                            '&:hover': {
+                                                boxShadow: `0 6px 20px ${theme.palette.primary.main}10`,
+                                                border: `1px solid ${theme.palette.primary.light}35`,
+                                            }
                                         }}
                                     >
-                                        <Typography
-                                            variant="subtitle2"
-                                            sx={{
-                                                fontWeight: 600,
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon sx={{
                                                 color: theme.palette.primary.main,
-                                                fontSize: '0.85rem',
-                                                textTransform: 'uppercase',
-                                                letterSpacing: '0.5px',
+                                                fontSize: 20
+                                            }} />}
+                                            sx={{
+                                                minHeight: 44,
+                                                background: theme.palette.action.hover,
+                                                transition: 'all 0.2s ease',
+                                                '&:hover': {
+                                                    background: theme.palette.action.selected,
+                                                },
+                                                '& .MuiAccordionSummary-content': {
+                                                    margin: '10px 0',
+                                                    alignItems: 'center',
+                                                },
                                             }}
                                         >
-                                            {region.region}
-                                        </Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                        sx={{
-                                            pt: 0,
-                                            pb: 2,
-                                            px: 2,
-                                            mt:1,
-                                        }}
-                                    >
-                                        {/* Countries Cards */}
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                            {visibleCountries.map((country) => {
-                                                const selected = tabCountries.some(c => c.value === country.value);
-                                                return (
-                                                    <Box
-                                                        key={country.value}
-                                                        onClick={() => handleCountrySelect(country)}
-                                                        sx={{
-                                                            p: 1,
-                                                            
-                                                            cursor: 'pointer',
-                                                            borderRadius: theme.custom.tokens.borderRadius.sm,
-                                                            background: selected
-                                                                ? `linear-gradient(135deg,
-                                                                ${theme.palette.primary.light}15 0%,
-                                                                ${theme.palette.primary.main}08 100%)`
-                                                                : 'transparent',
-                                                            border: selected
-                                                                ? `1px solid ${theme.palette.primary.light}40`
-                                                                : '1px solid transparent',
-                                                            transition: theme.custom.tokens.transitions.default,
-                                                            position: 'relative',
-                                                            overflow: 'hidden',
-                                                            '&::before': selected ? {
-                                                                content: '""',
-                                                                position: 'absolute',
-                                                                left: 0,
-                                                                top: 0,
-                                                                bottom: 0,
-                                                                width: '3px',
-                                                                background: `linear-gradient(135deg,
-                                                                ${theme.palette.primary.main} 0%,
-                                                                ${theme.palette.secondary.main} 100%)`,
-                                                                borderRadius: '0 12px 12px 0'
-                                                            } : {},
-                                                            '&:hover': {
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    color: 'rgba(5, 5, 141, 1)',
+                                                    fontSize: '0.85rem',
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '0.5px',
+                                                }}
+                                            >
+                                                {region.region}
+                                            </Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails
+                                            sx={{
+                                                pt: 0,
+                                                pb: 2,
+                                                px: 2,
+                                                mt: 1,
+                                            }}
+                                        >
+                                            {/* Countries Cards */}
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                                                {visibleCountries.map((country) => {
+                                                    const selected = tabCountries.some(c => c.value === country.value);
+                                                    return (
+                                                        <Box
+                                                            key={country.value}
+                                                            onClick={() => handleCountrySelect(country)}
+                                                            sx={{
+                                                                p: 1,
+
+                                                                cursor: 'pointer',
+                                                                borderRadius: theme.custom.tokens.borderRadius.sm,
                                                                 background: selected
                                                                     ? `linear-gradient(135deg,
-                                                                    ${theme.palette.primary.light}20 0%,
-                                                                    ${theme.palette.primary.main}12 100%)`
-                                                                    : `linear-gradient(135deg,
-                                                                    ${theme.palette.primary.light}10 0%,
-                                                                    ${theme.palette.primary.main}05 100%)`,
-                                                                transform: 'translateX(4px)',
-                                                                borderColor: `${theme.palette.primary.light}25`,
-                                                                boxShadow: `0 4px 12px ${theme.palette.primary.main}08`,
-                                                            },
-                                                        }}
-                                                    >
-                                                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                                            <Typography
-                                                                variant="body2"
-                                                                sx={{
-                                                                    fontSize: '0.9rem',
-                                                                    fontWeight: selected ? 700 : 500,
-                                                                    color: selected
-                                                                        ? theme.palette.primary.main
-                                                                        : theme.palette.text.primary,
-                                                                    transition: 'all 0.2s ease',
-                                                                }}
-                                                            >
-                                                                {country.label}
-                                                            </Typography>
-                                                            {selected && (
-                                                                <Box
+                                                                    ${theme.palette.primary.light}15 0%,
+                                                                    ${theme.palette.primary.main}08 100%)`
+                                                                    : 'transparent',
+                                                                border: selected
+                                                                    ? `1px solid ${theme.palette.primary.light}40`
+                                                                    : '1px solid transparent',
+                                                                transition: theme.custom.tokens.transitions.default,
+                                                                position: 'relative',
+                                                                overflow: 'hidden',
+                                                                '&::before': selected ? {
+                                                                    content: '""',
+                                                                    position: 'absolute',
+                                                                    left: 0,
+                                                                    top: 0,
+                                                                    bottom: 0,
+                                                                    width: '3px',
+                                                                    background: `linear-gradient(135deg,
+                                                                    ${theme.palette.primary.main} 0%,
+                                                                    ${theme.palette.secondary.main} 100%)`,
+                                                                    borderRadius: '0 12px 12px 0'
+                                                                } : {},
+                                                                '&:hover': {
+                                                                    background: selected
+                                                                        ? `linear-gradient(135deg,
+                                                                        ${theme.palette.primary.light}20 0%,
+                                                                        ${theme.palette.primary.main}12 100%)`
+                                                                        : `linear-gradient(135deg,
+                                                                        ${theme.palette.primary.light}10 0%,
+                                                                        ${theme.palette.primary.main}05 100%)`,
+                                                                    transform: 'translateX(4px)',
+                                                                    borderColor: `${theme.palette.primary.light}25`,
+                                                                    boxShadow: `0 4px 12px ${theme.palette.primary.main}08`,
+                                                                },
+                                                            }}
+                                                        >
+                                                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                                <Typography
+                                                                    variant="body2"
                                                                     sx={{
-                                                                        width: 8,
-                                                                        height: 8,
-                                                                        borderRadius: '50%',
-                                                                        background: `linear-gradient(135deg,
-                                                                        ${theme.palette.primary.main} 0%,
-                                                                        ${theme.palette.secondary.main} 100%)`,
-                                                                        boxShadow: `0 2px 8px ${theme.palette.primary.main}50`,
-                                                                        animation: 'pulse 2s infinite',
-                                                                        '@keyframes pulse': {
-                                                                            '0%, 100%': {
-                                                                                transform: 'scale(1)',
-                                                                                opacity: 1
-                                                                            },
-                                                                            '50%': {
-                                                                                transform: 'scale(1.2)',
-                                                                                opacity: 0.8
-                                                                            }
-                                                                        }
+                                                                        fontSize: '0.9rem',
+                                                                        fontWeight: selected ? 700 : 500,
+                                                                        color: selected
+                                                                            ? theme.palette.primary.main
+                                                                            : 'rgb(30, 30, 149)',
+                                                                        transition: 'all 0.2s ease',
                                                                     }}
-                                                                />
-                                                            )}
+                                                                >
+                                                                    {country.label}
+                                                                </Typography>
+                                                                {selected && (
+                                                                    <Box
+                                                                        sx={{
+                                                                            width: 8,
+                                                                            height: 8,
+                                                                            borderRadius: '50%',
+                                                                            background: `linear-gradient(135deg,
+                                                                            ${theme.palette.primary.main} 0%,
+                                                                            ${theme.palette.secondary.main} 100%)`,
+                                                                            boxShadow: `0 2px 8px ${theme.palette.primary.main}50`,
+                                                                            animation: 'pulse 2s infinite',
+                                                                            '@keyframes pulse': {
+                                                                                '0%, 100%': {
+                                                                                    transform: 'scale(1)',
+                                                                                    opacity: 1
+                                                                                },
+                                                                                '50%': {
+                                                                                    transform: 'scale(1.2)',
+                                                                                    opacity: 0.8
+                                                                                }
+                                                                            }
+                                                                        }}
+                                                                    />
+                                                                )}
+                                                            </Box>
                                                         </Box>
-                                                    </Box>
-                                                );
-                                            })}
-                                        </Box>
-                                    </AccordionDetails>
-                                </Accordion>
-                            );
-                        })}
+                                                    );
+                                                })}
+                                            </Box>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                );
+                            })}
+                        </Box>
                     </Box>
                 </Paper>}
 
@@ -1452,17 +1612,17 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                 }
                             }}
                             sx={{
-                                minHeight: 60,
+                                minHeight: 48,
                                 '& .MuiTabs-flexContainer': {
                                     gap: 0.5,
                                 },
                                 '& .MuiTab-root': {
                                     textTransform: 'none',
                                     fontWeight: 600,  // Increased from 500 to 600 for better visibility
-                                    fontSize: '1rem',  // Increased from 0.95rem to 1rem
+                                    fontSize: '0.9rem',  // Increased from 0.95rem to 1rem
                                     color: theme.palette.text.primary,  // Darker color (from [700] to [900]) for better visibility
-                                    minHeight: 58,
-                                    px: 2.5,
+                                    minHeight: 44,
+                                    px: 2,
                                     borderRadius: '12px 12px 0 0',
                                     position: 'relative',
                                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -1495,7 +1655,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
                                 '& .Mui-selected': {
                                     color: theme.palette.primary.main,  // Dark purple text for visibility
                                     fontWeight: 700,  // Extra bold for better readability
-                                    fontSize: '1.05rem',  // Slightly larger for selected state
+                                    fontSize: '0.95rem',  // Slightly larger for selected state
                                     background: theme.palette.action.selected,
                                     border: `2px solid ${theme.palette.primary.main}`,  // Dark border for emphasis
                                     borderBottom: 'none',

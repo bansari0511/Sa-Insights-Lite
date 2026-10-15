@@ -352,7 +352,8 @@ export const palette = {
   mode: 'light',
 
   primary: {
-    main: colors.indigo[600],
+    other : '#403a97',
+    main: colors.indigo[700],
     light: colors.indigo[400],
     dark: colors.indigo[800],
     contrastText: colors.white,

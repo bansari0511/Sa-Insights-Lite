@@ -11,7 +11,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { EmbeddedProvider } from './context/EmbeddedContext';
 import './styles/common.css';
 import esriConfig from "@arcgis/core/config.js";
-import { setArcgisAssetPath as setMapAssetPath } from "@arcgis/map-components/dist/components";
+import '@arcgis/core/assets/esri/themes/light/main.css';
+
 import logger from './utils/errorLogger';
 
 // =============================================================================
@@ -44,9 +45,7 @@ logger.info('Application starting', {
 });
 
 // Configure ArcGIS asset paths properly
-const basePath = './';
-setMapAssetPath(`${basePath}assets`);
-esriConfig.assetsPath = `${basePath}assets`;
+esriConfig.assetsPath = `${import.meta.env.BASE_URL}assets`;
 
 // Additional ArcGIS configuration to prevent issues
 esriConfig.request.httpsDomains = ["*"];
@@ -62,7 +61,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <EmbeddedProvider embedded={false}>
         <ErrorProvider>
           <Suspense fallback={<div>Loading...</div>}>
-            <BrowserRouter>
+            <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
               <AuthProvider>
                 <RequestContextProvider>
                   <App />

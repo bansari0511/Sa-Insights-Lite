@@ -60,6 +60,11 @@ export const API_ENDPOINTS = {
     LAST_UPDATED: urlsMap.lastUpdated,
   },
 
+  NOVA: {
+    QUERY: urlsMap.queryService,
+    // STORE: urlsMap.newsDetails,
+  },
+
   // ---------------------------------------------------------------------------
   // SEARCH ENDPOINTS (full URLs from env)
   // ---------------------------------------------------------------------------

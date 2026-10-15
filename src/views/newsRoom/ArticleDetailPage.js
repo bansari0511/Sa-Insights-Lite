@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { withOpacity } from '../../theme/palette';
 import {
-  Box, Typography, CircularProgress, IconButton, Card, Divider, useTheme, Modal, Tabs, Tab
+  Box, Typography, CircularProgress, IconButton, Card, Divider, useTheme, Modal, Tabs, Tab, Button
 } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
 import InfoIcon from '@mui/icons-material/Info';
 import PreviewIcon from '@mui/icons-material/Preview';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
@@ -26,7 +28,9 @@ import { dataService } from '../../services/dataService';
 import urlsMap from '../../services/urlsMap';
 import PageContainer from 'src/components/container/PageContainer';
 import 'src/assets/css/ArticleDetailPage.css';
+import { height, width } from '@mui/system';
 
+const assetsBaseUrl = urlsMap.assetsService || '';
 // Fetch news details using unified dataService
 const fetchNewsDetails = async (userId, reqId, docId) => {
   try {
@@ -71,7 +75,9 @@ const hasEntityHoverPreview = (entityType) => {
     type.includes('event') ||
     type.includes('attack') ||
     type.includes('action') ||
-    type.includes('installation');
+    type.includes('installation') ||
+    type.includes('nonstategroup') ||
+    type.includes('nsag');
 };
 
 // Escape HTML attribute values to prevent breaking HTML structure
@@ -187,6 +193,7 @@ const renderHighlightedContent = (htmlString, highlights = [], entities = []) =>
 
 function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showRelatedInfo, setShowRelatedInfo] = useState(true);
@@ -411,24 +418,31 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
     }
     // For absolute URLs on LAN: replace the origin with the local assets server
     if (url.startsWith('http://') || url.startsWith('https://')) {
-      if (assetsBaseUrl) {
-        try {
-          const parsed = new URL(url);
-          const localOrigin = new URL(assetsBaseUrl);
-          // If the URL points to a different server than our assets server, rewrite it
-          if (parsed.origin !== localOrigin.origin && parsed.origin !== window.location.origin) {
-            return `${assetsBaseUrl}${parsed.pathname}${parsed.search}${parsed.hash}`;
-          }
-        } catch { /* invalid URL, fall through */ }
-      }
       return url;
     }
-    // Relative URL: use assets service if configured, otherwise Vite base URL
-    if (assetsBaseUrl) {
-      return `${assetsBaseUrl}${url.startsWith('/') ? url : '/' + url}`;
+    let cleanUrl = url;
+    if (cleanUrl.startsWith('/saaransh/')) {
+      cleanUrl = cleanUrl.replace('/saaransh/', '/')
+    } else if (cleanUrl.startsWith('saaransh/')) {
+      cleanUrl = cleanUrl.replace('saaransh/', '/')
     }
-    const baseUrl = import.meta.env.BASE_URL || '/';
-    return `${baseUrl}${url.startsWith('/') ? url.slice(1) : url}`;
+    console.log("cleanUrl", cleanUrl)
+    if (!cleanUrl.startsWith('/')) {
+      cleanUrl == `/${cleanUrl}`;
+    }
+    // For local assets, prepend the base URL (handles /saaransh/ prefix)
+    // Remove leading slash from url if base already ends with /    // const cleanUrl = url.startsWith('/') ? url.slice(1) : url;
+
+    return cleanUrl;
+  };
+
+  // Helper to extract metadata from URL
+  const extractMetadataFromUrl = (url) => {
+    const filename = url?.split('/').pop() || '';
+    const extension = filename.split('.').pop()?.toLowerCase() || '';
+    const nameWithoutExt = filename.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+    const title = nameWithoutExt.charAt(0).toUpperCase() + nameWithoutExt.slice(1);
+    return { filename, extension, title };
   };
 
   // Extract file extension from URL path: "http://x.com/path/file.xlsx?q=1" → "xlsx"
@@ -536,11 +550,71 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
     return () => window.removeEventListener('keydown', blockKeys, true);
   }, [mediaModalOpen, selectedMedia?.type]);
 
+  // Helper function to normalize asset data (handles multiple formats)
+  const normalizeAsset = (asset, type, index) => {
+    if (assetsBaseUrl && asset) {
+      asset = asset.replaceAll("/Intara_Image_Asset_new", assetsBaseUrl);
+    }
+
+    // Format 1: Full object with all fields - return as-is
+    if (typeof asset === 'object' && asset) {
+      return asset;
+    }
+    // Format 2: Partial object (has url but missing some fields) - fill in missing data
+    if (typeof asset === 'object' && asset) {
+
+      const { extension, title } = extractMetadataFromUrl(asset);
+      return {
+        id: asset.id || `${type}-${index}`,
+        title: '',
+        url: asset,
+        extension: asset.extension || extension,
+        // Type-specific fields with fallbacks
+        ...(type === 'video' && { duration: asset.duration || '' }),
+        ...(type === 'audio' && { duration: asset.duration || '' }),
+        ...(type === 'document' && {
+          size: asset.size || '',
+          pages: asset.pages ?? null
+        }),
+      };
+    }
+
+    // Format 3: URL string only - extract all metadata from URL
+    if (typeof asset === 'string') {
+      const url = asset;
+      const { extension, title } = extractMetadataFromUrl(url);
+      return {
+        id: `${type}-${index}`,
+        title: title,
+        url: url,
+        extension: extension,
+        // Default values for type-specific fields
+        ...(type === 'video' && { duration: '' }),
+        ...(type === 'audio' && { duration: '' }),
+        ...(type === 'document' && { size: '', pages: null }),
+      };
+    }
+
+    return null;
+  };
+
+  const normalizedAssets = article?.assets ? {
+    videos: (article.assets.video_assets || [])
+      .map((v, i) => normalizeAsset(v, 'video', i))
+      .filter(Boolean),
+    audios: (article.assets.audio__assets || [])
+      .map((a, i) => normalizeAsset(a, 'audio', i))
+      .filter(Boolean),
+    documents: (article.assets.document_assets || article.assets.analytical_assets || [])
+      .map((d, i) => normalizeAsset(d, 'document', i))
+      .filter(Boolean),
+  } : { videos: [], audios: [], documents: [] };
+
   // Check if assets exist
   const hasAssets = article?.assets && (
-    (article.assets.videos && article.assets.videos.length > 0) ||
-    (article.assets.audios && article.assets.audios.length > 0) ||
-    (article.assets.documents && article.assets.documents.length > 0)
+    (normalizedAssets.videos && normalizedAssets.videos.length > 0) ||
+    (normalizedAssets.audios && normalizedAssets.audios.length > 0) ||
+    (normalizedAssets.documents && normalizedAssets.documents.length > 0)
   );
 
   if (loading) {
@@ -615,9 +689,36 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
       <Box
         sx={{
           minHeight: 'calc(100vh - 64px)',
-          background: theme.palette.background.default,
+          // background: theme.palette.background.default,
         }}
       >
+        {/* Back button — outside main article card, above sidebar; visible only from News Analysis / Intelligence Briefings */}
+        {title && (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
+            <Button
+              variant="outlined"
+              startIcon={<ArrowBackIcon />}
+              onClick={() => navigate(-1)}
+              size="small"
+              sx={{
+                fontWeight: 600,
+                fontSize: '0.8rem',
+                textTransform: 'none',
+                borderRadius: '8px',
+                backgroundColor: 'aliceblue',
+                borderColor: theme.palette.divider,
+                color: theme.palette.text.secondary,
+                '&:hover': {
+                  borderColor: theme.palette.primary.main,
+                  color: theme.palette.primary.main,
+                  backgroundColor: withOpacity(theme.palette.primary.main, 0.05),
+                },
+              }}
+            >
+              Back
+            </Button>
+          </Box>
+        )}
         <Box
           sx={{
             display: 'flex',
@@ -987,9 +1088,9 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                     )}
 
                     {/* Audio Tab */}
-                    {mediaTab === 1 && article.assets.audios?.length > 0 && (
+                    {mediaTab === 1 && normalizedAssets.audios?.length > 0 && (
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
-                        {article.assets.audios.map((item) => {
+                        {normalizedAssets.audios.map((item) => {
                           const colors = getMediaTypeColor('audio');
                           return (
                             <Box key={item.id} onClick={() => handleMediaClick(item, 'audio')}
@@ -1010,9 +1111,9 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                     )}
 
                     {/* Documents Tab */}
-                    {mediaTab === 2 && article.assets.documents?.length > 0 && (
+                    {mediaTab === 2 && normalizedAssets.documents?.length > 0 && (
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
-                        {article.assets.documents.map((item) => {
+                        {normalizedAssets.documents.map((item) => {
                           const colors = getMediaTypeColor('document');
                           const viewable = isViewableDoc(item.extension);
                           return (
@@ -1287,7 +1388,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                         mb: 1.2,
                         borderRadius: '8px',
                         overflow: 'hidden',
-                        backgroundColor: theme.palette.background.paper,
+                        // backgroundColor: theme.palette.background.paper,
                         boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
                         border: `1px solid ${theme.palette.divider}`,
                         '&:last-child': { mb: 0 },
@@ -1514,7 +1615,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
                     backgroundColor: '#000',
                   }}
                 >
-                  <source src={selectedMedia.resolvedUrl} {...(getMimeType('video', selectedMedia.extension) ? { type: getMimeType('video', selectedMedia.extension) } : {})} />
+                  <source src={selectedMedia.resolvedUrl} type={`video/${selectedMedia.extension}`} />
                   Your browser does not support the video tag.
                 </video>
               </Box>

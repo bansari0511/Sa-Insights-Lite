@@ -20,7 +20,7 @@ function NewsRoomHeader({
   return (
     <Box
       sx={{
-        mb: 1.2,
+        mb: 1.1,
         pb: 1,
         position: 'relative',
         '&::after': {
@@ -93,7 +93,7 @@ function NewsRoomHeader({
           }}>
             <NewspaperIcon
               sx={{
-                fontSize: 20,
+                fontSize: 18,
                 color: 'white',
               }}
             />

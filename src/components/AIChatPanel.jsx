@@ -10,41 +10,40 @@
  * is `<username>-<timestamp>` — stable for the session, unique per user.
  */
 
-import { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { useAuth } from '../context/AuthContext';
-import { getDummySearchResult } from '../data/dummyChatPanelData';
 import './AIChatPanel.css';
 
-// Code-split: react-markdown + remark-gfm only download when the chat opens.
-const MarkdownMessage = lazy(() => import('./MarkdownMessage'));
-
-// TEMP: bypass the live /osintsearch/query endpoint and render dummy data instead.
-// Flip to false (or remove this branch) to restore the real API call.
-const USE_DUMMY_CHAT_DATA = true;
-
-const SEARCH_API_URL = import.meta.env.VITE_AI_CHAT_API_URL || '/osintsearch/query';
-const STORE_API_URL = import.meta.env.VITE_CHAT_STORE_API_URL || '';
+const SEARCH_API_URL = import.meta.env.DEV_OSINT_SEARCH_API_TARGET || '/osintsearch/query';
+const STORE_API_URL = import.meta.env.DEV_FILEUTILS_API_TARGET || '/fileutils/chat/store';
 
 function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
 
-function makeConversationId(username) {
-  return `${username || 'anonymous'}-${Date.now()}`;
+function makeConversationId(userId) {
+  return `${userId || 'anonymous'}-${Date.now()}`;
 }
 
 // Fire-and-forget POST to the chat store. No-ops if the store URL is not set.
-function saveToStore(conversationId, input, output) {
+function saveToStore(conversationId, userId, input, output, username) {
   if (!STORE_API_URL || !conversationId) return;
-  console.log("STORE_API_URL",STORE_API_URL)
-  fetch(STORE_API_URL, {
+  const storebody = {
+    conversationId,
+    message: { input, output },
+    userId: userId,
+    username: username,
+  }
+  console.log("storebody", storebody)
+
+  fetch(`${STORE_API_URL}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      conversationId,
-      message: { input, output },
-    }),
-  }).catch(() => {});
+    body: JSON.stringify(storebody),
+  }).catch(() => { });
+
 }
 
 function fmtDate(d) {
@@ -56,6 +55,21 @@ function getDateRange90() {
   past.setDate(now.getDate() - 90);
   return { from_date: fmtDate(past), to_date: fmtDate(now) };
 }
+
+const MD_COMPONENTS = {
+  table: (props) => (
+    <div className="ai-md-table-wrap">
+      <table className="ai-md-table" {...props} />
+    </div>
+  ),
+  code: ({ inline, className, children, ...props }) =>
+    inline ? (
+      <code className="ai-ic" {...props}>{children}</code>
+    ) : (
+      <pre className="ai-code"><code className={className} {...props}>{children}</code></pre>
+    ),
+  a: (props) => <a target="_blank" rel="noreferrer noopener" {...props} />,
+};
 
 function timeLabel(ts) {
   const s = Math.floor((Date.now() - ts) / 1000);
@@ -70,8 +84,9 @@ function timeLabel(ts) {
 const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
   const { user } = useAuth();
   const username = user?.username || null;
+  const userId = user?.userId || user?.userid;
 
-  const [conversationId, setConversationId] = useState(() => makeConversationId(username));
+  const [conversationId, setConversationId] = useState(() => makeConversationId(userId));
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +94,12 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
   const inputRef = useRef(null);
   const abortRef = useRef(null);
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, isLoading]);
+  useEffect(() => {
+    if (bottomRef.current) {
+      const parent = bottomRef.current.parentElement;
+      if (parent) parent.scrollTop = parent.scrollHeight;
+    }
+  }, [messages, isLoading]);
   useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 400); }, [open]);
   useEffect(() => () => abortRef.current?.abort(), []);
 
@@ -89,11 +109,11 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
 
   const startNewChat = useCallback(() => {
     abortRef.current?.abort();
-    setConversationId(makeConversationId(username));
+    setConversationId(makeConversationId(userId));
     setMessages([]);
     setInput('');
     setIsLoading(false);
-  }, [username]);
+  }, [userId]);
 
   // Clear chat on page refresh / bfcache restore / app-switch unmount.
   // `pageshow` catches bfcache back-forward restores (some browsers preserve
@@ -105,7 +125,7 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
       setMessages([]);
       setInput('');
       setIsLoading(false);
-      setConversationId(makeConversationId(username));
+      setConversationId(makeConversationId(userId));
     };
     window.addEventListener('pageshow', reset);
     window.addEventListener('beforeunload', reset);
@@ -114,7 +134,7 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
       window.removeEventListener('beforeunload', reset);
       reset();
     };
-  }, [username]);
+  }, [userId]);
 
   const submit = useCallback(async (queryOverride) => {
     const query = (queryOverride || input).trim();
@@ -128,26 +148,29 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
     const { from_date, to_date } = getDateRange90();
     const body = {
       query, from_date, to_date,
-      geoSelection: '', sources: ['OSINT'], point: '', polygon: '',
+      sources: ['OSINT'], point: [], polygon: [],
     };
+    if (user?.userid) body.userId = user.userId || user?.userid;
+    if (user?.username) body.username = user.username;
+    if (conversationId) {
+      body.sessionId = conversationId;
+    }
 
     abortRef.current = new AbortController();
     try {
-      // 1. Run the OSINT search (or load dummy data while the API is offline).
-      let data;
-      if (USE_DUMMY_CHAT_DATA) {
-        data = await getDummySearchResult(query);
-        if (abortRef.current?.signal.aborted) return;
-      } else {
-        const res = await fetch(`${SEARCH_API_URL}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-          signal: abortRef.current.signal,
-        });
-        if (!res.ok) throw new Error(`Server error (${res.status})`);
-        data = await res.json();
-      }
+      // 1. Run the OSINT search.
+      const res = await fetch(`${SEARCH_API_URL}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: abortRef.current.signal,
+      });
+      if (!res.ok) throw new Error(`Server error (${res.status})`);
+      const data = await res.json();
+
+      // const res = { "query": "what is the range and speed of x-100 alpha and p-200 delta in table form", "result": "Based on the Product Information table for Mirach 100/X and P.64B Oscar 200:\n\n| Spec | Mirach 100/X Alpha | P.64B Oscar 200 Delta |\n|------|---------------------|------------------------|\n| Range | 1,200 km | 850 km |\n| Speed | 950 knots | 1,100 knots |\n| Payload | 500 kg | 650 kg |\n| Crew | 1 | 2 |\n\nThe Mirach 100/X Alpha has a range of 1,200 km and speed of 950 knots. The P.64B Oscar 200 Delta has a range of 850 km and speed of 1,100 knots. The Mirach 100/X Alpha offers greater range while the P.64B Oscar 200 Delta is faster and carries a heavier payload.", "geo_coordinates": [], "entity_relationships": {}, "chart_viz": null, "image_results": [{ "document_id": "https://asset.ntronet.org/image/28ab62aKeCGpa4YrrVL8QY", "image_id": "28ab62aKeCGpa4YrrVL8QY", "caption": "Range table showing capability of the AR3 MLRS, which can fire rockets with a minimum range of 20 km out to a maximum range of 220 km.", "score": 0.6619, "image_url": "/Intara_Image_Asset_new/images/28ab62aKeCGpa4YrrVL8QY.jpg", "reranker_score": 0.6619 }, { "document_id": "https://asset.ntronet.org/image/7ggCFD2ZqrZ4ypQBhcRiGu", "image_id": "7ggCFD2ZqrZ4ypQBhcRiGu", "caption": "SPEED-ER Extended Long Range Day & Night Stabilized Surveillance System.", "score": 0.6338, "image_url": "/Intara_Image_Asset_new/images/7ggCFD2ZqrZ4ypQBhcRiGu.jpg", "reranker_score": 0.6338 }, { "document_id": "https://asset.ntronet.org/image/4E0YMDPdcCUIyZ8FPZW8Jo", "image_id": "4E0YMDPdcCUIyZ8FPZW8Jo", "caption": "According to Hanwha Aerospace, its I-MPUGV has a claimed maximum speed of 40 km/h on road and 20 km/h off road.", "score": 0.6278, "image_url": "/Intara_Image_Asset_new/images/4E0YMDPdcCUIyZ8FPZW8Jo.jpg", "reranker_score": 0.6278 }], "sources": [{ "category": "title", "total": 8, "items": [{ "document_id": "https://text.ntronet.org/profile/000d8LTE89ukoXYUOnL4fP", "title": "Spectra", "publish_date": "2026-03-30", "rrf_score": 0.0426, "sources": ["content", "titles"] }, { "document_id": "https://text.ntronet.org/profile/000hafzT6u4ioUlBfWAwEc", "title": "BETAB-250 (BETAB)", "publish_date": "2026-02-12", "rrf_score": 0.0497, "sources": ["content", "titles"] }, { "document_id": "https://text.ntronet.org/news/0008jaBL9V0dMqqxvQZrac", "title": "Ultra I&C’s Maxam Tactical undergoing SECAN cryptographic device approval", "publish_date": "2026-02-13", "rrf_score": 0.0291, "sources": ["content", "titles"] }] }, { "category": "content", "total": 5, "items": [{ "document_id": "https://text.ntronet.org/profile/0ddcQnb91oXjUegkHo8Nch", "title": "", "publish_date": "2026-04-01", "rrf_score": 0.0241, "sources": ["content"] }, { "document_id": "https://text.ntronet.org/profile/000aebAk2cMYnMDM3mzWKE", "title": "", "publish_date": "2026-03-17", "rrf_score": 0.032, "sources": ["content"] }, { "document_id": "https://text.ntronet.org/analysis/000gdclAe0DCZaICdq28NK", "title": "", "publish_date": "2026-03-03", "rrf_score": 0.0263, "sources": ["content"] }] }], "suggested_questions": null };
+      // const data = res;
+
 
       // 2. Show the answer.
       const assistantMsg = {
@@ -155,13 +178,19 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
         role: 'assistant',
         content: data.result || 'No results found.',
         sources: data.dataResults?.length || 0,
-        suggested: data.suggestedQuestions || data.suggested_questions || [],
+        suggested: data.suggested_questions || [],
         ts: Date.now(),
       };
       setMessages(prev => [...prev, assistantMsg]);
 
       // 3. Persist the Q&A pair (input = query, output = full search response).
-      saveToStore(conversationId, query, data);
+      // 3. Persist the Q&A pair (input = query, output = full search response).
+      console.log("conversationId", conversationId)
+      const input = {
+        query
+      }
+      saveToStore(conversationId, userId, input, data, username);
+      // saveToStore(conversationId, query, data);
     } catch (err) {
       if (err.name === 'AbortError') return;
       setMessages(prev => [...prev, {
@@ -188,11 +217,11 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
           <div className="ai-hdr-orb-inner" />
         </div>
         <div className="ai-hdr-info">
-          <span className="ai-hdr-name">Nova</span>
-          <span className="ai-hdr-status">
+          <span className="ai-hdr-name"> OSINT Assistant</span>
+          {/* <span className="ai-hdr-status">
             <span className="ai-hdr-dot" />
             OSINT Assistant
-          </span>
+          </span> */}
         </div>
         <div className="ai-hdr-actions">
           {hasChat && (
@@ -230,14 +259,14 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
                   stroke="url(#aiWG)" strokeWidth="1.4" strokeLinecap="round" opacity="0.5"/>
               </svg>
             </div>
-            <h3 className="ai-welcome-title">Hi{user?.username ? `, ${user.username}` : ''}!</h3>
-            <p className="ai-welcome-sub">I can help you explore <strong>news, threats, events</strong> and intelligence from the last 90 days.</p>
+            <h3 className="ai-welcome-title">Hello!</h3>
+            <p className="ai-welcome-sub">Unlock the narrative behind the news. <strong>Watch NOVA transform OSINT News and Events into conversational intelligence</strong>.</p>
 
             <div className="ai-starters">
               {[
-                { icon: '\u{1F30D}', text: 'Summarize key geopolitical events' },
-                { icon: '\u{1F512}', text: 'Latest cybersecurity threats' },
-                { icon: '\u{1F4CA}', text: 'Weekly intelligence briefing' },
+                { icon: '🌍', text: 'Summarize key geo-political events from recent news in China' },
+                { icon: '🔒', text: 'Provide a summary about missile related activties in Pakistan.' },
+                { icon: '📊', text: 'Compare between J-10C and F-35' },
               ].map(s => (
                 <button key={s.text} className="ai-starter" onClick={() => submit(s.text)}>
                   <span className="ai-starter-icon">{s.icon}</span>
@@ -283,9 +312,9 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
                 <div className="ai-msg-err">{m.error}</div>
               ) : (
                 <div className="ai-msg-text ai-md">
-                  <Suspense fallback={<div className="ai-md-fallback">{m.content}</div>}>
-                    <MarkdownMessage>{m.content}</MarkdownMessage>
-                  </Suspense>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={MD_COMPONENTS}>
+                    {m.content || ''}
+                  </ReactMarkdown>
                 </div>
               )}
               <div className="ai-msg-foot">
@@ -365,3 +394,4 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
 };
 
 export default AIChatPanel;
+

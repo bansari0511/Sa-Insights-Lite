@@ -11,6 +11,7 @@
     "build": "NODE_OPTIONS=--max-old-space-size=8192 vite build --emptyOutDir",
     "build:local": "vite build --mode localhost --emptyOutDir",
     "build:development": " NODE_OPTIONS=--max-old-space-size=8192 vite build --mode development --emptyOutDir",
+    "build:pilot": " NODE_OPTIONS=--max-old-space-size=8192 vite build --mode pilot --emptyOutDir",
     "build:production": " NODE_OPTIONS=--max-old-space-size=8192 vite build --mode production --emptyOutDir",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",

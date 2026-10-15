@@ -17,8 +17,14 @@ const DEMO_USER = {
   roles: ['user'],
 };
 
-// API Configuration from environment variables
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+
+// API Configuration from environment variables
+
+
+const API_USERS_BASE_URL = import.meta.env.VITE_API_USERS_BASE_URL || '';
+const APP_ENTITLEMENT_KEY = import.meta.env.VITE_APP_ENTITLEMENT_KEY || 'assets';
 
 // API endpoint paths
 const API_ENDPOINTS = {
@@ -26,7 +32,7 @@ const API_ENDPOINTS = {
   logout: import.meta.env.VITE_API_LOGOUT_ENDPOINT || '/api/auth/logout',
   refresh: import.meta.env.VITE_API_REFRESH_ENDPOINT || '/api/auth/refresh',
   authInfo: import.meta.env.VITE_API_AUTH_INFO_ENDPOINT || '/api/secure/info',
-  entitlements: import.meta.env.VITE_API_ENTITLEMENTS_ENDPOINT || '/api/entitlements',
+  entitlements: import.meta.env.VITE_API_ENTITLEMENT_ENDPOINT || '/users/api/users/authorization/getEntitlementsByUserId',
 };
 
 /**
@@ -228,10 +234,10 @@ export const authService = {
    * @param {string} username - User's username
    * @returns {Promise<Array<{appid: string, appname: string, status: string}>>}
    */
-  async fetchEntitlements(userid, username) {
+  async fetchEntitlements(userId, username) {
     if (DEMO_MODE) {
       return [
-        { appid: import.meta.env.VITE_CURRENT_APP_ID || 'sa-insights', appname: import.meta.env.VITE_CURRENT_APP_NAME || 'news', status: 'has_access' },
+        { appid: import.meta.env.VITE_CURRENT_APP_ID || '3', appName: import.meta.env.VITE_CURRENT_APP_NAME || 'news', status: 'has_access' },
       ];
     }
 
@@ -240,24 +246,32 @@ export const authService = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ userid, username }),
+        body: JSON.stringify({ userId, username }),
       });
 
       if (!response.ok) {
+        console.log("${response.status}", response.status)
         console.error(`[authService] Entitlement check failed: ${response.status}`);
         return [];
       }
 
       const text = await response.text();
       if (!text) return [];
-
       const result = JSON.parse(text);
-      return result?.data || [];
+      const entitlements = (result?.data ?? []).map(e => ({
+        ...e,
+        appName: e.appName?.toLowerCase(),
+        status: e.status?.toLowerCase(),
+      }));
+      return entitlements;
+
+      // return result?.data || [];
     } catch (error) {
       console.error('[authService] Entitlement fetch error:', error);
       return [];
     }
   },
+
 
   /**
    * Get demo user (for demo mode)
@@ -280,6 +294,7 @@ export const authService = {
         logout: `${API_BASE_URL}${API_ENDPOINTS.logout}`,
         refresh: `${API_BASE_URL}${API_ENDPOINTS.refresh}`,
         authInfo: `${API_BASE_URL}${API_ENDPOINTS.authInfo}`,
+        entitlements: `${API_BASE_URL}${API_ENDPOINTS.authInfo}`,
       },
     };
   },

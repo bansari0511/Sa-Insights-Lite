@@ -13,6 +13,7 @@ const LinkStyled = styled(Link)(() => ({
 const Logo = () => {
   const basePath = useBasePath();
 
+
   return (
     <LinkStyled
       to={basePath || "/"}
@@ -30,8 +31,8 @@ const Logo = () => {
           px: 3,
           py: 1.5,
           borderRadius: "10px",
-          background: "linear-gradient(135deg, #4f46e5 0%, #3b82f6 50%, #0891b2 100%)",
-          boxShadow: "0 4px 14px rgba(79, 70, 229, 0.3)",
+          background: "linear-gradient(135deg, #161874 0%, #312e81 50%, #4c1d95 100%)",
+          boxShadow: "0 4px 14px rgba(22, 24, 116, 0.3)",
         }}
       >
         <Typography

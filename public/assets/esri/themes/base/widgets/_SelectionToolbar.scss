@@ -17,6 +17,12 @@
       margin-inline: var(--calcite-spacing-xxs);
       line-height: initial;
     }
+
+    calcite-dropdown {
+      calcite-icon {
+        margin-inline-start: var(--calcite-spacing-xxs);
+      }
+    }
   }
 
   .esri-selection-toolbar__container {

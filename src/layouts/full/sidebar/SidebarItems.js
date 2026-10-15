@@ -48,7 +48,7 @@ const SidebarItems = ({ isCollapsed = false }) => {
   return (
     <Box
       sx={{
-        px: isCollapsed ? 0.5 : 1.5,
+        px: isCollapsed ? 0.5 : 1,
         py: 0.5,
       }}
     >

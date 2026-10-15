@@ -12,42 +12,8 @@ import federation from '@originjs/vite-plugin-federation';
  *
  * The federation plugin references CSS as "style-xxx.css" (without assets/ prefix)
  * but Vite outputs it to dist/assets/. This plugin copies the CSS to dist/ root
- * so it's accessible at both paths.
- */
-function copyFederationCss() {
-  return {
-    name: 'copy-federation-css',
-    apply: 'build',
-    closeBundle: async () => {
-      const distDir = resolve(__dirname, 'dist');
-      const assetsDir = join(distDir, 'assets');
-      try {
-        const files = await fs.readdir(assetsDir);
-        for (const file of files) {
-          if (file.startsWith('style') && file.endsWith('.css')) {
-            await fs.copyFile(join(assetsDir, file), join(distDir, file));
-            console.log(`[copy-federation-css] Copied ${file} to dist root`);
-          }
-        }
-      } catch (err) {
-        console.warn('[copy-federation-css] Warning:', err.message);
-      }
-    },
-  };
-}
-
-/**
- * Vite plugin: Federation React Shim
- *
- * Ensures ALL react, react-dom, and jsx-runtime imports resolve through
- * the federation `importShared` function.  Without this, CJS dependencies
- * (MUI, Emotion, Popper, etc.) bundle a SEPARATE React copy via Rollup's
- * commonjs conversion — its hooks dispatcher is different from the host's
- * shared React, causing "f.H is null" in federation mode.
- *
- * Shimmed:  react, react-dom, react/jsx-runtime, react/jsx-dev-runtime
- * NOT shimmed:  react-dom/client (causes circular fallback in standalone),
- *               react-router, react-router-dom (federation handles them)
+ * so it's accessible at both paths. .
+ * 
  */
 function federationReactShim() {
   const SHIM_PREFIX = '\0federation-react-shim:';
@@ -134,6 +100,28 @@ function federationReactShim() {
   };
 }
 
+function copyFederationCss() {
+  return {
+    name: 'copy-federation-css',
+    apply: 'build',
+    closeBundle: async () => {
+      const distDir = resolve(__dirname, 'dist');
+      const assetsDir = join(distDir, 'assets');
+      try {
+        const files = await fs.readdir(assetsDir);
+        for (const file of files) {
+          if (file.startsWith('style') && file.endsWith('.css')) {
+            await fs.copyFile(join(assetsDir, file), join(distDir, file));
+            console.log(`[copy-federation-css] Copied ${file} to dist root`);
+          }
+        }
+      } catch (err) {
+        console.warn('[copy-federation-css] Warning:', err.message);
+      }
+    },
+  };
+}
+
 // Vite plugin: CORS proxy for fetching cross-origin files (xlsx, docx from assets server)
 // Usage: fetch('/sa-insights/cors-proxy?url=' + encodeURIComponent('http://172.18.111.11/file.xlsx'))
 function corsProxyPlugin() {
@@ -172,18 +160,21 @@ function corsProxyPlugin() {
 }
 
 export default defineConfig(({ mode, command }) => {
+
   const env = loadEnv(mode, process.cwd(), '');
+  const basePath = env.VITE_FEDERATION_BASE_URL || '/';
+  // if (command !== 'build') {
+  //   basePath = './';
+  // } else if (mode === 'pilot' || mode === 'production') {
+  //   basePath = env.VITE_FEDERATION_BASE_URL || '/news/';
+  // } else {
+  //   const port = env.VITE_DEV_SERVER_PORT || '9398';
+  //   const host = env.VITE_DEV_SERVER_HOST || 'localhost';
+  //   basePath = `http://${host === '0.0.0.0' ? 'localhost' : host}:${port}/`;
+  // }
 
-  // MUST use '/' as base for federation to work correctly.
-  // - './' causes the federation plugin to generate chunk paths with 'assets/' prefix
-  //   (e.g., ./assets/__federation_expose_App.js) which double up as assets/assets/...
-  //   since remoteEntry.js is already inside dist/assets/.
-  // - '/news/' causes the federation name to be prepended as a directory prefix.
-  // - '/' generates correct sibling references (./__federation_expose_App.js) and
-  //   correct CSS base URL construction, matching the working ontology app pattern.
-  // Works for: standalone dev, federation via host, LAN/production behind nginx.
-  const basePath = '/';
-
+  console.log("basePath", basePath)
+  console.log("env.VITE_DEV_SERVER_PORT ", env.VITE_DEV_SERVER_PORT)
   return {
     envPrefix: ['REACT_APP_', 'VITE_'],
     resolve: {
@@ -204,12 +195,20 @@ export default defineConfig(({ mode, command }) => {
     },
     build: {
       sourcemap: false,
-      minify: 'esbuild',
+      minify: mode === 'development' ? false : 'esbuild',
       target: 'esnext',
       modulePreload: false,
       cssCodeSplit: false,
       chunkSizeWarningLimit: 1000,
       reportCompressedSize: true,
+      manualChunks: {
+        // React core
+        'vendor-react': ['react', 'react-dom'],
+        // Charts
+        'vendor-charts': ['chart.js', 'react-chartjs-2'],
+        // Markdown rendering
+        'vendor-markdown': ['react-markdown', 'remark-gfm'],
+      },
       rollupOptions: {
         external: [],
       },
@@ -218,7 +217,7 @@ export default defineConfig(({ mode, command }) => {
       },
     },
     optimizeDeps: {
-      exclude: ['@arcgis/core', '@arcgis/map-components'],
+      exclude: ['@arcgis/core', '@arcgis/map-components', 'devlop', 'dequal'],
       include: [
         '@emotion/react',
         '@emotion/styled',
@@ -267,7 +266,12 @@ export default defineConfig(({ mode, command }) => {
         exposes: {
           './App': './src/SAInsightsRoot.jsx',
         },
-        shared: ['react', 'react-dom', 'react-router', 'react-router-dom'],
+        shared: {
+          'react': { singleton: true, requiredVersion: false },
+          'react-dom': { singleton: true, requiredVersion: false },
+          'react-router': { singleton: true, requiredVersion: false },
+          'react-router-dom': { singleton: true, requiredVersion: false },
+        },
       }),
       copyFederationCss(),
       // Bundle analyzer - generates stats.html after build
@@ -300,6 +304,32 @@ export default defineConfig(({ mode, command }) => {
           '**/Thumbs.db'
         ]
       }
+    },
+    proxy: {
+      // User Management Service (test-user-management via Tyk: /users)
+      '/osintsearch': {
+        target: env.DEV_OSINT_SEARCH_API_TARGET || 'http://localhost:8000',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/osintsearch/, ''),
+      },
+      '/fileutils': {
+        target: env.DEV_FILEUTILS_API_TARGET || 'http://localhost:8000',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/fileutils/, ''),
+      },
+     '/users': {
+               target: env.DEV_PROXY_TARGET || 'http://localhost:8080',
+               changeOrigin: true,
+               secure: false,
+             },
+     '/api': {
+       target: env.DEV_PROXY_TARGET || 'http://localhost:8080',
+       changeOrigin: true,
+       secure: false,
+       rewrite: (path) => `${env.DEV_PROXY_AUTH_PATH_REWRITE || '/auth'}${path}`,
+     },
     },
     preview: {
       port: parseInt(env.VITE_DEV_SERVER_PORT) || 9398,

@@ -132,13 +132,14 @@
     &__attachments-view {
       border-block-start: var(--calcite-border-width-sm) solid var(--calcite-color-text-2);
       min-width: 300px;
+      overflow: auto;
 
       &__content {
         flex-direction: column;
         align-items: center;
-        justify-content: center;
         padding: var(--calcite-spacing-md);
         width: 100%;
+        min-height: 200px;
       }
 
       &__drop-area {

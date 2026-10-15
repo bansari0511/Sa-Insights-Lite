@@ -4,9 +4,10 @@
 
 // <-- resp.json should live at src/resp.json
 import urlsMap from "../../services/urlsMap";
-import respData from "../../resp.json";
+
 
 const profilerServiceUrl = urlsMap.profilerService
+const searchKeywordUrl = urlsMap.searchKeywords
 // small helper to parse date strings (returns Date or null)
 function parseDate(d) {
   if (!d) return null;
@@ -94,12 +95,12 @@ function filterLocalSource(source, filtersPayload = {}) {
  * Can fallback to API if needed (currently using local data).
  * Returns Promise resolving to { result: [...] }.
  */
-export async function fetchEventsData(filtersPayload = {}, useLocalData = true) {
+export async function fetchEventsData(filtersPayload = {}, useLocalData = false) {
   // simulate small latency
   await new Promise((r) => setTimeout(r, 200));
 
   // Option 1: Use local resp.json (default)
-  if (useLocalData) {
+/*  if (useLocalData) {
     try {
       console.log('Loading events from local resp.json file...');
 
@@ -121,12 +122,12 @@ export async function fetchEventsData(filtersPayload = {}, useLocalData = true) 
       console.error('Error loading from resp.json:', err);
       return { result: [] };
     }
-  }
+  }*/
 
   // Option 2: Fallback to API (if useLocalData is false)
   try {
     console.log('Fetching events from API...');
-    const resp = await fetch(profilerServiceUrl + '/event', {
+    const resp = await fetch(searchKeywordUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(filtersPayload || {}),
@@ -135,10 +136,11 @@ export async function fetchEventsData(filtersPayload = {}, useLocalData = true) 
     if (resp.ok) {
       const data = await resp.json();
 
-      if (data && Array.isArray(data.result)) {
+     return data;
+      /*if (data && Array.isArray(data.result)) {
         console.log(`API returned ${data.result.length} events`);
         return data;
-      }
+      }*/
       console.log("API data not formatted well!!");
     } else {
       console.warn('API request failed with status:', resp.status);

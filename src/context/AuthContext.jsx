@@ -1,11 +1,3 @@
-/**
- * Authentication Context
- *
- * Provides authentication state and methods throughout the application.
- * Supports both real authentication via Keycloak SSO and demo mode.
- * Includes cross-app SSO sync via window focus events.
- */
-
 import { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import authService from '../services/authService';
 
@@ -13,14 +5,14 @@ import authService from '../services/authService';
 const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
 
 // Demo user for demo mode
-const DEMO_USER = {
-  username: 'demo_user',
-  email: 'demo@saaranalytics.ai',
-  roles: ['user'],
-};
+// const DEMO_USER = {
+//   username: 'demo_user',
+//   email: 'demo@saaranalytics.ai',
+//   roles: ['user'],
+// };
 
 const AuthContext = createContext(null);
-
+const ENTITLEMENT_KEY = 'news';
 /**
  * Authentication Provider Component
  *
@@ -35,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(!DEMO_MODE);
   const [entitlements, setEntitlements] = useState([]);
-  const [entitlementsLoaded, setEntitlementsLoaded] = useState(false);
+  const [entitlementsLoaded, setEntitlementsLoaded] = useState([]);
   const justLoggedOut = useRef(false);
   const loginInProgress = useRef(false);
 
@@ -45,9 +37,7 @@ export const AuthProvider = ({ children }) => {
   const loadEntitlements = async (userData) => {
     setEntitlementsLoaded(false);
     try {
-      const data = await authService.fetchEntitlements(userData?.userid || userData?.id, userData?.username || userData?.name);
-      // Batch both updates together so React renders them in a single pass.
-      // This prevents a flash where entitlementsLoaded=true but entitlements is still [].
+      const data = await authService.fetchEntitlements(userData?.userId || userData?.userid, userData?.username || userData?.name);
       setEntitlements(data);
       setEntitlementsLoaded(true);
     } catch (err) {
@@ -84,7 +74,7 @@ export const AuthProvider = ({ children }) => {
       if (result.isAuthenticated) {
         const userData = {
           username: result.user?.username || result.user?.name || 'SSO User',
-          userid: result.user?.userid || result.user?.id,
+          userId: result.user?.userId || result.user?.userid,
           email: result.user?.email,
           roles: result.user?.roles,
         };
@@ -124,7 +114,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     window.addEventListener('focus', handleFocus);
-
     return () => {
       window.removeEventListener('focus', handleFocus);
     };
@@ -163,7 +152,7 @@ export const AuthProvider = ({ children }) => {
           if (authResult.isAuthenticated) {
             const userData = {
               username: authResult.user?.username || authResult.user?.name || username,
-              userid: authResult.user?.userid || authResult.user?.id,
+              userid: authResult.user?.userid || authResult.user?.userId,
               email: authResult.user?.email,
               roles: authResult.user?.roles,
             };
@@ -229,24 +218,14 @@ export const AuthProvider = ({ children }) => {
    * @param {string} appName - The app name to check (e.g., 'news', 'SA Insights')
    * @returns {boolean}
    */
+
   const hasAccess = (appName) => {
-    if (!entitlements || entitlements.length === 0) {
-      console.debug('[AuthContext] hasAccess: no entitlements loaded yet');
-      return false;
-    }
+    if (!entitlements || entitlements.length === 0) return false;
+    const normalixedInput = appName?.toLowerCase();
 
-    const normalizedInput = appName?.toLowerCase().trim();
-
-    const result = entitlements.some(
-      (e) =>
-        e.appname?.toLowerCase().trim() === normalizedInput &&
-        e.status === 'has_access'
-    );
-
-    console.debug(
-      `[AuthContext] hasAccess("${appName}") → ${result}`,
-      '| entitlements:',
-      entitlements.map((e) => ({ appname: e.appname, status: e.status }))
+    const result = entitlements.some((e) =>
+      e.appName?.toLowerCase() === normalixedInput &&
+      e.status === 'has_access'
     );
 
     return result;

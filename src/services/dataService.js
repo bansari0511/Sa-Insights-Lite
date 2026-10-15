@@ -198,13 +198,13 @@ export const nsagActorService = {
   async getList(keyword = '') {
     if (USE_DUMMY_DATA) return loadNsagActorList(keyword);
     return fetchPost(`${urlsMap.profilerService}/entity_search`, {
-      user_id: '', req_id: '', entity_type: 'nsag_actor', keyword,
+      user_id: '', req_id: '', entity_type: 'NONSTATEGROUP', keyword,
     });
   },
 
   async getProfile(entityId) {
     if (USE_DUMMY_DATA) return loadNsagActorProfile(entityId);
-    return fetchPost(`${urlsMap.profilerService}/nsag_actor`, {
+    return fetchPost(`${urlsMap.profilerService}/nsag`, {
       user_id: 'user_id', req_id: 'req_id', entity_id: entityId,
     });
   },
@@ -506,6 +506,7 @@ export const eventService = {
     return transformEventResponse(response);
   },
 };
+
 
 // =============================================================================
 // NEWS SERVICE

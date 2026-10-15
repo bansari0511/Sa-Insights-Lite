@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { styled,  Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { styled, Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import BlockIcon from '@mui/icons-material/Block';
 
@@ -45,7 +45,7 @@ const MainWrapper = styled("div", {
   },
 }));
 
-const CHAT_PANEL_WIDTH = 480;
+const CHAT_PANEL_WIDTH = 380;
 
 const FullLayout = ({ onNavigateToHost } = {}) => {
   const theme = useTheme();
@@ -59,6 +59,7 @@ const FullLayout = ({ onNavigateToHost } = {}) => {
   const [ChatPanel, setChatPanel] = useState(null);
 
   const { hasAccess, isLoading, entitlementsLoaded } = useAuth();
+  console.log("hasAccess", hasAccess)
 
   const sidebarWidth = isSidebarOpen ? 260 : 70;
   const showChat = isEmbedded && isChatOpen && ChatPanel;
@@ -198,18 +199,18 @@ const FullLayout = ({ onNavigateToHost } = {}) => {
             backgroundColor: theme.palette.mode === 'dark' ? '#0B1220' : '#f8f9fd',
             backgroundImage: theme.palette.mode === 'dark'
               ? [
-                  'radial-gradient(ellipse 80% 70% at 2% 20%, rgba(129, 140, 248, 0.14), transparent 60%)',
-                  'radial-gradient(ellipse 70% 60% at 98% 82%, rgba(217, 70, 239, 0.10), transparent 62%)',
-                  'radial-gradient(ellipse 60% 52% at 88% 4%, rgba(34, 211, 238, 0.09), transparent 60%)',
-                  'linear-gradient(135deg, #0B1220 0%, #111827 50%, #0B1220 100%)',
-                ].join(', ')
+                'radial-gradient(ellipse 80% 70% at 2% 20%, rgba(129, 140, 248, 0.14), transparent 60%)',
+                'radial-gradient(ellipse 70% 60% at 98% 82%, rgba(217, 70, 239, 0.10), transparent 62%)',
+                'radial-gradient(ellipse 60% 52% at 88% 4%, rgba(34, 211, 238, 0.09), transparent 60%)',
+                'linear-gradient(135deg, #0B1220 0%, #111827 50%, #0B1220 100%)',
+              ].join(', ')
               : [
-                  'radial-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1.5px)',
-                  'radial-gradient(ellipse 62% 52% at 88% 4%, rgba(34, 211, 238, 0.12), transparent 60%)',
-                  'radial-gradient(ellipse 74% 64% at 97% 80%, rgba(217, 70, 239, 0.09), transparent 62%)',
-                  'radial-gradient(ellipse 80% 70% at 2% 22%, rgba(129, 140, 248, 0.22), transparent 62%)',
-                  'radial-gradient(ellipse 66% 56% at 42% 68%, rgba(167, 139, 250, 0.10), transparent 60%)',
-                ].join(', '),
+                'radial-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1.5px)',
+                'radial-gradient(ellipse 62% 52% at 88% 4%, rgba(34, 211, 238, 0.12), transparent 60%)',
+                'radial-gradient(ellipse 74% 64% at 97% 80%, rgba(217, 70, 239, 0.09), transparent 62%)',
+                'radial-gradient(ellipse 80% 70% at 2% 22%, rgba(129, 140, 248, 0.22), transparent 62%)',
+                'radial-gradient(ellipse 66% 56% at 42% 68%, rgba(167, 139, 250, 0.10), transparent 60%)',
+              ].join(', '),
             backgroundSize: theme.palette.mode === 'dark'
               ? 'auto'
               : '22px 22px, auto, auto, auto, auto',
@@ -272,41 +273,41 @@ const FullLayout = ({ onNavigateToHost } = {}) => {
         {/* Footer - Full Width (hidden in federation mode) */}
         {/* ------------------------------------------- */}
         {!isEmbedded && (
-        <Box
-          sx={{
-            pt: 2,
-            pb: 1.5,
-            px: 3,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: 2,
-            background: theme.palette.mode === 'dark'
-              ? 'var(--dm-paper)'
-              : `linear-gradient(135deg, ${theme.palette.grey[200]} 0%, ${theme.palette.brand.lightBlue} 100%)`,
-            borderTop: `1px solid ${theme.palette.mode === 'dark'
-              ? 'var(--dm-border)'
-              : withOpacity(theme.palette.brand.cyan, 0.1)}`,
-            width: '100%',
-            flexShrink: 0,
-          }}
-        >
-          <Typography
-            variant="body2"
+          <Box
             sx={{
-              // `brand.deepPurple` is #c7d2fe — a pale indigo despite the name.
-              // At 70% over this pale footer gradient it composited to #d2dbfb
-              // on #edf0f4: 1.2:1, i.e. invisible. Use the theme's own
-              // secondary ink, which is mode-aware and meant for body copy.
-              color: theme.palette.text.secondary,
-              textAlign: 'center',
-              fontSize: '0.875rem',
+              pt: 2,
+              pb: 1.5,
+              px: 3,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: 2,
+              background: theme.palette.mode === 'dark'
+                ? 'var(--dm-paper)'
+                : `linear-gradient(135deg, ${theme.palette.grey[200]} 0%, ${theme.palette.brand.lightBlue} 100%)`,
+              borderTop: `1px solid ${theme.palette.mode === 'dark'
+                ? 'var(--dm-border)'
+                : withOpacity(theme.palette.brand.cyan, 0.1)}`,
+              width: '100%',
+              flexShrink: 0,
             }}
           >
-            © 2025 {appConfig.companyName}
-          </Typography>
-        </Box>
+            <Typography
+              variant="body2"
+              sx={{
+                // `brand.deepPurple` is #c7d2fe — a pale indigo despite the name.
+                // At 70% over this pale footer gradient it composited to #d2dbfb
+                // on #edf0f4: 1.2:1, i.e. invisible. Use the theme's own
+                // secondary ink, which is mode-aware and meant for body copy.
+                color: theme.palette.text.secondary,
+                textAlign: 'center',
+                fontSize: '0.875rem',
+              }}
+            >
+              © 2025 {appConfig.companyName}
+            </Typography>
+          </Box>
         )}
       </Box>
     </MainWrapper>

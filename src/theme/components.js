@@ -35,10 +35,10 @@ const getModeColors = (mode) => {
     },
     // Text colors
     text: {
-      primary: isDark ? '#ededf0' : primaryPalette[900],   // --dm-text
-      secondary: isDark ? '#a8a8b3' : primaryPalette[700], // --dm-text-3
-      disabled: isDark ? '#6b6b75' : colors.gray[400],     // --dm-text-disabled
-      inverse: isDark ? '#1a1a1e' : colors.white,          // --dm-bg
+      primary: isDark ? '#e6edf3' : primaryPalette[900],
+      secondary: isDark ? '#8b949e' : primaryPalette[700],
+      disabled: isDark ? '#484f58' : colors.gray[400],
+      inverse: isDark ? '#0d1117' : colors.white,
     },
     // Border colors
     border: {
@@ -249,7 +249,7 @@ export const getComponents = (mode = 'light') => {
             padding: '3px 12px',
           },
           '& .MuiTypography-root': {
-            color: colors.white,
+            color: c.isDark ? colors.white : c.text.primary,
           },
           '& .MuiDivider-root': {
             borderColor: c.isDark ? c.border.default : `${primaryPalette[400]}33`,
@@ -268,7 +268,7 @@ export const getComponents = (mode = 'light') => {
           padding: '8px 12px',
           transition: 'none',
           position: 'relative',
-          color: colors.white,
+          color: c.isDark ? colors.white : c.text.primary,
           minHeight: '44px',
           '&::before': {
             content: '""',
@@ -302,7 +302,7 @@ export const getComponents = (mode = 'light') => {
             },
           },
           '& .MuiListItemIcon-root': {
-            color: colors.white,
+            color: c.isDark ? colors.white : c.text.secondary,
             minWidth: '36px',
             transition: 'none',
           },
@@ -310,9 +310,9 @@ export const getComponents = (mode = 'light') => {
             margin: '0',
           },
           '& .MuiListItemText-primary': {
-            color: colors.white,
+            color: c.isDark ? colors.white : c.text.primary,
             fontWeight: tokens.fontWeight.semibold,
-            fontSize: '0.9rem',
+            fontSize: '1rem',
             lineHeight: 1.3,
             textShadow: c.isDark ? 'none' : `0 0 8px ${primaryPalette[400]}4D`,
           },

@@ -6,22 +6,22 @@ import {
   Box,
   Button,
   TextField,
+  Autocomplete,
   Chip,
+  MenuItem,
   Typography,
   Divider,
   CircularProgress,
   Slider,
   IconButton,
   Collapse,
-  useTheme,
 } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
-import EventFilterBar from '../../components/shared/EventFilterBar';
-import MapTemplate from './mapTemplate';
+import { Settings as SettingsIcon } from '@mui/icons-material';
+import MapTemplate from './mapTemplateEventTimeline';
 import { fetchEventsData } from './EventTimeLineApi';
 import countryData from "../../country.json";
-import { mapTheme, eventCategories } from '../../theme';
-import { SHOW_INSIGHTS_SIDEBAR } from '../../config/appMode';
+import { mapTheme, eventCategories, useThemeContext } from '../../theme';
+import { colors as themeColors } from '../../theme';
 
 const ACCENT = mapTheme.colors.accentOrange;
 const TIMELINE_WIDTH = mapTheme.sizing.timeline.width;
@@ -104,9 +104,92 @@ function computePresetRange(preset) {
   return { start: formatISODate(startDate), end };
 }
 
+// Dummy data flag - set to true to use dummy data, false to use API
+const DUMMY_DATA = false;
+
+// Dummy data matching the new response structure
+const DUMMY_RECORDS = [
+  {
+    0: {
+      eventCategory: { label: "Terrorism" },
+      eventCountry: [{ country: { label: "India" } }],
+      eventLocation: { lat: 19.02, long: 72.33 },
+      id: "evt_001",
+      lastModifiedDate: "2025-11-08",
+      summary: "A terrorist attack was thwarted by security forces in Mumbai. The operation was conducted based on intelligence inputs and led to the arrest of several suspects.",
+      title: "Mumbai Terror Plot Foiled"
+    },
+    1: {
+      eventCategory: { label: "Government" },
+      eventCountry: [{ country: { label: "China" } }],
+      eventLocation: { lat: 39.90, long: 116.40 },
+      id: "evt_002",
+      lastModifiedDate: "2025-11-07",
+      summary: "Chinese government announces new policy reforms aimed at boosting economic growth and technological innovation in key sectors.",
+      title: "China Announces Economic Reforms"
+    }
+  },
+  {
+    0: {
+      eventCategory: { label: "Military" },
+      eventCountry: [{ country: { label: "Pakistan" } }],
+      eventLocation: { lat: 33.69, long: 73.05 },
+      id: "evt_003",
+      lastModifiedDate: "2025-11-06",
+      summary: "Pakistan military conducts joint exercises with allied nations along the western border regions to enhance defense capabilities.",
+      title: "Pakistan Military Exercises Begin"
+    },
+    1: {
+      eventCategory: { label: "Terrorism" },
+      eventCountry: [{ country: { label: "India" } }],
+      eventLocation: { lat: 28.61, long: 77.23 },
+      id: "evt_004",
+      lastModifiedDate: "2025-11-05",
+      summary: "Security agencies in Delhi intercept communication suggesting potential terror threats. High alert issued across the capital region.",
+      title: "Delhi on High Alert After Terror Threat"
+    }
+  },
+  {
+    0: {
+      eventCategory: { label: "Economy" },
+      eventCountry: [{ country: { label: "China" } }],
+      eventLocation: { lat: 31.23, long: 121.47 },
+      id: "evt_005",
+      lastModifiedDate: "2025-11-04",
+      summary: "Shanghai stock market shows significant gains following positive economic indicators and increased foreign investment in the technology sector.",
+      title: "Shanghai Markets Rally on Tech Investment"
+    },
+    1: {
+      eventCategory: { label: "Cyber" },
+      eventCountry: [{ country: { label: "India" } }],
+      eventLocation: { lat: 12.97, long: 77.59 },
+      id: "evt_006",
+      lastModifiedDate: "2025-11-03",
+      summary: "Cybersecurity experts in Bangalore detect and neutralize a major ransomware attack targeting critical infrastructure systems.",
+      title: "Bangalore Thwarts Major Cyber Attack"
+    }
+  }
+];
+
 export default function MapEventsPage() {
-  const theme = useTheme();
-  const isDark = theme.palette.mode === 'dark';
+  // =============================================================================
+  // DARK MODE SUPPORT
+  // =============================================================================
+  const { isDark } = useThemeContext();
+  const darkBg =        '#1A1A1E';
+  const darkSurface =   '#232328';
+  const darkSurfaceHov ='#2A2A2F';
+  const darkBorder =    '#313136';
+  const darkBorderLt =  '#3D3D45';
+  const darkTextPri =   '#EDEDF0';
+  const darkTextSec =   '#A8A8B3';
+  const darkTextMut =   '#85858F';
+  const darkTextDis =   '#6B6B75';
+  const darkChipBg =    '#313136';
+  const darkOverlay =   'rgba(26, 26, 30, 0.95)';
+
+  // Shorthand helper: light value, dark value
+  const c = (light, dark) => isDark ? dark : light;
   // static country list for now
   const [selectedCountries, setSelectedCountries] = useState(['China', 'Pakistan', 'India']);
 
@@ -127,6 +210,8 @@ export default function MapEventsPage() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [lastDocId, setLastDocId] = useState(''); // Track last document ID for pagination
+  const [totalHits, setTotalHits] = useState(0); // Track total number of records available
   const pageSize = 100;
 
   const mapApiRef = useRef(null);
@@ -190,50 +275,84 @@ export default function MapEventsPage() {
     setCustomTo(end);
   }, [dateFilter]);
 
-  const buildPayload = useCallback((pageNum = 0) => {
-  const filters = {};
-  if(selectedCategories?.length > 0 )
-  {
-   filters.event_category = selectedCategories.map((c) => ({ label: c }));
-  }
-  if(selectedCountries?.length >0) {
-  filters.country_of_sovereignty = selectedCountries.map((c) => ({ label: c }));
-  }
-  if(customFrom && customTo)
-  {
-  filters.date_filter = { start_date: customFrom, end_date: customTo };
-  }
+  const buildPayload = useCallback((lastDocIdParam = '') => {
+    const eventFilters = {};
+
+    if(selectedCategories?.length > 0) {
+      eventFilters.eventcategory = selectedCategories;
+    } else
+    {
+    eventFilters.eventcategory = [];
+    }
+
+    if(selectedCountries?.length > 0) {
+      eventFilters.eventcountry = selectedCountries;
+    } else
+    {
+     eventFilters.eventcountry = [];
+    }
+    eventFilters.actorlabel = [];
+    eventFilters.actornation = [];
+    eventFilters.actortype = [];
+
+    eventFilters.eventlocation = [];
+    eventFilters.platforms = [];
+
     return {
-      req_id: 'req_id',
-      user_id: 'Test',
-      filters,
-      keyword: keyword?.trim() || null,  // Pass keyword to API, default null
-      page_identifier: pageNum,
+      eventFilters,
+      keywords: keyword?.trim() || "",
+      fromDate: customFrom || "",
+      toDate: customTo || "",
+      lastdocid: lastDocIdParam, // Use provided lastdocid for pagination
+      page: "events",
+      req_id: "",
       size: pageSize,
     };
   }, [selectedCategories, customFrom, customTo, selectedCountries, keyword, pageSize]);
 
-  const parseEventData = useCallback((items) => {
-    return (items || []).map((item) => {
-      const p = (item && item.e && item.e.properties) || {};
-      const labels = (item && item.e && item.e.labels) || [];
-      const lat = Number(p.latitude ?? p.event_location_lat ?? NaN);
-      const lon = Number(p.longitude ?? p.event_location_long ?? NaN);
-      p._uid = p._uid || `evt_${Math.random().toString(36).slice(2)}`;
+  const parseEventData = useCallback((records) => {
+    if (!records || !Array.isArray(records)) return [];
+
+    // Flatten the records array - convert object with numeric keys to array
+//    const flattenedRecords = records.flatMap(recordObj => {
+//      // Convert object with numeric keys (0, 1, 2...) to array
+//      return Object.values(recordObj);
+//    });
+    console.log("check rcd:", records);
+    return records.map((item) => {
+      if (!item) return null;
+
+      // Parse new response structure
+      const eventCategory = item.eventCategory?.label || 'Other';
+      const eventCountry = item.eventCountry?.[0]?.country?.label || '';
+      const eventLocation = item.eventLocation || {};
+      const lat = Number(eventLocation.lat ?? NaN);
+      const lon = Number(eventLocation.long ?? NaN);
+      const latLon = `${lat}, ${lon}`;
+      const _uid = item.id || `evt_${Math.random().toString(36).slice(2)}`;
+
       return {
-        id: p.id || p._uid,
-        title: p.label || p.name || 'Event',
-        description: p.description || '',
-        start_date: p.start_date,
-        end_date: p.end_date,
-        country: item['c.label'],
-        properties: p,
-        labels: labels,
+        id: _uid,
+        title: item.title || 'Event',
+        description: item.summary || '',
+        start_date: item.lastModifiedDate,
+        end_date: item.lastModifiedDate,
+        country: eventCountry,
+        properties: {
+          ...item,
+          location:latLon,
+          country: eventCountry,
+          _uid,
+          event_category: eventCategory,
+          lastModifiedDate: item.lastModifiedDate, // Explicitly include for TimeSlider
+          start_date: item.lastModifiedDate, // Include for backwards compatibility
+        },
+        labels: item.labels || [],
         latitude: isNaN(lat) ? null : lat,
         longitude: isNaN(lon) ? null : lon,
-        event_category: p.event_category || 'Other',
+        event_category: eventCategory,
       };
-    });
+    }).filter(Boolean);
   }, []);
 
   // Initial search - resets pagination
@@ -241,16 +360,46 @@ export default function MapEventsPage() {
     // Clear events immediately to show loading indicator on subsequent searches
     setEvents([]);
     setIsLoading(true);
+    setLastDocId(''); // Clear lastDocId on fresh search
+
     try {
       setPage(0);
       setHasMore(true);
-      const payload = buildPayload(0);
-      const resp = await fetchEventsData(payload);
-      const parsed = parseEventData(resp.result);
 
-      setEvents(parsed);
-      setHasMore(parsed.length >= pageSize);
-      setPage(1);
+      // Use dummy data if flag is enabled
+      if (DUMMY_DATA) {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const parsed = parseEventData(DUMMY_RECORDS);
+        setEvents(parsed);
+        setHasMore(false); // No more pages for dummy data
+        setPage(1);
+      } else {
+        // Use real API - pass empty string for fresh search
+        const payload = buildPayload('');
+        const resp = await fetchEventsData(payload);
+        console.log("its:",resp.records);
+        const parsed = parseEventData(resp.records);
+        console.log("records", parsed);
+        // Extract and store totalHits from response
+        if (resp.totalHits !== undefined && resp.totalHits !== null) {
+          setTotalHits(resp.totalHits);
+          console.log('Total hits available:', resp.totalHits);
+        }
+
+        // Extract and store lastdocid from response for next page
+        if (resp.lastDocId) {
+          setLastDocId(resp.lastDocId);
+          console.log('Stored lastdocid for pagination:', resp.lastdocid);
+        }
+
+        setEvents(parsed);
+        // Check hasMore: if we got less than pageSize records, there are no more pages
+        setHasMore(parsed.length >= pageSize);
+        setPage(1);
+
+        console.log(`Loaded ${parsed.length} events out of ${resp.totalHits || 0} total`);
+      }
 
       setTimeout(() => {
         if (timelineContainerRef.current) timelineContainerRef.current.scrollTop = 0;
@@ -269,13 +418,22 @@ export default function MapEventsPage() {
 
     setIsLoading(true);
     try {
-      const payload = buildPayload(page);
+      // Use stored lastDocId for pagination
+      console.log('Loading more with lastdocid:', lastDocId);
+      const payload = buildPayload(lastDocId);
       const resp = await fetchEventsData(payload);
-      const parsed = parseEventData(resp.result);
+      const parsed = parseEventData(resp.records);
 
       if (parsed.length > 0) {
         setEvents(prev => [...prev, ...parsed]);
-        setHasMore(parsed.length >= pageSize);
+
+        // Update lastDocId with the new value from response
+        if (resp.lastDocId) {
+          setLastDocId(resp.lastDocId);
+          console.log('Updated lastdocid for next page:', resp.lastdocid);
+        }
+
+        setHasMore(resp.records.length === pageSize);
         setPage(prev => prev + 1);
       } else {
         setHasMore(false);
@@ -286,7 +444,7 @@ export default function MapEventsPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [buildPayload, page, parseEventData, pageSize, isLoading, hasMore]);
+  }, [buildPayload, lastDocId, parseEventData, pageSize, isLoading, hasMore]);
 
   // initial load
   useEffect(() => {
@@ -400,110 +558,186 @@ export default function MapEventsPage() {
   }, []);
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: 'calc(100vh - 180px)',
-      bgcolor: theme.palette.background.paper,
-      color: theme.palette.text.primary,
-      p: { xs: 1.5, sm: 2, md: 2.5 },
-      m: { xs: 0.5, sm: 1, md: 1.5 },
-      borderRadius: { xs: 3, md: 4 },
-      boxShadow: isDark ? '0 2px 12px rgba(0,0,0,0.4)' : '0 2px 12px rgba(0,0,0,0.06)',
-      border: `1px solid ${theme.palette.divider}`,
-    }}>
+    <Grid container spacing={2} sx={{ height: '100%', bgcolor: c('#ffffff', darkBg), color: c('#000000', darkTextPri) }}>
       {/* Filters */}
-      <Box sx={{ flexShrink: 0 }}>
-        <EventFilterBar
-          countries={countries}
-          selectedCountries={selectedCountries}
-          setSelectedCountries={setSelectedCountries}
-          categories={categories}
-          selectedCategories={selectedCategories}
-          setSelectedCategories={setSelectedCategories}
-          getCategoryConfig={getCategoryConfig}
-          keyword={keyword}
-          setKeyword={setKeyword}
-          dateFilter={dateFilter}
-          setDateFilter={setDateFilter}
-          customFrom={customFrom}
-          setCustomFrom={setCustomFrom}
-          customTo={customTo}
-          setCustomTo={setCustomTo}
-          onSubmit={handleSubmit}
-          isLoading={isLoading}
-          hasResults={events.length > 0}
-        />
-      </Box>
+      <Grid item xs={12}>
+        <Paper sx={{ p: 2, bgcolor: c('#fff', darkSurface) }} elevation={1}>
+          <Typography variant="h6" sx={{ color: c('#000', darkTextPri) }}>Filters</Typography>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mt: 1, flexWrap: 'wrap' }}>
+            <Autocomplete
+              multiple
+              options={countries}
+              value={selectedCountries}
+              onChange={(e, v) => setSelectedCountries(v)}
+              renderTags={(value, getTagProps) => value.map((option, index) => <Chip key={option} label={option} {...getTagProps({ index })} />)}
+              sx={{ minWidth: 240 }}
+              renderInput={(params) => <TextField {...params} label="Country" />}
+            />
 
-      {/* Map + Timeline row */}
-      <Grid container spacing={2} sx={{ flex: 1, minHeight: 0, mt: 0 }}>
-        {/* Map - Full width when sidebar is hidden */}
-        <Grid item xs={12} md={SHOW_INSIGHTS_SIDEBAR ? 7 : 12} sx={{ height: '100%' }}>
-          <Paper sx={{ height: '100%', p: 1, borderRadius: 3 }} elevation={1}>
-            <MapTemplate onMapReady={handleMapReady} />
-          </Paper>
-        </Grid>
+            <Autocomplete
+              multiple
+              options={categories}
+              value={selectedCategories}
+              onChange={(e, v) => setSelectedCategories(v)}
+              renderTags={(value, getTagProps) => value.map((option, index) => {
+                const config = getCategoryConfig(option);
+                return (
+                  <Chip
+                    key={option}
+                    label={`${config.icon} ${config.name}`}
+                    {...getTagProps({ index })}
+                    sx={{
+                      bgcolor: `${config.color}15`,
+                      color: config.color,
+                      fontWeight: 600,
+                      border: `1px solid ${config.color}40`
+                    }}
+                  />
+                );
+              })}
+              sx={{ minWidth: 300 }}
+              renderInput={(params) => <TextField {...params} label="Event Category" />}
+              renderOption={(props, option) => {
+                const config = getCategoryConfig(option);
+                return (
+                  <Box component="li" {...props} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                    <span style={{ fontSize: 20 }}>{config.icon}</span>
+                    <Typography sx={{ color: config.color, fontWeight: 600 }}>
+                      {config.name}
+                    </Typography>
+                  </Box>
+                );
+              }}
+            />
 
-        {/* Timeline - Conditionally rendered based on SHOW_INSIGHTS_SIDEBAR flag */}
-        {SHOW_INSIGHTS_SIDEBAR && <Grid item xs={12} md={5} sx={{ height: '100%' }}>
-        <Paper sx={{ height: '100%', overflow: 'hidden', p: 2, display: 'flex', flexDirection: 'column', borderRadius: 3 }} elevation={1}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, flexShrink: 0 }}>
-            <Typography variant="h6" sx={{ color: theme.palette.text.primary, fontWeight: 600 }}>
-              Event Timeline
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-              <Button
-                variant="contained"
-                size="small"
-                onClick={toggleAnimation}
-                disabled={events.length === 0}
-                sx={{
-                  bgcolor: isAnimating ? '#d32f2f' : '#1976d2',
-                  minWidth: 90,
-                  '&:hover': {
-                    bgcolor: isAnimating ? '#b71c1c' : '#1565c0',
-                  },
-                  '&:disabled': {
-                    bgcolor: theme.palette.action.disabledBackground,
-                    color: theme.palette.text.disabled,
-                  }
-                }}
-              >
-                {isAnimating ? '⏸ Pause' : '▶ Play'}
-              </Button>
-              <IconButton
-                size="small"
-                onClick={() => setShowAnimationControls(!showAnimationControls)}
-                disabled={events.length === 0}
-                sx={{
-                  bgcolor: showAnimationControls ? theme.palette.action.hover : 'transparent',
-                  '&:hover': {
-                    bgcolor: theme.palette.action.hover,
-                  },
-                  '&:disabled': {
-                    bgcolor: 'transparent',
-                    color: theme.palette.text.disabled,
-                  }
-                }}
-              >
-                <SettingsIcon fontSize="small" sx={{ color: showAnimationControls ? ACCENT : theme.palette.text.secondary }} />
-              </IconButton>
-              <Chip
-                label={`${events.length} events`}
-                size="small"
-                sx={{ bgcolor: ACCENT, color: '#fff', fontWeight: 600 }}
-              />
-            </Box>
+            <TextField
+              label="Keyword"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="Enter keyword..."
+              sx={{ minWidth: 200 }}
+              size="small"
+            />
+
+            <TextField select label="Date Filter" value={dateFilter}  sx={{ minWidth:140 }} onChange={(e) => setDateFilter(e.target.value)}>
+                          <MenuItem value="today">Today</MenuItem>
+                          <MenuItem value="2days">2 Days</MenuItem>
+                          <MenuItem value="3days">3 Days</MenuItem>
+                          <MenuItem value="7days">7 Days</MenuItem>
+                          <MenuItem value="30days">30 Days</MenuItem>
+                          <MenuItem value="90days">90 Days</MenuItem>
+                          <MenuItem value="custom">Custom</MenuItem>
+                        </TextField>
+
+                        {dateFilter === 'custom' && (
+                          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                            <TextField label="From" type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} InputLabelProps={{ shrink: true }} />
+                            <TextField label="To" type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} InputLabelProps={{ shrink: true }} />
+                          </Box>
+                        )}
+            <Button
+              variant="contained"
+              onClick={handleSubmit}
+              disabled={isLoading}
+              sx={{
+                bgcolor: ACCENT,
+                '&:hover': {
+                  bgcolor: c('#e67e00', '#cc7000'),
+                },
+                '&:disabled': {
+                  bgcolor: c('#ccc', darkBorderLt),
+                  color: c('#999', darkTextDis),
+                }
+              }}
+              startIcon={isLoading && events.length === 0 ? <CircularProgress size={20} color="inherit" /> : null}
+            >
+              {isLoading && events.length === 0 ? 'Searching...' : 'Search'}
+            </Button>
           </Box>
+        </Paper>
+      </Grid>
+
+      {/* Map */}
+      <Grid item xs={12} md={7} sx={{ height: 'calc(100% - 120px)' }}>
+        <Paper sx={{ height: '100%', p: 1, bgcolor: c('#fff', darkSurface) }} elevation={1}>
+          <MapTemplate onMapReady={handleMapReady} />
+        </Paper>
+      </Grid>
+
+      {/* Timeline */}
+      <Grid item xs={12} md={5} sx={{ height: 'calc(100% - 120px)' }}>
+        <Paper sx={{ height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column', bgcolor: c('#fff', darkSurface) }} elevation={1}>
+          {/* Sticky Header with Controls */}
+          <Box sx={{
+            position: 'sticky',
+            top: 0,
+            bgcolor: c('#fff', darkSurface),
+            zIndex: 10,
+            p: 2,
+            borderBottom: c('1px solid #e0e0e0', `1px solid ${darkBorder}`),
+            boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+              <Typography variant="h6" sx={{ color: c('#000', darkTextPri), fontWeight: 600 }}>
+                Event Timeline
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={toggleAnimation}
+                  disabled={events.length === 0}
+                  sx={{
+                    bgcolor: c(isAnimating ? '#d32f2f' : '#1976d2', isAnimating ? '#b71c1c' : '#1565c0'),
+                    minWidth: 56,
+                    height: 28,
+                    px:1,
+                    py:0.25,
+                    fontSize:12,
+                    lineHeight:1.1,
+                    '&:hover': {
+                      bgcolor: c(isAnimating ? '#b71c1c' : '#1565c0', isAnimating ? '#d32f2f' : '#1976d2'),
+                    },
+                    '&:disabled': {
+                      bgcolor: c('#ccc', darkBorderLt),
+                      color: c('#999', darkTextDis),
+                    }
+                  }}
+                >
+                  {isAnimating ? '⏸ Pause' : '▶ Play'}
+                </Button>
+                <IconButton
+                  size="small"
+                  onClick={() => setShowAnimationControls(!showAnimationControls)}
+                  disabled={events.length === 0}
+                  sx={{
+                    bgcolor: showAnimationControls ? c('#f5f5f5', darkSurfaceHov) : 'transparent',
+                    '&:hover': {
+                      bgcolor: c('#f5f5f5', darkSurfaceHov),
+                    },
+                    '&:disabled': {
+                      bgcolor: 'transparent',
+                      color: c('#ccc', darkBorderLt),
+                    }
+                  }}
+                >
+                  <SettingsIcon fontSize="small" sx={{ color: showAnimationControls ? ACCENT : c('#666', darkTextMut) }} />
+                </IconButton>
+                <Chip
+                  label={`${events.length} events out of ${totalHits}`}
+                  size="small"
+                  sx={{ bgcolor: ACCENT, color: c('#fff', darkTextPri), fontWeight: 600 }}
+                />
+              </Box>
+            </Box>
 
           {/* Animation Controls - Collapsible */}
           {events.length > 0 && (
-            <Collapse in={showAnimationControls} sx={{ flexShrink: 0 }}>
-              <Box sx={{ p: 2, bgcolor: theme.palette.action.hover, borderRadius: 2, mb: 2 }}>
+            <Collapse in={showAnimationControls}>
+              <Box sx={{ p: 2, bgcolor: c('#f9f9f9', darkSurfaceHov), borderRadius: 2, mb: 2 }}>
                 {/* Animation Speed Control */}
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 2 }}>
-                  <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontWeight: 600, minWidth: 80 }}>
+                  <Typography variant="caption" sx={{ color: c('#666', darkTextMut), fontWeight: 600, minWidth: 80 }}>
                     Speed:
                   </Typography>
                   <Slider
@@ -526,7 +760,7 @@ export default function MapEventsPage() {
                       maxWidth: 300,
                       '& .MuiSlider-markLabel': {
                         fontSize: 10,
-                        color: theme.palette.text.secondary,
+                        color: c('#999', darkTextDis),
                       },
                       '& .MuiSlider-thumb': {
                         bgcolor: ACCENT,
@@ -535,18 +769,18 @@ export default function MapEventsPage() {
                         bgcolor: ACCENT,
                       },
                       '& .MuiSlider-rail': {
-                        bgcolor: theme.palette.divider,
+                        bgcolor: c('#ddd', darkBorder),
                       },
                     }}
                   />
-                  <Typography variant="caption" sx={{ color: theme.palette.text.secondary, minWidth: 40, fontSize: 11 }}>
+                  <Typography variant="caption" sx={{ color: c('#999', darkTextDis), minWidth: 40, fontSize: 11 }}>
                     {animationSpeed / 1000}s/card
                   </Typography>
                 </Box>
 
                 {/* Animation Range Controls */}
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
-                  <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontWeight: 600, minWidth: 80 }}>
+                  <Typography variant="caption" sx={{ color: c('#666', darkTextMut), fontWeight: 600, minWidth: 80 }}>
                     Animation Range:
                   </Typography>
                   <TextField
@@ -565,7 +799,7 @@ export default function MapEventsPage() {
                     }}
                     sx={{ width: 80 }}
                   />
-                  <Typography variant="caption" sx={{ color: theme.palette.text.secondary }}>to</Typography>
+                  <Typography variant="caption" sx={{ color: c('#999', darkTextDis) }}>to</Typography>
                   <TextField
                     label="End"
                     type="number"
@@ -582,7 +816,7 @@ export default function MapEventsPage() {
                     }}
                     sx={{ width: 80 }}
                   />
-                  <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontSize: 10 }}>
+                  <Typography variant="caption" sx={{ color: c('#999', darkTextDis), fontSize: 10 }}>
                     (of {events.length})
                   </Typography>
                   <Button
@@ -593,11 +827,11 @@ export default function MapEventsPage() {
                       fontSize: 10,
                       minWidth: 60,
                       height: 28,
-                      borderColor: theme.palette.divider,
-                      color: theme.palette.text.secondary,
+                      borderColor: c('#ccc', darkBorderLt),
+                      color: c('#666', darkTextMut),
                       '&:hover': {
-                        borderColor: theme.palette.text.secondary,
-                        bgcolor: theme.palette.action.hover,
+                        borderColor: c('#999', darkTextDis),
+                        bgcolor: c('#fff', darkSurface),
                       }
                     }}
                   >
@@ -607,10 +841,10 @@ export default function MapEventsPage() {
               </Box>
             </Collapse>
           )}
+          </Box>
 
-          <Divider sx={{ mb: 2, flexShrink: 0 }} />
-
-          <Box sx={{ flex: 1, minHeight: 0, overflowY: 'auto', px: 2, position: 'relative' }} ref={timelineContainerRef}>
+          {/* Scrollable Timeline Content */}
+          <Box sx={{ flex: 1, overflowY: 'auto', px: 2, position: 'relative', bgcolor: c('transparent', darkBg) }} ref={timelineContainerRef}>
             {/* Loading Overlay - Shows during initial data fetch */}
             {isLoading && events.length === 0 && (
               <Box
@@ -624,7 +858,7 @@ export default function MapEventsPage() {
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  bgcolor: isDark ? 'rgba(13, 17, 23, 0.92)' : 'rgba(255, 255, 255, 0.95)',
+                  bgcolor: c('rgba(255, 255, 255, 0.95)', darkOverlay),
                   zIndex: 10,
                   backdropFilter: 'blur(4px)',
                 }}
@@ -643,7 +877,7 @@ export default function MapEventsPage() {
                 <Typography
                   variant="h6"
                   sx={{
-                    color: theme.palette.text.primary,
+                    color: c('#666', darkTextMut),
                     fontWeight: 600,
                     mb: 1,
                   }}
@@ -653,7 +887,7 @@ export default function MapEventsPage() {
                 <Typography
                   variant="caption"
                   sx={{
-                    color: theme.palette.text.secondary,
+                    color: c('#999', darkTextDis),
                     fontStyle: 'italic',
                   }}
                 >
@@ -743,7 +977,7 @@ export default function MapEventsPage() {
                               height: '18px',
                               borderRadius: '50%',
                               bgcolor: categoryColor,
-                              border: `3px solid ${theme.palette.background.paper}`,
+                              border: '3px solid #fff',
                               boxShadow: `0 0 0 2px ${categoryColor}50`,
                               zIndex: 2,
                               cursor: 'pointer',
@@ -808,8 +1042,8 @@ export default function MapEventsPage() {
                             sx={{
                               flex: 1,
                               p: 2,
-                              bgcolor: isActiveAnimation ? `${categoryColor}${isDark ? '22' : '08'}` : theme.palette.background.paper,
-                              border: isActiveAnimation ? `3px solid ${categoryColor}` : `2px solid ${categoryColor}${isDark ? '55' : '30'}`,
+                              bgcolor: isActiveAnimation ? c(`${categoryColor}08`, `${categoryColor}15`) : c('#fff', darkSurface),
+                              border: isActiveAnimation ? c(`3px solid ${categoryColor}`, `3px solid ${categoryColor}`) : c(`2px solid ${categoryColor}30`, `2px solid ${categoryColor}40`),
                               borderRadius: 2,
                               position: 'relative',
                               cursor: 'pointer',
@@ -849,12 +1083,7 @@ export default function MapEventsPage() {
                                   top: -8,
                                   right: 8,
                                   bgcolor: isStartCard ? '#4caf50' : '#ff9800',
-                                  // Dark ink, not white: on these two fills white
-                                  // measures 2.8:1 (green) and 2.2:1 (amber) — both
-                                  // well below AA at 9px. The darkest neutral in the
-                                  // ladder clears 6.2:1 and 8.1:1 while the
-                                  // green/amber coding still reads.
-                                  color: '#1a1a1e',
+                                  color: '#fff',
                                   px: 1.5,
                                   py: 0.3,
                                   borderRadius: 1,
@@ -920,8 +1149,8 @@ export default function MapEventsPage() {
                                   sx={{
                                     height: 20,
                                     fontSize: 9,
-                                    bgcolor: theme.palette.action.selected,
-                                    color: theme.palette.text.primary,
+                                    bgcolor: c('#e8e8e8', darkChipBg),
+                                    color: c('#555', darkTextSec),
                                     fontWeight: 500,
                                     '& .MuiChip-label': { px: 0.8 }
                                   }}
@@ -934,8 +1163,8 @@ export default function MapEventsPage() {
                                   sx={{
                                     height: 20,
                                     fontSize: 9,
-                                    bgcolor: theme.palette.action.selected,
-                                    color: theme.palette.text.primary,
+                                    bgcolor: c('#e8e8e8', darkChipBg),
+                                    color: c('#555', darkTextSec),
                                     fontWeight: 500,
                                     '& .MuiChip-label': { px: 0.8 }
                                   }}
@@ -948,7 +1177,7 @@ export default function MapEventsPage() {
                               sx={{
                                 fontWeight: 700,
                                 fontSize: 14,
-                                color: theme.palette.text.primary,
+                                color: c('#1a1a1a', darkTextPri),
                                 mb: 0.5,
                                 lineHeight: 1.3,
                               }}
@@ -957,7 +1186,7 @@ export default function MapEventsPage() {
                             </Typography>
 
                             {/* Location */}
-                            <Typography variant="caption" sx={{ color: theme.palette.text.secondary, display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
+                            <Typography variant="caption" sx={{ color: c('#666', darkTextMut), display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
                               <span style={{ fontSize: 11 }}>📍</span>
                               {ev.country}
                             </Typography>
@@ -966,7 +1195,7 @@ export default function MapEventsPage() {
                             <Typography
                               variant="body2"
                               sx={{
-                                color: theme.palette.text.secondary,
+                                color: c('#555', darkTextSec),
                                 lineHeight: 1.4,
                                 fontSize: 12,
                               }}
@@ -995,10 +1224,10 @@ export default function MapEventsPage() {
                         fontWeight: 600,
                         fontSize: 14,
                         '&:hover': {
-                          bgcolor: '#e67e00',
+                          bgcolor: c('#e67e00', '#cc7000'),
                         },
                         '&:disabled': {
-                          bgcolor: theme.palette.action.disabledBackground,
+                          bgcolor: c('#ccc', darkBorderLt),
                         }
                       }}
                       startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : null}
@@ -1019,11 +1248,11 @@ export default function MapEventsPage() {
                         px: 2,
                         py: 1,
                         borderRadius: 2,
-                        bgcolor: theme.palette.action.hover,
-                        border: `2px dashed ${theme.palette.divider}`,
+                        bgcolor: c('#f5f5f5', darkSurface),
+                        border: c('2px dashed #ccc', `2px dashed ${darkBorderLt}`),
                       }}
                     >
-                      <Typography variant="caption" sx={{ color: theme.palette.text.secondary, fontWeight: 600 }}>
+                      <Typography variant="caption" sx={{ color: c('#999', darkTextDis), fontWeight: 600 }}>
                         No more events to load
                       </Typography>
                     </Box>
@@ -1031,16 +1260,15 @@ export default function MapEventsPage() {
                 )}
               </Box>
             ) : (
-              <Paper sx={{ p: 3, bgcolor: theme.palette.action.hover, border: `1px solid ${theme.palette.divider}`, textAlign: 'center' }}>
-                <Typography sx={{ color: theme.palette.text.secondary, fontStyle: 'italic' }}>
+              <Paper sx={{ p: 3, bgcolor: c('#f9f9f9', darkSurface), border: c('1px solid #e0e0e0', `1px solid ${darkBorder}`), textAlign: 'center' }}>
+                <Typography sx={{ color: c('#666', darkTextMut), fontStyle: 'italic' }}>
                   No events to display. Use filters and click Search to load events.
                 </Typography>
               </Paper>
             )}
           </Box>
         </Paper>
-      </Grid>}
       </Grid>
-    </Box>
+    </Grid>
   );
 }

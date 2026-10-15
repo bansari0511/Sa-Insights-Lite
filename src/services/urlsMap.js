@@ -9,7 +9,9 @@
 
 const urlsMap = {
     // Profiler Service base (for equipment, military, event endpoints)
-    profilerService: import.meta.env.REACT_APP_PROFILER_SERVICE_URL || '',
+    searchKeywords: import.meta.env.REACT_APP_SEARCH_URL,
+    searchAutoComplete: import.meta.env.REACT_APP_AUTOCOMPLETE_URL,
+    graphData: import.meta.env.REACT_APP_GRAPH_DATA,
 
     // Search URLs (full endpoints)
     autocomplete: import.meta.env.REACT_APP_AUTOCOMPLETE_URL,
@@ -29,12 +31,16 @@ const urlsMap = {
 
     // GeoServer URLs (optional)
     geoserver: import.meta.env.REACT_APP_GEOSERVER,
+    boundary: import.meta.env.REACT_APP_GEOSERVER_BOUNDARY,
     geoserverBasemap: import.meta.env.REACT_APP_GEOSERVER_BASEMAP,
     osmLayer: import.meta.env.REACT_APP_OSM_LAYER,
     strategicLayer: import.meta.env.REACT_APP_STRATEGIC_FACILITIES,
-
+    profilerService: import.meta.env.REACT_APP_PROFILER_SERVICE_URL,
     // Assets URL (optional)
     assetsService: import.meta.env.REACT_APP_ASSETS_URL,
+
+    //nova service
+    queryService : import.meta.env.VITE_AI_CHAT_API_URL,
 };
 
 export default urlsMap;

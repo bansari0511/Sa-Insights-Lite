@@ -1,0 +1,306 @@
+# =============================================================================
+# Nginx Config Template for K8s Deployment
+# =============================================================================
+# Environment variables (set via K8s Deployment env or ConfigMap):
+ #  AUTH_BACKEND    - auth service 172.18.138.31:30016    (default: auth-service:8080)
+  # SEARCH_BACKEND  - search service 172.18.138.20:30038  (default: search-service:8000)
+ #  RESOLVER        - DNS resolver for K8s      (default: kube-dns.kube-system.svc.cluster.local)
+# =============================================================================
+# test
+
+upstream TYK_GW_URL {
+    server 172.18.138.105:30016;
+    keepalive 32;
+}
+
+server {
+    listen 8086;
+    server_name _;
+
+    # K8s DNS resolver for dynamic upstream resolution
+    resolver ${RESOLVER} valid=30s ipv6=off;
+
+    # --- Gzip Compression ---------------------------------------------------
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 256;
+    gzip_proxied any;
+    gzip_comp_level 5;
+    gzip_types
+        text/plain
+        text/css
+        text/javascript
+        application/javascript
+        application/json
+        application/xml
+        image/svg+xml
+        font/woff2;
+
+    # --- Security Headers ----------------------------------------------------
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    # --- Health Check (for K8s probes) ---------------------------------------
+    location /healthz {
+        access_log off;
+        return 200 'ok';
+        add_header Content-Type text/plain;
+    }
+
+   # --- Static Files (Vite build output) ------------------------------------
+    location / {
+        root /var/www/saaransh-news-insight/;
+        index index.html;
+
+        # Vite hashed assets — cache aggressively
+        location ~* ^/assets/ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+            access_log off;
+        }
+
+        # Fonts — long cache
+        location ~* ^/fonts/ {
+            expires 6M;
+            add_header Cache-Control "public";
+            access_log off;
+        }
+
+        # SPA fallback — serve index.html for all client-side routes
+        #index index.html
+        try_files $uri $uri/ /index.html;
+
+    }
+
+
+    # --- Auth API Proxy (/api → auth backend /auth/api) ----------------------
+    location /api/ {
+        set $auth_upstream http://TYK_GW_URL;
+        rewrite ^/api/(.*)$ /auth/api/$1 break;
+
+        proxy_pass $auth_upstream;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-forwarded-Host  $host;
+        proxy_set_header X-forwarded-Port  $server_port;
+        
+        proxy_cookie_domain ~.* $host;
+        proxy_cookie_flags ~.* nosecure samesite=lax;
+        
+        proxy_cookie_path /auth /;
+        
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        proxy_connect_timeout 100s;
+        proxy_read_timeout    300s;
+        proxy_send_timeout    300s;
+    }
+
+    # --- Users API Proxy (/users → auth backend /users) ----------------------
+    location /users/ {
+        set $auth_upstream http://TYK_GW_URL;
+
+        proxy_pass $auth_upstream;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-forwarded-Host  $host;
+        proxy_set_header X-forwarded-Port  $server_port;
+        
+        proxy_cookie_domain ~.* $host;
+        proxy_cookie_flags ~.* nosecure samesite=lax;
+        
+        proxy_cookie_path /auth /;
+        
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        proxy_connect_timeout 100s;
+        proxy_read_timeout    300s;
+        proxy_send_timeout    300s;
+    }
+
+    # --- Saaransh News Backend API Proxy  -----------
+    location /saaranshnews/ {
+    
+        set $auth_upstream http://TYK_GW_URL;
+        proxy_pass $auth_upstream;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        #proxy_set_header X-forwarded-Host  $host;
+        #proxy_set_header X-forwarded-Port  $server_port;
+           
+        proxy_hide_header Access-Control-Allow-Origin;
+        proxy_hide_header Access-Control-Allow-Methods;
+        proxy_hide_header Access-Control-Allow-Headers;
+        
+        add_header Access-Control-Allow-Origin $http_origin always;
+        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
+        add_header Access-Control-Allow-Headers "Content-Type, Authorization" always;
+        
+        #proxy_cookie_domain ~.* $host;
+        #proxy_cookie_flags ~.* nosecure samesite=lax;
+        
+        #proxy_cookie_path /auth /;
+        
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        proxy_connect_timeout 100s;
+        proxy_read_timeout    300s;
+        proxy_send_timeout    300s;
+        send_timeout    300s;
+    }
+
+    # --- Saaransh Profiler Backend API Proxy  -----------
+    location /saaranshprofiler/ {
+    
+        set $auth_upstream http://TYK_GW_URL;
+        proxy_pass $auth_upstream;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        #proxy_set_header X-forwarded-Host  $host;
+        #proxy_set_header X-forwarded-Port  $server_port;
+           
+        proxy_hide_header Access-Control-Allow-Origin;
+        proxy_hide_header Access-Control-Allow-Methods;
+        proxy_hide_header Access-Control-Allow-Headers;
+        
+        add_header Access-Control-Allow-Origin $http_origin always;
+        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
+        add_header Access-Control-Allow-Headers "Content-Type, Authorization" always;
+        
+        #proxy_cookie_domain ~.* $host;
+        #proxy_cookie_flags ~.* nosecure samesite=lax;
+        
+        #proxy_cookie_path /auth /;
+        
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        proxy_connect_timeout 100s;
+        proxy_read_timeout    300s;
+        proxy_send_timeout    300s;
+        send_timeout    300s;
+    }
+
+    # --- Saaransh Search Backend API Proxy  -----------
+    location /saaranshsearch/ {
+    
+        set $auth_upstream http://TYK_GW_URL;
+        proxy_pass $auth_upstream;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        #proxy_set_header X-forwarded-Host  $host;
+        #proxy_set_header X-forwarded-Port  $server_port;
+           
+        proxy_hide_header Access-Control-Allow-Origin;
+        proxy_hide_header Access-Control-Allow-Methods;
+        proxy_hide_header Access-Control-Allow-Headers;
+        
+        add_header Access-Control-Allow-Origin $http_origin always;
+        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
+        add_header Access-Control-Allow-Headers "Content-Type, Authorization" always;
+        
+        #proxy_cookie_domain ~.* $host;
+        #proxy_cookie_flags ~.* nosecure samesite=lax;
+        
+        #proxy_cookie_path /auth /;
+        
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        proxy_connect_timeout 100s;
+        proxy_read_timeout    300s;
+        proxy_send_timeout    300s;
+        send_timeout    300s;
+    }
+
+    # --- Saaransh Neo4j Backend API Proxy  -----------
+    location /saaranshneo4j/ {
+    
+        set $auth_upstream http://TYK_GW_URL;
+        proxy_pass $auth_upstream;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        #proxy_set_header X-forwarded-Host  $host;
+        #proxy_set_header X-forwarded-Port  $server_port;
+           
+        proxy_hide_header Access-Control-Allow-Origin;
+        proxy_hide_header Access-Control-Allow-Methods;
+        proxy_hide_header Access-Control-Allow-Headers;
+        
+        add_header Access-Control-Allow-Origin $http_origin always;
+        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
+        add_header Access-Control-Allow-Headers "Content-Type, Authorization" always;
+        
+        #proxy_cookie_domain ~.* $host;
+        #proxy_cookie_flags ~.* nosecure samesite=lax;
+        
+        #proxy_cookie_path /auth /;
+        
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        proxy_connect_timeout 100s;
+        proxy_read_timeout    300s;
+        proxy_send_timeout    300s;
+        send_timeout    300s;
+    }
+
+    # --- Saaransh Assets API Proxy  -----------
+    location /Intara_Image_Asset_new/ {
+    
+        set $auth_upstream http://TYK_GW_URL;  
+        #rewrite ^/Intara_Image_Asset_new/(.*)$ /Intara_Image_Asset_new/$1 break; 
+        proxy_pass $auth_upstream;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        #proxy_set_header X-forwarded-Host  $host;
+        #proxy_set_header X-forwarded-Port  $server_port;
+           
+        proxy_hide_header Access-Control-Allow-Origin;
+        proxy_hide_header Access-Control-Allow-Methods;
+        proxy_hide_header Access-Control-Allow-Headers;
+        
+        add_header Access-Control-Allow-Origin $http_origin always;
+        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
+        add_header Access-Control-Allow-Headers "Content-Type, Authorization" always;
+        
+        #proxy_cookie_domain ~.* $host;
+        #proxy_cookie_flags ~.* nosecure samesite=lax;
+        
+        #proxy_cookie_path /auth /;
+        
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        proxy_connect_timeout 100s;
+        proxy_read_timeout    300s;
+        proxy_send_timeout    300s;
+        send_timeout    300s;
+    }
+
+    # --- Deny hidden files ---------------------------------------------------
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+}

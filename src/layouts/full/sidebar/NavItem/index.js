@@ -103,7 +103,7 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
   const resolvedHref = basePath ? `${basePath}${item.href}` : item.href;
 
   // Check if item is under development
-  var textColor = 'inherit', iconColor = 'inherit';
+  var textColor = theme.palette.mode === 'dark' ? '#EDEDF0' : 'rgb(30, 30, 149)', iconColor = 'inherit';
   var isUnderDevelopment = false;
 
   // Handle click for under development items and Intelligence Briefing special navigation
@@ -133,7 +133,7 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
       onClick={handleClick}
       selected={isSelected}
       sx={{
-        padding: isCollapsed ? '8px' : '6px 8px',
+        padding: isCollapsed ? '8px' : '1px 4px',
         justifyContent: isCollapsed ? 'center' : 'flex-start',
         borderRadius: '6px',
         margin: isCollapsed ? '2px auto' : '0px',
@@ -180,7 +180,7 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
           sx={{
             margin: 0,
             '& .MuiListItemText-primary': {
-              fontSize: '0.8125rem',
+              fontSize: '0.9rem',
               fontWeight: 700,
               color: textColor,
               letterSpacing: '0.15px',
@@ -212,7 +212,7 @@ const NavItem = ({ item, level, pathDirect, onClick, isCollapsed = false, custom
                 fontSize: '0.75rem',
                 fontWeight: 600,
                 letterSpacing: '0.02em',
-                px: 1.5,
+                px: 1,
                 py: 0.75,
                 borderRadius: '8px',
                 boxShadow: '0 8px 22px rgba(79, 70, 229, 0.28)',

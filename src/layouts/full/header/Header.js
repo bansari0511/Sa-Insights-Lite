@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useInsertionEffect } from 'react';
 import {
   Box, AppBar, Toolbar, styled,
   TextField, InputAdornment, Paper, List, ListItemButton,
@@ -45,32 +45,74 @@ const D = {
   novaBgHover: 'linear-gradient(135deg, rgba(166, 160, 240, 0.22) 0%, rgba(166, 160, 240, 0.12) 100%)',
 };
 
-const AppBarStyled = styled(AppBar)(({ theme }) => ({
-  boxShadow: `0 1px 3px ${C.indigo[500]}0A, 0 4px 14px ${C.blue[500]}08`,
-  background: `linear-gradient(135deg, ${C.indigo[50]}F0 0%, #ffffffF5 50%, ${C.blue[50]}EE 100%)`,
-  justifyContent: 'center',
-  backdropFilter: 'blur(16px)',
-  width: '100%',
-  position: 'relative',
-  zIndex: theme.zIndex.drawer + 1,
-  overflow: 'visible',
-  borderBottom: `1px solid ${C.indigo[200]}40`,
-  minHeight: '68px',
-}));
+const AppBarStyled = styled(AppBar)(({ theme }) => {
+  const isDark = theme.palette.mode === 'dark';
+  return {
+    boxShadow: isDark
+      ? '0 1px 3px rgba(0,0,0,0.4), 0 4px 14px rgba(0,0,0,0.25)'
+      : `0 1px 3px ${C.indigo[500]}0A, 0 4px 14px ${C.blue[500]}08`,
+    background: isDark
+      ? 'linear-gradient(135deg, var(--dm-paper) 0%, var(--dm-paper-2) 50%, var(--dm-paper) 100%)'
+      : `linear-gradient(135deg, ${C.indigo[50]}F0 0%, #ffffffF5 50%, ${C.blue[50]}EE 100%)`,
+    justifyContent: 'center',
+    backdropFilter: 'blur(16px)',
+    width: '100%',
+    position: 'relative',
+    zIndex: theme.zIndex.drawer + 1,
+    overflow: 'visible',
+    borderBottom: isDark
+      ? '1px solid var(--dm-border)'
+      : `1px solid ${C.indigo[200]}40`,
+    minHeight: '68px',
+  };
+});
 
-const ToolbarStyled = styled(Toolbar)(() => ({
-  width: '100%',
-  color: C.slate[700],
-  padding: '0 24px',
-  minHeight: '68px',
-  position: 'relative',
-  overflow: 'visible',
-}));
+const ToolbarStyled = styled(Toolbar)(({ theme }) => {
+  const isDark = theme.palette.mode === 'dark';
+  return {
+    width: '100%',
+    color: isDark ? 'var(--dm-text)' : C.slate[700],
+    padding: '0 24px',
+    minHeight: '68px',
+    position: 'relative',
+    overflow: 'visible',
+  };
+});
+
+// Style id for dark-mode search-dropdown overrides
+const SEARCH_DM_STYLE_ID = 'news-search-dark-overrides';
+
+const darkSearchStyles = `
+  .news-search-section-header { background: linear-gradient(135deg, rgba(99,102,241,0.14) 0%, rgba(59,130,246,0.08) 100%) !important; border-bottom: 1px solid var(--dm-border) !important; }
+  .news-search-section-header-entity { background: linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(59,130,246,0.06) 100%) !important; border-bottom: 1px solid var(--dm-border) !important; border-top: 1px solid var(--dm-border) !important; }
+  .news-search-item:hover { background-color: rgba(255,255,255,0.05) !important; }
+  .news-search-item-entity:hover { background-color: rgba(255,255,255,0.05) !important; }
+  .news-search-chip { background-color: rgba(99,102,241,0.2) !important; color: var(--dm-accent-ink) !important; border-color: var(--dm-accent-edge) !important; }
+  .news-search-chip-entity { background-color: rgba(6,182,212,0.2) !important; color: #67e8f9 !important; border-color: rgba(6,182,212,0.35) !important; }
+`;
 
 const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
   const navigate = useNavigate();
   const searchRef = useRef(null);
   const { isDark, toggleTheme, hostOwnsTheme } = useThemeContext();
+
+  // Inject/remove the dark-mode search style block when isDark changes.
+  // useInsertionEffect fires synchronously before DOM mutations are painted,
+  // avoiding a flash of wrong styles on mode switch.
+  useInsertionEffect(() => {
+    let el = document.getElementById(SEARCH_DM_STYLE_ID);
+    if (isDark) {
+      if (!el) {
+        el = document.createElement('style');
+        el.id = SEARCH_DM_STYLE_ID;
+        document.head.appendChild(el);
+      }
+      el.textContent = darkSearchStyles;
+    } else if (el) {
+      el.remove();
+    }
+    return () => el?.remove();
+  }, [isDark]);
 
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
@@ -196,27 +238,45 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                   borderRadius: '12px',
                   height: '46px',
                   fontSize: '0.88rem',
-                  bgcolor: '#fff',
+                  bgcolor: isDark ? 'var(--dm-bg)' : '#fff',
                   transition: 'all 0.2s ease',
-                  boxShadow: `0 1px 4px ${C.indigo[500]}10, 0 2px 12px ${C.blue[500]}08`,
-                  '& fieldset': { borderColor: `${C.indigo[200]}90`, borderWidth: 1.5 },
+                  boxShadow: isDark
+                    ? '0 1px 3px rgba(0,0,0,0.3)'
+                    : `0 1px 4px ${C.indigo[500]}10, 0 2px 12px ${C.blue[500]}08`,
+                  '& fieldset': {
+                    borderColor: isDark ? `rgba(255,255,255,0.20)` : `${C.indigo[200]}90`,
+                    borderWidth: 1.5,
+                  },
                   '&:hover': {
-                    bgcolor: C.indigo[50],
-                    boxShadow: `0 2px 8px ${C.indigo[500]}18, 0 4px 16px ${C.blue[500]}10`,
-                    '& fieldset': { borderColor: C.indigo[300] },
+                    bgcolor: isDark ? 'var(--dm-paper)' : C.indigo[50],
+                    boxShadow: isDark
+                      ? '0 1px 4px rgba(0,0,0,0.4), 0 0 0 1px var(--dm-accent-edge)'
+                      : `0 2px 8px ${C.indigo[500]}18, 0 4px 16px ${C.blue[500]}10`,
+                    '& fieldset': {
+                      borderColor: isDark ? D.accent : C.indigo[300],
+                    },
                   },
                   '&.Mui-focused': {
-                    bgcolor: '#fff',
-                    boxShadow: `0 0 0 3px ${C.indigo[500]}18, 0 4px 16px ${C.indigo[500]}12`,
-                    '& fieldset': { borderColor: C.indigo[500], borderWidth: 1.5 },
+                    bgcolor: isDark ? 'var(--dm-paper)' : '#fff',
+                    boxShadow: isDark
+                      ? '0 0 0 2px var(--dm-accent-wash), 0 1px 4px rgba(0,0,0,0.4)'
+                      : `0 0 0 3px ${C.indigo[500]}18, 0 4px 16px ${C.indigo[500]}12`,
+                    '& fieldset': {
+                      borderColor: isDark ? D.accent : C.indigo[500],
+                      borderWidth: 1.5,
+                    },
                   },
                 },
                 '& .MuiInputBase-input': {
                   padding: '12px 14px',
-                  color: C.slate[800],
+                  color: isDark ? 'var(--dm-text)' : C.slate[800],
                   fontWeight: 500,
                   fontSize: '0.88rem',
-                  '&::placeholder': { color: C.slate[400], opacity: 1, fontWeight: 400 },
+                  '&::placeholder': {
+                    color: isDark ? 'var(--dm-text-disabled)' : C.slate[400],
+                    opacity: 1,
+                    fontWeight: 400,
+                  },
                 },
               }}
             />
@@ -236,8 +296,8 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                     elevation={16}
                     sx={{
                       borderRadius: '12px',
-                      bgcolor: '#fff',
-                      border: `1.5px solid ${C.indigo[200]}`,
+                      bgcolor: isDark ? 'var(--dm-paper-2)' : '#fff',
+                      border: `1.5px solid ${isDark ? 'var(--dm-border)' : C.indigo[200]}`,
                       overflow: 'hidden',
                       maxHeight: 440,
                       display: 'flex',
@@ -255,12 +315,24 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                       },
                     }}
                   >
+                    {/* ── Dark-mode-tinted alternatives ── */}
+                    {isDark && (
+                      <style>{`
+                        .news-search-section-header { background: linear-gradient(135deg, rgba(99,102,241,0.14) 0%, rgba(59,130,246,0.08) 100%) !important; border-bottom: 1px solid var(--dm-border) !important; }
+                        .news-search-section-header-entity { background: linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(59,130,246,0.06) 100%) !important; border-bottom: 1px solid var(--dm-border) !important; border-top: 1px solid var(--dm-border) !important; }
+                        .news-search-item:hover { background-color: rgba(255,255,255,0.05) !important; }
+                        .news-search-item-entity:hover { background-color: rgba(255,255,255,0.05) !important; }
+                        .news-search-chip { background-color: rgba(99,102,241,0.2) !important; color: var(--dm-accent-ink) !important; border-color: var(--dm-accent-edge) !important; }
+                        .news-search-chip-entity { background-color: rgba(6,182,212,0.2) !important; color: #67e8f9 !important; border-color: rgba(6,182,212,0.35) !important; }
+                      `}</style>
+                    )}
+
                     {/* Loading State */}
                     {isLoadingSuggestions && (
                       <Box sx={{ py: 2, px: 2.5, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
                         <Box sx={{
                           width: 18, height: 18,
-                          border: `2.5px solid ${C.indigo[500]}`,
+                          border: `2.5px solid ${isDark ? 'var(--dm-accent)' : C.indigo[500]}`,
                           borderTopColor: 'transparent',
                           borderRadius: '50%',
                           animation: 'spin 0.8s linear infinite',
@@ -269,7 +341,7 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                             '100%': { transform: 'rotate(360deg)' },
                           },
                         }} />
-                        <Typography sx={{ color: C.slate[600], fontWeight: 500, fontSize: '0.82rem' }}>
+                        <Typography sx={{ color: isDark ? 'var(--dm-text-2)' : C.slate[600], fontWeight: 500, fontSize: '0.82rem' }}>
                           Searching...
                         </Typography>
                       </Box>
@@ -278,10 +350,10 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                     {/* No Results */}
                     {noResults && (
                       <Box sx={{ py: 3, px: 2.5, textAlign: 'center' }}>
-                        <Typography sx={{ color: C.slate[700], fontWeight: 600, fontSize: '0.85rem', mb: 0.5 }}>
+                        <Typography sx={{ color: isDark ? 'var(--dm-text)' : C.slate[700], fontWeight: 600, fontSize: '0.85rem', mb: 0.5 }}>
                           No results found
                         </Typography>
-                        <Typography sx={{ color: C.slate[400], fontSize: '0.75rem' }}>
+                        <Typography sx={{ color: isDark ? 'var(--dm-text-3)' : C.slate[400], fontSize: '0.75rem' }}>
                           Try a different search term
                         </Typography>
                       </Box>
@@ -293,20 +365,20 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                         overflow: 'auto',
                         maxHeight: 440,
                         '&::-webkit-scrollbar': { width: '5px' },
-                        '&::-webkit-scrollbar-track': { background: C.slate[50] },
+                        '&::-webkit-scrollbar-track': { background: isDark ? 'var(--dm-bg)' : C.slate[50] },
                         '&::-webkit-scrollbar-thumb': {
-                          background: C.indigo[200], borderRadius: '5px',
-                          '&:hover': { background: C.indigo[300] },
+                          background: isDark ? 'var(--dm-accent-wash)' : C.indigo[200], borderRadius: '5px',
+                          '&:hover': { background: isDark ? 'var(--dm-accent-wash-2)' : C.indigo[300] },
                         },
                       }}>
                         {/* ── News Articles ── */}
                         {suggestions.title?.length > 0 && (
                           <Box>
                             {/* Section Header */}
-                            <Box sx={{
+                            <Box className="news-search-section-header" sx={{
                               px: 2, py: 1,
-                              background: `linear-gradient(135deg, ${C.indigo[50]} 0%, ${C.blue[50]} 100%)`,
-                              borderBottom: `1px solid ${C.indigo[100]}`,
+                              background: isDark ? undefined : `linear-gradient(135deg, ${C.indigo[50]} 0%, ${C.blue[50]} 100%)`,
+                              borderBottom: `1px solid ${isDark ? 'var(--dm-border)' : C.indigo[100]}`,
                               display: 'flex', alignItems: 'center', gap: 1,
                               position: 'sticky', top: 0, zIndex: 1,
                             }}>
@@ -319,7 +391,7 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                                 <NewspaperIcon sx={{ color: '#fff', fontSize: 14 }} />
                               </Box>
                               <Typography sx={{
-                                color: C.indigo[800], fontWeight: 700, fontSize: '0.72rem',
+                                color: isDark ? 'var(--dm-accent-ink)' : C.indigo[800], fontWeight: 700, fontSize: '0.72rem',
                                 textTransform: 'uppercase', letterSpacing: '0.05em',
                               }}>
                                 News Articles
@@ -327,11 +399,13 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                               <Chip
                                 label={suggestions.title.length}
                                 size="small"
+                                className="news-search-chip"
                                 sx={{
                                   ml: 'auto', height: 22, minWidth: 22,
-                                  bgcolor: C.indigo[100], color: C.indigo[700],
+                                  bgcolor: isDark ? undefined : C.indigo[100],
+                                  color: isDark ? undefined : C.indigo[700],
                                   fontWeight: 700, fontSize: '0.65rem',
-                                  border: `1px solid ${C.indigo[200]}`,
+                                  border: `1px solid ${isDark ? 'var(--dm-accent-edge)' : C.indigo[200]}`,
                                   '& .MuiChip-label': { px: 0.75 },
                                 }}
                               />
@@ -343,6 +417,7 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                                 <ListItemButton
                                   key={`title-${index}`}
                                   onClick={() => handleSuggestionSelect(title)}
+                                  className="news-search-item"
                                   sx={{
                                     py: 0.85, px: 1.5, mb: 0.3,
                                     borderRadius: '8px',
@@ -350,20 +425,20 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                                     bgcolor: 'transparent',
                                     borderLeft: `3px solid transparent`,
                                     '&:hover': {
-                                      bgcolor: C.indigo[50],
-                                      borderLeft: `3px solid ${C.indigo[400]}`,
+                                      bgcolor: isDark ? 'rgba(255,255,255,0.05)' : C.indigo[50],
+                                      borderLeft: `3px solid ${isDark ? 'var(--dm-accent)' : C.indigo[400]}`,
                                       '& .item-arrow': { opacity: 1, transform: 'translateX(0)' },
                                     },
-                                    '&:active': { bgcolor: C.indigo[100] },
+                                    '&:active': { bgcolor: isDark ? 'rgba(255,255,255,0.08)' : C.indigo[100] },
                                   }}
                                 >
                                   <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: 1 }}>
                                     <Box sx={{
                                       width: 7, height: 7, borderRadius: '50%',
-                                      bgcolor: C.indigo[400], flexShrink: 0,
+                                      bgcolor: isDark ? 'var(--dm-accent)' : C.indigo[400], flexShrink: 0,
                                     }} />
                                     <Typography sx={{
-                                      color: C.slate[800], fontWeight: 500,
+                                      color: isDark ? 'var(--dm-text)' : C.slate[800], fontWeight: 500,
                                       fontSize: '0.8rem', lineHeight: 1.45,
                                       flex: 1, minWidth: 0,
                                       overflow: 'hidden', textOverflow: 'ellipsis',
@@ -373,7 +448,7 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                                       {title}
                                     </Typography>
                                     <ArrowIcon className="item-arrow" sx={{
-                                      fontSize: 11, color: C.indigo[400],
+                                      fontSize: 11, color: isDark ? 'var(--dm-accent)' : C.indigo[400],
                                       opacity: 0, transform: 'translateX(-4px)',
                                       transition: 'all 0.15s ease', flexShrink: 0,
                                     }} />
@@ -388,11 +463,11 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                         {suggestions.entity_name?.length > 0 && (
                           <Box>
                             {/* Section Header */}
-                            <Box sx={{
+                            <Box className="news-search-section-header-entity" sx={{
                               px: 2, py: 1,
-                              background: `linear-gradient(135deg, ${C.cyan[50]} 0%, ${C.blue[50]} 100%)`,
-                              borderTop: suggestions.title?.length > 0 ? `1px solid ${C.slate[200]}` : 'none',
-                              borderBottom: `1px solid ${C.cyan[100]}`,
+                              background: isDark ? undefined : `linear-gradient(135deg, ${C.cyan[50]} 0%, ${C.blue[50]} 100%)`,
+                              borderTop: suggestions.title?.length > 0 ? `1px solid ${isDark ? 'var(--dm-border)' : C.slate[200]}` : 'none',
+                              borderBottom: `1px solid ${isDark ? 'var(--dm-border)' : C.cyan[100]}`,
                               display: 'flex', alignItems: 'center', gap: 1,
                               position: 'sticky', top: 0, zIndex: 1,
                             }}>
@@ -405,7 +480,7 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                                 <EventAvailableIcon sx={{ color: '#fff', fontSize: 14 }} />
                               </Box>
                               <Typography sx={{
-                                color: C.cyan[800], fontWeight: 700, fontSize: '0.72rem',
+                                color: isDark ? 'var(--dm-accent-ink)' : C.cyan[800], fontWeight: 700, fontSize: '0.72rem',
                                 textTransform: 'uppercase', letterSpacing: '0.05em',
                               }}>
                                 Events & Entities
@@ -413,11 +488,13 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                               <Chip
                                 label={suggestions.entity_name.length}
                                 size="small"
+                                className="news-search-chip-entity"
                                 sx={{
                                   ml: 'auto', height: 22, minWidth: 22,
-                                  bgcolor: C.cyan[100], color: C.cyan[700],
+                                  bgcolor: isDark ? undefined : C.cyan[100],
+                                  color: isDark ? undefined : C.cyan[700],
                                   fontWeight: 700, fontSize: '0.65rem',
-                                  border: `1px solid ${C.cyan[200]}`,
+                                  border: `1px solid ${isDark ? 'rgba(6,182,212,0.35)' : C.cyan[200]}`,
                                   '& .MuiChip-label': { px: 0.75 },
                                 }}
                               />
@@ -429,6 +506,7 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                                 <ListItemButton
                                   key={`entity-${index}`}
                                   onClick={() => handleSuggestionSelect(entity)}
+                                  className="news-search-item-entity"
                                   sx={{
                                     py: 0.85, px: 1.5, mb: 0.3,
                                     borderRadius: '8px',
@@ -436,20 +514,20 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                                     bgcolor: 'transparent',
                                     borderLeft: `3px solid transparent`,
                                     '&:hover': {
-                                      bgcolor: C.cyan[50],
-                                      borderLeft: `3px solid ${C.cyan[400]}`,
+                                      bgcolor: isDark ? 'rgba(255,255,255,0.05)' : C.cyan[50],
+                                      borderLeft: `3px solid ${isDark ? 'var(--dm-accent)' : C.cyan[400]}`,
                                       '& .item-arrow': { opacity: 1, transform: 'translateX(0)' },
                                     },
-                                    '&:active': { bgcolor: C.cyan[100] },
+                                    '&:active': { bgcolor: isDark ? 'rgba(255,255,255,0.08)' : C.cyan[100] },
                                   }}
                                 >
                                   <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: 1 }}>
                                     <Box sx={{
                                       width: 7, height: 7, borderRadius: '2px',
-                                      bgcolor: C.cyan[400], flexShrink: 0,
+                                      bgcolor: isDark ? 'var(--dm-accent)' : C.cyan[400], flexShrink: 0,
                                     }} />
                                     <Typography sx={{
-                                      color: C.slate[800], fontWeight: 500,
+                                      color: isDark ? 'var(--dm-text)' : C.slate[800], fontWeight: 500,
                                       fontSize: '0.8rem', lineHeight: 1.45,
                                       flex: 1, minWidth: 0,
                                       overflow: 'hidden', textOverflow: 'ellipsis',
@@ -459,7 +537,7 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
                                       {entity}
                                     </Typography>
                                     <ArrowIcon className="item-arrow" sx={{
-                                      fontSize: 11, color: C.cyan[400],
+                                      fontSize: 11, color: isDark ? 'var(--dm-accent)' : C.cyan[400],
                                       opacity: 0, transform: 'translateX(-4px)',
                                       transition: 'all 0.15s ease', flexShrink: 0,
                                     }} />
@@ -481,51 +559,43 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
         {/* Spacer */}
         <Box sx={{ flex: 1 }} />
 
-        {/* ── Light/Dark theme switch — standalone only ──
-            Hidden, not disabled, whenever the METIS host is driving the theme: embedded, the
-            portal's top bar carries the switch for every child app, and a second one here was
-            both a duplicate control and a lie about who was in charge.
-
-            `hostOwnsTheme` is true exactly when the host handed us a theme to follow, which is
-            the same condition that makes `toggleTheme` a no-op — so this cannot drift out of
-            step with the context, and it cannot hide the switch while it still works. Running
-            standalone nothing is passed, the flag is false, and this renders as it always did. */}
+        {/* ── Theme Mode Toggle — hidden when the host drives the theme (federation mode) ── */}
         {!hostOwnsTheme && (
-          <Tooltip title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow placement="bottom">
-            <Box
-              onClick={toggleTheme}
-              sx={{
-                flexShrink: 0,
-                position: 'relative',
-                zIndex: 2,
-                width: 38, height: 38, borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', mr: 1.5,
+        <Tooltip title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow placement="bottom">
+          <Box
+            onClick={toggleTheme}
+            sx={{
+              flexShrink: 0,
+              position: 'relative',
+              zIndex: 2,
+              width: 38, height: 38, borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', mr: 1.5,
+              background: isDark
+                ? D.controlBg
+                : `linear-gradient(145deg, #fff 0%, ${C.indigo[50]} 100%)`,
+              border: `2px solid ${isDark ? D.border : C.indigo[400]}`,
+              boxShadow: isDark
+                ? `0 0 0 3px ${D.accentRing}`
+                : `0 0 0 3px ${C.indigo[100]}, 0 2px 8px ${C.indigo[400]}25`,
+              transition: 'all 0.25s ease',
+              '&:hover': {
+                transform: 'scale(1.08)',
                 background: isDark
-                  ? D.controlBg
-                  : `linear-gradient(145deg, #fff 0%, ${C.indigo[50]} 100%)`,
-                border: `2px solid ${isDark ? D.border : C.indigo[400]}`,
+                  ? D.controlBgHover
+                  : `linear-gradient(145deg, ${C.indigo[50]} 0%, ${C.blue[50]} 100%)`,
                 boxShadow: isDark
-                  ? `0 0 0 3px ${D.accentRing}`
-                  : `0 0 0 3px ${C.indigo[100]}, 0 2px 8px ${C.indigo[400]}25`,
-                transition: 'all 0.25s ease',
-                '&:hover': {
-                  transform: 'scale(1.08)',
-                  background: isDark
-                    ? D.controlBgHover
-                    : `linear-gradient(145deg, ${C.indigo[50]} 0%, ${C.blue[50]} 100%)`,
-                  boxShadow: isDark
-                    ? `0 0 0 3px ${D.accentRingHover}`
-                    : `0 0 0 3px ${C.indigo[200]}, 0 4px 12px ${C.indigo[400]}30`,
-                },
-                '&:active': { transform: 'scale(0.96)' },
-              }}
-            >
-              {isDark
-                ? <LightModeOutlinedIcon sx={{ fontSize: 18, color: D.accentInk }} />
-                : <DarkModeOutlinedIcon sx={{ fontSize: 18, color: C.indigo[600] }} />}
-            </Box>
-          </Tooltip>
+                  ? `0 0 0 3px ${D.accentRingHover}`
+                  : `0 0 0 3px ${C.indigo[200]}, 0 4px 12px ${C.indigo[400]}30`,
+              },
+              '&:active': { transform: 'scale(0.96)' },
+            }}
+          >
+            {isDark
+              ? <LightModeOutlinedIcon sx={{ fontSize: 18, color: D.accentInk }} />
+              : <DarkModeOutlinedIcon sx={{ fontSize: 18, color: C.indigo[600] }} />}
+          </Box>
+        </Tooltip>
         )}
 
         {/* ── Nova AI Assistant ──

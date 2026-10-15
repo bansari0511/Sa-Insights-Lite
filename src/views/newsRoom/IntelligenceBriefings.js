@@ -12,6 +12,7 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import SecurityIcon from '@mui/icons-material/Security';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { newsService } from 'src/services/dataService';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SHOW_INSIGHTS_SIDEBAR } from 'src/config/appMode';
@@ -238,14 +239,8 @@ function IntelligenceBriefings({ initialTab }) {
     const normalArticles = currentArticles.filter(article => getPriorityLevel(article) === 'normal');
 
     const handlePageChange = async (_event, value) => {
-        // If navigating to page 1, reset to initial state (only show first 2 pages)
-        if (value === 1 && page !== 1) {
-            await loadInitialNews();
-        } else {
-            setPage(value);
-            // Update URL with new page
-            updateStateParams(value, pageIdentifier);
-        }
+        setPage(value);
+        updateStateParams(value, pageIdentifier);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -283,6 +278,37 @@ function IntelligenceBriefings({ initialTab }) {
                 flexWrap: 'wrap',
                 gap: 1
             }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', mb: '-3px' }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1,
+                            px: 2,
+                            py: 1,
+                            borderRadius: '12px',
+                            background: theme.palette.mode === 'dark'
+                                ? `linear-gradient(135deg, ${theme.palette.primary[900]} 0%, ${theme.palette.primary[800]} 100%)`
+                                : `linear-gradient(135deg, ${theme.palette.primary[50]} 0%, ${theme.palette.primary[100]} 100%)`,
+                            border: `1px solid ${theme.palette.mode === 'dark' ? theme.palette.primary[700] : theme.palette.primary[200]}`,
+                            boxShadow: theme.palette.mode === 'dark'
+                                ? '0 2px 8px rgba(0,0,0,0.3)'
+                                : '0 2px 8px rgba(0,0,0,0.08)',
+                        }}
+                    >
+                        <AccessTimeIcon sx={{ fontSize: '0.85rem', color: theme.palette.mode === 'dark' ? theme.palette.primary[300] : theme.palette.primary[600] }} />
+                        <Typography
+                            sx={{
+                                fontSize: '0.75rem',
+                                color: theme.palette.mode === 'dark' ? theme.palette.primary[200] : theme.palette.primary[800],
+                                fontWeight: 500,
+                            }}
+                        >
+                            Displaying Intelligence Briefings from last 3 months. For older articles, please use global search.
+                        </Typography>
+
+                    </Box>
+                </Box>
                 <Chip
                     icon={<ArticleIcon />}
                     label={`${articles.length} Total Briefings`}

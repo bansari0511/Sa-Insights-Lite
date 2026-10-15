@@ -40,6 +40,7 @@ const AuthLogin = ({ title, subtext }) => {
     const location = useLocation();
 
     const isDemoMode = authService.isDemoMode();
+    console.log("isdemo",isDemoMode)
     const from = location.state?.from?.pathname || '/NewsRoom';
 
     if (isAuthenticated) {

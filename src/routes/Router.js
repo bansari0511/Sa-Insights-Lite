@@ -1,7 +1,11 @@
+
 import React, { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
+import ProtectedRoute from '../components/ProtectedRoute';
+import { SHOW_INSIGHTS_SIDEBAR } from '../config/appMode';
 
+const Default_Route = SHOW_INSIGHTS_SIDEBAR ? '/NewsRoom' : '/equipment';
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
@@ -11,21 +15,29 @@ const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 
+// Landing Page
+const LandingPage = Loadable(lazy(() => import("../views/landing/LandingPage")))
 // NewsRoom / Insights
 const NewsHomePage = Loadable(lazy(() => import("../views/newsRoom/NewsHomePage")))
 const IntelligenceBriefings = Loadable(lazy(() => import("../views/newsRoom/IntelligenceBriefings")))
 
 // Timeline and Networks - Event Timeline with Map
 const EventTimeline = Loadable(lazy(() => import('../views/icons/mapandevent')))
-
 // Search Page
 const SearchPage = Loadable(lazy(() => import('../views/utilities/SearchPage')))
 
 const Router = [
-  // Root redirects to login
+  // Landing page - public, no auth required
   {
     path: '/',
-    element: <Navigate to="/auth/login" />,
+    // element: <ProtectedRoute><FullLayout /></ProtectedRoute>,
+    // children: [
+    //   { index: true, element: <NewsHomePage /> },
+    // ],
+    element: <ProtectedRoute><FullLayout /></ProtectedRoute>,
+    children: [
+      { index: true, element: <Navigate to={Default_Route} replace /> },
+    ],
   },
   // Auth routes - public
   {
@@ -39,7 +51,8 @@ const Router = [
   },
   // Protected routes - require authentication
   {
-    element: <FullLayout />,
+    path: '/',
+    element: <ProtectedRoute><FullLayout /></ProtectedRoute>,
     children: [
       // Insights Section
       { path: '/NewsRoom', element: <NewsHomePage /> },

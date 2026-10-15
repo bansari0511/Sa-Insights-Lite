@@ -534,7 +534,7 @@
 
       // Make calcite-button's icon color match calcite-action's
       &:not(:hover) {
-        --calcite-ui-icon-color: var(--calcite-color-text-3);
+        --calcite-icon-color: var(--calcite-color-text-3);
       }
     }
 

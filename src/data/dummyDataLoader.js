@@ -478,7 +478,7 @@ export async function loadEntitySearch(params = {}) {
   let results = [];
 
   // Handle nsag_actor specially using loadNsagActorList
-  if (normalizedType === 'nsag_actor') {
+  if (normalizedType === 'nsag_actor' || normalizedType === 'nonstategroup') {
     const nsagData = await loadNsagActorList(keyword);
     return {
       status_code: 200,

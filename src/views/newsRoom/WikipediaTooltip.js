@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
-import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
 import BusinessIcon from '@mui/icons-material/Business';
 import EventIcon from '@mui/icons-material/Event';
 import CloseIcon from '@mui/icons-material/Close';
@@ -19,34 +18,32 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import WarningIcon from '@mui/icons-material/Warning';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { dataService } from '../../services/dataService';
+import { API_ENDPOINTS } from 'src/config/apiEndpoints';
 import urlsMap from '../../services/urlsMap';
+import { USE_DUMMY_DATA } from 'src/data/dummyDataLoader';
+
 // Entity type detection
 const getEntityCategory = (entityType) => {
   const type = entityType?.toLowerCase() || '';
-  // Include ship types (ShipVariant, ShipFamily, ShipInstance) as equipment category
-  if (type.includes('equipmentvariant') || type.includes('equipmentfamily') || type.includes('equipment') ||
-    type.includes('shipvariant') || type.includes('shipfamily') || type.includes('shipinstance')) return 'equipment';
+  if (type.includes('equipmentvariant') || type.includes('equipmentfamily') || type.includes('equipment')) return 'equipment';
+  if (type.includes('shipvariant') || type.includes('shipfamily') || type.includes('shipinstance')) return 'equipment';
   if (type.includes('militarygroup')) return 'military';
   if (type.includes('organization')) return 'organization';
   if (type.includes('event') || type.includes('attack') || type.includes('action')) return 'event';
   if (type.includes('installation')) return 'installation';
+  if (type.includes('nsag') || type.includes('nonstategroup')) return 'nsag';
   return 'unknown';
 };
 
-// Get icon for entity type - accepts optional originalType for ship-specific icon
-const getEntityIcon = (category, originalType = '') => {
-  // Check for ship types first to show boat icon
-  const typeLower = originalType?.toLowerCase() || '';
-  if (typeLower.includes('ship')) {
-    return <DirectionsBoatIcon sx={{ fontSize: 20 }} />;
-  }
-
+// Get icon for entity type
+const getEntityIcon = (category) => {
   switch (category) {
     case 'equipment': return <PrecisionManufacturingIcon sx={{ fontSize: 20 }} />;
     case 'military': return <MilitaryTechIcon sx={{ fontSize: 20 }} />;
     case 'organization': return <BusinessIcon sx={{ fontSize: 20 }} />;
     case 'event': return <EventIcon sx={{ fontSize: 20 }} />;
     case 'installation': return <WarehouseIcon sx={{ fontSize: 20 }} />;
+    case 'nsag': return <GroupsIcon sx={{ fontSize: 20 }} />;
     default: return <PrecisionManufacturingIcon sx={{ fontSize: 20 }} />;
   }
 };
@@ -90,11 +87,11 @@ const parseImagesApiResponse = (data, baseImageUrl) => {
             });
           caption = captionElement?.getAttribute("data-caption") || '';
         }
-
+        let baseImageUrl = API_ENDPOINTS.ASSETS.BASE;
         // Construct image path using baseImageUrl
-        const imgPath = baseImageUrl
-          ? `${baseImageUrl}/images/${assetId}.jpg`
-          : `https://asset.janes.com/image/${assetId}`;
+        const imgPath = baseImageUrl.includes('/images/')
+          ? `${baseImageUrl}/${assetId}.jpg`
+          : `${baseImageUrl}/images/${assetId}.jpg`;
 
         images.push({ id: assetId, url: imgPath, caption });
       });
@@ -126,11 +123,9 @@ const parseImagesApiResponse = (data, baseImageUrl) => {
         }
 
         // Check if id is already a full URL
-        const imgPath = item.id?.includes('http')
-          ? item.id
-          : baseImageUrl
-            ? `${baseImageUrl}/images/${assetId}.jpg`
-            : `https://asset.janes.com/image/${assetId}`;
+        const imgPath = baseImageUrl.includes('/images/')
+          ? `${baseImageUrl}/${assetId}.jpg`
+          : `${baseImageUrl}/images/${assetId}.jpg`;
 
         images.push({ id: assetId, url: imgPath, caption });
       });
@@ -203,23 +198,40 @@ const extractFirstImageUrl = (data) => {
 };
 
 // Fetch equipment images using dataService
-const fetchEquipmentImages = async (equipmentId, baseImageUrl = null) => {
-  try {
-    const data = await dataService.equipment.getImages(equipmentId);
+const fetchEquipmentImages = async (equipmentId) => {
+  if (USE_DUMMY_DATA) {
+    // For dummy data, extract first image from dummyImages.result[0].subGroups[0].id
+    const imagesData = dummyImages?.result?.[0];
+    const subGroups = imagesData?.subGroups || [];
 
-    // Try to extract first image URL from various possible response structures
-    const firstImageUrl = extractFirstImageUrl(data);
-    if (firstImageUrl) {
+    // Get only the first image URL from subGroups
+    if (subGroups.length > 0 && subGroups[0]?.id) {
+      const firstImageUrl = subGroups[0].id;
       return [{ url: firstImageUrl, caption: '' }];
     }
+    return [];
+  }
 
-    // Fallback: Try to parse images from the response body using parseImagesApiResponse
+  try {
+    // Call the images API endpoint
+    const response = await fetch(`${API_ENDPOINTS.PROFILER.EQUIPMENT_IMAGES}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: 'web_user',
+        req_id: `img_${Date.now()}`,
+        entity_id: equipmentId,
+      }),
+    });
+
+    if (!response.ok) return [];
+
+    const data = await response.json();
+
+    // Fallback: Try to parse images from the response body
+    let baseImageUrl = API_ENDPOINTS.ASSETS.BASE;
     const images = parseImagesApiResponse(data, baseImageUrl);
-    if (images.length > 0) {
-      return [images[0]]; // Return only first image
-    }
-
-    console.warn('No images found in equipment images API response');
+    if (images.length > 0) return images[0]?.url || null // Return only first image
     return [];
   } catch (error) {
     console.error('Error fetching equipment images:', error);
@@ -229,10 +241,10 @@ const fetchEquipmentImages = async (equipmentId, baseImageUrl = null) => {
 
 // Map category to entity_type for entity_search API
 const getCategoryEntityType = (category, originalType = '') => {
-  // For equipment types (variant/family) and ship types, always use 'equipment' for search
+  // For equipment types (variant/family), always use 'equipment' for search
   // The specific type is used later for profile fetching
   const typeLower = originalType?.toLowerCase() || '';
-  if (typeLower.includes('equipment') || typeLower.includes('ship')) return 'equipment';
+  if (typeLower.includes('equipment')) return 'equipment';
 
   switch (category) {
     case 'equipment': return 'equipment';
@@ -240,6 +252,7 @@ const getCategoryEntityType = (category, originalType = '') => {
     case 'organization': return 'organization';
     case 'event': return 'event';
     case 'installation': return 'installation';
+    case 'nsag': return 'NONSTATEGROUP';
     default: return '';
   }
 };
@@ -279,6 +292,10 @@ const fetchEntityData = async (entityName, entityType) => {
       case 'installation':
         profileData = await dataService.installation.getProfile(entityId);
         break;
+      case 'nsag':
+        profileData = await dataService.nsagActor.getProfile(entityId);
+        if (!profileData) console.warn('[WikipediaTooltip] NSAG profile API returned empty for:', entityId);
+        break;
       default:
         return null;
     }
@@ -304,6 +321,24 @@ const fetchEntityData = async (entityName, entityType) => {
     } else if (category === 'military' && profileData?.result) {
       // Military group with result array format
       result = profileData.result[0] || null;
+    } else if (category === 'nsag') {
+      // NSAG profile - handle multiple response formats:
+      // Dummy:  { result: { nsagActor: { properties, labels } } }
+      // API:    { result: [ { nsag: { properties, labels }, country: [...], parent_organization: [...] } ] }
+      // API-fallback: { result: { properties, labels } } or { result: { nsagActor: { ... } } }
+      const nsagResult = profileData?.result;
+      if (Array.isArray(nsagResult) && nsagResult.length > 0 && nsagResult[0]?.nsag) {
+        // New API format: result is an array with nsag object inside
+        const item = nsagResult[0];
+        result = {
+          ...item.nsag,
+          countries: (item.country || []).map(c => c.name),
+          parent_organization: item.parent_organization || [],
+        };
+      } else {
+        result = profileData?.result?.nsagActor || profileData?.result || profileData || null;
+      }
+      if (!result) console.warn('[WikipediaTooltip] NSAG profile result extraction failed. profileData:', profileData);
     } else if (category === 'equipment' && profileData?.resultRows) {
       // Equipment dummy data returns resultRows format - transform it
       const row = profileData.resultRows[0];
@@ -329,10 +364,9 @@ const fetchEntityData = async (entityName, entityType) => {
       // Determine the correct ID for fetching images
       let equipmentIdForImages = null;
 
-      // For EquipmentFamily/EquipmentVariant and ShipFamily/ShipVariant/ShipInstance, try to get ID from subGroups first
+      // For EquipmentFamily/EquipmentVariant, try to get ID from subGroups first
       const typeLower = entityType?.toLowerCase() || '';
-      if (typeLower.includes('equipmentfamily') || typeLower.includes('equipmentvariant') ||
-        typeLower.includes('shipfamily') || typeLower.includes('shipvariant') || typeLower.includes('shipinstance')) {
+      if (typeLower.includes('equipmentfamily') || typeLower.includes('equipmentvariant')) {
         // Try subGroups for family/variant images - check various subgroup locations
         equipmentIdForImages = result?.subGroups?.[0]?.id ||
           result?.subGroups5?.[0]?.id ||
@@ -347,10 +381,9 @@ const fetchEntityData = async (entityName, entityType) => {
       }
 
       if (equipmentIdForImages) {
-        // Pass baseImageUrl from urlsMap for proper image URL construction
-        const baseImageUrl = urlsMap.assetsService || null;
-        images = await fetchEquipmentImages(equipmentIdForImages, baseImageUrl);
+        images = await fetchEquipmentImages(equipmentIdForImages);
       }
+      console.log("equipmentIdForImages", images)
     }
 
     return { category, data: result, images };
@@ -360,14 +393,10 @@ const fetchEntityData = async (entityName, entityType) => {
   }
 };
 
-// Generate Wikipedia-style paragraph for Equipment and Ships
+// Generate Wikipedia-style paragraph for Equipment
 const parseEquipmentData = (data, images = []) => {
   const props = data?.e?.properties || data;
   if (!props) return null;
-
-  // Get variant type from entity labels to detect ship types
-  const variantType = data?.e?.labels?.[0] || props?.type || '';
-  const isShipEntity = variantType.toLowerCase().includes('ship');
 
   const equipmentType = props.equipment_type || '';
   const role = props.role || '';
@@ -379,19 +408,15 @@ const parseEquipmentData = (data, images = []) => {
   const countryOfOrigin = props.country_of_origin || props.origin_country || '';
   const inService = props.in_service || props.service_status || '';
 
-  // Ship-specific fields
-  const pennantNumber = props.pennant_number_label || '';
-  const shipDesignator = props.designator_ship_designator || '';
-  const designatorLabel = props.designator_label || '';
-  const coreTypeDesignator = props.designator_core_type_designator || '';
-  const designatorSuffix = props.designator_designator_suffix || '';
-
   // Get equipment family from subGroups5 (in_family) or subGroups6 (overall_family)
   const equipmentFamily = data?.subGroups5?.[0]?.label || data?.subGroups6?.[0]?.label || '';
 
   // Get derived from (subGroups3) and parent equipment (subGroups4)
   const derivedFrom = data?.subGroups3?.[0]?.label || '';
   const parentEquipment = data?.subGroups4?.[0]?.label || '';
+
+  // Get variant type from entity labels
+  const variantType = data?.e?.labels?.[0] || '';
 
   const specs = data?.subGroups || [];
   const specList = specs.slice(0, 3).map(spec => {
@@ -404,45 +429,23 @@ const parseEquipmentData = (data, images = []) => {
   const types = equipmentType.split(',').map(t => t.trim().toLowerCase());
   const roles = role.split(',').map(r => r.trim().toLowerCase());
 
-  // Opening classification - different for ships vs equipment
-  if (isShipEntity) {
-    // Ship-specific opening
-    if (shipDesignator) {
-      paragraph = `is a ${shipDesignator.toLowerCase()}`;
-    } else if (types.length > 0 && types[0]) {
-      paragraph = `is a ${types.slice(0, 2).join(', ')} vessel`;
-    } else {
-      paragraph = 'is a naval vessel';
-    }
-
-    // Pennant number / hull number
-    if (pennantNumber) {
-      paragraph += ` with pennant number ${pennantNumber}`;
-    }
-
-    // Designator label (e.g., DDG)
-    if (designatorLabel) {
-      paragraph += ` (${designatorLabel})`;
-    }
+  // Opening classification with variant type
+  if (types.length > 0 && types[0]) {
+    paragraph = `is a ${types.slice(0, 2).join(', ')} platform`;
+  } else if (variantType) {
+    paragraph = `is a ${variantType.toLowerCase()}`;
   } else {
-    // Equipment opening
-    if (types.length > 0 && types[0]) {
-      paragraph = `is a ${types.slice(0, 2).join(', ')} platform`;
-    } else if (variantType) {
-      paragraph = `is a ${variantType.toLowerCase()}`;
-    } else {
-      paragraph = 'is a military equipment';
-    }
+    paragraph = 'is a military equipment';
+  }
 
-    // Designation
-    if (designation) {
-      paragraph += ` (${designation})`;
-    }
+  // Designation
+  if (designation) {
+    paragraph += ` (${designation})`;
   }
 
   // Family relationship
   if (equipmentFamily) {
-    paragraph += ` in the ${equipmentFamily} ${isShipEntity ? 'class' : 'family'}`;
+    paragraph += ` in the ${equipmentFamily} family`;
   }
 
   // Derived from / variant info
@@ -454,19 +457,14 @@ const parseEquipmentData = (data, images = []) => {
 
   // Country of origin
   if (countryOfOrigin) {
-    paragraph += `, ${isShipEntity ? 'operated by' : 'developed by'} ${countryOfOrigin}`;
+    paragraph += `, developed by ${countryOfOrigin}`;
   }
 
   paragraph += '.';
 
   // Role and purpose
   if (roles.length > 0 && roles[0]) {
-    paragraph += ` Designed for ${roles.slice(0, 3).join(', ')} ${isShipEntity ? 'operations' : 'missions'}.`;
-  }
-
-  // Ship-specific: Core type designator
-  if (isShipEntity && coreTypeDesignator) {
-    paragraph += ` Classified as ${coreTypeDesignator.toLowerCase()}.`;
+    paragraph += ` Designed for ${roles.slice(0, 3).join(', ')} missions.`;
   }
 
   // Operational characteristics
@@ -475,11 +473,11 @@ const parseEquipmentData = (data, images = []) => {
     if (domain) {
       paragraph += ` operates in the ${domain.toLowerCase()} domain`;
     }
-    if (mobility && !isShipEntity) {
+    if (mobility) {
       paragraph += `${domain ? ',' : ''} features ${mobility.toLowerCase()} mobility`;
     }
     if (operation) {
-      paragraph += `${domain || (mobility && !isShipEntity) ? ', and is' : ' is'} ${operation.toLowerCase()}`;
+      paragraph += `${domain || mobility ? ', and is' : ' is'} ${operation.toLowerCase()}`;
     }
     paragraph += '.';
   }
@@ -500,44 +498,30 @@ const parseEquipmentData = (data, images = []) => {
     paragraph += ` Key specs: ${specStr}.`;
   }
 
-  const imageUrl = images?.[0]?.url || images?.[0]?.image_url || null;
+  console.log("FINAL CALL images", images)
+  const imageUrl = images || images?.[0]?.image_url || null;
 
-  // Facts for compact display - different for ships vs equipment
-  let facts;
-  if (isShipEntity) {
-    facts = [
-      { label: 'Pennant', value: pennantNumber },
-      { label: 'Class', value: equipmentFamily },
-      { label: 'Designator', value: designatorLabel },
-      { label: 'Type', value: shipDesignator || equipmentType.split(',').slice(0, 2).map(t => t.trim()).join(', ') },
-      { label: 'Category', value: coreTypeDesignator },
-      { label: 'Role', value: role.split(',').slice(0, 2).map(r => r.trim()).join(', ') },
-      { label: 'Operator', value: countryOfOrigin },
-      { label: 'Domain', value: domain },
-      { label: 'Status', value: inService },
-    ].filter(f => f.value && f.value !== 'nan');
-  } else {
-    facts = [
-      { label: 'Family', value: equipmentFamily },
-      { label: 'Derived From', value: derivedFrom },
-      { label: 'Parent', value: parentEquipment },
-      { label: 'Origin', value: countryOfOrigin },
-      { label: 'Designation', value: designation },
-      { label: 'Role', value: role.split(',').slice(0, 2).map(r => r.trim()).join(', ') },
-      { label: 'Type', value: equipmentType.split(',').slice(0, 2).map(t => t.trim()).join(', ') },
-      { label: 'Domain', value: domain },
-      { label: 'Status', value: inService },
-    ].filter(f => f.value && f.value !== 'nan');
-  }
+  // Facts for compact display
+  const facts = [
+    { label: 'Family', value: equipmentFamily },
+    { label: 'Derived From', value: derivedFrom },
+    { label: 'Parent', value: parentEquipment },
+    { label: 'Origin', value: countryOfOrigin },
+    { label: 'Designation', value: designation },
+    { label: 'Role', value: role.split(',').slice(0, 2).map(r => r.trim()).join(', ') },
+    { label: 'Type', value: equipmentType.split(',').slice(0, 2).map(t => t.trim()).join(', ') },
+    { label: 'Domain', value: domain },
+    { label: 'Status', value: inService },
+  ].filter(f => f.value && f.value !== 'nan');
 
   return {
-    type: isShipEntity ? 'ship' : 'equipment',
+    type: 'equipment',
     imageUrl,
-    paragraph: paragraph || (isShipEntity ? 'naval vessel.' : 'equipment platform.'),
+    paragraph: paragraph || 'equipment platform.',
     facts: facts.slice(0, 6),
     tags: [
       domain,
-      isShipEntity ? designatorLabel : mobility,
+      mobility,
       operation,
       countryOfOrigin,
     ].filter(Boolean).slice(0, 4),
@@ -706,15 +690,15 @@ const parseOrganizationData = (data) => {
   // 2. manufacturer: data.c.properties
   // 3. generic: data.e.properties
   const org = data?.organization || data?.c?.properties || data?.e?.properties || data;
+  console.log("org", org)
   if (!org) return null;
 
   // Extract essential fields only
   const orgType = org.organization_type || '';
   const orgSubType = org.organization_sub_type || '';
-
+  console.log("orgType", orgType)
   // Country - handle different formats
   const country = data?.country_of_domicile || data?.['m.name'] || org.country || '';
-
   const ownership = org.ownership || '';
   const status = org.status || '';
   const foundedYear = org.founded || org.year_founded || '';
@@ -999,7 +983,166 @@ const parseInstallationData = (data) => {
   };
 };
 
-// Modern Wikipedia-style Tooltip Content
+// Generate Wikipedia-style paragraph for NSAG Actor (NonStateGroup)
+const parseNsagData = (data) => {
+  if (!data) return null;
+
+  const props = data?.properties || data;
+  if (!props) return null;
+
+  // Extract ALL fields from properties (full API response usage)
+  const label = props.label || props.name || props.display_name_label || '';
+  const entityId = props.id || '';
+  const entityStatus = props.entity_status || '';
+  const countries = data?.countries || props.countries || [];
+  const countryObjs = data?.country || [];
+  // Get country names from either countries array or country objects
+  const countryNames = countries.length > 0
+    ? countries
+    : countryObjs.map(c => c.name || c).filter(Boolean);
+  const countryOfOrigin = countryNames[0] || '';
+  const allCountries = countryNames.filter(Boolean).join(', ') || '';
+  const synonymLabel = props.synonym_label || [];
+  const acronymLabel = props.acronym_label || '';
+  const transitionLabel = props.transition_label || '';
+  const indigenousNameLabel = props.indigenous_name_label || '';
+  const lastModifiedDate = props.last_modified_date || '';
+  const entityCategory = props.entity_category || props.primary_type?.split('/').pop() || '';
+  const groupScope = props.group_scope || '';
+  const dataSource = props.data_source || '';
+
+  // Fields used for pills and facts
+  const labels = data?.labels || [];
+  const groupObjective = props.group_objective || '';
+  const organizationType = props.organization_type || '';
+  const groupOrientation = props.group_orientation || '';
+  const groupType = props.group_type || '';
+
+  // Parent organization
+  const parentOrg = data?.parent_organization || [];
+
+  // Build comprehensive Wikipedia-style paragraph
+  let paragraph = '';
+
+  // Opening: "is [a/an] [entityStatus] organization that originated in [countryOfOrigin]"
+  const article = entityStatus ? (/^[aeiou]/i.test(entityStatus) ? 'an' : 'a') : 'a';
+  paragraph = `is ${article} ${entityStatus.toLowerCase()} organization`.trim();
+
+  if (countryOfOrigin) {
+    paragraph += ` that originated in ${countryOfOrigin}`;
+  }
+
+  paragraph += '.';
+
+  // Indigenous/local name
+  if (indigenousNameLabel && indigenousNameLabel !== label) {
+    paragraph += ` Known locally as "${indigenousNameLabel}".`;
+  }
+
+  // Classification details chain
+  const classificationParts = [];
+  if (organizationType) classificationParts.push(organizationType);
+  if (groupType) classificationParts.push(groupType);
+  if (groupOrientation) classificationParts.push(groupOrientation);
+  if (groupObjective) classificationParts.push(`${groupObjective} objective`);
+  if (groupScope) classificationParts.push(`${groupScope} scope`);
+
+  if (classificationParts.length > 0) {
+    paragraph += ` Classified as ${classificationParts.slice(0, 4).join(', ')}.`;
+  }
+
+  // Acronym
+  if (acronymLabel) {
+    paragraph += ` Also known as ${acronymLabel}.`;
+  }
+
+  // Transition label (former name)
+  if (transitionLabel) {
+    paragraph += ` Formerly designated as ${transitionLabel}.`;
+  }
+
+  // Synonym labels
+  if (Array.isArray(synonymLabel) && synonymLabel.length > 0) {
+    const validSynonyms = synonymLabel.filter(s => s && s !== label);
+    if (validSynonyms.length > 0) {
+      paragraph += ` Also referred to as ${validSynonyms.slice(0, 3).join(', ')}.`;
+    }
+  } else if (typeof synonymLabel === 'string' && synonymLabel) {
+    const synonyms = synonymLabel.split(',').map(s => s.trim()).filter(s => s && s !== label);
+    if (synonyms.length > 0) {
+      paragraph += ` Also referred to as ${synonyms.slice(0, 3).join(', ')}.`;
+    }
+  }
+
+  // All countries of operation
+  if (allCountries && allCountries !== countryOfOrigin) {
+    paragraph += ` Operates in ${allCountries}.`;
+  }
+
+  // Parent organization
+  if (parentOrg.length > 0) {
+    const parentNames = parentOrg.map(p => p.name || p.label || '').filter(Boolean);
+    if (parentNames.length > 0) {
+      paragraph += ` Part of ${parentNames.slice(0, 2).join(', ')}.`;
+    }
+  }
+
+  // Data source
+  if (dataSource) {
+    paragraph += ` Source: ${dataSource}.`;
+  }
+
+  // Last modified date
+  if (lastModifiedDate) {
+    try {
+      const formattedDate = new Date(lastModifiedDate).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'short', day: 'numeric'
+      });
+      paragraph += ` Last updated: ${formattedDate}.`;
+    } catch (e) {
+      // Skip date formatting errors
+    }
+  }
+
+  // Comprehensive facts for compact display - ALL fields from API response
+  const facts = [
+    { label: 'Status', value: entityStatus },
+    { label: 'Country', value: countryOfOrigin },
+    { label: 'All Countries', value: allCountries !== countryOfOrigin ? allCountries : '' },
+    { label: 'Organization Type', value: organizationType },
+    { label: 'Group Type', value: groupType },
+    { label: 'Orientation', value: groupOrientation },
+    { label: 'Objective', value: groupObjective },
+    { label: 'Scope', value: groupScope },
+    { label: 'Acronym', value: acronymLabel },
+    { label: 'Entity Category', value: entityCategory },
+    { label: 'Data Source', value: dataSource },
+  ].filter(f => f.value);
+
+  // Pills: ALL classification fields from API response
+  const pillItems = [];
+  if (labels.length > 0) {
+    labels.forEach(l => { if (l) pillItems.push(l); });
+  }
+  if (groupType) pillItems.push(groupType);
+  if (organizationType) pillItems.push(organizationType);
+  if (groupOrientation) pillItems.push(groupOrientation);
+  if (groupObjective) pillItems.push(groupObjective);
+  if (entityCategory) pillItems.push(entityCategory);
+  if (entityStatus) pillItems.push(entityStatus);
+  if (acronymLabel) pillItems.push(acronymLabel);
+  if (groupScope) pillItems.push(groupScope);
+  if (dataSource) pillItems.push(dataSource);
+
+  return {
+    type: 'nsag',
+    imageUrl: null,
+    paragraph: paragraph || 'Non-state armed group.',
+    facts: facts.slice(0, 8),
+    tags: pillItems.filter(Boolean).slice(0, 12),
+  };
+};
+
 const TooltipContent = memo(({ content, entityName, entityType, onClose, colors }) => {
   if (!content) return null;
 
@@ -1008,6 +1151,7 @@ const TooltipContent = memo(({ content, entityName, entityType, onClose, colors 
   const isMilitary = category === 'military';
   const isEvent = category === 'event';
   const isInstallation = category === 'installation';
+  const isNsag = category === 'nsag';
   const accentColor = colors?.primary || '#3b82f6';
   const darkColor = colors?.dark || '#1e40af';
 
@@ -1017,6 +1161,7 @@ const TooltipContent = memo(({ content, entityName, entityType, onClose, colors 
     if (isMilitary) return 440;
     if (isEvent) return 420;
     if (isInstallation) return 420;
+    if (isNsag) return 450;
     return 380;
   };
 
@@ -1072,7 +1217,7 @@ const TooltipContent = memo(({ content, entityName, entityType, onClose, colors 
             boxShadow: `0 3px 10px ${accentColor}50`,
           }}
         >
-          {getEntityIcon(category, entityType)}
+          {getEntityIcon(category)}
         </Box>
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography
@@ -1877,39 +2022,45 @@ const TooltipContent = memo(({ content, entityName, entityType, onClose, colors 
         </Box>
       )}
 
-      {/* Tags Section - for Equipment */}
-      {!content.facts && content.tags?.length > 0 && (
+      {/* Pills/Tags Section - for non-NSAG entity types without facts */}
+      {!isNsag && !content.facts && content.tags?.length > 0 && (
         <Box
           sx={{
             px: 2,
-            pb: 1.5,
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: 0.5,
+            pb: 1.25,
           }}
         >
-          {content.tags.map((tag, idx) => (
-            <Box
-              key={idx}
-              sx={{
-                px: 1,
-                py: 0.35,
-                borderRadius: '12px',
-                backgroundColor: '#f1f5f9',
-                border: '1px solid #e2e8f0',
-              }}
-            >
-              <Typography
+          {/* Tags/Pills */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 0.5,
+            }}
+          >
+            {content.tags.map((tag, idx) => (
+              <Box
+                key={idx}
                 sx={{
-                  fontSize: '0.65rem',
-                  fontWeight: 500,
-                  color: '#475569',
+                  px: 1,
+                  py: 0.4,
+                  borderRadius: '6px',
+                  backgroundColor: '#f1f5f9',
+                  border: '1px solid #e2e8f0',
                 }}
               >
-                {tag}
-              </Typography>
-            </Box>
-          ))}
+                <Typography
+                  sx={{
+                    fontSize: '0.72rem',
+                    fontWeight: 600,
+                    color: '#475569',
+                  }}
+                >
+                  {tag}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
         </Box>
       )}
 
@@ -1968,6 +2119,7 @@ const LoadingContent = ({ colors, entityCategory = 'equipment' }) => {
     if (entityCategory === 'military') return 440;
     if (entityCategory === 'event') return 420;
     if (entityCategory === 'installation') return 420;
+    if (entityCategory === 'nsag') return 450;
     return 380;
   };
   return (
@@ -2066,6 +2218,9 @@ export function WikipediaPopperTooltip({
                   break;
                 case 'installation':
                   parsedContent = parseInstallationData(result.data);
+                  break;
+                case 'nsag':
+                  parsedContent = parseNsagData(result.data);
                   break;
               }
               setContent(parsedContent);
@@ -2168,6 +2323,9 @@ function WikipediaTooltip({ children, entityName, entityType, colors }) {
                 break;
               case 'installation':
                 parsedContent = parseInstallationData(result.data);
+                break;
+              case 'nsag':
+                parsedContent = parseNsagData(result.data);
                 break;
             }
             setContent(parsedContent);

@@ -7,16 +7,17 @@
 
 const appConfig = {
   // Application name - displayed in headers, titles, etc.
-  appName: 'NEWS',
+  appName: 'News' || 'NEWS',
+
 
   // Short name for compact displays
-  appNameShort: 'NEWS',
+  appNameShort: 'News Insights',
 
   // Tagline/description
   tagline: 'Strategic Analysis & Insights Platform',
 
   // Company/Developer name
-  companyName: 'XYZ',
+  companyName: 'AI MISSION',
 
   // Version
   version: '1.0.0',

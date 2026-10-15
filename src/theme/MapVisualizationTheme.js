@@ -456,7 +456,7 @@ export const mapEffects = {
 // ========================
 
 export const eventCategories = {
-  'Protests&Riots': {
+  'Protests & Riots': {
     color: mapColors.events.protestsRiots,
     icon: '✊',
     name: 'Protests & Riots',

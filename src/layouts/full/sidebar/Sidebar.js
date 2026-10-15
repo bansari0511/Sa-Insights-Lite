@@ -2,10 +2,11 @@ import { useMediaQuery, Box, Drawer, Typography, Tooltip, IconButton, useTheme }
 import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from '@tabler/icons-react';
 import SidebarItems from './SidebarItems';
 import { Upgrade } from './Updrade';
-import logoPath from '../../../assets/images/logos/logo_landing.png';
+import logo from '../../../assets/images/logos/logo_landing.png';
 import { withOpacity } from '../../../theme/palette';
-import { SB } from './sidebarTheme';
+import { SB, sbForTheme } from './sidebarTheme';
 import appConfig from '../../../config/appConfig';
+import resolveAsset from '../../../utils/resolveAsset';
 import { useRemoteBaseUrl } from '../../../context/EmbeddedContext';
 
 const MSidebar = (props) => {
@@ -13,12 +14,8 @@ const MSidebar = (props) => {
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
   const { isSidebarOpen, sidebarWidth = 260, isEmbedded = false } = props;
   const remoteBaseUrl = useRemoteBaseUrl();
+  const logoResolved = resolveAsset(logo);
 
-  // In federation mode, static asset paths (e.g., /assets/logo.png) resolve against
-  // the host origin instead of the child server. Prefix with the child server's URL.
-  const logo = remoteBaseUrl && !logoPath.startsWith('data:') && !logoPath.startsWith('http')
-    ? `${remoteBaseUrl}${logoPath}`
-    : logoPath;
   const isCollapsed = !isSidebarOpen;
   const collapsedWidth = 70;
 
@@ -122,7 +119,7 @@ const MSidebar = (props) => {
                 >
                   <Box
                     component="img"
-                    src={logo}
+                    src={logoResolved}
                     alt={`${appConfig.appName} Logo`}
                     sx={{
                       height: '160px',
@@ -354,7 +351,7 @@ const MSidebar = (props) => {
         >
           <Box
             component="img"
-            src={logo}
+            src={logoResolved}
             alt={`${appConfig.appName} Logo`}
             sx={{
               maxHeight: '100px',

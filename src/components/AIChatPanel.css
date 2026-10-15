@@ -282,8 +282,8 @@
 }
 
 .ai-msg-content--user {
-  background: #0f172a;
-  color: #f1f5f9;
+  background: #334155;
+  color: #f8fafc;
   padding: 10px 14px;
   border-bottom-right-radius: 4px;
 }
@@ -398,12 +398,12 @@
 .ai-md-table tbody tr:nth-child(even) { background: #fafbff; }
 .ai-md-table tbody tr:hover { background: #f5f3ff; }
 
-/* User bubble: lighten link/heading colors against indigo bg */
-.ai-msg-content--user .ai-md a { color: #fff; }
+/* User bubble: lighten link/heading colors against user msg bg */
+.ai-msg-content--user .ai-md a { color: #e0e7ff; }
 .ai-msg-content--user .ai-md h1,
 .ai-msg-content--user .ai-md h2,
 .ai-msg-content--user .ai-md h3,
-.ai-msg-content--user .ai-md h4 { color: #fff; }
+.ai-msg-content--user .ai-md h4 { color: #f8fafc; }
 
 .ai-msg-err {
   color: #ef4444;
@@ -475,6 +475,13 @@
   border-radius: 4px;
   font-size: 0.72rem;
   font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+}
+
+/* Dark mode overrides */
+html[data-theme='dark'] .ai-msg-content--user,
+.dark-mode .ai-msg-content--user {
+  background: #1e293b;
+  color: #f1f5f9;
 }
 
 /* ━━━ Thinking ━━━ */
