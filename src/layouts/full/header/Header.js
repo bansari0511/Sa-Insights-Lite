@@ -15,6 +15,7 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 // components
 import Profile from './Profile';
 import { fetchSearchSuggestions } from '../../../services/searchApi';
+import { track } from '../../../services/activity';
 import { useThemeContext } from '../../../theme/ThemeContext';
 import NovaToggle from './NovaToggle';
 
@@ -167,8 +168,9 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
     };
   }, [searchQuery]);
 
-  const handleSearchSubmit = (query) => {
+  const handleSearchSubmit = (query, inputMethod = 'typed') => {
     if (query && query.trim()) {
+      track('search_submitted', { query: query.trim(), queryLength: query.trim().length, inputMethod });
       setSuggestionsOpen(false);
       setSearchQuery('');
       navigate(`/search?q=${encodeURIComponent(query.trim())}&refresh=true`);
@@ -186,7 +188,7 @@ const Header = ({ isEmbedded = false, isChatOpen = false, onToggleChat }) => {
 
   const handleSuggestionSelect = (suggestion) => {
     try {
-      handleSearchSubmit(suggestion);
+      handleSearchSubmit(suggestion, 'suggestion');
     } catch (error) {
       console.error('Error handling suggestion selection:', error);
     }

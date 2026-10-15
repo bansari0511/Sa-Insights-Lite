@@ -29,6 +29,7 @@ import urlsMap from '../../services/urlsMap';
 import PageContainer from 'src/components/container/PageContainer';
 import 'src/assets/css/ArticleDetailPage.css';
 import { height, width } from '@mui/system';
+import { track } from 'src/services/activity';
 
 const assetsBaseUrl = urlsMap.assetsService || '';
 // Fetch news details using unified dataService
@@ -218,6 +219,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
     const loadArticle = async () => {
       try {
         setLoading(true);
+        track('article_opened', { docRef: docId });
         const articleDetails = await fetchNewsDetails(userId, reqId, docId);
         // Extract article from response (handles both { article: {...} } and direct article object)
         setArticle(articleDetails?.article || articleDetails);
@@ -473,6 +475,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
   const handleMediaClick = async (media, type) => {
     const resolvedUrl = getAssetUrl(media.url);
     const ext = (media.extension || getExtFromUrl(resolvedUrl)).toLowerCase().replace(/^\./, '').trim();
+    track('attachment_opened', { kind: type, fileType: ext || 'other' });
 
     // Non-viewable document types → download directly, no modal
     if (type === 'document' && !isViewableDoc(ext)) {

@@ -19,6 +19,16 @@ import TimeSlider from "@arcgis/core/widgets/TimeSlider.js";
 import Popup from "@arcgis/core/widgets/Popup";
 import  { getMap, getView, MapProvider } from '../../maputility/MapProvider';
 import { mapTheme, eventCategories, useThemeContext } from '../../theme';
+import { track } from 'src/services/activity';
+
+// Activity: a timeline drag fires many times; one event once it settles (the first, initial extent is not a change).
+let timelineTimer = 0;
+let timelineSeen = false;
+const trackTimeline = () => {
+  if (!timelineSeen) { timelineSeen = true; return; }
+  clearTimeout(timelineTimer);
+  timelineTimer = setTimeout(() => track('timeline_changed'), 1500);
+};
 
 // Define 6 event categories with unique colors and icons (matching mapandevent.js)
 const EVENT_CATEGORIES = eventCategories;
@@ -347,6 +357,7 @@ watchGraphicsChanges();
 
    // 🔧 FIX 5: Watch for TimeSlider changes and filter graphics
    timeSlider.watch("timeExtent", (timeExtent) => {
+      trackTimeline();
      if (!timeExtent) {
        // Show all graphics if no time extent
        const graphics = eventsLayer.graphics;
@@ -658,6 +669,7 @@ watchGraphicsChanges();
         const hits = response.results.filter((r) => r.graphic && r.graphic.layer === eventsLayer);
 
         if (hits.length === 0) return;
+        track('map_point_opened', { points: hits.length });
 
         if (hits.length === 1) {
           // Single graphic - open normal popup

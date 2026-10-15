@@ -14,6 +14,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useAuth } from '../context/AuthContext';
+import { track } from '../services/activity';
 import './AIChatPanel.css';
 
 const SEARCH_API_URL = import.meta.env.DEV_OSINT_SEARCH_API_TARGET || '/osintsearch/query';
@@ -104,10 +105,12 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
   useEffect(() => () => abortRef.current?.abort(), []);
 
   const goToNova = useCallback(() => {
+    track('answer_action', { action: 'go_to_nova' });
     if (onNavigateToHost) onNavigateToHost('/nova');
   }, [onNavigateToHost]);
 
   const startNewChat = useCallback(() => {
+    track('chat_session_new');
     abortRef.current?.abort();
     setConversationId(makeConversationId(userId));
     setMessages([]);
@@ -142,6 +145,9 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
     if (!queryOverride) setInput('');
 
     const userMsg = { id: generateId(), role: 'user', content: query, ts: Date.now() };
+    const ctx = { conversationId, messageId: userMsg.id };
+    const askedAt = Date.now();
+    track('chat_asked', { query, queryLength: query.length, inputMethod: queryOverride ? 'suggested' : 'typed' }, ctx);
     setMessages(prev => [...prev, userMsg]);
     setIsLoading(true);
 
@@ -182,6 +188,7 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
         ts: Date.now(),
       };
       setMessages(prev => [...prev, assistantMsg]);
+      track('answer_completed', { ms: Date.now() - askedAt, chars: (data.result || '').length, sources: data.dataResults?.length || 0 }, ctx);
 
       // 3. Persist the Q&A pair (input = query, output = full search response).
       // 3. Persist the Q&A pair (input = query, output = full search response).
@@ -192,7 +199,8 @@ const AIChatPanel = ({ open, onClose, onNavigateToHost }) => {
       saveToStore(conversationId, userId, input, data, username);
       // saveToStore(conversationId, query, data);
     } catch (err) {
-      if (err.name === 'AbortError') return;
+      if (err.name === 'AbortError') { track('answer_stopped', { ms: Date.now() - askedAt }, ctx); return; }
+      track('answer_failed', { ms: Date.now() - askedAt, errorCode: /\((\d{3})\)/.exec(err.message || '')?.[1] || err.name || 'Error' }, ctx);
       setMessages(prev => [...prev, {
         id: generateId(), role: 'assistant', content: null,
         error: err.message || 'Something went wrong.', ts: Date.now(),

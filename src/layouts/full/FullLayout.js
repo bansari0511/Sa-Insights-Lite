@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { styled, Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { setActivityView, track, viewForPath } from "../../services/activity";
 import BlockIcon from '@mui/icons-material/Block';
 
 import Header from "./header/Header";
@@ -56,6 +57,14 @@ const FullLayout = ({ onNavigateToHost } = {}) => {
 
   // Chat panel state — only used in federation mode
   const [isChatOpen, setChatOpen] = useState(false);
+
+  // Activity: every page change sets the view the next events carry (services/activity).
+  const location = useLocation();
+  useEffect(() => {
+    const page = viewForPath(location.pathname);
+    const from = setActivityView(page);
+    if (from !== page) track('page_opened', { page, from });
+  }, [location.pathname]);
   const [ChatPanel, setChatPanel] = useState(null);
 
   const { hasAccess, isLoading, entitlementsLoaded } = useAuth();
@@ -167,7 +176,7 @@ const FullLayout = ({ onNavigateToHost } = {}) => {
           isEmbedded={isEmbedded}
           {...(isEmbedded ? {
             isChatOpen,
-            onToggleChat: () => setChatOpen(prev => !prev),
+            onToggleChat: () => { if (!isChatOpen) track('chat_opened'); setChatOpen(prev => !prev); },
           } : {})}
         />
         {/* ------------------------------------------- */}

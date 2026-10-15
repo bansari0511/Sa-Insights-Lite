@@ -25,6 +25,7 @@ import {
 } from "@mui/icons-material";
 import { useLocation } from 'react-router-dom';
 import { fetchNewsData, fetchEventsData, fetchCombinedData, fetchIntelligenceData, fetchProfilesData } from '../../services/searchApi';
+import { track } from '../../services/activity';
 import ArticleDetailPage from '../newsRoom/ArticleDetailPage';
 
 // Color tokens
@@ -732,6 +733,7 @@ function ResultsPanel({ query, initialMode }) {
   };
 
   const handleArticleClick = (item) => {
+    track('result_opened', { mode, kind: item?.type || item?.category || undefined });
     setSelectedArticle(item);
     setIsViewingArticle(true);
   };
@@ -753,6 +755,7 @@ function ResultsPanel({ query, initialMode }) {
   useEffect(() => {
     if (!query) return;
     const fetchData = async () => {
+      const startedAt = Date.now();
       setLoading(true);
       setAllRecords([]);
       setItems([]);
@@ -788,7 +791,8 @@ function ResultsPanel({ query, initialMode }) {
         setLastDocId(response.hasMore && response.records?.length > 0 ? (response.lastDocId || "") : "");
         setHasNextPage(response.hasMore || false);
         setTotalRecords(response.total || 0);
-      } catch (error) { console.error('Error fetching data:', error); }
+        track('search_completed', { mode, results: response.total || 0, ms: Date.now() - startedAt });
+      } catch (error) { track('search_failed', { mode, ms: Date.now() - startedAt, errorCode: error?.status || error?.name || 'Error' }); console.error('Error fetching data:', error); }
       finally { setLoading(false); }
     };
     fetchData();

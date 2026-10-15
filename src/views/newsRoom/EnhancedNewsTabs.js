@@ -22,6 +22,7 @@ import { Popover } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { API_ENDPOINTS } from 'src/config/apiEndpoints';
 import { SHOW_INSIGHTS_SIDEBAR } from 'src/config/appMode';
+import { track } from 'src/services/activity';
 
 function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     const navigate = useNavigate();
@@ -308,6 +309,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
 
     const handleCountrySelect = (country) => {
         const existsIndex = tabCountries.findIndex(c => c.value === country.value);
+        track('filter_changed', { filter: 'country', on: existsIndex === -1 });
         if (existsIndex !== -1) {
             const updatedTabs = tabCountries.filter((_, i) => i !== existsIndex);
             setTabCountries(updatedTabs);
