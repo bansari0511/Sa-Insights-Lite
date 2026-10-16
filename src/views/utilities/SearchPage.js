@@ -21,10 +21,11 @@ import {
   ArrowBack as ArrowBackIcon,
   Category as CategoryIcon,
   Close as CloseIcon,
-  Person as PersonIcon
+  Person as PersonIcon,
+  Hardware as HardwareIcon
 } from "@mui/icons-material";
 import { useLocation } from 'react-router-dom';
-import { fetchNewsData, fetchEventsData, fetchCombinedData, fetchIntelligenceData, fetchProfilesData } from '../../services/searchApi';
+import { fetchNewsData, fetchEventsData, fetchCombinedData, fetchIntelligenceData, fetchProfilesData, fetchEquipmentData } from '../../services/searchApi';
 import { track } from '../../services/activity';
 import ArticleDetailPage from '../newsRoom/ArticleDetailPage';
 
@@ -135,7 +136,51 @@ function FilterSectionHeader({ icon, title, color, theme, count }) {
   );
 }
 
-// FilterBar Component
+// Content type button configs for collapsed sidebar
+const contentTypeConfig = [
+  {
+    value: 'news',
+    label: 'News / Insights',
+    icon: <NewspaperIcon sx={{ fontSize: '1.1rem' }} />,
+    color: '#1976d2',
+    bgLight: '#e3f2fd',
+    bgGradient: 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)',
+  },
+  {
+    value: 'events',
+    label: 'Events',
+    icon: <EventAvailableIcon sx={{ fontSize: '1.1rem' }} />,
+    color: '#e65100',
+    bgLight: '#fff3e0',
+    bgGradient: 'linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%)',
+  },
+  {
+    value: 'intelligence',
+    label: 'Intelligence Briefings',
+    icon: <SecurityIcon sx={{ fontSize: '1.1rem' }} />,
+    color: '#0d47a1',
+    bgLight: '#e3f2fd',
+    bgGradient: 'linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%)',
+  },
+  {
+    value: 'assets',
+    label: 'Assets',
+    icon: <HardwareIcon sx={{ fontSize: '1.1rem' }} />,
+    color: '#2e7d32',
+    bgLight: '#e8f5e9',
+    bgGradient: 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)',
+  },
+  {
+    value: 'both',
+    label: 'All Categories',
+    icon: null,
+    color: '#7b1fa2',
+    bgLight: '#f3e5f5',
+    bgGradient: 'linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%)',
+  },
+];
+
+// Enhanced Filter Bar Component
 function FilterBar({
   mode, filters, setFilters, clearAll,
   options, setMode, dateFrom, setDateFrom, dateTo, setDateTo,
@@ -159,7 +204,7 @@ function FilterBar({
     '& input[type="date"]::-webkit-calendar-picker-indicator': { cursor: 'pointer', opacity: 0.6, transition: 'opacity 0.2s', '&:hover': { opacity: 1 } },
   });
 
-  const contentTypeConfig = [
+  const filterContentTypeConfig = [
     {
       value: 'news',
       label: 'News',
@@ -274,7 +319,7 @@ function FilterBar({
               width: '100%', display: 'flex', gap: 0.4,
               '& .MuiToggleButtonGroup-grouped': { border: 'none !important', '&:not(:first-of-type)': { borderRadius: '8px !important', marginLeft: '0 !important' }, '&:first-of-type': { borderRadius: '8px !important' } },
             }}>
-              {contentTypeConfig.map((ct) => (
+              {filterContentTypeConfig.map((ct) => (
                 <ToggleButton key={ct.value} value={ct.value} sx={{
                   display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 0.75, py: 0.6, px: 1,
                   borderRadius: '8px !important', border: '1px solid transparent !important', background: '#fff',
@@ -409,84 +454,6 @@ function EventDetailPanel({ item, onClose }) {
   );
 }
 
-// DetailModal Component
-function DetailModal({ open, item, onClose }) {
-  const theme = useTheme();
-
-  if (!item) return null;
-
-  const getTypeConfig = () => {
-    switch (item.index) {
-      case 'events': return { icon: <EventAvailableIcon />, color: '#ff5722', label: 'Event' };
-      case 'intelligence': return { icon: <SecurityIcon />, color: '#0d47a1', label: 'Intelligence' };
-      case 'profiles': return { icon: <PersonIcon />, color: '#7c3aed', label: 'Profile' };
-      default: return { icon: <NewspaperIcon />, color: '#1976d2', label: 'News' };
-    }
-  };
-
-  const typeConfig = getTypeConfig();
-
-  const renderContent = () => {
-    if (item.index === 'events') {
-      return (<EventDetailPanel item={item} onClose={onClose} />);
-    }
-    return (
-      <ArticleDetailPage userId={1} reqId="" docId={item.id} />
-    );
-  };
-
-  return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth scroll="paper" TransitionProps={{ timeout: 300 }}
-      PaperProps={{
-        elevation: 0, sx: {
-          borderRadius: '16px', maxHeight: '92vh', m: { xs: 1, sm: 2 }, overflow: 'hidden',
-          border: `1px solid ${alpha(typeConfig.color, 0.12)}`,
-          boxShadow: `0 24px 48px -12px ${alpha('#000', 0.2)}, 0 0 0 1px ${alpha(typeConfig.color, 0.05)}`,
-          background: theme.palette.background.paper,
-        }
-      }}
-      slotProps={{ backdrop: { sx: { backgroundColor: alpha('#0a0e1a', 0.6), backdropFilter: 'blur(10px)' } } }}
-    >
-      <DialogTitle component="div" sx={{
-        position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2, py: 1.5, px: 2.5,
-        background: `linear-gradient(135deg, ${alpha(typeConfig.color, 0.05)} 0%, transparent 100%)`,
-        borderBottom: `1px solid ${alpha(typeConfig.color, 0.1)}`,
-        '&::after': { content: '""', position: 'absolute', bottom: 0, left: 0, width: '100%', height: '2px', background: `linear-gradient(90deg, ${typeConfig.color}, ${alpha(typeConfig.color, 0.2)}, transparent)` },
-      }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flex: 1, minWidth: 0 }}>
-          <Box sx={{
-            width: 36, height: 36, borderRadius: '10px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            bgcolor: alpha(typeConfig.color, 0.1), border: `1px solid ${alpha(typeConfig.color, 0.15)}`, color: typeConfig.color,
-            '& .MuiSvgIcon-root': { fontSize: '1.1rem' },
-          }}>
-            {typeConfig.icon}
-          </Box>
-          <Box sx={{ minWidth: 0, flex: 1 }}>
-            <Chip label={typeConfig.label} size="small" sx={{
-              height: 18, fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase',
-              bgcolor: alpha(typeConfig.color, 0.08), color: typeConfig.color, border: `1px solid ${alpha(typeConfig.color, 0.15)}`, mb: 0.3, '& .MuiChip-label': { px: 0.8 },
-            }} />
-            <Typography variant="subtitle2" sx={{ fontWeight: 600, color: theme.palette.text.primary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.88rem', lineHeight: 1.3 }}>
-              {item.title}
-            </Typography>
-          </Box>
-        </Box>
-        <IconButton onClick={onClose} size="small" sx={{
-          width: 32, height: 32, bgcolor: alpha(theme.palette.text.primary, 0.04), border: `1px solid ${alpha(theme.palette.divider, 0.5)}`,
-          color: theme.palette.text.secondary, transition: 'all 0.2s ease',
-          '&:hover': { bgcolor: alpha('#ef4444', 0.08), borderColor: alpha('#ef4444', 0.3), color: '#ef4444', transform: 'rotate(90deg)' },
-        }}>
-          <CloseIcon sx={{ fontSize: '0.95rem' }} />
-        </IconButton>
-      </DialogTitle>
-
-      <DialogContent sx={{ p: 0, bgcolor: theme.palette.background.default, '&::-webkit-scrollbar': { width: 5 }, '&::-webkit-scrollbar-track': { background: 'transparent' }, '&::-webkit-scrollbar-thumb': { background: alpha(typeConfig.color, 0.15), borderRadius: 3, '&:hover': { background: alpha(typeConfig.color, 0.3) } } }}>
-        {renderContent()}
-      </DialogContent>
-    </Dialog>
-  );
-}
-
 // ContentCard Component
 function ContentCard({ item, view, onArticleClick, selectedItemId, isViewingArticle }) {
   const theme = useTheme();
@@ -505,78 +472,15 @@ function ContentCard({ item, view, onArticleClick, selectedItemId, isViewingArti
     onArticleClick(item);
   };
 
-  // Standard card for events and intelligence (without images)
-  if (item.index === 'events' || item.index === 'intelligence') {
-    return (
-      <Card
-        elevation={isSelected ? 4 : 2}
-        onClick={handleCardClick}
-        sx={{
-          height: "100%",
-          minHeight: 320,
-          borderRadius: 3,
-          transition: 'all 0.3s ease-in-out',
-          display: 'flex',
-          flexDirection: 'column',
-          cursor: 'pointer',
-          transform: isSelected ? 'translateY(-4px)' : 'none',
-          '&:hover': {
-            transform: 'translateY(-8px)',
-            boxShadow: theme.shadows[12],
-          },
-          border: isSelected
-            ? `2px solid ${theme.palette.primary.main}`
-            : `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-          boxShadow: isSelected ? theme.shadows[8] : theme.shadows[2],
-          bgcolor: isSelected
-            ? alpha(theme.palette.primary.main, 0.05)
-            : 'background.paper',
-          overflow: 'hidden'
-        }}
-      >
-        <CardContent sx={{ p: 2 }}>
-          <Stack spacing={1.5}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CalendarMonthIcon fontSize="small" sx={{ color: theme.palette.text.secondary }} />
-              <Typography variant="caption" color="text.secondary">
-                {new Date(item.date).toLocaleDateString('en-US', {
-                  year: 'numeric', month: 'short', day: 'numeric'
-                })}
-              </Typography>
-              <Chip
-                size="small"
-                label={item.index.toUpperCase()}
-                color={item.index === 'news' ? 'primary' : item.index === 'events' ? 'secondary' : 'default'}
-                variant="outlined"
-                sx={{ ml: 'auto', fontSize: '0.7rem' }}
-              />
-            </Box>
-            <Typography variant="h6" sx={{
-              fontWeight: 600, lineHeight: 1.3,
-              display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
-              overflow: 'hidden', color: theme.palette.text.primary
-            }}>
-              {item.title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{
-              display: '-webkit-box', WebkitLineClamp: 6,
-              WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.4
-            }}>
-              {item.summary}
-            </Typography>
-          </Stack>
-        </CardContent>
-      </Card>
-    );
-  }
+  const noImageTypes = ['events', 'intelligence briefings', 'equipment', 'military-groups', 'ships', 'organisation', 'installations', 'non-state-group'];
 
-  // Standard card with image for news
   return (
     <Card
       elevation={isSelected ? 4 : 2}
       onClick={handleCardClick}
       sx={{
         height: "100%",
+        minHeight: noImageTypes.includes(item.index) ? 320 : 'auto',
         borderRadius: 3,
         transition: 'all 0.3s ease-in-out',
         display: 'flex',
@@ -598,13 +502,18 @@ function ContentCard({ item, view, onArticleClick, selectedItemId, isViewingArti
         overflow: 'hidden'
       }}
     >
-      <CardMedia
-        component="img"
-        height="180"
-        image={item.imageurl}
-        alt={item.title}
-        sx={{ transition: 'transform 0.3s ease-in-out', objectFit: 'cover' }}
-      />
+      {!noImageTypes.includes(item.index) && (
+        <CardMedia
+          component="img"
+          height="180"
+          image={item.imageurl}
+          alt={item.title}
+          sx={{
+            transition: 'transform 0.3s ease-in-out',
+            objectFit: 'cover',
+          }}
+        />
+      )}
       <CardContent sx={{ p: 2 }}>
         <Stack spacing={1.5}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -629,10 +538,18 @@ function ContentCard({ item, view, onArticleClick, selectedItemId, isViewingArti
           }}>
             {item.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{
-            display: '-webkit-box', WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.4
-          }}>
+
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              display: '-webkit-box',
+              WebkitLineClamp: noImageTypes.includes(item.index) ? 6 : 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              lineHeight: 1.4
+            }}
+          >
             {item.summary}
           </Typography>
         </Stack>
@@ -641,7 +558,161 @@ function ContentCard({ item, view, onArticleClick, selectedItemId, isViewingArti
   );
 }
 
-// Results Panel Component
+// Detail Modal Component for viewing item details
+function DetailModal({ open, item, onClose }) {
+  const theme = useTheme();
+
+  if (!item) return null;
+
+  const getTypeConfig = () => {
+    switch (item.index) {
+      case 'events':
+        return {
+          color: theme.palette.secondary.main,
+          gradient: `linear-gradient(135deg, ${alpha(theme.palette.secondary.light, 0.3)} 0%, ${alpha(theme.palette.secondary.main, 0.1)} 100%)`,
+          icon: <EventAvailableIcon sx={{ color: theme.palette.secondary.main }} />,
+          label: 'Event'
+        };
+      case 'intelligence briefings':
+        return {
+          color: theme.palette.info.main,
+          gradient: `linear-gradient(135deg, ${alpha(theme.palette.info.light, 0.3)} 0%, ${alpha(theme.palette.info.main, 0.1)} 100%)`,
+          icon: <SecurityIcon sx={{ color: theme.palette.info.main }} />,
+          label: 'Intelligence'
+        };
+      case 'equipment':
+      case 'ships':
+        return {
+          color: '#4caf50',
+          gradient: `linear-gradient(135deg, ${alpha('#4caf50', 0.3)} 0%, ${alpha('#4caf50', 0.1)} 100%)`,
+          icon: <HardwareIcon sx={{ color: '#4caf50' }} />,
+          label: 'Equipment'
+        };
+      default:
+        return {
+          color: theme.palette.primary.main,
+          gradient: `linear-gradient(135deg, ${alpha(theme.palette.primary.light, 0.3)} 0%, ${alpha(theme.palette.primary.main, 0.1)} 100%)`,
+          icon: <NewspaperIcon sx={{ color: theme.palette.primary.main }} />,
+          label: 'News'
+        };
+    }
+  };
+
+  const typeConfig = getTypeConfig();
+
+  const renderContent = () => {
+    if (item.index === 'news' || item.index === 'intelligence briefings') {
+      return (
+        <ArticleDetailPage
+          userId={1}
+          reqId=""
+          docId={item.id}
+        />
+      );
+    } else {
+      return (
+        <Box sx={{ p: 3 }}>
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
+            {item.title}
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+            <CalendarMonthIcon fontSize="small" color="action" />
+            <Typography variant="body2" color="text.secondary">
+              {new Date(item.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </Typography>
+          </Box>
+          <Typography variant="body1" sx={{ lineHeight: 1.8 }}>
+            {item.summary}
+          </Typography>
+        </Box>
+      );
+    }
+  };
+
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="lg"
+      fullWidth
+      scroll="paper"
+      PaperProps={{
+        sx: {
+          borderRadius: 3,
+          maxHeight: '90vh',
+          m: 2,
+        }
+      }}
+    >
+      <DialogTitle
+        sx={{
+          background: typeConfig.gradient,
+          borderBottom: `2px solid ${typeConfig.color}`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          py: 2,
+          px: 3,
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1, minWidth: 0 }}>
+          <Chip
+            icon={typeConfig.icon}
+            label={typeConfig.label}
+            size="small"
+            sx={{
+              bgcolor: 'white',
+              color: typeConfig.color,
+              fontWeight: 600,
+              border: `1px solid ${typeConfig.color}`,
+              '& .MuiChip-icon': {
+                color: typeConfig.color,
+              }
+            }}
+          />
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 600,
+              color: theme.palette.text.primary,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {item.title}
+          </Typography>
+        </Box>
+        <IconButton
+          onClick={onClose}
+          sx={{
+            bgcolor: alpha(theme.palette.common.white, 0.8),
+            '&:hover': {
+              bgcolor: alpha(theme.palette.common.white, 1),
+            },
+            ml: 2,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent
+        sx={{
+          p: 0,
+          bgcolor: theme.palette.background.default,
+        }}
+      >
+        {renderContent()}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+// Main Results Panel Component
 function ResultsPanel({ query, initialMode }) {
   const theme = useTheme();
   const [mode, setMode] = useState(initialMode || "both");
@@ -779,6 +850,12 @@ function ResultsPanel({ query, initialMode }) {
           case "events":
             response = await fetchEventsData({ ...commonParams, filters: { eventcountry: filters.eventcountry, eventcategory: filters.eventcategory, eventlocation: filters.eventlocation, platforms: filters.platforms, actorlabel: filters.actorlabel, actornation: filters.actornation, actortype: filters.actortype } });
             break;
+          case "assets":
+            response = await fetchEquipmentData({
+              ...commonParams,
+              size: 100 // Load more records for assets to include all types
+            });
+            break;
           case "both":
             response = await fetchCombinedData({ ...commonParams, newsFilters: { country: filters.country, org: filters.org, nsag: filters.nsag }, eventFilters: { eventcountry: filters.eventcountry, eventcategory: filters.eventcategory, eventlocation: filters.eventlocation, platforms: filters.platforms, actorlabel: filters.actorlabel, actornation: filters.actornation, actortype: filters.actortype } });
             break;
@@ -819,6 +896,11 @@ function ResultsPanel({ query, initialMode }) {
           break;
         case "events":
           response = await fetchEventsData({ ...commonParams, filters: { eventcountry: filters.eventcountry, eventcategory: filters.eventcategory, eventlocation: filters.eventlocation, platforms: filters.platforms, actorlabel: filters.actorlabel, actornation: filters.actornation, actortype: filters.actortype } });
+          break;
+        case "assets":
+          response = await fetchEquipmentData({
+            ...commonParams
+          });
           break;
         case "both":
           response = await fetchCombinedData({ ...commonParams, newsFilters: { country: filters.country, org: filters.org, nsag: filters.nsag }, eventFilters: { eventcountry: filters.eventcountry, eventcategory: filters.eventcategory, eventlocation: filters.eventlocation, platforms: filters.platforms, actorlabel: filters.actorlabel, actornation: filters.actornation, actortype: filters.actortype } });
@@ -1020,7 +1102,7 @@ function ResultsPanel({ query, initialMode }) {
           )}
           {!hasNextPage && allRecords.length > 0 && (
             <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center', py: 3 }}>
-              <Typography variant="body1" sx={{ fontWeight: 600, color: theme.palette.text.secondary }}>🎉 You've reached the end! All {totalRecords} records loaded.</Typography>
+              <Typography variant="body1" sx={{ fontWeight: 600, color: theme.palette.text.secondary }}>All {totalRecords} records loaded.</Typography>
             </Box>
           )}
         </Container>
