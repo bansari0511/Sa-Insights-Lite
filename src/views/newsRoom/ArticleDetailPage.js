@@ -6,7 +6,7 @@ import {
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import InfoIcon from '@mui/icons-material/Info';
 import PreviewIcon from '@mui/icons-material/Preview';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
@@ -198,6 +198,7 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showRelatedInfo, setShowRelatedInfo] = useState(true);
+  const location = useLocation();
 
   // State for media modal
   const [mediaModalOpen, setMediaModalOpen] = useState(false);
@@ -219,7 +220,9 @@ function ArticleDetailPage({ userId, reqId, docId, title, last_updated }) {
     const loadArticle = async () => {
       try {
         setLoading(true);
-        track('article_opened', { docRef: docId });
+        const from = location.state?.selectedCountry;
+        track('article_opened', { docRef: docId, title: title || undefined, list: from === 'intelligence_briefing' ? 'briefings' : 'country',
+          country: from && from !== 'intelligence_briefing' ? String(from) : undefined });
         const articleDetails = await fetchNewsDetails(userId, reqId, docId);
         // Extract article from response (handles both { article: {...} } and direct article object)
         setArticle(articleDetails?.article || articleDetails);

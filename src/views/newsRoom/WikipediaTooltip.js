@@ -21,6 +21,7 @@ import { dataService } from '../../services/dataService';
 import { API_ENDPOINTS } from 'src/config/apiEndpoints';
 import urlsMap from '../../services/urlsMap';
 import { USE_DUMMY_DATA } from 'src/data/dummyDataLoader';
+import { track } from 'src/services/activity';
 
 // Entity type detection
 const getEntityCategory = (entityType) => {
@@ -258,8 +259,15 @@ const getCategoryEntityType = (category, originalType = '') => {
 };
 
 // Fetch entity data using dataService
-const fetchEntityData = async (entityName, entityType) => {
+const fetchEntityData = async (entityName, entityType, from) => {
   const category = getEntityCategory(entityType);
+  const result = await fetchEntityDetails(entityName, entityType, category);
+  // Activity: the entity whose details were looked up, and whether any were found.
+  track('entity_viewed', { kind: category || 'other', entity: entityName, from, found: !!result });
+  return result;
+};
+
+const fetchEntityDetails = async (entityName, entityType, category) => {
 
   try {
     // Step 1: First search for the entity to get its ID
@@ -2199,7 +2207,7 @@ export function WikipediaPopperTooltip({
         setContent(null);
         setLoading(true);
 
-        fetchEntityData(entityName, entityType)
+        fetchEntityData(entityName, entityType, 'article_text')
           .then((result) => {
             if (result) {
               let parsedContent = null;
@@ -2305,7 +2313,7 @@ function WikipediaTooltip({ children, entityName, entityType, colors }) {
       if (!content) {
         setLoading(true);
         try {
-          const result = await fetchEntityData(entityName, entityType);
+          const result = await fetchEntityData(entityName, entityType, 'article_panel');
           if (result) {
             let parsedContent = null;
             switch (result.category) {

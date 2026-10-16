@@ -19,6 +19,7 @@ import {
 import { Settings as SettingsIcon } from '@mui/icons-material';
 import MapTemplate from './mapTemplateEventTimeline';
 import { fetchEventsData } from './EventTimeLineApi';
+import { track } from 'src/services/activity';
 import countryData from "../../country.json";
 import { mapTheme, eventCategories, useThemeContext } from '../../theme';
 import { colors as themeColors } from '../../theme';
@@ -356,7 +357,12 @@ export default function MapEventsPage() {
   }, []);
 
   // Initial search - resets pagination
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = useCallback(async (byUser) => {
+    const startedAt = Date.now();
+    // Activity: only a search the person ran, not the first load with the default filters.
+    const trackSearch = (props) => byUser && track('event_search_submitted', {
+      countries: selectedCountries, categories: selectedCategories, keyword: keyword?.trim() || undefined,
+      dateFilter, ms: Date.now() - startedAt, ...props });
     // Clear events immediately to show loading indicator on subsequent searches
     setEvents([]);
     setIsLoading(true);
@@ -394,6 +400,7 @@ export default function MapEventsPage() {
         }
 
         setEvents(parsed);
+        trackSearch({ results: resp.totalHits ?? parsed.length });
         // Check hasMore: if we got less than pageSize records, there are no more pages
         setHasMore(parsed.length >= pageSize);
         setPage(1);
@@ -406,11 +413,12 @@ export default function MapEventsPage() {
       }, 50);
     } catch (err) {
       console.error('Failed to fetch events:', err);
+      trackSearch({ errorCode: err?.status || err?.name || 'Error' });
       setHasMore(false);
     } finally {
       setIsLoading(false);
     }
-  }, [buildPayload, parseEventData, pageSize]);
+  }, [buildPayload, parseEventData, pageSize, selectedCountries, selectedCategories, keyword, dateFilter]);
 
   // Load more events - appends to existing
   const handleLoadMore = useCallback(async () => {
@@ -453,6 +461,7 @@ export default function MapEventsPage() {
   }, []);
 
   const handleTimelineSelect = (evt) => {
+    track('event_opened', { category: evt?.event_category || 'Other', country: evt?.country || undefined });
     if (!mapApiRef.current) return;
     const api = mapApiRef.current;
     const layer = api.eventsLayer;
@@ -485,6 +494,7 @@ export default function MapEventsPage() {
   // Animation control functions
   const startAnimation = useCallback(() => {
     if (events.length === 0) return;
+    track('timeline_played', { events: events.length });
 
     // Determine the actual start and end indices
     const startIdx = Math.max(0, Math.min(animationStartIndex, events.length - 1));

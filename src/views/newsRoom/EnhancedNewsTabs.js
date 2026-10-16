@@ -238,6 +238,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
     const currentArticles = articles.slice(startIndex, startIndex + itemsPerPage);
 
     const handleTabChange = (_, newIndex) => {
+        track('filter_changed', { filter: 'country_tab', value: tabCountries[newIndex]?.label || tabCountries[newIndex]?.value });
         setSelectedTab(newIndex);
         setPage(1);
         setPageIdentifier(0);
@@ -309,7 +310,7 @@ function EnhancedNewsTabs({ initialTab = 0, initialCountry = null }) {
 
     const handleCountrySelect = (country) => {
         const existsIndex = tabCountries.findIndex(c => c.value === country.value);
-        track('filter_changed', { filter: 'country', on: existsIndex === -1 });
+        track('filter_changed', { filter: 'country', on: existsIndex === -1, value: country?.label || country?.value });
         if (existsIndex !== -1) {
             const updatedTabs = tabCountries.filter((_, i) => i !== existsIndex);
             setTabCountries(updatedTabs);

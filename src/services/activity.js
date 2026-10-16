@@ -128,3 +128,16 @@ export const fileTypeOf = (name) => {
   const m = /\.([a-z0-9]{1,6})(?:[?#].*)?$/i.exec(String(name || ''));
   return m ? m[1].toLowerCase() : 'other';
 };
+
+/**
+ * A section of a profile card opened: a modal (Measurements, News...), a list expanded, the map view. The profile
+ * kind is the page it is on (the current view), so a call site names the section only, in snake_case.
+ */
+export const trackSection = (section, props = {}) => track('section_opened', { section, kind: view, ...props });
+
+/** The name of what a search box picked (an option object or a string), for profile_opened's entity. */
+export const nameOf = (picked) => {
+  if (!picked) return undefined;
+  if (typeof picked === 'string') return picked;
+  return picked.display_name_label || picked.label || picked.name || picked.title || undefined;
+};
